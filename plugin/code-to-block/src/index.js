@@ -6852,73 +6852,81 @@ function Editor() {
 			}` }
 			aria-label="Code to Block visual editor"
 		>
-			<header className="ctb-editor-header">
-				<div className="ctb-brand-group">
-					<span className="ctb-brand-mark" aria-hidden="true">◇</span>
-					<strong className="ctb-document-name">{ document.name }</strong>
-					<span className="ctb-document-menu" aria-hidden="true">⌄</span>
+			<header className="h-14 bg-white border-b border-slate-200 flex items-center justify-between px-4 shrink-0 z-10" data-purpose="top-nav">
+				<div className="flex items-center gap-4">
+					<div className="w-8 h-8 bg-indigo-600 rounded flex items-center justify-center text-white">
+						<i className="fa-solid fa-layer-group"></i>
+					</div>
+					<button className="flex items-center gap-2 hover:bg-slate-100 px-2 py-1 rounded text-sm font-medium border-none bg-transparent cursor-pointer">
+						{ document.name } <i className="fa-solid fa-chevron-down text-xs text-slate-500"></i>
+					</button>
 				</div>
-				<div className="ctb-header-viewport">
-					<BreakpointSwitcher
-						value={ previewBreakpoint }
-						onChange={ setPreviewBreakpoint }
-						compact
-					/>
-					<span className="ctb-zoom-control">100%</span>
-				</div>
-				<div className="ctb-header-actions">
+				<div className="flex items-center gap-2">
+					<div className="flex bg-slate-100 rounded-md p-0.5 border border-slate-200" style={{border: 'none'}}>
+						<BreakpointSwitcher
+							value={ previewBreakpoint }
+							onChange={ setPreviewBreakpoint }
+							compact
+						/>
+					</div>
+					<div className="h-6 w-px bg-slate-200 mx-2"></div>
 					<button
 						type="button"
-						className="ctb-icon-action"
+						className="w-8 h-8 rounded flex items-center justify-center text-slate-400 hover:text-slate-800 transition-colors border-none bg-transparent cursor-pointer"
 						disabled={ ! canUndo }
-						aria-keyshortcuts="Control+Z Meta+Z"
 						title="Undo"
 						onClick={ undoChange }
 					>
-						↶
+						<i className="fa-solid fa-rotate-left text-sm"></i>
 					</button>
 					<button
 						type="button"
-						className="ctb-icon-action"
+						className="w-8 h-8 rounded flex items-center justify-center text-slate-400 hover:text-slate-800 transition-colors border-none bg-transparent cursor-pointer"
 						disabled={ ! canRedo }
-						aria-keyshortcuts="Control+Shift+Z Control+Y Meta+Shift+Z"
 						title="Redo"
 						onClick={ redoChange }
 					>
-						↷
+						<i className="fa-solid fa-rotate-right text-sm"></i>
 					</button>
-					<button
-						type="button"
-						className="ctb-icon-action"
-						title="Reload saved page"
-						onClick={ loadDocument }
-					>
-						↺
+					<button className="flex items-center gap-2 hover:bg-slate-100 px-2 py-1 rounded text-sm font-medium ml-2 border-none bg-transparent cursor-pointer">
+						100% <i className="fa-solid fa-chevron-down text-xs text-slate-500"></i>
 					</button>
-					<span className="ctb-saved-status">
-						<span aria-hidden="true">✓</span>{ ' ' }
-						{ persistenceStatus || 'Ready' }
-					</span>
-					<button type="button" onClick={ () => setIsImporterOpen( ! isImporterOpen ) }>
-						Import
-					</button>
-					{ window.codeToBlockEditorSettings?.previewUrl ? (
+				</div>
+				<div className="flex items-center gap-3">
+					<span className="text-xs text-slate-500 mr-2">{ persistenceStatus || 'Ready' }</span>
+					{ window.codeToBlockEditorSettings?.previewUrl && (
 						<a
-							className="ctb-preview-link"
+							className="px-4 py-1.5 text-sm font-medium text-slate-700 bg-white border border-slate-300 rounded-md hover:bg-slate-50 transition-colors no-underline cursor-pointer"
 							href={ window.codeToBlockEditorSettings.previewUrl }
 							target="_blank"
 							rel="noreferrer"
 						>
 							Preview
 						</a>
-					) : null }
-					<button
-						type="button"
-						className="is-primary"
-						onClick={ saveDocument }
-					>
-						Publish
+					) }
+					<button type="button" className="px-4 py-1.5 text-sm font-medium text-slate-700 bg-white border border-slate-300 rounded-md hover:bg-slate-50 transition-colors cursor-pointer" onClick={ () => setIsImporterOpen( ! isImporterOpen ) }>
+						Import
 					</button>
+					<div className="flex">
+						<button
+							type="button"
+							className="px-4 py-1.5 text-sm font-medium text-white bg-indigo-600 rounded-l-md hover:bg-indigo-700 transition-colors border-none cursor-pointer"
+							onClick={ saveDocument }
+						>
+							Publish
+						</button>
+						<button type="button" className="px-2 py-1.5 bg-indigo-700 text-white rounded-r-md border-l border-indigo-500 hover:bg-indigo-800 cursor-pointer">
+							<i className="fa-solid fa-chevron-down text-xs"></i>
+						</button>
+					</div>
+					<div className="h-6 w-px bg-slate-200 mx-1"></div>
+					<button type="button" className="w-8 h-8 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-100 transition-colors border-none bg-transparent cursor-pointer">
+						<i className="fa-regular fa-circle-question"></i>
+					</button>
+					<button type="button" className="w-8 h-8 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-100 transition-colors border-none bg-transparent cursor-pointer">
+						<i className="fa-regular fa-bell"></i>
+					</button>
+					<img alt="User Avatar" className="w-8 h-8 rounded-full border border-slate-200 ml-1" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7Ex9EHSWAM5mShH9TFzMycnSxvOCa7WvAJhwzXy9AFJlawMVJ8Onae1kmGSI5eoTqNcUeXmNgMDZ1JLW8GUmxogD1T7OQMbkmC1WGEKx9iyxcVqCGHe7-N1domsimVwxfi_JFCki3DT4MgtSM39-N93rZXoLsUru1chHyrT_kECCI3BX-q796CHMRxDIWUIetzebpPiZNbqORFwpHkYf3X3SVMqvzN9G7HrD39iJ0zzHmBdbTnL4x"/>
 				</div>
 			</header>
 			{ isImporterOpen && ( () => {
@@ -7073,26 +7081,28 @@ function Editor() {
 				{ /* LEFT RAIL - Add Elements */ }
 				<aside className="ctb-document-rail" aria-label="Add Elements">
 					<div className="ctb-document-inspector">
-						<div className="ctb-rail-heading">
-							<h3>Add Elements</h3>
-							<span aria-hidden="true">×</span>
+						<div className="ctb-rail-heading" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px', borderBottom: '1px solid #f1f5f9' }}>
+							<h2 style={{ fontSize: '14px', fontWeight: '600', margin: 0 }}>Add Elements</h2>
+							<button style={{ background: 'transparent', border: 'none', color: '#94a3b8', cursor: 'pointer' }}><i className="fa-solid fa-xmark"></i></button>
 						</div>
-						<label className="ctb-element-search">
-							<span aria-hidden="true">⌕</span>
-							<input type="search" placeholder="Search elements…" />
-							<kbd>⌘K</kbd>
-						</label>
+						<div className="ctb-element-search" style={{ padding: '16px', borderBottom: '1px solid #f1f5f9' }}>
+							<div style={{ position: 'relative' }}>
+								<i className="fa-solid fa-magnifying-glass" style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8', fontSize: '14px' }}></i>
+								<input type="search" placeholder="Search elements..." style={{ width: '100%', padding: '8px 32px', backgroundColor: '#f1f5f9', border: 'none', borderRadius: '6px', fontSize: '14px', outline: 'none' }} />
+								<span style={{ position: 'absolute', right: '8px', top: '50%', transform: 'translateY(-50%)', fontSize: '12px', color: '#94a3b8', border: '1px solid #e2e8f0', borderRadius: '4px', padding: '2px 4px' }}>⌘K</span>
+							</div>
+						</div>
 						<p className="ctb-element-group-label">Basic</p>
 						<div className="ctb-element-grid">
 							{ [
-								[ 'section', '▱', 'Section' ],
-								[ 'container', '□', 'Container' ],
-								[ 'heading', 'T', 'Heading' ],
-								[ 'text', 'T', 'Text' ],
-								[ 'button', '▭', 'Button' ],
-								[ 'image', '▧', 'Image' ],
-								[ 'divider', '—', 'Divider' ],
-								[ 'iframe', '⌗', 'Embed' ],
+								[ 'section', 'fa-regular fa-square', 'Section' ],
+								[ 'container', 'fa-regular fa-object-group', 'Container' ],
+								[ 'heading', 'fa-solid fa-heading', 'Heading' ],
+								[ 'text', 'fa-solid fa-font', 'Text' ],
+								[ 'button', 'fa-solid fa-stop', 'Button' ],
+								[ 'image', 'fa-regular fa-image', 'Image' ],
+								[ 'icon', 'fa-regular fa-star', 'Icon' ],
+								[ 'divider', 'fa-solid fa-minus', 'Divider' ],
 							].map( ( [ type, icon, label ] ) => (
 								<button
 									key={ type }
@@ -7108,7 +7118,59 @@ function Editor() {
 									} }
 									onDragEnd={ () => setPaletteDragging( null ) }
 								>
-									<span className="ctb-element-icon" aria-hidden="true">{ icon }</span>
+									<i className={ `${icon} ctb-element-icon` } aria-hidden="true"></i>
+									<span>{ label }</span>
+								</button>
+							) ) }
+						</div>
+						<p className="ctb-element-group-label">Layout</p>
+						<div className="ctb-element-grid">
+							{ [
+								[ 'columns', 'fa-solid fa-columns', 'Columns' ],
+								[ 'grid', 'fa-solid fa-border-all', 'Grid' ],
+								[ 'stack', 'fa-solid fa-bars', 'Stack' ],
+								[ 'spacer', 'fa-solid fa-arrows-up-down', 'Spacer' ],
+							].map( ( [ type, icon, label ] ) => (
+								<button
+									key={ type }
+									type="button"
+									draggable
+									className={ paletteDragging === type ? 'is-dragging' : '' }
+									onClick={ () => addPrimitiveAtSelection( type ) }
+									onDragStart={ ( event ) => {
+										event.dataTransfer.setData( 'application/x-ctb-element', type );
+										event.dataTransfer.effectAllowed = 'copy';
+										setPaletteDragging( type );
+										setIsNavigatorOpen( true );
+									} }
+									onDragEnd={ () => setPaletteDragging( null ) }
+								>
+									<i className={ `${icon} ctb-element-icon` } aria-hidden="true"></i>
+									<span>{ label }</span>
+								</button>
+							) ) }
+						</div>
+						<p className="ctb-element-group-label">Content</p>
+						<div className="ctb-element-grid">
+							{ [
+								[ 'card', 'fa-regular fa-id-card', 'Card' ],
+								[ 'tabs', 'fa-regular fa-folder', 'Tabs' ],
+							].map( ( [ type, icon, label ] ) => (
+								<button
+									key={ type }
+									type="button"
+									draggable
+									className={ paletteDragging === type ? 'is-dragging' : '' }
+									onClick={ () => addPrimitiveAtSelection( type ) }
+									onDragStart={ ( event ) => {
+										event.dataTransfer.setData( 'application/x-ctb-element', type );
+										event.dataTransfer.effectAllowed = 'copy';
+										setPaletteDragging( type );
+										setIsNavigatorOpen( true );
+									} }
+									onDragEnd={ () => setPaletteDragging( null ) }
+								>
+									<i className={ `${icon} ctb-element-icon` } aria-hidden="true"></i>
 									<span>{ label }</span>
 								</button>
 							) ) }
@@ -7166,45 +7228,22 @@ function Editor() {
 				</aside>
 
 				{ /* CANVAS WITH BREADCRUMBS */ }
-				<main className="ctb-canvas-stage">
+				<main className="ctb-canvas-stage flex-1 flex flex-col overflow-auto relative p-8 items-center bg-slate-50">
 					<style>{ previewStyles.css }</style>
-					<div className="ctb-canvas-toolbar">
-						<button
-							type="button"
-							onClick={ () =>
-								setIsNavigatorOpen( ! isNavigatorOpen )
-							}
-							className={ isNavigatorOpen ? 'is-active' : '' }
-						>
-							Navigator { isNavigatorOpen ? '▼' : '►' }
-						</button>
-						<BreakpointSwitcher
-							value={ previewBreakpoint }
-							onChange={ setPreviewBreakpoint }
-							compact={ false }
-						/>
-						{ persistenceStatus ? (
-							<span className="ctb-persistence-status">
-								{ persistenceStatus }
-							</span>
-						) : null }
-					</div>
-					<div className="ctb-breadcrumb-trail">
+					<div className="absolute top-4 left-4 z-20 flex items-center bg-indigo-600 text-white text-[10px] font-medium px-2 py-1 rounded">
 						{ breadcrumbPath.map( ( block, idx ) => (
-							<span key={ block.id }>
-								<button
-									className="ctb-breadcrumb-btn"
+							<span key={ block.id } style={{ display: 'flex', alignItems: 'center' }}>
+								<span
+									style={{ cursor: 'pointer' }}
 									onClick={ () => selectBlock( block.id ) }
 								>
 									{ block.tag }
-								</button>
-								{ idx < breadcrumbPath.length - 1 && ' > ' }
+								</span>
+								{ idx < breadcrumbPath.length - 1 && <i className="fa-solid fa-chevron-right text-[8px] mx-1"></i> }
 							</span>
 						) ) }
 						{ breadcrumbPath.length === 0 && (
-							<span className="ctb-breadcrumb-btn ctb-muted">
-								Select an element
-							</span>
+							<span>Select an element</span>
 						) }
 					</div>
 					<DndContext
@@ -7214,7 +7253,7 @@ function Editor() {
 						onDragEnd={ finishDrag }
 					>
 						<div
-							className={ `ctb-canvas-wrapper${ paletteDragging ? ' is-palette-target' : '' }` }
+							className={ `ctb-canvas-wrapper w-full max-w-5xl bg-white shadow-xl rounded-lg border border-slate-200 overflow-hidden relative ${ paletteDragging ? ' is-palette-target' : '' }` }
 							onDragOver={ ( event ) => {
 								if ( event.dataTransfer.types.includes( 'application/x-ctb-element' ) ) {
 									event.preventDefault();
@@ -7276,67 +7315,68 @@ function Editor() {
 				</main>
 
 				{ /* RIGHT PANEL - Inspector Tabs */ }
-				<aside className="ctb-inspector-panel">
-					<div className="ctb-selected-element-heading">
-						<div>
-							<strong>{ selectedBlock.tag }</strong>
-							<small>#{ selectedBlock.id }</small>
+				<aside className="w-80 bg-white border-l border-slate-200 flex flex-col shrink-0 z-10" data-purpose="right-panel">
+					{ ! selectedBlock ? (
+						<div className="flex-1 flex items-center justify-center text-center text-slate-500 text-sm p-8">
+							<div>
+								<i className="fa-solid fa-arrow-pointer text-2xl mb-3 opacity-20 block"></i>
+								Select an element on the canvas to view and edit its properties.
+							</div>
 						</div>
-						<div className="ctb-selected-actions">
-							<button
-								type="button"
-								title="Duplicate element"
-								disabled={ selectedBlock.id === document.root.id || selectedBlock.permissions?.locked }
-								onClick={ () => duplicateBlock( selectedBlock.id ) }
-							>▣</button>
-							<button
-								type="button"
-								title="Delete element"
-								disabled={ selectedBlock.id === document.root.id || selectedBlock.permissions?.locked }
-								onClick={ () => deleteBlock( selectedBlock.id ) }
-							>⌫</button>
-						</div>
-					</div>
-					<div className="ctb-inspector-tabs">
-						<button
-							className={ `ctb-tab-btn ${
-								activeTab === 'content' ? 'is-active' : ''
-							}` }
-							onClick={ () => setActiveTab( 'content' ) }
-						>
-							Content
-						</button>
-						<button
-							className={ `ctb-tab-btn ${
-								activeTab === 'style' ? 'is-active' : ''
-							}` }
-							onClick={ () => setActiveTab( 'style' ) }
-						>
-							Style
-						</button>
-						<button
-							className={ `ctb-tab-btn ${
-								activeTab === 'advanced' ? 'is-active' : ''
-							}` }
-							onClick={ () => setActiveTab( 'advanced' ) }
-						>
-							Advanced
-						</button>
-					</div>
-
-					<div className="ctb-inspector-content">
-						{ ! selectedBlock ? (
-							<div className="ctb-tab-pane">
-								<p
-									className="ctb-muted"
-									style={ {
-										padding: '20px',
-										textAlign: 'center',
-									} }
+					) : (
+						<>
+							<div className="flex items-center justify-between px-3 py-2 border-b border-slate-200">
+								<div className="flex items-center gap-2">
+									<span className="text-xs font-medium bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded">{ selectedBlock.tag }</span>
+									<span className="text-xs text-slate-400 truncate max-w-[120px]">#{ selectedBlock.id }</span>
+								</div>
+								<div className="flex items-center">
+									<button
+										type="button"
+										className="w-7 h-7 flex items-center justify-center text-slate-400 hover:text-indigo-600 rounded hover:bg-slate-100 bg-transparent border-none cursor-pointer transition-colors"
+										title="Duplicate element"
+										disabled={ selectedBlock.id === document.root.id || selectedBlock.permissions?.locked }
+										onClick={ () => duplicateBlock( selectedBlock.id ) }
+									>
+										<i className="fa-regular fa-copy text-xs"></i>
+									</button>
+									<button
+										type="button"
+										className="w-7 h-7 flex items-center justify-center text-slate-400 hover:text-red-600 rounded hover:bg-slate-100 bg-transparent border-none cursor-pointer transition-colors"
+										title="Delete element"
+										disabled={ selectedBlock.id === document.root.id || selectedBlock.permissions?.locked }
+										onClick={ () => deleteBlock( selectedBlock.id ) }
+									>
+										<i className="fa-solid fa-trash-can text-xs"></i>
+									</button>
+								</div>
+							</div>
+							<div className="flex border-b border-slate-200 shrink-0 bg-slate-50">
+								<button
+									className={ `flex-1 py-2.5 text-[11px] font-medium text-center border-b-2 transition-colors cursor-pointer bg-transparent outline-none ${ activeTab === 'content' ? 'border-indigo-600 text-indigo-600 bg-white' : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300' }` }
+									onClick={ () => setActiveTab( 'content' ) }
 								>
-									Select an element on the canvas to view and
-									edit its properties.
-								</p>
+									Content
+								</button>
+								<button
+									className={ `flex-1 py-2.5 text-[11px] font-medium text-center border-b-2 transition-colors cursor-pointer bg-transparent outline-none ${ activeTab === 'style' ? 'border-indigo-600 text-indigo-600 bg-white' : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300' }` }
+									onClick={ () => setActiveTab( 'style' ) }
+								>
+									Style
+								</button>
+								<button
+									className={ `flex-1 py-2.5 text-[11px] font-medium text-center border-b-2 transition-colors cursor-pointer bg-transparent outline-none ${ activeTab === 'advanced' ? 'border-indigo-600 text-indigo-600 bg-white' : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300' }` }
+									onClick={ () => setActiveTab( 'advanced' ) }
+								>
+									Advanced
+								</button>
+							</div>
+
+							<div className="flex-1 overflow-y-auto custom-scrollbar">
+						{ ! selectedBlock ? (
+							<div className="p-8 text-center text-slate-500 text-sm">
+								<i className="fa-solid fa-arrow-pointer text-2xl mb-3 opacity-20 block"></i>
+								Select an element on the canvas to view and edit its properties.
 							</div>
 						) : (
 							<>
@@ -7810,6 +7850,9 @@ function Editor() {
 							) }
 						</ul>
 					</div>
+								)}
+							</>
+						)}
 				</aside>
 
 				<ContextMenu

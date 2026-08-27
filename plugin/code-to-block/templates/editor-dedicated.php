@@ -21,6 +21,8 @@ if ( ! current_user_can( 'edit_post', $post_id ) ) {
 <html <?php language_attributes(); ?>>
 <head>
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
+	<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title><?php echo esc_html( sprintf( __( 'Edit %s — Code to Block', 'code-to-block' ), $post->post_title ) ); ?></title>
 	<?php wp_head(); ?>
