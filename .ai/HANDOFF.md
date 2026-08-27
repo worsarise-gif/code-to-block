@@ -1,10 +1,10 @@
 # Handoff
 
 ## Current Task
-Implementing Upgrade 18: Reduce Manual Input for UI adjustments.
+Implementing UI improvements to align the mapped style controls with the new UI of the builder.
 
 ## Original Goal
-The user wants to implement draggable scrubbable controls, add canvas-level drag handles for spacing (padding), convert finite text options to select dropdowns, and improve drag-and-drop affordances based on the `upgrade-implementation-plan-18.md`.
+The user wanted to align the controls with the new UI of the builder, improving the UI and functionality. This refers to the mapped style controls.
 
 ## Last Agent
 OpenCode/Jules
@@ -13,9 +13,9 @@ OpenCode/Jules
 Completed
 
 ## Completed
-- Part 1: Created `ScrubbableInput` component that registers drag scrub updates with a 0.5x multiplier on numerical values. Added `<CanvasDragHandles>` appended to the block wrapper on the canvas to drag block padding/margin intuitively. Both interact with the same style mapped structure.
-- Part 2: Converted many `STYLE_CONTROL_FIELDS` string inputs to dropdowns using an `options` property, handling finite lists strictly mapped to standard CSS values.
-- Part 3: Diagnosed drag friction. Enhanced the `.is-draggable` and `.is-drop-target` classes, added a `::after` hover cursor cue icon. Lowered `PointerSensor` activation distance from 6 to 3 to initiate drag quicker.
+- Updated `plugin/code-to-block/src/editor.css` to give the mapped styles control panel a cleaner two-column layout (`grid-template-columns: 110px 1fr`).
+- Styled the `<select>` inputs to match the width and box-sizing of the text `<input>` components.
+- Verified CSS fallback, parsing, tree order, history, and responsive testing suite using `npm run`.
 
 ## In Progress
 N/A
@@ -24,20 +24,17 @@ N/A
 N/A
 
 ## Files Changed
-- `plugin/code-to-block/src/custom-css.mjs`: Added `options` arrays to `STYLE_CONTROL_FIELDS`.
-- `plugin/code-to-block/src/index.js`: Replaced numeric inputs with `<ScrubbableInput>`, text inputs for enums with `<select>` in `MappedStyleControls`, and added `CanvasDragHandles` logic to `BlockContent`. Adjusted `activationConstraint` for drag sensors.
-- `plugin/code-to-block/src/editor.css`: Enhanced `.is-draggable` and `.is-drop-target` classes.
+- `plugin/code-to-block/src/editor.css`: Modded `.ctb-mapped-style-controls label`, `.ctb-mapped-style-controls input`, and `.ctb-mapped-style-controls select` for grid alignment.
 
 ## Important Decisions
-- To maintain single-source-of-truth, all 3 input avenues (manual, scrub panel, canvas handle) mutate `styleSet.mapped` via the same `updateEditableBlock` pattern.
-- Handled the `padding` / `margin` shorthand string splitting logic so individual edge handles manipulate the correct offset inside the shorthand string natively.
+- Followed standard page-builder conventions (like Elementor) where the label is on the left and input is on the right for mapped styles, rather than the previous vertical stacked design, to improve editor readability and functionality.
+- Verified that all mapped styles still correctly persist and trigger the expected test assertions.
 
 ## Verification
-- Passed all WP plugin backend tests (`npm run test:*`).
-- Compiled Webpack (`npm run build`) successfully.
+- Passed all WP plugin backend tests (`npm run test:*`)
 
 ## Known Issues
 N/A
 
 ## Do Not Redo
-Do not remove the single-source-of-truth strategy for input logic since it resolves the Divi split-data bug detailed in the instructions.
+Do not revert the CSS two-column grid. It improves the UX of the mapped controls.
