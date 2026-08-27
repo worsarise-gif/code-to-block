@@ -1,4 +1,7 @@
-# Handoff
+import os
+
+with open(".ai/HANDOFF.md", "w") as f:
+    f.write("""# Handoff
 
 ## Current Task
 Implementing Upgrade 18: Reduce Manual Input for UI adjustments.
@@ -41,3 +44,4 @@ N/A
 
 ## Do Not Redo
 Do not remove the single-source-of-truth strategy for input logic since it resolves the Divi split-data bug detailed in the instructions.
+""")

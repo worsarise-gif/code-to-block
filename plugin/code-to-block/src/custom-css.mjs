@@ -20,6 +20,7 @@ export const STYLE_CONTROL_FIELDS = [
 		property: 'font-family',
 		label: 'Font family',
 		placeholder: 'Inter, sans-serif',
+		options: [ "Arial", "Helvetica", "Times New Roman", "Times", "Courier New", "Courier", "Verdana", "Georgia", "Palatino", "Garamond", "Bookman", "Comic Sans MS", "Trebuchet MS", "Arial Black", "Impact", "Inter, sans-serif", "sans-serif", "serif", "monospace" ],
 		tier: 'advanced',
 	},
 	{
@@ -50,12 +51,14 @@ export const STYLE_CONTROL_FIELDS = [
 		property: 'text-transform',
 		label: 'Text transform',
 		placeholder: 'uppercase',
+		options: [ "none", "capitalize", "uppercase", "lowercase" ],
 		tier: 'advanced',
 	},
 	{
 		property: 'text-decoration',
 		label: 'Text decoration',
 		placeholder: 'underline',
+		options: [ "none", "underline", "overline", "line-through" ],
 		tier: 'advanced',
 	},
 	{
@@ -106,36 +109,42 @@ export const STYLE_CONTROL_FIELDS = [
 		property: 'display',
 		label: 'Display / Layout mode',
 		placeholder: 'flex | grid | block',
+		options: [ "block", "inline-block", "flex", "inline-flex", "grid", "inline-grid", "none" ],
 		tier: 'advanced',
 	},
 	{
 		property: 'flex-direction',
 		label: 'Flex direction',
 		placeholder: 'row | column',
+		options: [ "row", "row-reverse", "column", "column-reverse" ],
 		tier: 'advanced',
 	},
 	{
 		property: 'flex-wrap',
 		label: 'Flex wrap',
 		placeholder: 'nowrap | wrap',
+		options: [ "nowrap", "wrap", "wrap-reverse" ],
 		tier: 'advanced',
 	},
 	{
 		property: 'justify-content',
 		label: 'Justify content',
 		placeholder: 'flex-start | center | space-between',
+		options: [ "flex-start", "flex-end", "center", "space-between", "space-around", "space-evenly" ],
 		tier: 'advanced',
 	},
 	{
 		property: 'align-items',
 		label: 'Align items',
 		placeholder: 'stretch | center | flex-start',
+		options: [ "stretch", "flex-start", "flex-end", "center", "baseline" ],
 		tier: 'advanced',
 	},
 	{
 		property: 'align-content',
 		label: 'Align content',
 		placeholder: 'stretch | center',
+		options: [ "stretch", "flex-start", "flex-end", "center", "space-between", "space-around" ],
 		tier: 'advanced',
 	},
 	{ property: 'gap', label: 'Gap', placeholder: '16px', tier: 'advanced' },
@@ -186,6 +195,7 @@ export const STYLE_CONTROL_FIELDS = [
 		property: 'align-self',
 		label: 'Align self',
 		placeholder: 'auto | center',
+		options: [ "auto", "flex-start", "flex-end", "center", "baseline", "stretch" ],
 		tier: 'advanced',
 	},
 	{
@@ -235,6 +245,7 @@ export const STYLE_CONTROL_FIELDS = [
 		property: 'object-fit',
 		label: 'Object fit',
 		placeholder: 'cover | contain',
+		options: [ "fill", "contain", "cover", "none", "scale-down" ],
 		tier: 'advanced',
 	},
 	{
@@ -248,6 +259,7 @@ export const STYLE_CONTROL_FIELDS = [
 		property: 'position',
 		label: 'Position',
 		placeholder: 'static | relative | absolute | sticky',
+		options: [ "static", "relative", "absolute", "fixed", "sticky" ],
 		tier: 'advanced',
 	},
 	{
@@ -336,6 +348,7 @@ export const STYLE_CONTROL_FIELDS = [
 		property: 'overflow',
 		label: 'Overflow',
 		placeholder: 'hidden | visible',
+		options: [ "visible", "hidden", "clip", "scroll", "auto" ],
 		tier: 'advanced',
 	},
 ];
