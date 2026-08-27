@@ -1,0 +1,12 @@
+- generic [active] [ref=f35e1]:
+  - generic [ref=f35e2]:
+    - generic [ref=f35e3]:
+      - strong [ref=f35e4]: Image Slot Upload Audit
+      - text: Content mode — no structure editing
+    - generic [ref=f35e5]:
+      - link "Back to WordPress editor" [ref=f35e6] [cursor=pointer]:
+        - /url: http://localhost:8090/wp-admin/post.php?post=89&action=edit
+      - text: "|"
+      - link "View live page" [ref=f35e7] [cursor=pointer]:
+        - /url: http://localhost:8090/?post_type=ctb_page&p=89
+  - paragraph [ref=f35e10]: Loading content...

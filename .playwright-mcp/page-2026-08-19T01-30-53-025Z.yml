@@ -1,0 +1,100 @@
+- generic [active] [ref=f8e1]:
+  - generic [ref=f8e2]:
+    - navigation "Toolbar":
+      - menu:
+        - text: 
+        - group [ref=f8e3]:
+          - menuitem " Code to Block Phase 4" [ref=f8e4] [cursor=pointer]
+        - group [ref=f8e5]:
+          - menuitem " Edit Site" [ref=f8e6] [cursor=pointer]
+        - text:  
+        - group [ref=f8e7]:
+          - menuitem "New" [ref=f8e8] [cursor=pointer]:
+            - generic [ref=f8e9]: 
+        - group [ref=f8e11]:
+          - menuitem " Edit Code to Block Page" [ref=f8e12] [cursor=pointer]
+      - menu [ref=f8e13]:
+        - group [ref=f8e14]:
+          - menuitem "Howdy, admin" [ref=f8e15] [cursor=pointer]
+        - text: 
+  - link "Skip to content" [ref=f8e16] [cursor=pointer]:
+    - /url: "#wp--skip-link--target"
+  - generic [ref=f8e17]:
+    - banner [ref=f8e18]:
+      - generic [ref=f8e21]:
+        - paragraph [ref=f8e22]:
+          - link "Code to Block Phase 4" [ref=f8e23] [cursor=pointer]:
+            - /url: http://localhost:8090
+        - navigation [ref=f8e25]:
+          - button "Open menu" [ref=f8e26] [cursor=pointer]
+    - main [ref=f8e27]:
+      - generic [ref=f8e28]:
+        - heading "Phase 4 Pricing Card" [level=1] [ref=f8e29]
+        - generic [ref=f8e30]:
+          - paragraph [ref=f8e31]: Written by
+          - paragraph [ref=f8e32]: in
+        - article [ref=f8e35]:
+          - heading "Professional" [level=2] [ref=f8e36]
+          - paragraph [ref=f8e37]: $29/month
+          - list [ref=f8e38]:
+            - listitem [ref=f8e39]: Unlimited projects
+            - listitem [ref=f8e40]: Priority support
+          - link "Start free trial" [ref=f8e41] [cursor=pointer]:
+            - /url: "#signup"
+        - navigation "Post navigation" [ref=f8e44]:
+          - generic [ref=f8e45]:
+            - generic [ref=f8e46]: ←
+            - link "Phase 4 Hero" [ref=f8e47] [cursor=pointer]:
+              - /url: http://localhost:8090/?ctb_page=phase-4-hero
+      - generic [ref=f8e48]:
+        - heading "More posts" [level=2] [ref=f8e49]
+        - list [ref=f8e51]:
+          - listitem [ref=f8e52]:
+            - generic [ref=f8e53]:
+              - heading [level=3] [ref=f8e54]:
+                - link "Hello world!" [ref=f8e55] [cursor=pointer]:
+                  - /url: http://localhost:8090/?p=1
+              - time [ref=f8e57]:
+                - link "August 19, 2026" [ref=f8e58] [cursor=pointer]:
+                  - /url: http://localhost:8090/?p=1
+    - contentinfo [ref=f8e59]:
+      - generic [ref=f8e61]:
+        - generic [ref=f8e62]:
+          - heading [level=2] [ref=f8e65]:
+            - link "Code to Block Phase 4" [ref=f8e66] [cursor=pointer]:
+              - /url: http://localhost:8090
+          - generic [ref=f8e68]:
+            - navigation [ref=f8e69]:
+              - list [ref=f8e70]:
+                - listitem [ref=f8e71]:
+                  - link "Blog" [ref=f8e72] [cursor=pointer]:
+                    - /url: "#"
+                - listitem [ref=f8e73]:
+                  - link "About" [ref=f8e74] [cursor=pointer]:
+                    - /url: "#"
+                - listitem [ref=f8e75]:
+                  - link "FAQs" [ref=f8e76] [cursor=pointer]:
+                    - /url: "#"
+                - listitem [ref=f8e77]:
+                  - link "Authors" [ref=f8e78] [cursor=pointer]:
+                    - /url: "#"
+            - navigation [ref=f8e79]:
+              - list [ref=f8e80]:
+                - listitem [ref=f8e81]:
+                  - link "Events" [ref=f8e82] [cursor=pointer]:
+                    - /url: "#"
+                - listitem [ref=f8e83]:
+                  - link "Shop" [ref=f8e84] [cursor=pointer]:
+                    - /url: "#"
+                - listitem [ref=f8e85]:
+                  - link "Patterns" [ref=f8e86] [cursor=pointer]:
+                    - /url: "#"
+                - listitem [ref=f8e87]:
+                  - link "Themes" [ref=f8e88] [cursor=pointer]:
+                    - /url: "#"
+        - generic [ref=f8e90]:
+          - paragraph [ref=f8e91]: Twenty Twenty-Five
+          - paragraph [ref=f8e92]:
+            - text: Designed with
+            - link "WordPress" [ref=f8e93] [cursor=pointer]:
+              - /url: https://wordpress.org

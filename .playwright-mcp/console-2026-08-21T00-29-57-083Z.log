@@ -1,0 +1,4 @@
+[     667ms] [LOG] JQMIGRATE: Migrate is installed, version 3.4.1 @ http://localhost:8090/wp-admin/load-scripts.php?c=0&load%5Bchunk_0%5D=jquery-core,jquery-migrate,utils&ver=6.8.2:4
+[  310207ms] [ERROR] Failed to load resource: the server responded with a status of 409 (Conflict) @ http://localhost:8090/index.php?rest_route=%2Fcode-to-block%2Fv1%2Fpages%2F22%2Fphp-shortcodes&_locale=user:0
+[  321742ms] [ERROR] Failed to load resource: the server responded with a status of 422 (Unprocessable Entity) @ http://localhost:8090/index.php?rest_route=%2Fcode-to-block%2Fv1%2Fpages%2F22%2Fphp-shortcodes&_locale=user:0
+[  641067ms] [LOG] JQMIGRATE: Migrate is installed, version 3.4.1 @ http://localhost:8090/wp-admin/load-scripts.php?c=0&load%5Bchunk_0%5D=jquery-core,jquery-migrate,utils&ver=6.8.2:4

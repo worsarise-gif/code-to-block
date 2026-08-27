@@ -1,0 +1,25 @@
+- generic [active] [ref=f11e1]:
+  - generic [ref=f11e2]:
+    - navigation "Toolbar":
+      - menu:
+        - group [ref=f11e3]:
+          - menuitem "code-to-block" [ref=f11e4] [cursor=pointer]
+        - group [ref=f11e5]:
+          - menuitem "Edit Site" [ref=f11e6] [cursor=pointer]
+        - group [ref=f11e7]:
+          - menuitem "New" [ref=f11e8] [cursor=pointer]
+        - group [ref=f11e11]:
+          - menuitem "Edit Code to Block Page" [ref=f11e12] [cursor=pointer]
+      - menu [ref=f11e13]:
+        - group [ref=f11e14]:
+          - menuitem "Howdy, admin" [ref=f11e15] [cursor=pointer]
+  - link "Skip to content" [ref=f11e16] [cursor=pointer]:
+    - /url: "#ctb-main-content"
+  - article [ref=f11e19]:
+    - heading "Professional" [level=2] [ref=f11e20]
+    - paragraph [ref=f11e21]: $29/month
+    - list [ref=f11e22]:
+      - listitem [ref=f11e23]: Unlimited projects
+      - listitem [ref=f11e24]: Priority support
+    - link "Start free trial" [ref=f11e25] [cursor=pointer]:
+      - /url: "#signup"

@@ -1,0 +1,433 @@
+- generic [ref=f9e2]:
+  - navigation "Main menu":
+    - link "Skip to main content" [ref=f9e3] [cursor=pointer]:
+      - /url: "#wpbody-content"
+    - link "Skip to toolbar" [ref=f9e4] [cursor=pointer]:
+      - /url: "#wp-toolbar"
+    - list [ref=f9e7]:
+      - listitem [ref=f9e8]:
+        - link "Dashboard" [ref=f9e9] [cursor=pointer]:
+          - /url: index.php
+          - generic [ref=f9e10]: 
+        - list [ref=f9e12]:
+          - listitem [ref=f9e13]:
+            - link "Home" [ref=f9e14] [cursor=pointer]:
+              - /url: index.php
+          - listitem [ref=f9e15]:
+            - link "Updates 5" [ref=f9e16] [cursor=pointer]:
+              - /url: update-core.php
+              - text: Updates
+              - generic [ref=f9e17]: "5"
+      - listitem [ref=f9e18]
+      - listitem [ref=f9e20]:
+        - link "Posts" [ref=f9e21] [cursor=pointer]:
+          - /url: edit.php
+          - generic [ref=f9e22]: 
+        - list [ref=f9e24]:
+          - listitem [ref=f9e25]:
+            - link "All Posts" [ref=f9e26] [cursor=pointer]:
+              - /url: edit.php
+          - listitem [ref=f9e27]:
+            - link "Add Post" [ref=f9e28] [cursor=pointer]:
+              - /url: post-new.php
+          - listitem [ref=f9e29]:
+            - link "Categories" [ref=f9e30] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=category
+          - listitem [ref=f9e31]:
+            - link "Tags" [ref=f9e32] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=post_tag
+      - listitem [ref=f9e33]:
+        - link "Media" [ref=f9e34] [cursor=pointer]:
+          - /url: upload.php
+          - generic [ref=f9e35]: 
+        - list [ref=f9e37]:
+          - listitem [ref=f9e38]:
+            - link "Library" [ref=f9e39] [cursor=pointer]:
+              - /url: upload.php
+          - listitem [ref=f9e40]:
+            - link "Add Media File" [ref=f9e41] [cursor=pointer]:
+              - /url: media-new.php
+      - listitem [ref=f9e42]:
+        - link "Pages" [ref=f9e43] [cursor=pointer]:
+          - /url: edit.php?post_type=page
+          - generic [ref=f9e44]: 
+        - list [ref=f9e46]:
+          - listitem [ref=f9e47]:
+            - link "All Pages" [ref=f9e48] [cursor=pointer]:
+              - /url: edit.php?post_type=page
+          - listitem [ref=f9e49]:
+            - link "Add Page" [ref=f9e50] [cursor=pointer]:
+              - /url: post-new.php?post_type=page
+      - listitem [ref=f9e51]:
+        - link "Comments" [ref=f9e52] [cursor=pointer]:
+          - /url: edit-comments.php
+          - generic [ref=f9e53]: 
+      - listitem [ref=f9e55]:
+        - link "Code to Block Pages" [ref=f9e56] [cursor=pointer]:
+          - /url: edit.php?post_type=ctb_page
+          - generic [ref=f9e57]: 
+        - list [ref=f9e59]:
+          - listitem [ref=f9e60]:
+            - link "Code to Block Pages" [ref=f9e61] [cursor=pointer]:
+              - /url: edit.php?post_type=ctb_page
+          - listitem [ref=f9e62]:
+            - link "Add Code to Block Page" [ref=f9e63] [cursor=pointer]:
+              - /url: post-new.php?post_type=ctb_page
+          - listitem [ref=f9e64]:
+            - link "Submissions" [ref=f9e65] [cursor=pointer]:
+              - /url: edit.php?post_type=ctb_page&page=code-to-block-submissions
+      - listitem [ref=f9e66]
+      - listitem [ref=f9e68]:
+        - link "WooCommerce" [ref=f9e69] [cursor=pointer]:
+          - /url: admin.php?page=wc-admin
+        - list [ref=f9e72]:
+          - listitem [ref=f9e73]:
+            - link "Home 4" [ref=f9e74] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin
+              - text: Home
+              - generic [ref=f9e75]: "4"
+          - listitem [ref=f9e76]:
+            - link "Orders" [ref=f9e77] [cursor=pointer]:
+              - /url: admin.php?page=wc-orders
+          - listitem [ref=f9e78]:
+            - link "Customers" [ref=f9e79] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/customers
+          - listitem [ref=f9e80]:
+            - link "Reports" [ref=f9e81] [cursor=pointer]:
+              - /url: admin.php?page=wc-reports
+          - listitem [ref=f9e82]:
+            - link "Settings" [ref=f9e83] [cursor=pointer]:
+              - /url: admin.php?page=wc-settings
+          - listitem [ref=f9e84]:
+            - link "Status" [ref=f9e85] [cursor=pointer]:
+              - /url: admin.php?page=wc-status
+          - listitem [ref=f9e86]:
+            - link "Extensions" [ref=f9e87] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/extensions
+      - listitem [ref=f9e88]:
+        - link "Products" [ref=f9e89] [cursor=pointer]:
+          - /url: edit.php?post_type=product
+          - generic [ref=f9e90]: 
+        - list [ref=f9e92]:
+          - listitem [ref=f9e93]:
+            - link "All Products" [ref=f9e94] [cursor=pointer]:
+              - /url: edit.php?post_type=product
+          - listitem [ref=f9e95]:
+            - link "Add new product" [ref=f9e96] [cursor=pointer]:
+              - /url: post-new.php?post_type=product
+          - listitem [ref=f9e97]:
+            - link "Categories" [ref=f9e98] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=product_cat&post_type=product
+          - listitem [ref=f9e99]:
+            - link "Tags" [ref=f9e100] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=product_tag&post_type=product
+          - listitem [ref=f9e101]:
+            - link "Attributes" [ref=f9e102] [cursor=pointer]:
+              - /url: edit.php?post_type=product&page=product_attributes
+          - listitem [ref=f9e103]:
+            - link "Reviews" [ref=f9e104] [cursor=pointer]:
+              - /url: edit.php?post_type=product&page=product-reviews
+      - listitem [ref=f9e105]:
+        - link "Payments 1" [ref=f9e106] [cursor=pointer]:
+          - /url: admin.php?page=wc-admin&path=/wc-pay-welcome-page
+          - generic [ref=f9e108]:
+            - text: Payments
+            - generic [ref=f9e109]: "1"
+      - listitem [ref=f9e110]:
+        - link "Analytics" [ref=f9e111] [cursor=pointer]:
+          - /url: admin.php?page=wc-admin&path=/analytics/overview
+          - generic [ref=f9e112]: 
+        - list [ref=f9e114]:
+          - listitem [ref=f9e115]:
+            - link "Overview" [ref=f9e116] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/overview
+          - listitem [ref=f9e117]:
+            - link "Products" [ref=f9e118] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/products
+          - listitem [ref=f9e119]:
+            - link "Revenue" [ref=f9e120] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/revenue
+          - listitem [ref=f9e121]:
+            - link "Orders" [ref=f9e122] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/orders
+          - listitem [ref=f9e123]:
+            - link "Variations" [ref=f9e124] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/variations
+          - listitem [ref=f9e125]:
+            - link "Categories" [ref=f9e126] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/categories
+          - listitem [ref=f9e127]:
+            - link "Coupons" [ref=f9e128] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/coupons
+          - listitem [ref=f9e129]:
+            - link "Taxes" [ref=f9e130] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/taxes
+          - listitem [ref=f9e131]:
+            - link "Downloads" [ref=f9e132] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/downloads
+          - listitem [ref=f9e133]:
+            - link "Stock" [ref=f9e134] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/stock
+          - listitem [ref=f9e135]:
+            - link "Settings" [ref=f9e136] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/settings
+      - listitem [ref=f9e137]:
+        - link "Marketing" [ref=f9e138] [cursor=pointer]:
+          - /url: admin.php?page=wc-admin&path=/marketing
+          - generic [ref=f9e139]: 
+        - list [ref=f9e141]:
+          - listitem [ref=f9e142]:
+            - link "Overview" [ref=f9e143] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/marketing
+          - listitem [ref=f9e144]:
+            - link "Coupons" [ref=f9e145] [cursor=pointer]:
+              - /url: edit.php?post_type=shop_coupon
+      - listitem [ref=f9e146]
+      - listitem [ref=f9e148]:
+        - link "Appearance" [ref=f9e149] [cursor=pointer]:
+          - /url: themes.php
+          - generic [ref=f9e150]: 
+        - list [ref=f9e152]:
+          - listitem [ref=f9e153]:
+            - link "Themes 3" [ref=f9e154] [cursor=pointer]:
+              - /url: themes.php
+              - text: Themes
+              - generic [ref=f9e155]: "3"
+          - listitem [ref=f9e156]:
+            - link "Editor" [ref=f9e157] [cursor=pointer]:
+              - /url: site-editor.php
+      - listitem [ref=f9e158]:
+        - link "Plugins 1" [ref=f9e159] [cursor=pointer]:
+          - /url: plugins.php
+          - generic [ref=f9e160]: 
+          - generic [ref=f9e161]:
+            - text: Plugins
+            - generic [ref=f9e162]: "1"
+        - list [ref=f9e163]:
+          - listitem [ref=f9e164]:
+            - link "Installed Plugins" [ref=f9e165] [cursor=pointer]:
+              - /url: plugins.php
+          - listitem [ref=f9e166]:
+            - link "Add Plugin" [ref=f9e167] [cursor=pointer]:
+              - /url: plugin-install.php
+      - listitem [ref=f9e168]:
+        - link "Users" [ref=f9e169] [cursor=pointer]:
+          - /url: users.php
+          - generic [ref=f9e170]: 
+        - list [ref=f9e172]:
+          - listitem [ref=f9e173]:
+            - link "All Users" [ref=f9e174] [cursor=pointer]:
+              - /url: users.php
+          - listitem [ref=f9e175]:
+            - link "Add User" [ref=f9e176] [cursor=pointer]:
+              - /url: user-new.php
+          - listitem [ref=f9e177]:
+            - link "Profile" [ref=f9e178] [cursor=pointer]:
+              - /url: profile.php
+      - listitem [ref=f9e179]:
+        - link "Tools" [ref=f9e180] [cursor=pointer]:
+          - /url: tools.php
+          - generic [ref=f9e181]: 
+        - list [ref=f9e183]:
+          - listitem [ref=f9e184]:
+            - link "Available Tools" [ref=f9e185] [cursor=pointer]:
+              - /url: tools.php
+          - listitem [ref=f9e186]:
+            - link "Import" [ref=f9e187] [cursor=pointer]:
+              - /url: import.php
+          - listitem [ref=f9e188]:
+            - link "Export" [ref=f9e189] [cursor=pointer]:
+              - /url: export.php
+          - listitem [ref=f9e190]:
+            - link "Site Health" [ref=f9e191] [cursor=pointer]:
+              - /url: site-health.php
+          - listitem [ref=f9e192]:
+            - link "Export Personal Data" [ref=f9e193] [cursor=pointer]:
+              - /url: export-personal-data.php
+          - listitem [ref=f9e194]:
+            - link "Erase Personal Data" [ref=f9e195] [cursor=pointer]:
+              - /url: erase-personal-data.php
+          - listitem [ref=f9e196]:
+            - link "Scheduled Actions" [ref=f9e197] [cursor=pointer]:
+              - /url: tools.php?page=action-scheduler
+          - listitem [ref=f9e198]:
+            - link "Theme File Editor" [ref=f9e199] [cursor=pointer]:
+              - /url: theme-editor.php
+          - listitem [ref=f9e200]:
+            - link "Plugin File Editor" [ref=f9e201] [cursor=pointer]:
+              - /url: plugin-editor.php
+      - listitem [ref=f9e202]:
+        - link "Settings" [ref=f9e203] [cursor=pointer]:
+          - /url: options-general.php
+          - generic [ref=f9e204]: 
+        - list [ref=f9e206]:
+          - listitem [ref=f9e207]:
+            - link "General" [ref=f9e208] [cursor=pointer]:
+              - /url: options-general.php
+          - listitem [ref=f9e209]:
+            - link "Writing" [ref=f9e210] [cursor=pointer]:
+              - /url: options-writing.php
+          - listitem [ref=f9e211]:
+            - link "Reading" [ref=f9e212] [cursor=pointer]:
+              - /url: options-reading.php
+          - listitem [ref=f9e213]:
+            - link "Discussion" [ref=f9e214] [cursor=pointer]:
+              - /url: options-discussion.php
+          - listitem [ref=f9e215]:
+            - link "Media" [ref=f9e216] [cursor=pointer]:
+              - /url: options-media.php
+          - listitem [ref=f9e217]:
+            - link "Permalinks" [ref=f9e218] [cursor=pointer]:
+              - /url: options-permalink.php
+          - listitem [ref=f9e219]:
+            - link "Privacy" [ref=f9e220] [cursor=pointer]:
+              - /url: options-privacy.php
+      - listitem [ref=f9e221]
+      - listitem [ref=f9e223]:
+        - link "WP File Manager" [ref=f9e224] [cursor=pointer]:
+          - /url: admin.php?page=wp_file_manager
+        - list [ref=f9e227]:
+          - listitem [ref=f9e228]:
+            - link "WP File Manager" [ref=f9e229] [cursor=pointer]:
+              - /url: admin.php?page=wp_file_manager
+          - listitem [ref=f9e230]:
+            - link "Settings" [ref=f9e231] [cursor=pointer]:
+              - /url: admin.php?page=wp_file_manager_settings
+          - listitem [ref=f9e232]:
+            - link "Preferences" [ref=f9e233] [cursor=pointer]:
+              - /url: admin.php?page=wp_file_manager_preferences
+          - listitem [ref=f9e234]:
+            - link "System Properties" [ref=f9e235] [cursor=pointer]:
+              - /url: admin.php?page=wp_file_manager_sys_properties
+          - listitem [ref=f9e236]:
+            - link "Shortcode – PRO" [ref=f9e237] [cursor=pointer]:
+              - /url: admin.php?page=wp_file_manager_shortcode_doc
+          - listitem [ref=f9e238]:
+            - link "Logs" [ref=f9e239] [cursor=pointer]:
+              - /url: admin.php?page=wpfm-logs
+          - listitem [ref=f9e240]:
+            - link "Backup/Restore" [ref=f9e241] [cursor=pointer]:
+              - /url: admin.php?page=wpfm-backup
+      - listitem [ref=f9e242]:
+        - button "Collapse Main menu" [expanded] [ref=f9e243] [cursor=pointer]:
+          - generic [ref=f9e244]: 
+          - generic [ref=f9e245]: Collapse Menu
+  - generic [ref=f9e246]:
+    - generic [ref=f9e247]:
+      - navigation "Toolbar":
+        - menu:
+          - group [ref=f9e248]:
+            - menuitem "About WordPress" [ref=f9e249] [cursor=pointer]:
+              - generic [ref=f9e250]: 
+          - group [ref=f9e252]:
+            - menuitem " Code to Block Phase 4" [ref=f9e253] [cursor=pointer]
+          - group [ref=f9e254]:
+            - menuitem "5 updates available" [ref=f9e255] [cursor=pointer]:
+              - generic [ref=f9e256]: 
+              - generic [ref=f9e257]: "5"
+          - group [ref=f9e259]:
+            - menuitem "0 Comments in moderation" [ref=f9e260] [cursor=pointer]:
+              - generic [ref=f9e261]: 
+              - generic [ref=f9e262]: "0"
+          - group [ref=f9e264]:
+            - menuitem "New" [ref=f9e265] [cursor=pointer]:
+              - generic [ref=f9e266]: 
+        - menu [ref=f9e268]:
+          - group [ref=f9e269]:
+            - menuitem "Howdy, kervee" [ref=f9e270] [cursor=pointer]
+    - main [ref=f9e271]:
+      - generic [ref=f9e272]:
+        - generic [ref=f9e273]:
+          - link "WordPress 7.1" [ref=f9e274] [cursor=pointer]:
+            - /url: https://wordpress.org/documentation/wordpress-version/version-7-1/
+          - text: is available!
+          - link "Please update WordPress now" [ref=f9e275] [cursor=pointer]:
+            - /url: http://localhost:8090/wp-admin/update-core.php
+            - text: Please update now
+          - text: .
+        - generic [ref=f9e276]:
+          - heading "Code to Block Submissions" [level=1] [ref=f9e277]
+          - paragraph [ref=f9e279]:
+            - strong [ref=f9e280]: "Action Scheduler:"
+            - text: "4"
+            - link "past-due actions" [ref=f9e281] [cursor=pointer]:
+              - /url: http://localhost:8090/wp-admin/tools.php?page=action-scheduler&status=past-due&order=asc
+            - text: found; something may be wrong.
+            - link "Read documentation »" [ref=f9e282] [cursor=pointer]:
+              - /url: https://actionscheduler.org/faq/#my-site-has-past-due-actions-what-can-i-do
+          - paragraph [ref=f9e283]: Native form submissions and recent spam rejections (server-side enforced). Client-side is decoration, not security.
+          - heading "Submissions (100 recent)" [level=2] [ref=f9e284]
+          - table [ref=f9e285]:
+            - rowgroup [ref=f9e286]:
+              - row [ref=f9e287]:
+                - columnheader "ID" [ref=f9e288]
+                - columnheader "Post" [ref=f9e289]
+                - columnheader "Form" [ref=f9e290]
+                - columnheader "Data" [ref=f9e291]
+                - columnheader "IP" [ref=f9e292]
+                - columnheader "Time" [ref=f9e293]
+                - columnheader "Status" [ref=f9e294]
+                - columnheader "Actions" [ref=f9e295]
+            - rowgroup [ref=f9e296]:
+              - row [ref=f9e297]:
+                - cell "2" [ref=f9e298]
+                - cell "80" [ref=f9e299]
+                - cell "form-audit" [ref=f9e300]
+                - 'cell "name: Valid Audit User, email: valid@example.test, message: Valid signed form submission" [ref=f9e301]'
+                - cell "172.19.0.1" [ref=f9e302]
+                - cell "2026-08-25 05:17:40" [ref=f9e303]
+                - cell "new" [ref=f9e304]
+                - cell [ref=f9e305]:
+                  - link "Read" [ref=f9e306] [cursor=pointer]:
+                    - /url: http://localhost:8090/wp-admin/edit.php?post_type=ctb_page&page=code-to-block-submissions&action=mark_read&id=2&_wpnonce=aeec1c33f2
+                  - text: "|"
+                  - link "Spam" [ref=f9e307] [cursor=pointer]:
+                    - /url: http://localhost:8090/wp-admin/edit.php?post_type=ctb_page&page=code-to-block-submissions&action=mark_spam&id=2&_wpnonce=aeec1c33f2
+                  - text: "|"
+                  - link "Delete" [ref=f9e308] [cursor=pointer]:
+                    - /url: http://localhost:8090/wp-admin/edit.php?post_type=ctb_page&page=code-to-block-submissions&action=delete&id=2&_wpnonce=aeec1c33f2
+              - row [ref=f9e309]:
+                - cell "1" [ref=f9e310]
+                - cell "80" [ref=f9e311]
+                - cell "form-audit" [ref=f9e312]
+                - 'cell "name: Bypass User, email: bypass@example.test, message: Timestamp was removed" [ref=f9e313]'
+                - cell "172.19.0.1" [ref=f9e314]
+                - cell "2026-08-25 05:11:17" [ref=f9e315]
+                - cell "new" [ref=f9e316]
+                - cell [ref=f9e317]:
+                  - link "Read" [ref=f9e318] [cursor=pointer]:
+                    - /url: http://localhost:8090/wp-admin/edit.php?post_type=ctb_page&page=code-to-block-submissions&action=mark_read&id=1&_wpnonce=76c3b09f01
+                  - text: "|"
+                  - link "Spam" [ref=f9e319] [cursor=pointer]:
+                    - /url: http://localhost:8090/wp-admin/edit.php?post_type=ctb_page&page=code-to-block-submissions&action=mark_spam&id=1&_wpnonce=76c3b09f01
+                  - text: "|"
+                  - link "Delete" [ref=f9e320] [cursor=pointer]:
+                    - /url: http://localhost:8090/wp-admin/edit.php?post_type=ctb_page&page=code-to-block-submissions&action=delete&id=1&_wpnonce=76c3b09f01
+          - heading "Recent rejections (spam log, 50 recent)" [level=2] [ref=f9e321]
+          - table [ref=f9e322]:
+            - rowgroup [ref=f9e323]:
+              - row [ref=f9e324]:
+                - columnheader "Time" [ref=f9e325]
+                - columnheader "Post" [ref=f9e326]
+                - columnheader "Form" [ref=f9e327]
+                - columnheader "IP" [ref=f9e328]
+                - columnheader "Reason" [ref=f9e329]
+            - rowgroup [ref=f9e330]:
+              - row [ref=f9e331]:
+                - cell "2026-08-25 05:17:20" [ref=f9e332]
+                - cell "80" [ref=f9e333]
+                - cell "form-audit" [ref=f9e334]
+                - cell "172.19.0.1" [ref=f9e335]
+                - cell "honeypot" [ref=f9e336]
+  - contentinfo [ref=f9e337]:
+    - paragraph [ref=f9e338]:
+      - generic [ref=f9e339]:
+        - text: Thank you for creating with
+        - link "WordPress" [ref=f9e340] [cursor=pointer]:
+          - /url: https://wordpress.org/
+        - text: .
+    - paragraph [ref=f9e341]:
+      - strong [ref=f9e342]:
+        - link "Get Version 7.1" [ref=f9e343] [cursor=pointer]:
+          - /url: http://localhost:8090/wp-admin/update-core.php
+  - text: 

@@ -1,0 +1,485 @@
+- generic [ref=f7e2]:
+  - navigation "Main menu":
+    - link "Skip to main content" [ref=f7e3] [cursor=pointer]:
+      - /url: "#wpbody-content"
+    - link "Skip to toolbar" [ref=f7e4] [cursor=pointer]:
+      - /url: "#wp-toolbar"
+    - list [ref=f7e7]:
+      - listitem [ref=f7e8]:
+        - link "Dashboard" [ref=f7e9] [cursor=pointer]:
+          - /url: index.php
+          - generic [ref=f7e10]: 
+        - list [ref=f7e12]:
+          - listitem [ref=f7e13]:
+            - link "Home" [ref=f7e14] [cursor=pointer]:
+              - /url: index.php
+          - listitem [ref=f7e15]:
+            - link "Updates 5" [ref=f7e16] [cursor=pointer]:
+              - /url: update-core.php
+              - text: Updates
+              - generic [ref=f7e17]: "5"
+      - listitem [ref=f7e18]
+      - listitem [ref=f7e20]:
+        - link "Posts" [ref=f7e21] [cursor=pointer]:
+          - /url: edit.php
+          - generic [ref=f7e22]: 
+        - list [ref=f7e24]:
+          - listitem [ref=f7e25]:
+            - link "All Posts" [ref=f7e26] [cursor=pointer]:
+              - /url: edit.php
+          - listitem [ref=f7e27]:
+            - link "Add Post" [ref=f7e28] [cursor=pointer]:
+              - /url: post-new.php
+          - listitem [ref=f7e29]:
+            - link "Categories" [ref=f7e30] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=category
+          - listitem [ref=f7e31]:
+            - link "Tags" [ref=f7e32] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=post_tag
+      - listitem [ref=f7e33]:
+        - link "Media" [ref=f7e34] [cursor=pointer]:
+          - /url: upload.php
+          - generic [ref=f7e35]: 
+        - list [ref=f7e37]:
+          - listitem [ref=f7e38]:
+            - link "Library" [ref=f7e39] [cursor=pointer]:
+              - /url: upload.php
+          - listitem [ref=f7e40]:
+            - link "Add Media File" [ref=f7e41] [cursor=pointer]:
+              - /url: media-new.php
+      - listitem [ref=f7e42]:
+        - link "Pages" [ref=f7e43] [cursor=pointer]:
+          - /url: edit.php?post_type=page
+          - generic [ref=f7e44]: 
+        - list [ref=f7e46]:
+          - listitem [ref=f7e47]:
+            - link "All Pages" [ref=f7e48] [cursor=pointer]:
+              - /url: edit.php?post_type=page
+          - listitem [ref=f7e49]:
+            - link "Add Page" [ref=f7e50] [cursor=pointer]:
+              - /url: post-new.php?post_type=page
+      - listitem [ref=f7e51]:
+        - link "Comments" [ref=f7e52] [cursor=pointer]:
+          - /url: edit-comments.php
+          - generic [ref=f7e53]: 
+      - listitem [ref=f7e55]:
+        - link "Code to Block Pages" [ref=f7e56] [cursor=pointer]:
+          - /url: edit.php?post_type=ctb_page
+          - generic [ref=f7e57]: 
+        - list [ref=f7e59]:
+          - listitem [ref=f7e60]:
+            - link "Code to Block Pages" [ref=f7e61] [cursor=pointer]:
+              - /url: edit.php?post_type=ctb_page
+          - listitem [ref=f7e62]:
+            - link "Add Code to Block Page" [ref=f7e63] [cursor=pointer]:
+              - /url: post-new.php?post_type=ctb_page
+      - listitem [ref=f7e64]
+      - listitem [ref=f7e66]:
+        - link "Appearance" [ref=f7e67] [cursor=pointer]:
+          - /url: themes.php
+          - generic [ref=f7e68]: 
+        - list [ref=f7e70]:
+          - listitem [ref=f7e71]:
+            - link "Themes 3" [ref=f7e72] [cursor=pointer]:
+              - /url: themes.php
+              - text: Themes
+              - generic [ref=f7e73]: "3"
+          - listitem [ref=f7e74]:
+            - link "Editor" [ref=f7e75] [cursor=pointer]:
+              - /url: site-editor.php
+      - listitem [ref=f7e76]:
+        - link "Plugins 1" [ref=f7e77] [cursor=pointer]:
+          - /url: plugins.php
+          - generic [ref=f7e78]: 
+          - generic [ref=f7e79]:
+            - text: Plugins
+            - generic [ref=f7e80]: "1"
+        - list [ref=f7e81]:
+          - listitem [ref=f7e82]:
+            - link "Installed Plugins" [ref=f7e83] [cursor=pointer]:
+              - /url: plugins.php
+          - listitem [ref=f7e84]:
+            - link "Add Plugin" [ref=f7e85] [cursor=pointer]:
+              - /url: plugin-install.php
+      - listitem [ref=f7e86]:
+        - link "Users" [ref=f7e87] [cursor=pointer]:
+          - /url: users.php
+          - generic [ref=f7e88]: 
+        - list [ref=f7e90]:
+          - listitem [ref=f7e91]:
+            - link "All Users" [ref=f7e92] [cursor=pointer]:
+              - /url: users.php
+          - listitem [ref=f7e93]:
+            - link "Add User" [ref=f7e94] [cursor=pointer]:
+              - /url: user-new.php
+          - listitem [ref=f7e95]:
+            - link "Profile" [ref=f7e96] [cursor=pointer]:
+              - /url: profile.php
+      - listitem [ref=f7e97]:
+        - link "Tools" [ref=f7e98] [cursor=pointer]:
+          - /url: tools.php
+          - generic [ref=f7e99]: 
+        - list [ref=f7e101]:
+          - listitem [ref=f7e102]:
+            - link "Available Tools" [ref=f7e103] [cursor=pointer]:
+              - /url: tools.php
+          - listitem [ref=f7e104]:
+            - link "Import" [ref=f7e105] [cursor=pointer]:
+              - /url: import.php
+          - listitem [ref=f7e106]:
+            - link "Export" [ref=f7e107] [cursor=pointer]:
+              - /url: export.php
+          - listitem [ref=f7e108]:
+            - link "Site Health" [ref=f7e109] [cursor=pointer]:
+              - /url: site-health.php
+          - listitem [ref=f7e110]:
+            - link "Export Personal Data" [ref=f7e111] [cursor=pointer]:
+              - /url: export-personal-data.php
+          - listitem [ref=f7e112]:
+            - link "Erase Personal Data" [ref=f7e113] [cursor=pointer]:
+              - /url: erase-personal-data.php
+          - listitem [ref=f7e114]:
+            - link "Theme File Editor" [ref=f7e115] [cursor=pointer]:
+              - /url: theme-editor.php
+          - listitem [ref=f7e116]:
+            - link "Plugin File Editor" [ref=f7e117] [cursor=pointer]:
+              - /url: plugin-editor.php
+      - listitem [ref=f7e118]:
+        - link "Settings" [ref=f7e119] [cursor=pointer]:
+          - /url: options-general.php
+          - generic [ref=f7e120]: 
+        - list [ref=f7e122]:
+          - listitem [ref=f7e123]:
+            - link "General" [ref=f7e124] [cursor=pointer]:
+              - /url: options-general.php
+          - listitem [ref=f7e125]:
+            - link "Writing" [ref=f7e126] [cursor=pointer]:
+              - /url: options-writing.php
+          - listitem [ref=f7e127]:
+            - link "Reading" [ref=f7e128] [cursor=pointer]:
+              - /url: options-reading.php
+          - listitem [ref=f7e129]:
+            - link "Discussion" [ref=f7e130] [cursor=pointer]:
+              - /url: options-discussion.php
+          - listitem [ref=f7e131]:
+            - link "Media" [ref=f7e132] [cursor=pointer]:
+              - /url: options-media.php
+          - listitem [ref=f7e133]:
+            - link "Permalinks" [ref=f7e134] [cursor=pointer]:
+              - /url: options-permalink.php
+          - listitem [ref=f7e135]:
+            - link "Privacy" [ref=f7e136] [cursor=pointer]:
+              - /url: options-privacy.php
+      - listitem [ref=f7e137]:
+        - button "Collapse Main menu" [expanded] [ref=f7e138] [cursor=pointer]:
+          - generic [ref=f7e139]: 
+          - generic [ref=f7e140]: Collapse Menu
+  - generic [ref=f7e141]:
+    - generic [ref=f7e142]:
+      - navigation "Toolbar":
+        - menu:
+          - group [ref=f7e143]:
+            - menuitem "About WordPress" [ref=f7e144] [cursor=pointer]:
+              - generic [ref=f7e145]: 
+          - group [ref=f7e147]:
+            - menuitem " Code to Block Phase 4" [ref=f7e148] [cursor=pointer]
+          - group [ref=f7e149]:
+            - menuitem "5 updates available" [ref=f7e150] [cursor=pointer]:
+              - generic [ref=f7e151]: 
+              - generic [ref=f7e152]: "5"
+          - group [ref=f7e154]:
+            - menuitem "0 Comments in moderation" [ref=f7e155] [cursor=pointer]:
+              - generic [ref=f7e156]: 
+              - generic [ref=f7e157]: "0"
+          - group [ref=f7e159]:
+            - menuitem "New" [ref=f7e160] [cursor=pointer]:
+              - generic [ref=f7e161]: 
+          - group [ref=f7e163]:
+            - menuitem "View Post" [ref=f7e164] [cursor=pointer]
+        - menu [ref=f7e165]:
+          - group [ref=f7e166]:
+            - menuitem "Howdy, ctb_item6_verifier" [ref=f7e167] [cursor=pointer]
+    - main [ref=f7e168]:
+      - generic [ref=f7e169]:
+        - button "Screen Options " [ref=f7e172] [cursor=pointer]
+        - generic [ref=f7e173]:
+          - link "WordPress 7.1" [ref=f7e174] [cursor=pointer]:
+            - /url: https://wordpress.org/documentation/wordpress-version/version-7-1/
+          - text: is available!
+          - link "Please update WordPress now" [ref=f7e175] [cursor=pointer]:
+            - /url: http://localhost:8090/wp-admin/update-core.php
+            - text: Please update now
+          - text: .
+        - generic [ref=f7e176]:
+          - heading "Edit Code to Block Page" [level=1] [ref=f7e177]
+          - link "Add Code to Block Page" [ref=f7e178] [cursor=pointer]:
+            - /url: http://localhost:8090/wp-admin/post-new.php?post_type=ctb_page
+          - text: 
+          - generic [ref=f7e180]:
+            - generic:
+              - generic [ref=f7e182]:
+                - generic [ref=f7e183]:
+                  - generic: Add title
+                  - textbox "Add title" [ref=f7e184]: Phase 7 Explain CSS
+                - generic [ref=f7e186]:
+                  - strong [ref=f7e187]: "Permalink:"
+                  - link "http://localhost:8090/?ctb_page=phase-7-explain-css" [ref=f7e188] [cursor=pointer]:
+                    - /url: http://localhost:8090/?ctb_page=phase-7-explain-css
+                  - link "Change Permalink Structure" [ref=f7e190] [cursor=pointer]:
+                    - /url: options-permalink.php
+              - generic [ref=f7e193]:
+                - generic [ref=f7e194]:
+                  - heading "Publish" [level=2] [ref=f7e195]
+                  - generic [ref=f7e196]:
+                    - button "Move up" [disabled] [ref=f7e197]:
+                      - generic [ref=f7e199]: 
+                    - button "Move down" [ref=f7e200] [cursor=pointer]:
+                      - generic [ref=f7e202]: 
+                    - 'button "Toggle panel: Publish" [expanded] [ref=f7e203] [cursor=pointer]':
+                      - generic [ref=f7e205]: 
+                - generic [ref=f7e207]:
+                  - generic [ref=f7e208]:
+                    - link "Preview Changes (opens in a new tab)" [ref=f7e210] [cursor=pointer]:
+                      - /url: http://localhost:8090/?ctb_page=phase-7-explain-css&preview=true
+                      - text: Preview Changes
+                      - generic [ref=f7e211]: (opens in a new tab)
+                    - generic [ref=f7e212]:
+                      - generic [ref=f7e213]:
+                        - text: " Status: Published"
+                        - button "Edit status" [ref=f7e214] [cursor=pointer]: Edit
+                      - generic [ref=f7e216]:
+                        - text: " Visibility: Public"
+                        - button "Edit visibility" [ref=f7e217] [cursor=pointer]: Edit
+                      - generic [ref=f7e219]:
+                        - generic [ref=f7e220]: " Published on: Aug 21, 2026 at 05:12"
+                        - button "Edit date and time" [ref=f7e221] [cursor=pointer]: Edit
+                  - generic [ref=f7e223]:
+                    - link "Move to Trash" [ref=f7e225] [cursor=pointer]:
+                      - /url: http://localhost:8090/wp-admin/post.php?post=30&action=trash&_wpnonce=145be84ae1
+                    - button "Update" [ref=f7e227] [cursor=pointer]
+              - generic [ref=f7e229]:
+                - generic [ref=f7e230]:
+                  - generic [ref=f7e231]:
+                    - heading "Code to Block Canvas" [level=2] [ref=f7e232]
+                    - generic [ref=f7e233]:
+                      - button "Move up" [ref=f7e234] [cursor=pointer]:
+                        - generic [ref=f7e236]: 
+                      - button "Move down" [ref=f7e237] [cursor=pointer]:
+                        - generic [ref=f7e239]: 
+                      - 'button "Toggle panel: Code to Block Canvas" [expanded] [ref=f7e240] [cursor=pointer]':
+                        - generic [ref=f7e242]: 
+                  - region "Code to Block visual editor" [ref=f7e245]:
+                    - generic [ref=f7e246]:
+                      - generic [ref=f7e247]:
+                        - paragraph [ref=f7e248]: Phase 7 / Reusable components
+                        - heading "Imported layout" [level=2] [ref=f7e405]
+                      - generic [ref=f7e250]:
+                        - generic [ref=f7e251]: Zustand history active
+                        - button "Undo" [disabled] [ref=f7e252]
+                        - button "Redo" [disabled] [ref=f7e253]
+                        - button "Load" [active] [ref=f7e254] [cursor=pointer]
+                        - button "Save tree" [ref=f7e255] [cursor=pointer]
+                    - generic [ref=f7e256]:
+                      - generic [ref=f7e257]:
+                        - generic [ref=f7e258]:
+                          - paragraph [ref=f7e259]: HTML + CSS importer
+                          - heading "Paste code into editable blocks" [level=3] [ref=f7e260]
+                        - button "Parse onto canvas" [ref=f7e261] [cursor=pointer]
+                      - generic [ref=f7e262]:
+                        - generic [ref=f7e263]:
+                          - generic [ref=f7e264]: HTML
+                          - textbox "HTML to import" [ref=f7e265]:
+                            - /placeholder: <article class="card">...</article>
+                            - text: "<section class=\"explain-card\"><h2 style=\"color: #173b57\">Explain every decision</h2><p>Mapped controls and raw CSS stay visible.</p></section>"
+                        - generic [ref=f7e266]:
+                          - generic [ref=f7e267]: CSS
+                          - textbox "CSS to import" [ref=f7e268]:
+                            - /placeholder: ".card { padding: 2rem; }"
+                            - text: ".explain-card { padding: 32px; border-radius: 18px; display: grid; gap: 16px; background: #f2efe6; color: #334455; } .explain-card h2 { color: #8b2f4c; font-size: 36px; margin: 0; } .explain-card p { line-height: 1.6; }"
+                    - generic [ref=f7e269]:
+                      - complementary "Document details" [ref=f7e270]:
+                        - generic [ref=f7e271]:
+                          - paragraph [ref=f7e272]: Loaded document
+                          - strong [ref=f7e273]: Imported layout
+                          - generic [ref=f7e274]:
+                            - generic [ref=f7e275]:
+                              - term [ref=f7e276]: Schema
+                              - definition [ref=f7e277]: v1
+                            - generic [ref=f7e278]:
+                              - term [ref=f7e279]: Blocks
+                              - definition [ref=f7e280]: "3"
+                            - generic [ref=f7e281]:
+                              - term [ref=f7e282]: Root
+                              - definition [ref=f7e283]: <section>
+                          - paragraph [ref=f7e284]: Each dashed outline is a separate schema block.
+                          - group [ref=f7e285]:
+                            - generic "Global design tokens 0 defined" [ref=f7e286] [cursor=pointer]:
+                              - generic [ref=f7e287]: Global design tokens
+                              - generic [ref=f7e288]: 0 defined
+                            - option "Colors" [selected]
+                            - option "Typography"
+                            - option "Spacing"
+                          - group [ref=f7e289]:
+                            - generic "Saved components 1 saved" [ref=f7e290] [cursor=pointer]:
+                              - generic [ref=f7e291]: Saved components
+                              - generic [ref=f7e292]: 1 saved
+                            - paragraph [ref=f7e293]: Save the selected subtree, then insert a linked instance here or on another page.
+                            - generic [ref=f7e294]:
+                              - generic [ref=f7e295]:
+                                - generic [ref=f7e296]: Name
+                                - textbox "Name" [ref=f7e297]:
+                                  - /placeholder: Feature card
+                              - button "Save selection" [disabled] [ref=f7e298]
+                            - generic [ref=f7e300]:
+                              - generic [ref=f7e301]:
+                                - strong [ref=f7e302]: Phase 7 reusable card
+                                - generic [ref=f7e303]: "#29 · linked"
+                              - generic [ref=f7e304]:
+                                - button "Insert" [ref=f7e305] [cursor=pointer]
+                                - button "Replace from selection" [ref=f7e306] [cursor=pointer]
+                          - generic [ref=f7e307]:
+                            - paragraph [ref=f7e308]: Selected block
+                            - strong [ref=f7e309]: section-1
+                            - group [ref=f7e310]:
+                              - generic "Explain CSS 6 resolved" [ref=f7e623] [cursor=pointer]:
+                                - generic [ref=f7e312]: Explain CSS
+                                - generic [ref=f7e313]: 6 resolved
+                              - paragraph [ref=f7e407]: This is the resolved CSS captured at import. Later style edits do not rewrite this record.
+                              - generic [ref=f7e408]:
+                                - heading "Mapped to controls" [level=4] [ref=f7e409]
+                                - list [ref=f7e624]:
+                                  - listitem [ref=f7e625]:
+                                    - generic [ref=f7e626]:
+                                      - code [ref=f7e627]: border-radius
+                                      - generic [ref=f7e628]: →
+                                      - strong [ref=f7e629]: Border radius
+                                    - code [ref=f7e630]: 18px
+                                    - generic [ref=f7e631]: stylesheet
+                                  - listitem [ref=f7e632]:
+                                    - generic [ref=f7e633]:
+                                      - code [ref=f7e634]: color
+                                      - generic [ref=f7e635]: →
+                                      - strong [ref=f7e636]: Color
+                                    - code [ref=f7e637]: "#334455"
+                                    - generic [ref=f7e638]: stylesheet
+                                  - listitem [ref=f7e639]:
+                                    - generic [ref=f7e640]:
+                                      - code [ref=f7e641]: padding
+                                      - generic [ref=f7e642]: →
+                                      - strong [ref=f7e643]: Padding
+                                    - code [ref=f7e644]: 32px
+                                    - generic [ref=f7e645]: stylesheet
+                              - generic [ref=f7e562]:
+                                - heading "Preserved as raw CSS" [level=4] [ref=f7e563]
+                                - list [ref=f7e646]:
+                                  - listitem [ref=f7e647]:
+                                    - generic [ref=f7e648]:
+                                      - code [ref=f7e649]: background
+                                      - generic [ref=f7e650]: →
+                                      - strong [ref=f7e651]: Raw CSS
+                                    - code [ref=f7e652]: "#f2efe6"
+                                    - generic [ref=f7e653]: stylesheet
+                                  - listitem [ref=f7e654]:
+                                    - generic [ref=f7e655]:
+                                      - code [ref=f7e656]: display
+                                      - generic [ref=f7e657]: →
+                                      - strong [ref=f7e658]: Raw CSS
+                                    - code [ref=f7e659]: grid
+                                    - generic [ref=f7e660]: stylesheet
+                                  - listitem [ref=f7e661]:
+                                    - generic [ref=f7e662]:
+                                      - code [ref=f7e663]: gap
+                                      - generic [ref=f7e664]: →
+                                      - strong [ref=f7e665]: Raw CSS
+                                    - code [ref=f7e666]: 16px
+                                    - generic [ref=f7e667]: stylesheet
+                            - generic [ref=f7e314]:
+                              - paragraph [ref=f7e315]: Editing breakpoint
+                              - group "Style breakpoint" [ref=f7e316]:
+                                - button "Desktop 100%" [pressed] [ref=f7e317] [cursor=pointer]:
+                                  - generic [ref=f7e318]: Desktop
+                                  - generic [ref=f7e319]: 100%
+                                - button "Tablet 768px" [ref=f7e320] [cursor=pointer]:
+                                  - generic [ref=f7e321]: Tablet
+                                  - generic [ref=f7e322]: 768px
+                                - button "Mobile 390px" [ref=f7e323] [cursor=pointer]:
+                                  - generic [ref=f7e324]: Mobile
+                                  - generic [ref=f7e325]: 390px
+                              - paragraph [ref=f7e326]: 4 base declarations
+                            - generic [ref=f7e327]:
+                              - button "Move up" [disabled] [ref=f7e328]
+                              - button "Move down" [disabled] [ref=f7e329]
+                            - generic [ref=f7e331]:
+                              - generic [ref=f7e332]: Color
+                              - textbox "Desktop color for section-1" [ref=f7e668] [cursor=pointer]: "#334455"
+                            - generic [ref=f7e669]:
+                              - paragraph [ref=f7e670]: Base mapped controls
+                              - generic [ref=f7e672]:
+                                - generic [ref=f7e673]: Padding
+                                - textbox "Padding" [ref=f7e674]:
+                                  - /placeholder: 24px 32px
+                                  - text: 32px
+                              - generic [ref=f7e676]:
+                                - generic [ref=f7e677]: Margin
+                                - textbox "Margin" [ref=f7e678]:
+                                  - /placeholder: 0 auto
+                              - generic [ref=f7e680]:
+                                - generic [ref=f7e681]: Font size
+                                - textbox "Font size" [ref=f7e682]:
+                                  - /placeholder: 18px
+                              - generic [ref=f7e684]:
+                                - generic [ref=f7e685]: Font weight
+                                - textbox "Font weight" [ref=f7e686]:
+                                  - /placeholder: "700"
+                              - generic [ref=f7e688]:
+                                - generic [ref=f7e689]: Border
+                                - textbox "Border" [ref=f7e690]:
+                                  - /placeholder: "1px solid #ccc"
+                              - generic [ref=f7e692]:
+                                - generic [ref=f7e693]: Border radius
+                                - textbox "Border radius" [ref=f7e694]:
+                                  - /placeholder: 12px
+                                  - text: 18px
+                              - button "Apply desktop styles" [disabled] [ref=f7e695]
+                            - generic [ref=f7e696]:
+                              - generic [ref=f7e697]: Raw CSS fallback
+                              - textbox "Raw CSS fallback" [ref=f7e698]: "background: #f2efe6; display: grid; gap: 16px;"
+                              - generic [ref=f7e699]:
+                                - generic [ref=f7e700]: desktop CSS override
+                                - button "Apply CSS" [disabled] [ref=f7e701]
+                              - paragraph [ref=f7e702]: Enter declarations for desktop only. Mapped controls win unless a raw value uses !important.
+                          - status [ref=f7e491]: Loaded.
+                      - main "Rendered block canvas" [ref=f7e368]:
+                        - generic [ref=f7e369]:
+                          - generic [ref=f7e370]:
+                            - paragraph [ref=f7e371]: Live canvas width
+                            - strong [ref=f7e372]: Desktop / 100%
+                          - group "Canvas breakpoint" [ref=f7e373]:
+                            - button "Desktop 100%" [pressed] [ref=f7e374] [cursor=pointer]:
+                              - generic [ref=f7e375]: Desktop
+                              - generic [ref=f7e376]: 100%
+                            - button "Tablet 768px" [ref=f7e377] [cursor=pointer]:
+                              - generic [ref=f7e378]: Tablet
+                              - generic [ref=f7e379]: 768px
+                            - button "Mobile 390px" [ref=f7e380] [cursor=pointer]:
+                              - generic [ref=f7e381]: Mobile
+                              - generic [ref=f7e382]: 390px
+                        - generic [ref=f7e383]: Drag a block onto text to reorder · onto a container to nest
+                        - generic [ref=f7e492]:
+                          - text: section · section-1
+                          - button "h2 · h2-2 Explain every decision" [ref=f7e493]
+                          - button "p · p-3 Mapped controls and raw CSS stay visible." [ref=f7e494]
+                      - status [ref=f7e394]
+                - text:   
+  - contentinfo [ref=f7e396]:
+    - paragraph [ref=f7e397]:
+      - generic [ref=f7e398]:
+        - text: Thank you for creating with
+        - link "WordPress" [ref=f7e399] [cursor=pointer]:
+          - /url: https://wordpress.org/
+        - text: .
+    - paragraph [ref=f7e400]:
+      - strong [ref=f7e401]:
+        - link "Get Version 7.1" [ref=f7e402] [cursor=pointer]:
+          - /url: http://localhost:8090/wp-admin/update-core.php
+  - text: 

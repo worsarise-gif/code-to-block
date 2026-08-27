@@ -1,0 +1,9 @@
+- article [ref=f5e4]:
+  - heading "Professional" [level=2] [ref=f5e5]
+  - paragraph [ref=f5e6]: $29/month
+  - list [ref=f5e7]:
+    - listitem [ref=f5e8]: Unlimited projects
+    - listitem [ref=f5e9]: Priority support
+  - link "Start free trial" [ref=f5e10] [cursor=pointer]:
+    - /url: "#signup"
+  - heading "Systems" [level=2] [ref=f5e12]

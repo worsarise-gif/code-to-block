@@ -1,0 +1,58 @@
+- generic [active] [ref=f35e1]:
+  - generic [ref=f35e2]:
+    - generic [ref=f35e3]:
+      - strong [ref=f35e4]: Image Slot Upload Audit
+      - text: Content mode — no structure editing
+    - generic [ref=f35e5]:
+      - link "Back to WordPress editor" [ref=f35e6] [cursor=pointer]:
+        - /url: http://localhost:8090/wp-admin/post.php?post=89&action=edit
+      - text: "|"
+      - link "View live page" [ref=f35e7] [cursor=pointer]:
+        - /url: http://localhost:8090/?post_type=ctb_page&p=89
+  - generic [ref=f35e9]:
+    - banner [ref=f35e11]:
+      - 'heading "Editing Content: Image Upload Audit" [level=1] [ref=f35e12]'
+      - button "Save Content" [ref=f35e13]
+      - generic [ref=f35e44]: "Error: <p>There has been a critical error on this website.</p><p><a href=\"https://wordpress.org/documentation/article/faq-troubleshooting/\">Learn more about troubleshooting WordPress.</a></p>"
+    - main [ref=f35e14]:
+      - generic [ref=f35e15]:
+        - heading "SEO — same view as other content" [level=2] [ref=f35e16]
+        - paragraph [ref=f35e17]: Title/description/canonical/Open Graph are editable here alongside other page content — not a separate SEO panel. JSON-LD (WebPage/Product/LocalBusiness) is auto-generated from your blocks.
+        - generic [ref=f35e18]:
+          - generic [ref=f35e19]:
+            - generic [ref=f35e20]: SEO Title
+            - textbox "SEO Title" [ref=f35e21]:
+              - /placeholder: Page title — 50-60 chars ideal
+            - text: Title tag — shown in Google results. Keep 50-60 chars.
+          - generic [ref=f35e22]:
+            - generic [ref=f35e23]: Meta Description
+            - textbox "Meta Description" [ref=f35e24]:
+              - /placeholder: Brief summary — 120-160 chars ideal
+            - text: Meta description — shown under title in search. Aim 120-160 chars.
+          - generic [ref=f35e25]:
+            - generic [ref=f35e26]: Canonical URL
+            - textbox "Canonical URL" [ref=f35e27]:
+              - /placeholder: https://example.com/page/
+            - text: Preferred URL for this page. Blank = auto.
+          - generic [ref=f35e28]:
+            - generic [ref=f35e29]: Open Graph Title
+            - textbox "Open Graph Title" [ref=f35e30]:
+              - /placeholder: Social title
+            - text: For Facebook/Twitter shares. Falls back to SEO Title.
+          - generic [ref=f35e31]:
+            - generic [ref=f35e32]: OG Description
+            - textbox "OG Description" [ref=f35e33]:
+              - /placeholder: Social description
+            - text: Social share description.
+          - generic [ref=f35e34]:
+            - generic [ref=f35e35]: OG Image URL
+            - textbox "OG Image URL" [ref=f35e36]:
+              - /placeholder: https://example.com/image.jpg
+            - text: Preview image for social shares.
+      - heading "Content Slots" [level=2] [ref=f35e37]
+      - generic [ref=f35e39]:
+        - generic [ref=f35e40]:
+          - text: Hero image
+          - generic [ref=f35e41]: (image)
+        - textbox "Hero image (image)" [ref=f35e42]: http://localhost:8090/wp-content/uploads/2026/08/content-mode.png
+        - button "Choose File" [ref=f35e43]

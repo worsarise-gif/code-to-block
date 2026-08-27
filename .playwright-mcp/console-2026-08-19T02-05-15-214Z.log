@@ -1,0 +1,23 @@
+[     748ms] [LOG] JQMIGRATE: Migrate is installed, version 3.4.1 @ http://localhost:8090/wp-admin/load-scripts.php?c=0&load%5Bchunk_0%5D=jquery-core,jquery-migrate,utils&ver=6.8.2:4
+[  132507ms] [ERROR] Error: Minified React error #137; visit https://reactjs.org/docs/error-decoder.html?invariant=137&args[]=img for the full message or use the non-minified dev environment for full errors and additional helpful warnings.
+    at F (http://localhost:8090/wp-includes/js/dist/vendor/react-dom.min.js?ver=18.3.1.1:10:8878)
+    at Fr (http://localhost:8090/wp-includes/js/dist/vendor/react-dom.min.js?ver=18.3.1.1:10:68081)
+    at Sl (http://localhost:8090/wp-includes/js/dist/vendor/react-dom.min.js?ver=18.3.1.1:10:88662)
+    at wl (http://localhost:8090/wp-includes/js/dist/vendor/react-dom.min.js?ver=18.3.1.1:10:88402)
+    at bl (http://localhost:8090/wp-includes/js/dist/vendor/react-dom.min.js?ver=18.3.1.1:10:88269)
+    at yl (http://localhost:8090/wp-includes/js/dist/vendor/react-dom.min.js?ver=18.3.1.1:10:88132)
+    at il (http://localhost:8090/wp-includes/js/dist/vendor/react-dom.min.js?ver=18.3.1.1:10:84984)
+    at fl (http://localhost:8090/wp-includes/js/dist/vendor/react-dom.min.js?ver=18.3.1.1:10:85364)
+    at Nn (http://localhost:8090/wp-includes/js/dist/vendor/react-dom.min.js?ver=18.3.1.1:10:32442)
+    at http://localhost:8090/wp-includes/js/dist/vendor/react-dom.min.js?ver=18.3.1.1:10:82952 @ http://localhost:8090/wp-includes/js/dist/vendor/react-dom.min.js?ver=18.3.1.1:9
+[  132718ms] Error: Minified React error #137; visit https://reactjs.org/docs/error-decoder.html?invariant=137&args[]=img for the full message or use the non-minified dev environment for full errors and additional helpful warnings.
+    at F (http://localhost:8090/wp-includes/js/dist/vendor/react-dom.min.js?ver=18.3.1.1:10:8878)
+    at Fr (http://localhost:8090/wp-includes/js/dist/vendor/react-dom.min.js?ver=18.3.1.1:10:68081)
+    at Sl (http://localhost:8090/wp-includes/js/dist/vendor/react-dom.min.js?ver=18.3.1.1:10:88662)
+    at wl (http://localhost:8090/wp-includes/js/dist/vendor/react-dom.min.js?ver=18.3.1.1:10:88402)
+    at bl (http://localhost:8090/wp-includes/js/dist/vendor/react-dom.min.js?ver=18.3.1.1:10:88269)
+    at yl (http://localhost:8090/wp-includes/js/dist/vendor/react-dom.min.js?ver=18.3.1.1:10:88132)
+    at il (http://localhost:8090/wp-includes/js/dist/vendor/react-dom.min.js?ver=18.3.1.1:10:84984)
+    at fl (http://localhost:8090/wp-includes/js/dist/vendor/react-dom.min.js?ver=18.3.1.1:10:85364)
+    at Nn (http://localhost:8090/wp-includes/js/dist/vendor/react-dom.min.js?ver=18.3.1.1:10:32442)
+    at http://localhost:8090/wp-includes/js/dist/vendor/react-dom.min.js?ver=18.3.1.1:10:82952

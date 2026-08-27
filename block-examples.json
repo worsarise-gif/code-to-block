@@ -1,0 +1,1049 @@
+[
+  {
+    "schema_version": 1,
+    "name": "Pricing card",
+    "root": {
+      "id": "pricing-card",
+      "type": "container",
+      "tag": "article",
+      "attributes": {
+        "class": "pricing-card featured"
+      },
+      "children": [
+        {
+          "id": "pricing-plan-name",
+          "type": "text",
+          "tag": "h2",
+          "attributes": {
+            "class": "plan-name"
+          },
+          "children": [
+            {
+              "kind": "text",
+              "value": "Professional"
+            }
+          ],
+          "styles": {
+            "mapped": {
+              "color": "#253047",
+              "font-family": "Arial, sans-serif",
+              "font-size": "22px",
+              "margin": "0 0 12px"
+            },
+            "custom_css_fallback": ""
+          },
+          "meta": {
+            "source": "ai-html-css"
+          }
+        },
+        {
+          "id": "pricing-price",
+          "type": "text",
+          "tag": "p",
+          "attributes": {
+            "class": "price"
+          },
+          "children": [
+            {
+              "id": "pricing-price-value",
+              "type": "text",
+              "tag": "span",
+              "attributes": {},
+              "children": [
+                {
+                  "kind": "text",
+                  "value": "$29"
+                }
+              ],
+              "styles": {
+                "mapped": {
+                  "color": "#111827",
+                  "font-family": "Arial, sans-serif",
+                  "font-size": "42px",
+                  "font-weight": "700"
+                },
+                "custom_css_fallback": ""
+              },
+              "meta": {
+                "source": "ai-html-css"
+              }
+            },
+            {
+              "kind": "text",
+              "value": "/month"
+            }
+          ],
+          "styles": {
+            "mapped": {
+              "color": "#667085",
+              "font-family": "Arial, sans-serif",
+              "margin": "0 0 24px"
+            },
+            "custom_css_fallback": ""
+          },
+          "meta": {
+            "source": "ai-html-css"
+          }
+        },
+        {
+          "id": "pricing-features",
+          "type": "container",
+          "tag": "ul",
+          "attributes": {
+            "class": "features"
+          },
+          "children": [
+            {
+              "id": "pricing-feature-unlimited",
+              "type": "text",
+              "tag": "li",
+              "attributes": {},
+              "children": [
+                {
+                  "kind": "text",
+                  "value": "Unlimited projects"
+                }
+              ],
+              "styles": {
+                "mapped": {
+                  "color": "#253047",
+                  "font-family": "Arial, sans-serif",
+                  "line-height": "1.8"
+                },
+                "custom_css_fallback": ""
+              },
+              "meta": {
+                "source": "ai-html-css"
+              }
+            },
+            {
+              "id": "pricing-feature-support",
+              "type": "text",
+              "tag": "li",
+              "attributes": {},
+              "children": [
+                {
+                  "kind": "text",
+                  "value": "Priority support"
+                }
+              ],
+              "styles": {
+                "mapped": {
+                  "color": "#253047",
+                  "font-family": "Arial, sans-serif",
+                  "line-height": "1.8"
+                },
+                "custom_css_fallback": ""
+              },
+              "meta": {
+                "source": "ai-html-css"
+              }
+            }
+          ],
+          "styles": {
+            "mapped": {
+              "color": "#253047",
+              "font-family": "Arial, sans-serif",
+              "line-height": "1.8",
+              "margin": "0 0 28px",
+              "padding-left": "20px"
+            },
+            "custom_css_fallback": ""
+          },
+          "meta": {
+            "source": "ai-html-css"
+          }
+        },
+        {
+          "id": "pricing-cta",
+          "type": "button",
+          "tag": "a",
+          "attributes": {
+            "class": "cta",
+            "href": "#signup"
+          },
+          "children": [
+            {
+              "kind": "text",
+              "value": "Start free trial"
+            }
+          ],
+          "styles": {
+            "mapped": {
+              "background": "#5b5bd6",
+              "border-radius": "8px",
+              "color": "#ffffff",
+              "display": "block",
+              "font-family": "Arial, sans-serif",
+              "padding": "12px 18px",
+              "text-align": "center",
+              "text-decoration": "none"
+            },
+            "custom_css_fallback": ""
+          },
+          "meta": {
+            "source": "ai-html-css"
+          }
+        }
+      ],
+      "styles": {
+        "mapped": {
+          "background": "#ffffff",
+          "border": "1px solid #d7dce5",
+          "border-color": "#5b5bd6",
+          "border-radius": "16px",
+          "box-shadow": "0 16px 40px rgba(30, 41, 59, 0.14)",
+          "color": "#253047",
+          "font-family": "Arial, sans-serif",
+          "max-width": "360px",
+          "padding": "32px"
+        },
+        "custom_css_fallback": ""
+      },
+      "meta": {
+        "source": "ai-html-css"
+      }
+    }
+  },
+  {
+    "schema_version": 1,
+    "name": "Hero section",
+    "root": {
+      "id": "hero",
+      "type": "container",
+      "tag": "section",
+      "attributes": {
+        "class": "hero"
+      },
+      "children": [
+        {
+          "id": "hero-content",
+          "type": "container",
+          "tag": "div",
+          "attributes": {
+            "class": "hero-content"
+          },
+          "children": [
+            {
+              "id": "hero-eyebrow",
+              "type": "text",
+              "tag": "p",
+              "attributes": {
+                "class": "eyebrow"
+              },
+              "children": [
+                {
+                  "kind": "text",
+                  "value": "Build faster"
+                }
+              ],
+              "styles": {
+                "mapped": {
+                  "color": "#a5f3fc",
+                  "font-size": "14px",
+                  "font-weight": "700",
+                  "letter-spacing": "0.12em",
+                  "margin": "0 0 12px",
+                  "text-align": "center",
+                  "text-transform": "uppercase"
+                },
+                "custom_css_fallback": ""
+              },
+              "meta": {
+                "source": "ai-html-css"
+              }
+            },
+            {
+              "id": "hero-heading",
+              "type": "text",
+              "tag": "h1",
+              "attributes": {},
+              "children": [
+                {
+                  "kind": "text",
+                  "value": "Launch your next idea"
+                }
+              ],
+              "styles": {
+                "mapped": {
+                  "color": "white",
+                  "font-size": "56px",
+                  "line-height": "1.05",
+                  "margin": "0",
+                  "text-align": "center"
+                },
+                "custom_css_fallback": ""
+              },
+              "meta": {
+                "source": "ai-html-css"
+              }
+            },
+            {
+              "id": "hero-intro",
+              "type": "text",
+              "tag": "p",
+              "attributes": {
+                "class": "intro"
+              },
+              "children": [
+                {
+                  "kind": "text",
+                  "value": "A focused toolkit for modern product teams."
+                }
+              ],
+              "styles": {
+                "mapped": {
+                  "color": "white",
+                  "font-size": "20px",
+                  "line-height": "1.6",
+                  "margin": "20px auto 0",
+                  "max-width": "560px",
+                  "text-align": "center"
+                },
+                "custom_css_fallback": ""
+              },
+              "meta": {
+                "source": "ai-html-css"
+              }
+            }
+          ],
+          "styles": {
+            "mapped": {
+              "color": "white",
+              "max-width": "720px",
+              "text-align": "center"
+            },
+            "custom_css_fallback": ""
+          },
+          "meta": {
+            "source": "ai-html-css"
+          }
+        }
+      ],
+      "styles": {
+        "mapped": {
+          "background-image": "linear-gradient(rgba(10, 18, 35, 0.72), rgba(10, 18, 35, 0.72)), url(\"hero.jpg\")",
+          "background-position": "center",
+          "background-size": "cover",
+          "color": "white",
+          "display": "grid",
+          "min-height": "520px",
+          "padding": "48px 24px",
+          "place-items": "center",
+          "text-align": "center"
+        },
+        "custom_css_fallback": ""
+      },
+      "meta": {
+        "source": "ai-html-css"
+      }
+    }
+  },
+  {
+    "schema_version": 1,
+    "name": "Testimonial card",
+    "root": {
+      "id": "testimonial",
+      "type": "container",
+      "tag": "figure",
+      "attributes": {
+        "class": "testimonial"
+      },
+      "children": [
+        {
+          "id": "testimonial-avatar",
+          "type": "image",
+          "tag": "img",
+          "attributes": {
+            "alt": "Portrait of Maya Chen",
+            "class": "avatar",
+            "src": "avatar.jpg"
+          },
+          "children": [],
+          "styles": {
+            "mapped": {
+              "border-radius": "50%",
+              "color": "#3f3f46",
+              "font-family": "Georgia, serif",
+              "height": "64px",
+              "object-fit": "cover",
+              "width": "64px"
+            },
+            "custom_css_fallback": ""
+          },
+          "meta": {
+            "source": "ai-html-css"
+          }
+        },
+        {
+          "id": "testimonial-quote",
+          "type": "text",
+          "tag": "blockquote",
+          "attributes": {},
+          "children": [
+            {
+              "kind": "text",
+              "value": "\u201cThe team shipped in days, not weeks.\u201d"
+            }
+          ],
+          "styles": {
+            "mapped": {
+              "color": "#18181b",
+              "font-family": "Georgia, serif",
+              "font-size": "24px",
+              "line-height": "1.45",
+              "margin": "20px 0"
+            },
+            "custom_css_fallback": ""
+          },
+          "meta": {
+            "source": "ai-html-css"
+          }
+        },
+        {
+          "id": "testimonial-caption",
+          "type": "container",
+          "tag": "figcaption",
+          "attributes": {},
+          "children": [
+            {
+              "id": "testimonial-name",
+              "type": "text",
+              "tag": "strong",
+              "attributes": {},
+              "children": [
+                {
+                  "kind": "text",
+                  "value": "Maya Chen"
+                }
+              ],
+              "styles": {
+                "mapped": {
+                  "color": "#3f3f46",
+                  "font-family": "Arial, sans-serif",
+                  "font-size": "15px"
+                },
+                "custom_css_fallback": ""
+              },
+              "meta": {
+                "source": "ai-html-css"
+              }
+            },
+            {
+              "id": "testimonial-role",
+              "type": "text",
+              "tag": "span",
+              "attributes": {},
+              "children": [
+                {
+                  "kind": "text",
+                  "value": "Product Lead"
+                }
+              ],
+              "styles": {
+                "mapped": {
+                  "color": "#71717a",
+                  "font-family": "Arial, sans-serif",
+                  "font-size": "13px"
+                },
+                "custom_css_fallback": ""
+              },
+              "meta": {
+                "source": "ai-html-css"
+              }
+            }
+          ],
+          "styles": {
+            "mapped": {
+              "color": "#3f3f46",
+              "display": "flex",
+              "flex-direction": "column",
+              "font-family": "Georgia, serif",
+              "gap": "4px"
+            },
+            "custom_css_fallback": ""
+          },
+          "meta": {
+            "source": "ai-html-css"
+          }
+        }
+      ],
+      "styles": {
+        "mapped": {
+          "background": "#fffbeb",
+          "border-left": "4px solid #f59e0b",
+          "border-radius": "12px",
+          "color": "#3f3f46",
+          "font-family": "Georgia, serif",
+          "margin": "0",
+          "max-width": "520px",
+          "padding": "28px"
+        },
+        "custom_css_fallback": ""
+      },
+      "meta": {
+        "source": "ai-html-css"
+      }
+    }
+  },
+  {
+    "schema_version": 1,
+    "name": "Navigation bar",
+    "root": {
+      "id": "navigation",
+      "type": "container",
+      "tag": "nav",
+      "attributes": {
+        "class": "site-nav"
+      },
+      "children": [
+        {
+          "id": "navigation-logo",
+          "type": "text",
+          "tag": "a",
+          "attributes": {
+            "class": "logo",
+            "href": "/"
+          },
+          "children": [
+            {
+              "kind": "text",
+              "value": "Northstar"
+            }
+          ],
+          "styles": {
+            "mapped": {
+              "color": "#ffffff",
+              "font-family": "Arial, sans-serif",
+              "font-size": "22px",
+              "font-weight": "800",
+              "letter-spacing": "-0.02em",
+              "text-decoration": "none"
+            },
+            "custom_css_fallback": ""
+          },
+          "meta": {
+            "source": "ai-html-css"
+          }
+        },
+        {
+          "id": "navigation-menu",
+          "type": "container",
+          "tag": "ul",
+          "attributes": {
+            "class": "menu"
+          },
+          "children": [
+            {
+              "id": "navigation-work-item",
+              "type": "container",
+              "tag": "li",
+              "attributes": {},
+              "children": [
+                {
+                  "id": "navigation-work-link",
+                  "type": "text",
+                  "tag": "a",
+                  "attributes": {
+                    "class": "menu-link",
+                    "href": "/work"
+                  },
+                  "children": [
+                    {
+                      "kind": "text",
+                      "value": "Work"
+                    }
+                  ],
+                  "styles": {
+                    "mapped": {
+                      "color": "#cbd5e1",
+                      "font-family": "Arial, sans-serif",
+                      "font-size": "15px",
+                      "font-weight": "600",
+                      "list-style": "none",
+                      "text-decoration": "none"
+                    },
+                    "custom_css_fallback": ""
+                  },
+                  "meta": {
+                    "source": "ai-html-css"
+                  }
+                }
+              ],
+              "styles": {
+                "mapped": {
+                  "font-family": "Arial, sans-serif",
+                  "list-style": "none"
+                },
+                "custom_css_fallback": ""
+              },
+              "meta": {
+                "source": "ai-html-css"
+              }
+            },
+            {
+              "id": "navigation-about-item",
+              "type": "container",
+              "tag": "li",
+              "attributes": {},
+              "children": [
+                {
+                  "id": "navigation-about-link",
+                  "type": "text",
+                  "tag": "a",
+                  "attributes": {
+                    "class": "menu-link",
+                    "href": "/about"
+                  },
+                  "children": [
+                    {
+                      "kind": "text",
+                      "value": "About"
+                    }
+                  ],
+                  "styles": {
+                    "mapped": {
+                      "color": "#cbd5e1",
+                      "font-family": "Arial, sans-serif",
+                      "font-size": "15px",
+                      "font-weight": "600",
+                      "list-style": "none",
+                      "text-decoration": "none"
+                    },
+                    "custom_css_fallback": ""
+                  },
+                  "meta": {
+                    "source": "ai-html-css"
+                  }
+                }
+              ],
+              "styles": {
+                "mapped": {
+                  "font-family": "Arial, sans-serif",
+                  "list-style": "none"
+                },
+                "custom_css_fallback": ""
+              },
+              "meta": {
+                "source": "ai-html-css"
+              }
+            },
+            {
+              "id": "navigation-contact-item",
+              "type": "container",
+              "tag": "li",
+              "attributes": {},
+              "children": [
+                {
+                  "id": "navigation-contact-link",
+                  "type": "text",
+                  "tag": "a",
+                  "attributes": {
+                    "class": "menu-link",
+                    "href": "/contact"
+                  },
+                  "children": [
+                    {
+                      "kind": "text",
+                      "value": "Contact"
+                    }
+                  ],
+                  "styles": {
+                    "mapped": {
+                      "color": "#cbd5e1",
+                      "font-family": "Arial, sans-serif",
+                      "font-size": "15px",
+                      "font-weight": "600",
+                      "list-style": "none",
+                      "text-decoration": "none"
+                    },
+                    "custom_css_fallback": ""
+                  },
+                  "meta": {
+                    "source": "ai-html-css"
+                  }
+                }
+              ],
+              "styles": {
+                "mapped": {
+                  "font-family": "Arial, sans-serif",
+                  "list-style": "none"
+                },
+                "custom_css_fallback": ""
+              },
+              "meta": {
+                "source": "ai-html-css"
+              }
+            }
+          ],
+          "styles": {
+            "mapped": {
+              "display": "flex",
+              "font-family": "Arial, sans-serif",
+              "gap": "28px",
+              "list-style": "none",
+              "margin": "0",
+              "padding": "0"
+            },
+            "custom_css_fallback": ""
+          },
+          "meta": {
+            "source": "ai-html-css"
+          }
+        }
+      ],
+      "styles": {
+        "mapped": {
+          "align-items": "center",
+          "background": "#0f172a",
+          "display": "flex",
+          "font-family": "Arial, sans-serif",
+          "justify-content": "space-between",
+          "padding": "18px 32px"
+        },
+        "custom_css_fallback": ""
+      },
+      "meta": {
+        "source": "ai-html-css"
+      }
+    }
+  },
+  {
+    "schema_version": 1,
+    "name": "Three-column footer",
+    "root": {
+      "id": "footer",
+      "type": "container",
+      "tag": "footer",
+      "attributes": {
+        "class": "site-footer"
+      },
+      "children": [
+        {
+          "id": "footer-product-column",
+          "type": "container",
+          "tag": "div",
+          "attributes": {
+            "class": "footer-column"
+          },
+          "children": [
+            {
+              "id": "footer-product-heading",
+              "type": "text",
+              "tag": "h2",
+              "attributes": {},
+              "children": [
+                {
+                  "kind": "text",
+                  "value": "Product"
+                }
+              ],
+              "styles": {
+                "mapped": {
+                  "color": "#ffffff",
+                  "font-family": "Arial, sans-serif",
+                  "font-size": "14px",
+                  "letter-spacing": "0.08em",
+                  "margin": "0 0 8px",
+                  "text-transform": "uppercase"
+                },
+                "custom_css_fallback": ""
+              },
+              "meta": {
+                "source": "ai-html-css"
+              }
+            },
+            {
+              "id": "footer-features-link",
+              "type": "text",
+              "tag": "a",
+              "attributes": {
+                "href": "#"
+              },
+              "children": [
+                {
+                  "kind": "text",
+                  "value": "Features"
+                }
+              ],
+              "styles": {
+                "mapped": {
+                  "color": "#d1d5db",
+                  "font-family": "Arial, sans-serif",
+                  "font-size": "14px",
+                  "line-height": "1.6",
+                  "text-decoration": "none"
+                },
+                "custom_css_fallback": ""
+              },
+              "meta": {
+                "source": "ai-html-css"
+              }
+            },
+            {
+              "id": "footer-pricing-link",
+              "type": "text",
+              "tag": "a",
+              "attributes": {
+                "href": "#"
+              },
+              "children": [
+                {
+                  "kind": "text",
+                  "value": "Pricing"
+                }
+              ],
+              "styles": {
+                "mapped": {
+                  "color": "#d1d5db",
+                  "font-family": "Arial, sans-serif",
+                  "font-size": "14px",
+                  "line-height": "1.6",
+                  "text-decoration": "none"
+                },
+                "custom_css_fallback": ""
+              },
+              "meta": {
+                "source": "ai-html-css"
+              }
+            }
+          ],
+          "styles": {
+            "mapped": {
+              "color": "#9ca3af",
+              "display": "flex",
+              "flex-direction": "column",
+              "font-family": "Arial, sans-serif",
+              "gap": "10px"
+            },
+            "custom_css_fallback": ""
+          },
+          "meta": {
+            "source": "ai-html-css"
+          }
+        },
+        {
+          "id": "footer-company-column",
+          "type": "container",
+          "tag": "div",
+          "attributes": {
+            "class": "footer-column"
+          },
+          "children": [
+            {
+              "id": "footer-company-heading",
+              "type": "text",
+              "tag": "h2",
+              "attributes": {},
+              "children": [
+                {
+                  "kind": "text",
+                  "value": "Company"
+                }
+              ],
+              "styles": {
+                "mapped": {
+                  "color": "#ffffff",
+                  "font-family": "Arial, sans-serif",
+                  "font-size": "14px",
+                  "letter-spacing": "0.08em",
+                  "margin": "0 0 8px",
+                  "text-transform": "uppercase"
+                },
+                "custom_css_fallback": ""
+              },
+              "meta": {
+                "source": "ai-html-css"
+              }
+            },
+            {
+              "id": "footer-about-link",
+              "type": "text",
+              "tag": "a",
+              "attributes": {
+                "href": "#"
+              },
+              "children": [
+                {
+                  "kind": "text",
+                  "value": "About"
+                }
+              ],
+              "styles": {
+                "mapped": {
+                  "color": "#d1d5db",
+                  "font-family": "Arial, sans-serif",
+                  "font-size": "14px",
+                  "line-height": "1.6",
+                  "text-decoration": "none"
+                },
+                "custom_css_fallback": ""
+              },
+              "meta": {
+                "source": "ai-html-css"
+              }
+            },
+            {
+              "id": "footer-careers-link",
+              "type": "text",
+              "tag": "a",
+              "attributes": {
+                "href": "#"
+              },
+              "children": [
+                {
+                  "kind": "text",
+                  "value": "Careers"
+                }
+              ],
+              "styles": {
+                "mapped": {
+                  "color": "#d1d5db",
+                  "font-family": "Arial, sans-serif",
+                  "font-size": "14px",
+                  "line-height": "1.6",
+                  "text-decoration": "none"
+                },
+                "custom_css_fallback": ""
+              },
+              "meta": {
+                "source": "ai-html-css"
+              }
+            }
+          ],
+          "styles": {
+            "mapped": {
+              "color": "#9ca3af",
+              "display": "flex",
+              "flex-direction": "column",
+              "font-family": "Arial, sans-serif",
+              "gap": "10px"
+            },
+            "custom_css_fallback": ""
+          },
+          "meta": {
+            "source": "ai-html-css"
+          }
+        },
+        {
+          "id": "footer-resources-column",
+          "type": "container",
+          "tag": "div",
+          "attributes": {
+            "class": "footer-column"
+          },
+          "children": [
+            {
+              "id": "footer-resources-heading",
+              "type": "text",
+              "tag": "h2",
+              "attributes": {},
+              "children": [
+                {
+                  "kind": "text",
+                  "value": "Resources"
+                }
+              ],
+              "styles": {
+                "mapped": {
+                  "color": "#ffffff",
+                  "font-family": "Arial, sans-serif",
+                  "font-size": "14px",
+                  "letter-spacing": "0.08em",
+                  "margin": "0 0 8px",
+                  "text-transform": "uppercase"
+                },
+                "custom_css_fallback": ""
+              },
+              "meta": {
+                "source": "ai-html-css"
+              }
+            },
+            {
+              "id": "footer-guides-link",
+              "type": "text",
+              "tag": "a",
+              "attributes": {
+                "href": "#"
+              },
+              "children": [
+                {
+                  "kind": "text",
+                  "value": "Guides"
+                }
+              ],
+              "styles": {
+                "mapped": {
+                  "color": "#d1d5db",
+                  "font-family": "Arial, sans-serif",
+                  "font-size": "14px",
+                  "line-height": "1.6",
+                  "text-decoration": "none"
+                },
+                "custom_css_fallback": ""
+              },
+              "meta": {
+                "source": "ai-html-css"
+              }
+            },
+            {
+              "id": "footer-support-link",
+              "type": "text",
+              "tag": "a",
+              "attributes": {
+                "href": "#"
+              },
+              "children": [
+                {
+                  "kind": "text",
+                  "value": "Support"
+                }
+              ],
+              "styles": {
+                "mapped": {
+                  "color": "#d1d5db",
+                  "font-family": "Arial, sans-serif",
+                  "font-size": "14px",
+                  "line-height": "1.6",
+                  "text-decoration": "none"
+                },
+                "custom_css_fallback": ""
+              },
+              "meta": {
+                "source": "ai-html-css"
+              }
+            }
+          ],
+          "styles": {
+            "mapped": {
+              "color": "#9ca3af",
+              "display": "flex",
+              "flex-direction": "column",
+              "font-family": "Arial, sans-serif",
+              "gap": "10px"
+            },
+            "custom_css_fallback": ""
+          },
+          "meta": {
+            "source": "ai-html-css"
+          }
+        }
+      ],
+      "styles": {
+        "mapped": {
+          "background": "#111827",
+          "color": "#9ca3af",
+          "display": "grid",
+          "font-family": "Arial, sans-serif",
+          "gap": "48px",
+          "grid-template-columns": "repeat(3, minmax(0, 1fr))",
+          "padding": "48px"
+        },
+        "custom_css_fallback": ""
+      },
+      "meta": {
+        "source": "ai-html-css"
+      }
+    }
+  }
+]

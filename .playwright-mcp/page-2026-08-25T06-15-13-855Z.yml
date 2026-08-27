@@ -1,0 +1,317 @@
+- generic [ref=f28e1]:
+  - generic [ref=f28e2]:
+    - generic [ref=f28e3]:
+      - strong [ref=f28e4]: Motion Audit GSAP
+      - text: Dedicated editor — no admin chrome
+    - generic [ref=f28e5]:
+      - link "Back to WordPress editor" [ref=f28e6] [cursor=pointer]:
+        - /url: http://localhost:8090/wp-admin/post.php?post=86&action=edit
+      - text: "|"
+      - link "View live page" [ref=f28e7] [cursor=pointer]:
+        - /url: http://localhost:8090/?ctb_page=motion-audit-gsap
+  - region "Code to Block visual editor" [ref=f28e9]:
+    - generic [ref=f28e10]:
+      - generic [ref=f28e11]:
+        - paragraph [ref=f28e12]: Phase 7 / Reusable components
+        - heading "Conditional Motion Audit" [level=2] [ref=f28e267]
+      - generic [ref=f28e14]:
+        - generic [ref=f28e15]: Zustand history active
+        - button "Undo" [ref=f28e16] [cursor=pointer]
+        - button "Redo" [disabled] [ref=f28e17]
+        - button "Load" [ref=f28e18] [cursor=pointer]
+        - button "Save tree" [active] [ref=f28e19] [cursor=pointer]
+    - generic [ref=f28e20]:
+      - generic [ref=f28e21]:
+        - generic [ref=f28e22]:
+          - paragraph [ref=f28e23]: HTML + CSS importer
+          - heading "Paste code into editable blocks" [level=3] [ref=f28e24]
+        - button "Parse onto canvas" [ref=f28e25] [cursor=pointer]
+      - generic [ref=f28e26]:
+        - generic [ref=f28e27]:
+          - generic [ref=f28e28]: HTML
+          - textbox "HTML to import" [ref=f28e29]:
+            - /placeholder: <article class="card">...</article>
+        - generic [ref=f28e30]:
+          - generic [ref=f28e31]: CSS
+          - textbox "CSS to import" [ref=f28e32]:
+            - /placeholder: ".card { padding: 2rem; }"
+    - generic [ref=f28e33]:
+      - complementary "Document details" [ref=f28e34]:
+        - generic [ref=f28e35]:
+          - paragraph [ref=f28e36]: Loaded document
+          - strong [ref=f28e37]: Conditional Motion Audit
+          - generic [ref=f28e38]:
+            - generic [ref=f28e39]:
+              - term [ref=f28e40]: Schema
+              - definition [ref=f28e41]: v1
+            - generic [ref=f28e42]:
+              - term [ref=f28e43]: Blocks
+              - definition [ref=f28e44]: "4"
+            - generic [ref=f28e45]:
+              - term [ref=f28e46]: Root
+              - definition [ref=f28e47]: <main>
+          - paragraph [ref=f28e48]: Each dashed outline is a separate schema block.
+          - group [ref=f28e49]:
+            - generic "Global design tokens 0 defined" [ref=f28e50] [cursor=pointer]:
+              - generic [ref=f28e51]: Global design tokens
+              - generic [ref=f28e52]: 0 defined
+            - option "Colors" [selected]
+            - option "Typography"
+            - option "Spacing"
+          - group [ref=f28e53]:
+            - generic "Starter templates 4 ready" [ref=f28e54] [cursor=pointer]:
+              - generic [ref=f28e55]: Starter templates
+              - generic [ref=f28e56]: 4 ready
+            - paragraph [ref=f28e57]: Replace the canvas or insert a starter after the selected block.
+            - generic [ref=f28e58]:
+              - generic [ref=f28e59]:
+                - generic [ref=f28e60]:
+                  - strong [ref=f28e61]: Hero landing
+                  - generic [ref=f28e62]: Full hero with headline, intro and CTA
+                - generic [ref=f28e63]:
+                  - button "Replace canvas" [ref=f28e64] [cursor=pointer]
+                  - button "Insert after selection" [ref=f28e65] [cursor=pointer]
+              - generic [ref=f28e66]:
+                - generic [ref=f28e67]:
+                  - strong [ref=f28e68]: Pricing card
+                  - generic [ref=f28e69]: Single pricing card with features and CTA
+                - generic [ref=f28e70]:
+                  - button "Replace canvas" [ref=f28e71] [cursor=pointer]
+                  - button "Insert after selection" [ref=f28e72] [cursor=pointer]
+              - generic [ref=f28e73]:
+                - generic [ref=f28e74]:
+                  - strong [ref=f28e75]: Testimonial
+                  - generic [ref=f28e76]: Quote card with avatar and caption
+                - generic [ref=f28e77]:
+                  - button "Replace canvas" [ref=f28e78] [cursor=pointer]
+                  - button "Insert after selection" [ref=f28e79] [cursor=pointer]
+              - generic [ref=f28e80]:
+                - generic [ref=f28e81]:
+                  - strong [ref=f28e82]: Footer columns
+                  - generic [ref=f28e83]: Three-column footer with links
+                - generic [ref=f28e84]:
+                  - button "Replace canvas" [ref=f28e85] [cursor=pointer]
+                  - button "Insert after selection" [ref=f28e86] [cursor=pointer]
+          - group [ref=f28e87]:
+            - generic "Saved components 2 saved" [ref=f28e251] [cursor=pointer]:
+              - generic [ref=f28e89]: Saved components
+              - generic [ref=f28e90]: 2 saved
+            - paragraph [ref=f28e91]: Save the selected subtree, then insert a linked instance here or on another page.
+            - generic [ref=f28e92]:
+              - generic [ref=f28e93]:
+                - generic [ref=f28e94]: Name
+                - textbox "Name" [ref=f28e95]:
+                  - /placeholder: Feature card
+              - button "Save selection" [disabled] [ref=f28e96]
+            - generic [ref=f28e252]:
+              - generic [ref=f28e253]:
+                - generic [ref=f28e254]:
+                  - strong [ref=f28e255]: asdasd
+                  - generic [ref=f28e256]: "#41 · linked"
+                - generic [ref=f28e257]:
+                  - button "Insert" [ref=f28e258] [cursor=pointer]
+                  - button "Replace from selection" [ref=f28e259] [cursor=pointer]
+              - generic [ref=f28e260]:
+                - generic [ref=f28e261]:
+                  - strong [ref=f28e262]: Phase 7 reusable card
+                  - generic [ref=f28e263]: "#29 · linked"
+                - generic [ref=f28e264]:
+                  - button "Insert" [ref=f28e265] [cursor=pointer]
+                  - button "Replace from selection" [ref=f28e266] [cursor=pointer]
+          - group [ref=f28e98]:
+            - generic "WooCommerce Blocks" [ref=f28e99] [cursor=pointer]:
+              - generic [ref=f28e100]: WooCommerce
+              - generic [ref=f28e101]: Blocks
+          - group [ref=f28e102]:
+            - generic "Forms — native or external Blocks" [ref=f28e103] [cursor=pointer]:
+              - generic [ref=f28e104]: Forms — native or external
+              - generic [ref=f28e105]: Blocks
+          - group [ref=f28e106]:
+            - generic "Widget Library — 8 pre-built On File 4" [ref=f28e107] [cursor=pointer]:
+              - generic [ref=f28e108]: Widget Library — 8 pre-built
+              - generic [ref=f28e109]: On File 4
+          - group [ref=f28e110]:
+            - generic "SEO 0 fields" [ref=f28e111] [cursor=pointer]:
+              - generic [ref=f28e112]: SEO
+              - generic [ref=f28e113]: 0 fields
+          - group [ref=f28e114]:
+            - generic "Accessibility — helps identify common issues 0 issues" [ref=f28e268] [cursor=pointer]:
+              - generic [ref=f28e116]: Accessibility — helps identify common issues
+              - generic [ref=f28e117]: 0 issues
+          - group [ref=f28e126]:
+            - generic "Diagnostics Woo conflict check" [ref=f28e127] [cursor=pointer]:
+              - generic [ref=f28e128]: Diagnostics
+              - generic [ref=f28e129]: Woo conflict check
+          - generic [ref=f28e130]:
+            - paragraph [ref=f28e131]: Selected block
+            - strong [ref=f28e132]: motion-target
+            - group [ref=f28e133]:
+              - generic "Explain CSS no import data" [ref=f28e134] [cursor=pointer]:
+                - generic [ref=f28e135]: Explain CSS
+                - generic [ref=f28e136]: no import data
+            - generic [ref=f28e137]:
+              - paragraph [ref=f28e138]: Editing breakpoint
+              - group "Style breakpoint" [ref=f28e139]:
+                - button "Desktop 100%" [pressed] [ref=f28e140] [cursor=pointer]:
+                  - generic [ref=f28e141]: Desktop
+                  - generic [ref=f28e142]: 100%
+                - button "Tablet 768px" [ref=f28e143] [cursor=pointer]:
+                  - generic [ref=f28e144]: Tablet
+                  - generic [ref=f28e145]: 768px
+                - button "Mobile 390px" [ref=f28e146] [cursor=pointer]:
+                  - generic [ref=f28e147]: Mobile
+                  - generic [ref=f28e148]: 390px
+              - paragraph [ref=f28e149]: 2 base declarations
+            - generic [ref=f28e150]:
+              - generic [ref=f28e151]:
+                - checkbox "Hide on desktop" [ref=f28e152] [cursor=pointer]
+                - generic [ref=f28e153]: Hide on desktop
+              - generic [ref=f28e154]: Visible on this device
+            - generic [ref=f28e156]:
+              - checkbox "Bind to WooCommerce data" [ref=f28e157] [cursor=pointer]
+              - generic [ref=f28e158]: Bind to WooCommerce data
+            - generic [ref=f28e314]:
+              - paragraph [ref=f28e315]: Client Content
+              - generic [ref=f28e316]:
+                - checkbox "Make editable for clients" [ref=f28e317] [cursor=pointer]
+                - generic [ref=f28e318]: Make editable for clients
+            - generic [ref=f28e159]:
+              - button "Move up" [ref=f28e160] [cursor=pointer]
+              - button "Move down" [ref=f28e161] [cursor=pointer]
+            - region "Animations for motion-target" [ref=f28e319]:
+              - paragraph [ref=f28e163]: Motion
+              - paragraph [ref=f28e164]: CSS reveal adds no JavaScript. Scroll and stagger load GSAP and ScrollTrigger only on pages that use them.
+              - generic [ref=f28e165]:
+                - button "Add CSS reveal" [ref=f28e166] [cursor=pointer]
+                - button "Add scroll scrub" [ref=f28e167] [cursor=pointer]
+                - button "Add child stagger" [ref=f28e168] [cursor=pointer]
+              - generic [ref=f28e320]:
+                - strong [ref=f28e321]: Scroll scrub
+                - generic [ref=f28e322]:
+                  - generic [ref=f28e323]: Start
+                  - combobox "Start" [ref=f28e324]:
+                    - option "Top enters viewport" [selected]
+                    - option "Top reaches 85%"
+                    - option "Top reaches center"
+                    - option "Centers align"
+                - generic [ref=f28e325]:
+                  - generic [ref=f28e326]: End
+                  - combobox "End" [ref=f28e327]:
+                    - option "Bottom leaves viewport"
+                    - option "Bottom reaches 20%" [selected]
+                    - option "500px scroll distance"
+                    - option "1000px scroll distance"
+                - generic [ref=f28e328]:
+                  - generic [ref=f28e329]: Ease
+                  - combobox "Ease" [ref=f28e330]:
+                    - option "None" [selected]
+                    - option "Power 1"
+                    - option "Power 2"
+                    - option "Power 3"
+                - generic [ref=f28e331]:
+                  - generic [ref=f28e332]:
+                    - generic [ref=f28e333]: Scrub smoothing
+                    - spinbutton "Scrub smoothing" [ref=f28e334]: "0.3"
+                  - generic [ref=f28e335]:
+                    - generic [ref=f28e336]: From Y
+                    - spinbutton "From Y" [ref=f28e337]: "100"
+                  - generic [ref=f28e338]:
+                    - generic [ref=f28e339]: To Y
+                    - spinbutton "To Y" [ref=f28e340]: "0"
+                  - generic [ref=f28e341]:
+                    - generic [ref=f28e342]: From opacity
+                    - spinbutton "From opacity" [ref=f28e343]: "0"
+                  - generic [ref=f28e344]:
+                    - generic [ref=f28e345]: To opacity
+                    - spinbutton "To opacity" [ref=f28e346]: "1"
+                  - generic [ref=f28e347]:
+                    - generic [ref=f28e348]: From scale
+                    - spinbutton "From scale" [ref=f28e349]: "0.8"
+                  - generic [ref=f28e350]:
+                    - generic [ref=f28e351]: To scale
+                    - spinbutton "To scale" [ref=f28e352]: "1"
+                  - generic [ref=f28e353]:
+                    - generic [ref=f28e354]: From rotation
+                    - spinbutton "From rotation" [ref=f28e355]: "-5"
+                  - generic [ref=f28e356]:
+                    - generic [ref=f28e357]: To rotation
+                    - spinbutton "To rotation" [ref=f28e358]: "0"
+                - button "Remove animation" [ref=f28e359]
+            - generic [ref=f28e170]:
+              - generic [ref=f28e171]: Color
+              - textbox "Desktop color for motion-target" [ref=f28e360] [cursor=pointer]: "#000000"
+            - generic [ref=f28e173]:
+              - generic [ref=f28e174]:
+                - generic [ref=f28e175]: Panel mode
+                - generic [ref=f28e176]:
+                  - button "Simple" [ref=f28e177] [cursor=pointer]
+                  - button "Advanced" [ref=f28e178] [cursor=pointer]
+              - generic [ref=f28e179]:
+                - generic [ref=f28e180]: Search controls
+                - textbox "Search controls" [ref=f28e181] [cursor=pointer]:
+                  - /placeholder: Search — try 'shadow' in Simple mode to surface advanced
+              - generic [ref=f28e182]: Simple shows essential controls for business owners; Advanced shows all. Search finds any control even when hidden — e.g. search "shadow" while in Simple to surface Box Shadow. Values persist when switching modes.
+            - generic [ref=f28e361]:
+              - paragraph [ref=f28e362]: Base mapped controls
+              - generic [ref=f28e364]:
+                - generic [ref=f28e365]: Padding
+                - textbox "Padding" [ref=f28e366]:
+                  - /placeholder: 24px 32px
+                  - text: 40px
+              - generic [ref=f28e368]:
+                - generic [ref=f28e369]: Margin
+                - textbox "Margin" [ref=f28e370]:
+                  - /placeholder: 0 auto
+              - generic [ref=f28e372]:
+                - generic [ref=f28e373]: Font size
+                - textbox "Font size" [ref=f28e374]:
+                  - /placeholder: 18px
+              - generic [ref=f28e376]:
+                - generic [ref=f28e377]: Font weight
+                - textbox "Font weight" [ref=f28e378]:
+                  - /placeholder: "700"
+              - generic [ref=f28e380]:
+                - generic [ref=f28e381]: Border
+                - textbox "Border" [ref=f28e382]:
+                  - /placeholder: "1px solid #ccc"
+              - generic [ref=f28e384]:
+                - generic [ref=f28e385]: Border radius
+                - textbox "Border radius" [ref=f28e386]:
+                  - /placeholder: 12px
+              - generic [ref=f28e388]:
+                - generic [ref=f28e389]: Width
+                - textbox "Width" [ref=f28e390]:
+                  - /placeholder: 100% | 320px
+              - generic [ref=f28e392]:
+                - generic [ref=f28e393]: Max width
+                - textbox "Max width" [ref=f28e394]:
+                  - /placeholder: 720px
+              - generic [ref=f28e396]:
+                - generic [ref=f28e397]: Background color
+                - textbox "Background color" [ref=f28e398]:
+                  - /placeholder: "#ffffff"
+              - button "Apply desktop styles" [disabled] [ref=f28e399]
+            - generic [ref=f28e222]: Raw Custom CSS is an Advanced control — switch to Advanced or search “raw” to edit. Values persist while hidden.
+          - status [ref=f28e223]: Saved.
+      - main "Rendered block canvas" [ref=f28e224]:
+        - generic [ref=f28e225]:
+          - generic [ref=f28e226]:
+            - paragraph [ref=f28e227]: Live canvas width
+            - strong [ref=f28e228]: Desktop / 100%
+          - group "Canvas breakpoint" [ref=f28e229]:
+            - button "Desktop 100%" [pressed] [ref=f28e230] [cursor=pointer]:
+              - generic [ref=f28e231]: Desktop
+              - generic [ref=f28e232]: 100%
+            - button "Tablet 768px" [ref=f28e233] [cursor=pointer]:
+              - generic [ref=f28e234]: Tablet
+              - generic [ref=f28e235]: 768px
+            - button "Mobile 390px" [ref=f28e236] [cursor=pointer]:
+              - generic [ref=f28e237]: Mobile
+              - generic [ref=f28e238]: 390px
+        - generic [ref=f28e239]: Drag a block onto text to reorder · onto a container to nest
+        - main [ref=f28e310]:
+          - text: main · motion-root
+          - button "section · motion-spacer Scroll down" [ref=f28e311]
+          - button "h1 · motion-target Motion target" [ref=f28e312]
+          - button "section · motion-tail Tail" [ref=f28e313]
+      - status [ref=f28e250]

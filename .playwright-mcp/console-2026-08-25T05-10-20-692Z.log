@@ -1,0 +1,3 @@
+[     736ms] [LOG] JQMIGRATE: Migrate is installed, version 3.4.1 @ http://localhost:8090/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1:1
+[   21050ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:8090/?name=Audit+User&email=audit%40example.test&message=Live+upgrade+form+check&_ctb_hp_1443cfce=&_ctb_form_id=form-audit&_ctb_timestamp=1787634621&_ctb_honeypot_name=_ctb_hp_1443cfce:0
+[   21169ms] [LOG] JQMIGRATE: Migrate is installed, version 3.4.1 @ http://localhost:8090/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1:1

@@ -1,0 +1,49 @@
+- generic [active] [ref=f2e1]:
+  - generic [ref=f2e2]:
+    - navigation "Toolbar":
+      - menu:
+        - group [ref=f2e3]:
+          - menuitem "About WordPress" [ref=f2e4] [cursor=pointer]:
+            - generic [ref=f2e5]: 
+        - group [ref=f2e7]:
+          - menuitem " Code to Block Phase 4" [ref=f2e8] [cursor=pointer]
+        - group [ref=f2e9]:
+          - menuitem " Edit Site" [ref=f2e10] [cursor=pointer]
+        - group [ref=f2e11]:
+          - menuitem "4 updates available" [ref=f2e12] [cursor=pointer]:
+            - generic [ref=f2e13]: 
+            - generic [ref=f2e14]: "4"
+        - group [ref=f2e16]:
+          - menuitem "0 Comments in moderation" [ref=f2e17] [cursor=pointer]:
+            - generic [ref=f2e18]: 
+            - generic [ref=f2e19]: "0"
+        - group [ref=f2e21]:
+          - menuitem "New" [ref=f2e22] [cursor=pointer]:
+            - generic [ref=f2e23]: 
+        - group [ref=f2e25]:
+          - menuitem " Edit Code to Block Page" [ref=f2e26] [cursor=pointer]
+      - menu [ref=f2e27]:
+        - group [ref=f2e28]:
+          - menuitem "Howdy, admin" [ref=f2e29] [cursor=pointer]
+        - group [ref=f2e30]:
+          - menuitem " Search" [ref=f2e31]:
+            - generic [ref=f2e32]:
+              - text: 
+              - textbox "Search" [ref=f2e33] [cursor=pointer]
+              - generic [ref=f2e34]: Search
+  - generic [ref=f2e37]:
+    - paragraph [ref=f2e38]: SYSTEM / GLOBAL TOKENS
+    - heading "One source. Three linked voices." [level=1] [ref=f2e39]
+    - generic [ref=f2e40]:
+      - article [ref=f2e41]:
+        - text: "01"
+        - heading "Strategy" [level=2] [ref=f2e42]
+        - paragraph [ref=f2e43]: Shared color, independently structured.
+      - article [ref=f2e44]:
+        - text: "02"
+        - heading "Systems" [level=2] [ref=f2e45]
+        - paragraph [ref=f2e46]: Local override, visibly intentional.
+      - article [ref=f2e47]:
+        - text: "03"
+        - heading "Scale" [level=2] [ref=f2e48]
+        - paragraph [ref=f2e49]: Global changes propagate instantly.

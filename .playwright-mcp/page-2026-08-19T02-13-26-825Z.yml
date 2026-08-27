@@ -1,0 +1,450 @@
+- generic [ref=f14e1]:
+  - generic [ref=f14e2]:
+    - navigation "Main menu":
+      - link "Skip to main content" [ref=f14e3] [cursor=pointer]:
+        - /url: "#wpbody-content"
+      - link "Skip to toolbar" [ref=f14e4] [cursor=pointer]:
+        - /url: "#wp-toolbar"
+      - list [ref=f14e7]:
+        - listitem [ref=f14e8]:
+          - link "Dashboard" [ref=f14e9] [cursor=pointer]:
+            - /url: index.php
+            - generic [ref=f14e10]: 
+          - list [ref=f14e12]:
+            - listitem [ref=f14e13]:
+              - link "Home" [ref=f14e14] [cursor=pointer]:
+                - /url: index.php
+            - listitem [ref=f14e15]:
+              - link "Updates 4" [ref=f14e16] [cursor=pointer]:
+                - /url: update-core.php
+                - text: Updates
+                - generic [ref=f14e17]: "4"
+        - listitem [ref=f14e18]
+        - listitem [ref=f14e20]:
+          - link "Posts" [ref=f14e21] [cursor=pointer]:
+            - /url: edit.php
+            - generic [ref=f14e22]: 
+          - list [ref=f14e24]:
+            - listitem [ref=f14e25]:
+              - link "All Posts" [ref=f14e26] [cursor=pointer]:
+                - /url: edit.php
+            - listitem [ref=f14e27]:
+              - link "Add Post" [ref=f14e28] [cursor=pointer]:
+                - /url: post-new.php
+            - listitem [ref=f14e29]:
+              - link "Categories" [ref=f14e30] [cursor=pointer]:
+                - /url: edit-tags.php?taxonomy=category
+            - listitem [ref=f14e31]:
+              - link "Tags" [ref=f14e32] [cursor=pointer]:
+                - /url: edit-tags.php?taxonomy=post_tag
+        - listitem [ref=f14e33]:
+          - link "Media" [ref=f14e34] [cursor=pointer]:
+            - /url: upload.php
+            - generic [ref=f14e35]: 
+          - list [ref=f14e37]:
+            - listitem [ref=f14e38]:
+              - link "Library" [ref=f14e39] [cursor=pointer]:
+                - /url: upload.php
+            - listitem [ref=f14e40]:
+              - link "Add Media File" [ref=f14e41] [cursor=pointer]:
+                - /url: media-new.php
+        - listitem [ref=f14e42]:
+          - link "Pages" [ref=f14e43] [cursor=pointer]:
+            - /url: edit.php?post_type=page
+            - generic [ref=f14e44]: 
+          - list [ref=f14e46]:
+            - listitem [ref=f14e47]:
+              - link "All Pages" [ref=f14e48] [cursor=pointer]:
+                - /url: edit.php?post_type=page
+            - listitem [ref=f14e49]:
+              - link "Add Page" [ref=f14e50] [cursor=pointer]:
+                - /url: post-new.php?post_type=page
+        - listitem [ref=f14e51]:
+          - link "Comments" [ref=f14e52] [cursor=pointer]:
+            - /url: edit-comments.php
+            - generic [ref=f14e53]: 
+        - listitem [ref=f14e55]:
+          - link "Code to Block Pages" [ref=f14e56] [cursor=pointer]:
+            - /url: edit.php?post_type=ctb_page
+            - generic [ref=f14e57]: 
+          - list [ref=f14e59]:
+            - listitem [ref=f14e60]:
+              - link "Code to Block Pages" [ref=f14e61] [cursor=pointer]:
+                - /url: edit.php?post_type=ctb_page
+            - listitem [ref=f14e62]:
+              - link "Add Code to Block Page" [ref=f14e63] [cursor=pointer]:
+                - /url: post-new.php?post_type=ctb_page
+        - listitem [ref=f14e64]
+        - listitem [ref=f14e66]:
+          - link "Appearance" [ref=f14e67] [cursor=pointer]:
+            - /url: themes.php
+            - generic [ref=f14e68]: 
+          - list [ref=f14e70]:
+            - listitem [ref=f14e71]:
+              - link "Themes 2" [ref=f14e72] [cursor=pointer]:
+                - /url: themes.php
+                - text: Themes
+                - generic [ref=f14e73]: "2"
+            - listitem [ref=f14e74]:
+              - link "Editor" [ref=f14e75] [cursor=pointer]:
+                - /url: site-editor.php
+        - listitem [ref=f14e76]:
+          - link "Plugins 1" [ref=f14e77] [cursor=pointer]:
+            - /url: plugins.php
+            - generic [ref=f14e78]: 
+            - generic [ref=f14e79]:
+              - text: Plugins
+              - generic [ref=f14e80]: "1"
+          - list [ref=f14e81]:
+            - listitem [ref=f14e82]:
+              - link "Installed Plugins" [ref=f14e83] [cursor=pointer]:
+                - /url: plugins.php
+            - listitem [ref=f14e84]:
+              - link "Add Plugin" [ref=f14e85] [cursor=pointer]:
+                - /url: plugin-install.php
+        - listitem [ref=f14e86]:
+          - link "Users" [ref=f14e87] [cursor=pointer]:
+            - /url: users.php
+            - generic [ref=f14e88]: 
+          - list [ref=f14e90]:
+            - listitem [ref=f14e91]:
+              - link "All Users" [ref=f14e92] [cursor=pointer]:
+                - /url: users.php
+            - listitem [ref=f14e93]:
+              - link "Add User" [ref=f14e94] [cursor=pointer]:
+                - /url: user-new.php
+            - listitem [ref=f14e95]:
+              - link "Profile" [ref=f14e96] [cursor=pointer]:
+                - /url: profile.php
+        - listitem [ref=f14e97]:
+          - link "Tools" [ref=f14e98] [cursor=pointer]:
+            - /url: tools.php
+            - generic [ref=f14e99]: 
+          - list [ref=f14e101]:
+            - listitem [ref=f14e102]:
+              - link "Available Tools" [ref=f14e103] [cursor=pointer]:
+                - /url: tools.php
+            - listitem [ref=f14e104]:
+              - link "Import" [ref=f14e105] [cursor=pointer]:
+                - /url: import.php
+            - listitem [ref=f14e106]:
+              - link "Export" [ref=f14e107] [cursor=pointer]:
+                - /url: export.php
+            - listitem [ref=f14e108]:
+              - link "Site Health" [ref=f14e109] [cursor=pointer]:
+                - /url: site-health.php
+            - listitem [ref=f14e110]:
+              - link "Export Personal Data" [ref=f14e111] [cursor=pointer]:
+                - /url: export-personal-data.php
+            - listitem [ref=f14e112]:
+              - link "Erase Personal Data" [ref=f14e113] [cursor=pointer]:
+                - /url: erase-personal-data.php
+            - listitem [ref=f14e114]:
+              - link "Theme File Editor" [ref=f14e115] [cursor=pointer]:
+                - /url: theme-editor.php
+            - listitem [ref=f14e116]:
+              - link "Plugin File Editor" [ref=f14e117] [cursor=pointer]:
+                - /url: plugin-editor.php
+        - listitem [ref=f14e118]:
+          - link "Settings" [ref=f14e119] [cursor=pointer]:
+            - /url: options-general.php
+            - generic [ref=f14e120]: 
+          - list [ref=f14e122]:
+            - listitem [ref=f14e123]:
+              - link "General" [ref=f14e124] [cursor=pointer]:
+                - /url: options-general.php
+            - listitem [ref=f14e125]:
+              - link "Writing" [ref=f14e126] [cursor=pointer]:
+                - /url: options-writing.php
+            - listitem [ref=f14e127]:
+              - link "Reading" [ref=f14e128] [cursor=pointer]:
+                - /url: options-reading.php
+            - listitem [ref=f14e129]:
+              - link "Discussion" [ref=f14e130] [cursor=pointer]:
+                - /url: options-discussion.php
+            - listitem [ref=f14e131]:
+              - link "Media" [ref=f14e132] [cursor=pointer]:
+                - /url: options-media.php
+            - listitem [ref=f14e133]:
+              - link "Permalinks" [ref=f14e134] [cursor=pointer]:
+                - /url: options-permalink.php
+            - listitem [ref=f14e135]:
+              - link "Privacy" [ref=f14e136] [cursor=pointer]:
+                - /url: options-privacy.php
+        - listitem [ref=f14e137]:
+          - button "Collapse Main menu" [expanded] [ref=f14e138] [cursor=pointer]:
+            - generic [ref=f14e139]: 
+            - generic [ref=f14e140]: Collapse Menu
+    - generic [ref=f14e141]:
+      - generic [ref=f14e142]:
+        - navigation "Toolbar":
+          - menu:
+            - group [ref=f14e143]:
+              - menuitem "About WordPress" [ref=f14e144] [cursor=pointer]:
+                - generic [ref=f14e145]: 
+            - group [ref=f14e147]:
+              - menuitem " Code to Block Phase 4" [ref=f14e148] [cursor=pointer]
+            - group [ref=f14e149]:
+              - menuitem "4 updates available" [ref=f14e150] [cursor=pointer]:
+                - generic [ref=f14e151]: 
+                - generic [ref=f14e152]: "4"
+            - group [ref=f14e154]:
+              - menuitem "0 Comments in moderation" [ref=f14e155] [cursor=pointer]:
+                - generic [ref=f14e156]: 
+                - generic [ref=f14e157]: "0"
+            - group [ref=f14e159]:
+              - menuitem "New" [ref=f14e160] [cursor=pointer]:
+                - generic [ref=f14e161]: 
+            - group [ref=f14e163]:
+              - menuitem "View Post" [ref=f14e164] [cursor=pointer]
+          - menu [ref=f14e165]:
+            - group [ref=f14e166]:
+              - menuitem "Howdy, admin" [ref=f14e167] [cursor=pointer]
+      - main [ref=f14e168]:
+        - generic [ref=f14e169]:
+          - button "Screen Options " [ref=f14e172] [cursor=pointer]
+          - generic [ref=f14e173]:
+            - link "WordPress 7.0.4" [ref=f14e174] [cursor=pointer]:
+              - /url: https://wordpress.org/documentation/wordpress-version/version-7-0-4/
+            - text: is available!
+            - link "Please update WordPress now" [ref=f14e175] [cursor=pointer]:
+              - /url: http://localhost:8090/wp-admin/update-core.php
+              - text: Please update now
+            - text: .
+          - generic [ref=f14e176]:
+            - heading "Edit Code to Block Page" [level=1] [ref=f14e177]
+            - link "Add Code to Block Page" [ref=f14e178] [cursor=pointer]:
+              - /url: http://localhost:8090/wp-admin/post-new.php?post_type=ctb_page
+            - text: 
+            - generic [ref=f14e180]:
+              - generic:
+                - generic [ref=f14e182]:
+                  - generic [ref=f14e183]:
+                    - generic: Add title
+                    - textbox "Add title" [ref=f14e184]: Code to Block MVP
+                  - generic [ref=f14e186]:
+                    - strong [ref=f14e187]: "Permalink:"
+                    - link "http://localhost:8090/?ctb_page=code-to-block-mvp" [ref=f14e188] [cursor=pointer]:
+                      - /url: http://localhost:8090/?ctb_page=code-to-block-mvp
+                    - link "Change Permalink Structure" [ref=f14e190] [cursor=pointer]:
+                      - /url: options-permalink.php
+                - generic [ref=f14e193]:
+                  - generic [ref=f14e194]:
+                    - heading "Publish" [level=2] [ref=f14e195]
+                    - generic [ref=f14e196]:
+                      - button "Move up" [disabled] [ref=f14e197]:
+                        - generic [ref=f14e199]: 
+                      - button "Move down" [ref=f14e200] [cursor=pointer]:
+                        - generic [ref=f14e202]: 
+                      - 'button "Toggle panel: Publish" [expanded] [ref=f14e203] [cursor=pointer]':
+                        - generic [ref=f14e205]: 
+                  - generic [ref=f14e207]:
+                    - generic [ref=f14e208]:
+                      - link "Preview Changes (opens in a new tab)" [ref=f14e210] [cursor=pointer]:
+                        - /url: http://localhost:8090/?ctb_page=code-to-block-mvp&preview=true
+                        - text: Preview Changes
+                        - generic [ref=f14e211]: (opens in a new tab)
+                      - generic [ref=f14e212]:
+                        - generic [ref=f14e213]:
+                          - text: " Status: Published"
+                          - button "Edit status" [ref=f14e214] [cursor=pointer]: Edit
+                        - generic [ref=f14e216]:
+                          - text: " Visibility: Public"
+                          - button "Edit visibility" [ref=f14e217] [cursor=pointer]: Edit
+                        - generic [ref=f14e219]:
+                          - generic [ref=f14e220]: " Published on: Aug 19, 2026 at 02:05"
+                          - button "Edit date and time" [ref=f14e221] [cursor=pointer]: Edit
+                    - generic [ref=f14e223]:
+                      - link "Move to Trash" [ref=f14e225] [cursor=pointer]:
+                        - /url: http://localhost:8090/wp-admin/post.php?post=11&action=trash&_wpnonce=5aace2e05a
+                      - button "Update" [ref=f14e227] [cursor=pointer]
+                - generic [ref=f14e228]:
+                  - generic [ref=f14e229]:   
+                  - generic [ref=f14e231]:
+                    - generic [ref=f14e232]:
+                      - heading "Code to Block Canvas" [level=2] [ref=f14e233]
+                      - generic [ref=f14e234]:
+                        - button "Move up" [ref=f14e235] [cursor=pointer]:
+                          - generic [ref=f14e237]: 
+                        - button "Move down" [disabled] [ref=f14e238]:
+                          - generic [ref=f14e240]: 
+                        - 'button "Toggle panel: Code to Block Canvas" [expanded] [ref=f14e241] [cursor=pointer]':
+                          - generic [ref=f14e243]: 
+                    - region "Code to Block visual editor" [ref=f14e255]:
+                      - generic [ref=f14e256]:
+                        - generic [ref=f14e257]:
+                          - paragraph [ref=f14e258]: Phase 3 / Canvas proof
+                          - heading "Imported layout" [level=2] [ref=f14e311]
+                        - generic [ref=f14e260]:
+                          - generic [ref=f14e261]: Zustand store active
+                          - button "Load" [ref=f14e262] [cursor=pointer]
+                          - button "Save tree" [active] [ref=f14e263] [cursor=pointer]
+                      - generic [ref=f14e264]:
+                        - generic [ref=f14e265]:
+                          - generic [ref=f14e266]:
+                            - paragraph [ref=f14e267]: HTML + CSS importer
+                            - heading "Paste code into editable blocks" [level=3] [ref=f14e268]
+                          - button "Parse onto canvas" [ref=f14e269] [cursor=pointer]
+                        - generic [ref=f14e270]:
+                          - generic [ref=f14e271]:
+                            - generic [ref=f14e272]: HTML
+                            - textbox "HTML to import" [ref=f14e273]:
+                              - /placeholder: <article class="card">...</article>
+                              - text: "<main class=\"mvp-page\" id=\"top\"> <nav class=\"mvp-nav\" aria-label=\"Primary navigation\"> <a class=\"mvp-brand\" href=\"#top\"> <span class=\"mvp-brand-mark\">CTB</span> <span>Code to Block</span> </a> <span class=\"mvp-status\">Private beta / 0.3</span> <a class=\"mvp-nav-cta\" href=\"#start\">Try the builder</a> </nav> <section class=\"mvp-hero\"> <div class=\"mvp-hero-copy\"> <p class=\"mvp-eyebrow\">A visual WordPress builder for code-first teams</p> <h1>Raw code in. A page you can move.</h1> <p class=\"mvp-hero-intro\">Paste HTML and CSS, then rearrange every real element on a visual canvas without flattening your work.</p> <div class=\"mvp-actions\"> <a class=\"mvp-button-primary\" href=\"#start\">Build a page</a> <a class=\"mvp-button-secondary\" href=\"#method\">See the workflow</a> </div> </div> <figure class=\"mvp-product-shot\"> <img src=\"http://localhost:8090/wp-content/uploads/2026/08/phase-3-canvas-desktop.png\" alt=\"Code to Block editor showing a draggable pricing card canvas\"> <figcaption> <strong>Live canvas</strong> <span>HTML + CSS becomes editable structure</span> </figcaption> </figure> </section> <section class=\"mvp-proof\" aria-label=\"Product principles\"> <p>Designed around three non-negotiables</p> <ul> <li><strong>01</strong><span>Real HTML semantics</span></li> <li><strong>02</strong><span>Resolved CSS fidelity</span></li> <li><strong>03</strong><span>WordPress-native saves</span></li> </ul> </section> <section class=\"mvp-method\" id=\"method\"> <div class=\"mvp-section-heading\"> <h2>Code becomes a working page in three moves.</h2> <p>No proprietary canvas export. The block tree stays inspectable, editable, and ready to render.</p> </div> <ol class=\"mvp-steps\"> <li> <span>01 / Import</span> <h3>Paste the source</h3> <p>Bring one HTML root and its CSS. The parser resolves specificity before anything reaches the canvas.</p> </li> <li> <span>02 / Shape</span> <h3>Move real elements</h3> <p>Drag to reorder or nest. Headings, links, lists, images, and containers remain separate blocks.</p> </li> <li> <span>03 / Publish</span> <h3>Save to WordPress</h3> <p>The tree persists through authenticated REST routes and renders with a static, scoped stylesheet.</p> </li> </ol> </section> <section class=\"mvp-features\" id=\"features\"> <article class=\"mvp-feature mvp-feature-code\"> <div> <span class=\"mvp-feature-number\">A</span> <h3>Specificity is settled before editing.</h3> <p>Selectors, inheritance, and inline declarations resolve into a stable style map for each element.</p> </div> <pre><code>.card .title { color: blue; } h2 { color: black; } resolved → blue</code></pre> </article> <article class=\"mvp-feature mvp-feature-tree\"> <span class=\"mvp-feature-number\">B</span> <h3>The structure stays visible.</h3> <p>Every dashed outline is a block you can select, move, restyle, and save.</p> <div class=\"mvp-tree-map\" aria-label=\"Example block hierarchy\"> <strong>section.hero</strong> <span>div.content</span> <span>h1.heading</span> <span>a.cta</span> </div> </article> <article class=\"mvp-feature mvp-feature-output\"> <span class=\"mvp-feature-number\">C</span> <h3>Frontend output stays fast.</h3> <p>Content-hashed CSS is generated when you save, not recalculated on every public request.</p> <p class=\"mvp-output-line\"><strong>Save once</strong><span>Serve static HTML + CSS</span></p> </article> </section> <section class=\"mvp-final\" id=\"start\"> <p>Minimum viable builder. Maximum structural honesty.</p> <h2>Turn your next code sample into something you can actually edit.</h2> <a class=\"mvp-button-primary\" href=\"/wp-admin/post-new.php?post_type=ctb_page\">Build a page</a> </section> <footer class=\"mvp-footer\"> <a class=\"mvp-brand\" href=\"#top\"> <span class=\"mvp-brand-mark\">CTB</span> <span>Code to Block</span> </a> <p>HTML in. Editable WordPress pages out.</p> <a href=\"#method\">How it works</a> </footer> </main>"
+                          - generic [ref=f14e274]:
+                            - generic [ref=f14e275]: CSS
+                            - textbox "CSS to import" [ref=f14e276]:
+                              - /placeholder: ".card { padding: 2rem; }"
+                              - text: ".mvp-page { background: #0b0f14; color: #f2f5e9; font-family: \"Arial Narrow\", \"Helvetica Neue\", Arial, sans-serif; margin-left: calc(50% - 50vw); overflow: hidden; width: 100vw; } .mvp-page * { box-sizing: border-box; } .mvp-page a { color: inherit; text-decoration: none; } .mvp-nav { align-items: center; border-bottom: 1px solid #283039; display: flex; gap: 24px; justify-content: space-between; margin: 0 auto; max-width: 1240px; min-height: 68px; padding: 12px 24px; width: calc(100% - 24px); } .mvp-brand { align-items: center; display: flex; font-size: 14px; font-weight: 750; gap: 10px; letter-spacing: -0.01em; white-space: nowrap; } .mvp-brand-mark { align-items: center; background: #c8ff4d; color: #11160d; display: inline-flex; font-family: Consolas, monospace; font-size: 11px; height: 30px; justify-content: center; letter-spacing: -0.04em; width: 38px; } .mvp-status { border: 1px solid #333c46; color: #aab3ba; font-family: Consolas, monospace; font-size: 10px; letter-spacing: 0.08em; padding: 7px 10px; text-transform: uppercase; white-space: nowrap; } .mvp-nav-cta { border-bottom: 1px solid #c8ff4d; color: #f2f5e9; font-size: 13px; font-weight: 700; padding: 7px 0; white-space: nowrap; } .mvp-hero { align-items: center; display: grid; gap: clamp(42px, 7vw, 104px); grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr)); margin: 0 auto; max-width: 1240px; min-height: min(780px, calc(100dvh - 68px)); padding: clamp(64px, 8vw, 112px) 24px; width: calc(100% - 24px); } .mvp-hero-copy { max-width: 640px; } .mvp-eyebrow { color: #c8ff4d; font-family: Consolas, monospace; font-size: 11px; font-weight: 700; letter-spacing: 0.11em; margin: 0 0 24px; text-transform: uppercase; } .mvp-hero h1 { color: #f2f5e9; font-size: clamp(48px, 6.2vw, 88px); font-weight: 760; letter-spacing: -0.065em; line-height: 0.94; margin: 0; max-width: 720px; } .mvp-hero-intro { color: #aeb7bd; font-size: clamp(16px, 1.5vw, 20px); line-height: 1.55; margin: 28px 0 0; max-width: 560px; } .mvp-actions { align-items: center; display: flex; flex-wrap: wrap; gap: 14px; margin-top: 36px; } .mvp-button-primary, .mvp-button-secondary { align-items: center; display: inline-flex; font-size: 14px; font-weight: 750; justify-content: center; min-height: 48px; padding: 0 22px; white-space: nowrap; } .mvp-button-primary { background: #c8ff4d; color: #11160d; } .mvp-button-secondary { border: 1px solid #3a444e; color: #d8ded5; } .mvp-product-shot { background: #121820; border: 1px solid #34404b; box-shadow: 24px 24px 0 #151c23; margin: 0; padding: 10px; transform: rotate(1.2deg); } .mvp-product-shot img { aspect-ratio: 16 / 10; display: block; height: auto; object-fit: cover; object-position: top left; width: 100%; } .mvp-product-shot figcaption { align-items: center; color: #8e9aa3; display: flex; font-family: Consolas, monospace; font-size: 10px; gap: 12px; justify-content: space-between; letter-spacing: 0.04em; padding: 12px 4px 2px; } .mvp-product-shot figcaption strong { color: #c8ff4d; font-weight: 700; text-transform: uppercase; } .mvp-proof { border-bottom: 1px solid #283039; border-top: 1px solid #283039; margin: 0 auto; max-width: 1240px; padding: 26px 24px; width: calc(100% - 24px); } .mvp-proof > p { color: #7f8a93; font-family: Consolas, monospace; font-size: 10px; letter-spacing: 0.08em; margin: 0 0 22px; text-transform: uppercase; } .mvp-proof ul { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); list-style: none; margin: 0; padding: 0; } .mvp-proof li { align-items: center; display: flex; font-size: 13px; gap: 13px; } .mvp-proof li strong { color: #c8ff4d; font-family: Consolas, monospace; font-size: 11px; } .mvp-proof li span { color: #c6cdd1; } .mvp-method { margin: 0 auto; max-width: 1240px; padding: clamp(96px, 12vw, 160px) 24px; width: calc(100% - 24px); } .mvp-section-heading { max-width: 760px; } .mvp-section-heading h2, .mvp-final h2 { color: #f2f5e9; font-size: clamp(38px, 5vw, 68px); font-weight: 730; letter-spacing: -0.055em; line-height: 1; margin: 0; } .mvp-section-heading p { color: #97a2aa; font-size: 17px; line-height: 1.6; margin: 24px 0 0; max-width: 600px; } .mvp-steps { display: grid; gap: 0; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); list-style: none; margin: 72px 0 0; padding: 0; } .mvp-steps li { border-left: 1px solid #313943; border-top: 1px solid #313943; min-height: 290px; padding: 28px clamp(22px, 3vw, 38px) 38px; } .mvp-steps li > span { color: #c8ff4d; font-family: Consolas, monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; } .mvp-steps h3, .mvp-feature h3 { color: #f2f5e9; font-size: 24px; font-weight: 700; letter-spacing: -0.035em; line-height: 1.1; margin: 52px 0 0; } .mvp-steps p, .mvp-feature p { color: #94a0a8; font-size: 14px; line-height: 1.65; margin: 16px 0 0; } .mvp-features { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); margin: 0 auto; max-width: 1240px; padding: 0 24px clamp(96px, 12vw, 160px); width: calc(100% - 24px); } .mvp-feature { border: 1px solid #303944; min-height: 440px; padding: clamp(28px, 4vw, 46px); } .mvp-feature-number { align-items: center; border: 1px solid #4a555f; color: #c8ff4d; display: inline-flex; font-family: Consolas, monospace; font-size: 11px; height: 32px; justify-content: center; width: 32px; } .mvp-feature h3 { margin-top: 42px; } .mvp-feature-code { background: #111820; } .mvp-feature-code pre { background: #090d11; border-left: 2px solid #c8ff4d; color: #c9d2d8; font-family: Consolas, monospace; font-size: 12px; line-height: 1.65; margin: 36px 0 0; overflow: auto; padding: 22px; white-space: pre-wrap; } .mvp-feature-tree { background: #171d16; } .mvp-tree-map { display: grid; font-family: Consolas, monospace; font-size: 11px; gap: 8px; margin-top: 38px; } .mvp-tree-map strong, .mvp-tree-map span { border: 1px solid #3d493a; color: #c8d0c3; display: block; padding: 11px 12px; } .mvp-tree-map span { margin-left: 22px; } .mvp-feature-output { background: #17151d; } .mvp-output-line { border-bottom: 1px solid #40394a; border-top: 1px solid #40394a; display: grid; gap: 10px; margin-top: 70px; padding: 22px 0; } .mvp-output-line strong { color: #c8ff4d; font-family: Consolas, monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; } .mvp-output-line span { color: #d8d5dd; font-size: 14px; } .mvp-final { background: #c8ff4d; color: #11160d; padding: clamp(80px, 10vw, 136px) max(24px, calc((100vw - 1192px) / 2)); } .mvp-final > p { font-family: Consolas, monospace; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; margin: 0 0 30px; text-transform: uppercase; } .mvp-final h2 { color: #11160d; max-width: 940px; } .mvp-final .mvp-button-primary { background: #11160d; color: #f2f5e9; margin-top: 42px; } .mvp-footer { align-items: center; display: flex; flex-wrap: wrap; gap: 24px; justify-content: space-between; margin: 0 auto; max-width: 1240px; min-height: 120px; padding: 28px 24px; width: calc(100% - 24px); } .mvp-footer p, .mvp-footer > a:last-child { color: #87939b; font-size: 12px; margin: 0; }"
+                      - generic [ref=f14e277]:
+                        - complementary "Document details" [ref=f14e278]:
+                          - paragraph [ref=f14e279]: Loaded document
+                          - strong [ref=f14e280]: Imported layout
+                          - generic [ref=f14e281]:
+                            - generic [ref=f14e282]:
+                              - term [ref=f14e283]: Schema
+                              - definition [ref=f14e284]: v1
+                            - generic [ref=f14e285]:
+                              - term [ref=f14e286]: Blocks
+                              - definition [ref=f14e287]: "83"
+                            - generic [ref=f14e288]:
+                              - term [ref=f14e289]: Root
+                              - definition [ref=f14e290]: <main>
+                          - paragraph [ref=f14e291]: Each dashed outline is a separate schema block.
+                          - generic [ref=f14e292]:
+                            - paragraph [ref=f14e293]: Selected block
+                            - strong [ref=f14e294]: main-1
+                            - generic [ref=f14e295]:
+                              - generic [ref=f14e296]: Color
+                              - textbox "Color for main-1" [ref=f14e312] [cursor=pointer]: "#f2f5e9"
+                          - status [ref=f14e313]: Saved.
+                        - main "Rendered block canvas" [ref=f14e298]:
+                          - generic [ref=f14e299]: Drag a block onto text to reorder · onto a container to nest
+                          - main [ref=f14e314]:
+                            - text: main · main-1
+                            - button "Primary navigation" [ref=f14e315]:
+                              - text: nav · nav-2
+                              - button [ref=f14e316]:
+                                - text: a · a-3
+                                - button "span · span-4 CTB" [ref=f14e317]
+                                - button "span · span-5 Code to Block" [ref=f14e318]
+                              - button "span · span-6 Private beta / 0.3" [ref=f14e319]
+                              - button "a · a-7 Try the builder" [ref=f14e320]
+                            - button [ref=f14e321]:
+                              - text: section · section-8
+                              - button [ref=f14e322]:
+                                - text: div · div-9
+                                - button "p · p-10 A visual WordPress builder for code-first teams" [ref=f14e323]
+                                - button "h1 · h1-11 Raw code in. A page you can move." [ref=f14e324]
+                                - button "p · p-12 Paste HTML and CSS, then rearrange every real element on a visual canvas without flattening your work." [ref=f14e325]
+                                - button [ref=f14e326]:
+                                  - text: div · div-13
+                                  - button "a · a-14 Build a page" [ref=f14e327]
+                                  - button "a · a-15 See the workflow" [ref=f14e328]
+                              - button [ref=f14e329]:
+                                - text: figure · figure-16
+                                - button "Code to Block editor showing a draggable pricing card canvas" [ref=f14e330]: img · img-17
+                                - button [ref=f14e331]:
+                                  - text: figcaption · figcaption-18
+                                  - button "strong · strong-19 Live canvas" [ref=f14e332]
+                                  - button "span · span-20 HTML + CSS becomes editable structure" [ref=f14e333]
+                            - button "Product principles" [ref=f14e334]:
+                              - text: section · section-21
+                              - button "p · p-22 Designed around three non-negotiables" [ref=f14e335]
+                              - button [ref=f14e336]:
+                                - text: ul · ul-23
+                                - button [ref=f14e337]:
+                                  - text: li · li-24
+                                  - button "strong · strong-25 01" [ref=f14e338]
+                                  - button "span · span-26 Real HTML semantics" [ref=f14e339]
+                                - button [ref=f14e340]:
+                                  - text: li · li-27
+                                  - button "strong · strong-28 02" [ref=f14e341]
+                                  - button "span · span-29 Resolved CSS fidelity" [ref=f14e342]
+                                - button [ref=f14e343]:
+                                  - text: li · li-30
+                                  - button "strong · strong-31 03" [ref=f14e344]
+                                  - button "span · span-32 WordPress-native saves" [ref=f14e345]
+                            - button [ref=f14e346]:
+                              - text: section · section-33
+                              - button [ref=f14e347]:
+                                - text: div · div-34
+                                - button "h2 · h2-35 Code becomes a working page in three moves." [ref=f14e348]
+                                - button "p · p-36 No proprietary canvas export. The block tree stays inspectable, editable, and ready to render." [ref=f14e349]
+                              - button [ref=f14e350]:
+                                - text: ol · ol-37
+                                - button [ref=f14e351]:
+                                  - text: li · li-38
+                                  - button "span · span-39 01 / Import" [ref=f14e352]
+                                  - button "h3 · h3-40 Paste the source" [ref=f14e353]
+                                  - button "p · p-41 Bring one HTML root and its CSS. The parser resolves specificity before anything reaches the canvas." [ref=f14e354]
+                                - button [ref=f14e355]:
+                                  - text: li · li-42
+                                  - button "span · span-43 02 / Shape" [ref=f14e356]
+                                  - button "h3 · h3-44 Move real elements" [ref=f14e357]
+                                  - button "p · p-45 Drag to reorder or nest. Headings, links, lists, images, and containers remain separate blocks." [ref=f14e358]
+                                - button [ref=f14e359]:
+                                  - text: li · li-46
+                                  - button "span · span-47 03 / Publish" [ref=f14e360]
+                                  - button "h3 · h3-48 Save to WordPress" [ref=f14e361]
+                                  - button "p · p-49 The tree persists through authenticated REST routes and renders with a static, scoped stylesheet." [ref=f14e362]
+                            - button [ref=f14e363]:
+                              - text: section · section-50
+                              - button [ref=f14e364]:
+                                - text: article · article-51
+                                - button [ref=f14e365]:
+                                  - text: div · div-52
+                                  - button "span · span-53 A" [ref=f14e366]
+                                  - button "h3 · h3-54 Specificity is settled before editing." [ref=f14e367]
+                                  - button "p · p-55 Selectors, inheritance, and inline declarations resolve into a stable style map for each element." [ref=f14e368]
+                                - button [ref=f14e369]:
+                                  - text: pre · pre-56
+                                  - 'button "code · code-57 .card .title { color: blue; } h2 { color: black; } resolved → blue" [ref=f14e370]'
+                              - button [ref=f14e371]:
+                                - text: article · article-58
+                                - button "span · span-59 B" [ref=f14e372]
+                                - button "h3 · h3-60 The structure stays visible." [ref=f14e373]
+                                - button "p · p-61 Every dashed outline is a block you can select, move, restyle, and save." [ref=f14e374]
+                                - button "Example block hierarchy" [ref=f14e375]:
+                                  - text: div · div-62
+                                  - button "strong · strong-63 section.hero" [ref=f14e376]
+                                  - button "span · span-64 div.content" [ref=f14e377]
+                                  - button "span · span-65 h1.heading" [ref=f14e378]
+                                  - button "span · span-66 a.cta" [ref=f14e379]
+                              - button [ref=f14e380]:
+                                - text: article · article-67
+                                - button "span · span-68 C" [ref=f14e381]
+                                - button "h3 · h3-69 Frontend output stays fast." [ref=f14e382]
+                                - button "p · p-70 Content-hashed CSS is generated when you save, not recalculated on every public request." [ref=f14e383]
+                                - button [ref=f14e384]:
+                                  - text: p · p-71
+                                  - button "strong · strong-72 Save once" [ref=f14e385]
+                                  - button "span · span-73 Serve static HTML + CSS" [ref=f14e386]
+                            - button [ref=f14e387]:
+                              - text: section · section-74
+                              - button "p · p-75 Minimum viable builder. Maximum structural honesty." [ref=f14e388]
+                              - button "h2 · h2-76 Turn your next code sample into something you can actually edit." [ref=f14e389]
+                              - button "a · a-77 Build a page" [ref=f14e390]
+                            - button [ref=f14e391]:
+                              - text: footer · footer-78
+                              - button [ref=f14e392]:
+                                - text: a · a-79
+                                - button "span · span-80 CTB" [ref=f14e393]
+                                - button "span · span-81 Code to Block" [ref=f14e394]
+                              - button "p · p-82 HTML in. Editable WordPress pages out." [ref=f14e395]
+                              - button "a · a-83 How it works" [ref=f14e396]
+                        - status [ref=f14e309]
+    - contentinfo [ref=f14e244]:
+      - paragraph [ref=f14e245]:
+        - generic [ref=f14e246]:
+          - text: Thank you for creating with
+          - link "WordPress" [ref=f14e247] [cursor=pointer]:
+            - /url: https://wordpress.org/
+          - text: .
+      - paragraph [ref=f14e248]:
+        - strong [ref=f14e249]:
+          - link "Get Version 7.0.4" [ref=f14e250] [cursor=pointer]:
+            - /url: http://localhost:8090/wp-admin/update-core.php
+    - text: 
+  - paragraph [ref=f14e310]: Notifications
+  - generic [ref=f14e252]: Screen Options updated.

@@ -1,0 +1,1 @@
+<?php require 'wp-load.php'; global $wp_query; $wp_query->is_singular = true; $wp_query->queried_object_id = 45; set_query_var('post_type', 'ctb_page'); code_to_block_enqueue_frontend_styles(); global $wp_scripts; var_dump(in_array('code-to-block-gsap', $wp_scripts->queue));

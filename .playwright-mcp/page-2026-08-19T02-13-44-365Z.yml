@@ -1,0 +1,199 @@
+- generic [active] [ref=f15e1]:
+  - generic [ref=f15e2]:
+    - navigation "Toolbar":
+      - menu:
+        - group [ref=f15e3]:
+          - menuitem "About WordPress" [ref=f15e4] [cursor=pointer]:
+            - generic [ref=f15e5]: 
+        - group [ref=f15e7]:
+          - menuitem " Code to Block Phase 4" [ref=f15e8] [cursor=pointer]
+        - group [ref=f15e9]:
+          - menuitem " Edit Site" [ref=f15e10] [cursor=pointer]
+        - group [ref=f15e11]:
+          - menuitem "3 updates available" [ref=f15e12] [cursor=pointer]:
+            - generic [ref=f15e13]: 
+            - generic [ref=f15e14]: "3"
+        - group [ref=f15e16]:
+          - menuitem "0 Comments in moderation" [ref=f15e17] [cursor=pointer]:
+            - generic [ref=f15e18]: 
+            - generic [ref=f15e19]: "0"
+        - group [ref=f15e21]:
+          - menuitem "New" [ref=f15e22] [cursor=pointer]:
+            - generic [ref=f15e23]: 
+        - group [ref=f15e25]:
+          - menuitem " Edit Code to Block Page" [ref=f15e26] [cursor=pointer]
+      - menu [ref=f15e27]:
+        - group [ref=f15e28]:
+          - menuitem "Howdy, admin" [ref=f15e29] [cursor=pointer]
+        - group [ref=f15e30]:
+          - menuitem " Search" [ref=f15e31]:
+            - generic [ref=f15e32]:
+              - text: 
+              - textbox "Search" [ref=f15e33] [cursor=pointer]
+              - generic [ref=f15e34]: Search
+  - link "Skip to content" [ref=f15e35] [cursor=pointer]:
+    - /url: "#wp--skip-link--target"
+  - generic [ref=f15e36]:
+    - banner [ref=f15e37]:
+      - generic [ref=f15e40]:
+        - paragraph [ref=f15e41]:
+          - link "Code to Block Phase 4" [ref=f15e42] [cursor=pointer]:
+            - /url: http://localhost:8090
+        - navigation [ref=f15e44]:
+          - list [ref=f15e49]:
+            - list [ref=f15e50]:
+              - listitem [ref=f15e51]:
+                - link "Sample Page" [ref=f15e52] [cursor=pointer]:
+                  - /url: http://localhost:8090/?page_id=2
+    - main [ref=f15e53]:
+      - generic [ref=f15e54]:
+        - heading "Code to Block MVP" [level=1] [ref=f15e55]
+        - generic [ref=f15e56]:
+          - paragraph [ref=f15e57]: Written by
+          - paragraph [ref=f15e58]: in
+        - main [ref=f15e61]:
+          - navigation "Primary navigation" [ref=f15e62]:
+            - link "CTB Code to Block" [ref=f15e63] [cursor=pointer]:
+              - /url: "#top"
+              - generic [ref=f15e64]: CTB
+              - generic [ref=f15e65]: Code to Block
+            - generic [ref=f15e66]: Private beta / 0.3
+            - link "Try the builder" [ref=f15e67] [cursor=pointer]:
+              - /url: "#start"
+          - generic [ref=f15e68]:
+            - generic [ref=f15e69]:
+              - paragraph [ref=f15e70]: A visual WordPress builder for code-first teams
+              - heading "Raw code in. A page you can move." [level=1] [ref=f15e71]
+              - paragraph [ref=f15e72]: Paste HTML and CSS, then rearrange every real element on a visual canvas without flattening your work.
+              - generic [ref=f15e73]:
+                - link "Build a page" [ref=f15e74] [cursor=pointer]:
+                  - /url: "#start"
+                - link "See the workflow" [ref=f15e75] [cursor=pointer]:
+                  - /url: "#method"
+            - figure "Live canvas HTML + CSS becomes editable structure" [ref=f15e76]:
+              - img "Code to Block editor showing a draggable pricing card canvas" [ref=f15e77]
+              - generic [ref=f15e78]:
+                - strong [ref=f15e79]: Live canvas
+                - generic [ref=f15e80]: HTML + CSS becomes editable structure
+          - region "Product principles" [ref=f15e81]:
+            - paragraph [ref=f15e82]: Designed around three non-negotiables
+            - list [ref=f15e83]:
+              - listitem [ref=f15e84]:
+                - strong [ref=f15e85]: "01"
+                - generic [ref=f15e86]: Real HTML semantics
+              - listitem [ref=f15e87]:
+                - strong [ref=f15e88]: "02"
+                - generic [ref=f15e89]: Resolved CSS fidelity
+              - listitem [ref=f15e90]:
+                - strong [ref=f15e91]: "03"
+                - generic [ref=f15e92]: WordPress-native saves
+          - generic [ref=f15e93]:
+            - generic [ref=f15e94]:
+              - heading "Code becomes a working page in three moves." [level=2] [ref=f15e95]
+              - paragraph [ref=f15e96]: No proprietary canvas export. The block tree stays inspectable, editable, and ready to render.
+            - list [ref=f15e97]:
+              - listitem [ref=f15e98]:
+                - text: 01 / Import
+                - heading "Paste the source" [level=3] [ref=f15e99]
+                - paragraph [ref=f15e100]: Bring one HTML root and its CSS. The parser resolves specificity before anything reaches the canvas.
+              - listitem [ref=f15e101]:
+                - text: 02 / Shape
+                - heading "Move real elements" [level=3] [ref=f15e102]
+                - paragraph [ref=f15e103]: Drag to reorder or nest. Headings, links, lists, images, and containers remain separate blocks.
+              - listitem [ref=f15e104]:
+                - text: 03 / Publish
+                - heading "Save to WordPress" [level=3] [ref=f15e105]
+                - paragraph [ref=f15e106]: The tree persists through authenticated REST routes and renders with a static, scoped stylesheet.
+          - generic [ref=f15e107]:
+            - article [ref=f15e108]:
+              - generic [ref=f15e109]:
+                - generic [ref=f15e110]: A
+                - heading "Specificity is settled before editing." [level=3] [ref=f15e111]
+                - paragraph [ref=f15e112]: Selectors, inheritance, and inline declarations resolve into a stable style map for each element.
+              - code [ref=f15e114]: ".card .title { color: blue; } h2 { color: black; } resolved → blue"
+            - article [ref=f15e115]:
+              - generic [ref=f15e116]: B
+              - heading "The structure stays visible." [level=3] [ref=f15e117]
+              - paragraph [ref=f15e118]: Every dashed outline is a block you can select, move, restyle, and save.
+              - generic "Example block hierarchy" [ref=f15e119]:
+                - strong [ref=f15e120]: section.hero
+                - generic [ref=f15e121]: div.content
+                - generic [ref=f15e122]: h1.heading
+                - generic [ref=f15e123]: a.cta
+            - article [ref=f15e124]:
+              - generic [ref=f15e125]: C
+              - heading "Frontend output stays fast." [level=3] [ref=f15e126]
+              - paragraph [ref=f15e127]: Content-hashed CSS is generated when you save, not recalculated on every public request.
+              - paragraph [ref=f15e128]:
+                - strong [ref=f15e129]: Save once
+                - generic [ref=f15e130]: Serve static HTML + CSS
+          - generic [ref=f15e131]:
+            - paragraph [ref=f15e132]: Minimum viable builder. Maximum structural honesty.
+            - heading "Turn your next code sample into something you can actually edit." [level=2] [ref=f15e133]
+            - link "Build a page" [ref=f15e134] [cursor=pointer]:
+              - /url: /wp-admin/post-new.php?post_type=ctb_page
+          - generic [ref=f15e135]:
+            - link "CTB Code to Block" [ref=f15e136] [cursor=pointer]:
+              - /url: "#top"
+              - generic [ref=f15e137]: CTB
+              - generic [ref=f15e138]: Code to Block
+            - paragraph [ref=f15e139]: HTML in. Editable WordPress pages out.
+            - link "How it works" [ref=f15e140] [cursor=pointer]:
+              - /url: "#method"
+        - navigation "Post navigation" [ref=f15e143]:
+          - generic [ref=f15e144]:
+            - generic [ref=f15e145]: ←
+            - link "Phase 4 Pricing Card" [ref=f15e146] [cursor=pointer]:
+              - /url: http://localhost:8090/?ctb_page=phase-4-pricing-card
+      - generic [ref=f15e147]:
+        - heading "More posts" [level=2] [ref=f15e148]
+        - list [ref=f15e150]:
+          - listitem [ref=f15e151]:
+            - generic [ref=f15e152]:
+              - heading [level=3] [ref=f15e153]:
+                - link "Hello world!" [ref=f15e154] [cursor=pointer]:
+                  - /url: http://localhost:8090/?p=1
+              - time [ref=f15e156]:
+                - link "August 19, 2026" [ref=f15e157] [cursor=pointer]:
+                  - /url: http://localhost:8090/?p=1
+    - contentinfo [ref=f15e158]:
+      - generic [ref=f15e160]:
+        - generic [ref=f15e161]:
+          - heading [level=2] [ref=f15e164]:
+            - link "Code to Block Phase 4" [ref=f15e165] [cursor=pointer]:
+              - /url: http://localhost:8090
+          - generic [ref=f15e166]:
+            - navigation [ref=f15e167]:
+              - list [ref=f15e168]:
+                - listitem [ref=f15e169]:
+                  - link "Blog" [ref=f15e170] [cursor=pointer]:
+                    - /url: "#"
+                - listitem [ref=f15e171]:
+                  - link "About" [ref=f15e172] [cursor=pointer]:
+                    - /url: "#"
+                - listitem [ref=f15e173]:
+                  - link "FAQs" [ref=f15e174] [cursor=pointer]:
+                    - /url: "#"
+                - listitem [ref=f15e175]:
+                  - link "Authors" [ref=f15e176] [cursor=pointer]:
+                    - /url: "#"
+            - navigation [ref=f15e177]:
+              - list [ref=f15e178]:
+                - listitem [ref=f15e179]:
+                  - link "Events" [ref=f15e180] [cursor=pointer]:
+                    - /url: "#"
+                - listitem [ref=f15e181]:
+                  - link "Shop" [ref=f15e182] [cursor=pointer]:
+                    - /url: "#"
+                - listitem [ref=f15e183]:
+                  - link "Patterns" [ref=f15e184] [cursor=pointer]:
+                    - /url: "#"
+                - listitem [ref=f15e185]:
+                  - link "Themes" [ref=f15e186] [cursor=pointer]:
+                    - /url: "#"
+        - generic [ref=f15e188]:
+          - paragraph [ref=f15e189]: Twenty Twenty-Five
+          - paragraph [ref=f15e190]:
+            - text: Designed with
+            - link "WordPress" [ref=f15e191] [cursor=pointer]:
+              - /url: https://wordpress.org

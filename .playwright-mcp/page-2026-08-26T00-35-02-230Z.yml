@@ -1,0 +1,447 @@
+- generic [ref=e2]:
+  - navigation "Main menu":
+    - link "Skip to main content" [ref=e3] [cursor=pointer]:
+      - /url: "#wpbody-content"
+    - link "Skip to toolbar" [ref=e4] [cursor=pointer]:
+      - /url: "#wp-toolbar"
+    - list [ref=e7]:
+      - listitem [ref=e8]:
+        - link "Dashboard" [ref=e9] [cursor=pointer]:
+          - /url: index.php
+          - generic [ref=e10]: 
+        - list [ref=e12]:
+          - listitem [ref=e13]:
+            - link "Home" [ref=e14] [cursor=pointer]:
+              - /url: index.php
+          - listitem [ref=e15]:
+            - link "Updates 5" [ref=e16] [cursor=pointer]:
+              - /url: update-core.php
+              - text: Updates
+              - generic [ref=e17]: "5"
+      - listitem [ref=e18]
+      - listitem [ref=e20]:
+        - link "Posts" [ref=e21] [cursor=pointer]:
+          - /url: edit.php
+          - generic [ref=e22]: 
+        - list [ref=e24]:
+          - listitem [ref=e25]:
+            - link "All Posts" [ref=e26] [cursor=pointer]:
+              - /url: edit.php
+          - listitem [ref=e27]:
+            - link "Add Post" [ref=e28] [cursor=pointer]:
+              - /url: post-new.php
+          - listitem [ref=e29]:
+            - link "Categories" [ref=e30] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=category
+          - listitem [ref=e31]:
+            - link "Tags" [ref=e32] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=post_tag
+      - listitem [ref=e33]:
+        - link "Media" [ref=e34] [cursor=pointer]:
+          - /url: upload.php
+          - generic [ref=e35]: 
+        - list [ref=e37]:
+          - listitem [ref=e38]:
+            - link "Library" [ref=e39] [cursor=pointer]:
+              - /url: upload.php
+          - listitem [ref=e40]:
+            - link "Add Media File" [ref=e41] [cursor=pointer]:
+              - /url: media-new.php
+      - listitem [ref=e42]:
+        - link "Pages" [ref=e43] [cursor=pointer]:
+          - /url: edit.php?post_type=page
+          - generic [ref=e44]: 
+        - list [ref=e46]:
+          - listitem [ref=e47]:
+            - link "All Pages" [ref=e48] [cursor=pointer]:
+              - /url: edit.php?post_type=page
+          - listitem [ref=e49]:
+            - link "Add Page" [ref=e50] [cursor=pointer]:
+              - /url: post-new.php?post_type=page
+      - listitem [ref=e51]:
+        - link "Comments" [ref=e52] [cursor=pointer]:
+          - /url: edit-comments.php
+          - generic [ref=e53]: 
+      - listitem [ref=e55]:
+        - link "Code to Block Pages" [ref=e56] [cursor=pointer]:
+          - /url: edit.php?post_type=ctb_page
+          - generic [ref=e57]: 
+        - list [ref=e59]:
+          - listitem [ref=e60]:
+            - link "Code to Block Pages" [ref=e61] [cursor=pointer]:
+              - /url: edit.php?post_type=ctb_page
+          - listitem [ref=e62]:
+            - link "Add Code to Block Page" [ref=e63] [cursor=pointer]:
+              - /url: post-new.php?post_type=ctb_page
+          - listitem [ref=e64]:
+            - link "Submissions" [ref=e65] [cursor=pointer]:
+              - /url: edit.php?post_type=ctb_page&page=code-to-block-submissions
+      - listitem [ref=e66]
+      - listitem [ref=e68]:
+        - link "WooCommerce" [ref=e69] [cursor=pointer]:
+          - /url: admin.php?page=wc-admin
+        - list [ref=e72]:
+          - listitem [ref=e73]:
+            - link "Home 4" [ref=e74] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin
+              - text: Home
+              - generic [ref=e75]: "4"
+          - listitem [ref=e76]:
+            - link "Orders" [ref=e77] [cursor=pointer]:
+              - /url: admin.php?page=wc-orders
+          - listitem [ref=e78]:
+            - link "Customers" [ref=e79] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/customers
+          - listitem [ref=e80]:
+            - link "Reports" [ref=e81] [cursor=pointer]:
+              - /url: admin.php?page=wc-reports
+          - listitem [ref=e82]:
+            - link "Settings" [ref=e83] [cursor=pointer]:
+              - /url: admin.php?page=wc-settings
+          - listitem [ref=e84]:
+            - link "Status" [ref=e85] [cursor=pointer]:
+              - /url: admin.php?page=wc-status
+          - listitem [ref=e86]:
+            - link "Extensions" [ref=e87] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/extensions
+      - listitem [ref=e88]:
+        - link "Products" [ref=e89] [cursor=pointer]:
+          - /url: edit.php?post_type=product
+          - generic [ref=e90]: 
+        - list [ref=e92]:
+          - listitem [ref=e93]:
+            - link "All Products" [ref=e94] [cursor=pointer]:
+              - /url: edit.php?post_type=product
+          - listitem [ref=e95]:
+            - link "Add new product" [ref=e96] [cursor=pointer]:
+              - /url: post-new.php?post_type=product
+          - listitem [ref=e97]:
+            - link "Categories" [ref=e98] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=product_cat&post_type=product
+          - listitem [ref=e99]:
+            - link "Tags" [ref=e100] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=product_tag&post_type=product
+          - listitem [ref=e101]:
+            - link "Attributes" [ref=e102] [cursor=pointer]:
+              - /url: edit.php?post_type=product&page=product_attributes
+          - listitem [ref=e103]:
+            - link "Reviews" [ref=e104] [cursor=pointer]:
+              - /url: edit.php?post_type=product&page=product-reviews
+      - listitem [ref=e105]:
+        - link "Payments 1" [ref=e106] [cursor=pointer]:
+          - /url: admin.php?page=wc-admin&path=/wc-pay-welcome-page
+          - generic [ref=e108]:
+            - text: Payments
+            - generic [ref=e109]: "1"
+      - listitem [ref=e110]:
+        - link "Analytics" [ref=e111] [cursor=pointer]:
+          - /url: admin.php?page=wc-admin&path=/analytics/overview
+          - generic [ref=e112]: 
+        - list [ref=e114]:
+          - listitem [ref=e115]:
+            - link "Overview" [ref=e116] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/overview
+          - listitem [ref=e117]:
+            - link "Products" [ref=e118] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/products
+          - listitem [ref=e119]:
+            - link "Revenue" [ref=e120] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/revenue
+          - listitem [ref=e121]:
+            - link "Orders" [ref=e122] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/orders
+          - listitem [ref=e123]:
+            - link "Variations" [ref=e124] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/variations
+          - listitem [ref=e125]:
+            - link "Categories" [ref=e126] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/categories
+          - listitem [ref=e127]:
+            - link "Coupons" [ref=e128] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/coupons
+          - listitem [ref=e129]:
+            - link "Taxes" [ref=e130] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/taxes
+          - listitem [ref=e131]:
+            - link "Downloads" [ref=e132] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/downloads
+          - listitem [ref=e133]:
+            - link "Stock" [ref=e134] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/stock
+          - listitem [ref=e135]:
+            - link "Settings" [ref=e136] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/settings
+      - listitem [ref=e137]:
+        - link "Marketing" [ref=e138] [cursor=pointer]:
+          - /url: admin.php?page=wc-admin&path=/marketing
+          - generic [ref=e139]: 
+        - list [ref=e141]:
+          - listitem [ref=e142]:
+            - link "Overview" [ref=e143] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/marketing
+          - listitem [ref=e144]:
+            - link "Coupons" [ref=e145] [cursor=pointer]:
+              - /url: edit.php?post_type=shop_coupon
+      - listitem [ref=e146]
+      - listitem [ref=e148]:
+        - link "Appearance" [ref=e149] [cursor=pointer]:
+          - /url: themes.php
+          - generic [ref=e150]: 
+        - list [ref=e152]:
+          - listitem [ref=e153]:
+            - link "Themes 3" [ref=e154] [cursor=pointer]:
+              - /url: themes.php
+              - text: Themes
+              - generic [ref=e155]: "3"
+          - listitem [ref=e156]:
+            - link "Editor" [ref=e157] [cursor=pointer]:
+              - /url: site-editor.php
+      - listitem [ref=e158]:
+        - link "Plugins 1" [ref=e159] [cursor=pointer]:
+          - /url: plugins.php
+          - generic [ref=e160]: 
+          - generic [ref=e161]:
+            - text: Plugins
+            - generic [ref=e162]: "1"
+        - list [ref=e163]:
+          - listitem [ref=e164]:
+            - link "Installed Plugins" [ref=e165] [cursor=pointer]:
+              - /url: plugins.php
+          - listitem [ref=e166]:
+            - link "Add Plugin" [ref=e167] [cursor=pointer]:
+              - /url: plugin-install.php
+      - listitem [ref=e168]:
+        - link "Users" [ref=e169] [cursor=pointer]:
+          - /url: users.php
+          - generic [ref=e170]: 
+        - list [ref=e172]:
+          - listitem [ref=e173]:
+            - link "All Users" [ref=e174] [cursor=pointer]:
+              - /url: users.php
+          - listitem [ref=e175]:
+            - link "Add User" [ref=e176] [cursor=pointer]:
+              - /url: user-new.php
+          - listitem [ref=e177]:
+            - link "Profile" [ref=e178] [cursor=pointer]:
+              - /url: profile.php
+      - listitem [ref=e179]:
+        - link "Tools" [ref=e180] [cursor=pointer]:
+          - /url: tools.php
+          - generic [ref=e181]: 
+        - list [ref=e183]:
+          - listitem [ref=e184]:
+            - link "Available Tools" [ref=e185] [cursor=pointer]:
+              - /url: tools.php
+          - listitem [ref=e186]:
+            - link "Import" [ref=e187] [cursor=pointer]:
+              - /url: import.php
+          - listitem [ref=e188]:
+            - link "Export" [ref=e189] [cursor=pointer]:
+              - /url: export.php
+          - listitem [ref=e190]:
+            - link "Site Health" [ref=e191] [cursor=pointer]:
+              - /url: site-health.php
+          - listitem [ref=e192]:
+            - link "Export Personal Data" [ref=e193] [cursor=pointer]:
+              - /url: export-personal-data.php
+          - listitem [ref=e194]:
+            - link "Erase Personal Data" [ref=e195] [cursor=pointer]:
+              - /url: erase-personal-data.php
+          - listitem [ref=e196]:
+            - link "Scheduled Actions" [ref=e197] [cursor=pointer]:
+              - /url: tools.php?page=action-scheduler
+          - listitem [ref=e198]:
+            - link "Theme File Editor" [ref=e199] [cursor=pointer]:
+              - /url: theme-editor.php
+          - listitem [ref=e200]:
+            - link "Plugin File Editor" [ref=e201] [cursor=pointer]:
+              - /url: plugin-editor.php
+      - listitem [ref=e202]:
+        - link "Settings" [ref=e203] [cursor=pointer]:
+          - /url: options-general.php
+          - generic [ref=e204]: 
+        - list [ref=e206]:
+          - listitem [ref=e207]:
+            - link "General" [ref=e208] [cursor=pointer]:
+              - /url: options-general.php
+          - listitem [ref=e209]:
+            - link "Writing" [ref=e210] [cursor=pointer]:
+              - /url: options-writing.php
+          - listitem [ref=e211]:
+            - link "Reading" [ref=e212] [cursor=pointer]:
+              - /url: options-reading.php
+          - listitem [ref=e213]:
+            - link "Discussion" [ref=e214] [cursor=pointer]:
+              - /url: options-discussion.php
+          - listitem [ref=e215]:
+            - link "Media" [ref=e216] [cursor=pointer]:
+              - /url: options-media.php
+          - listitem [ref=e217]:
+            - link "Permalinks" [ref=e218] [cursor=pointer]:
+              - /url: options-permalink.php
+          - listitem [ref=e219]:
+            - link "Privacy" [ref=e220] [cursor=pointer]:
+              - /url: options-privacy.php
+      - listitem [ref=e221]
+      - listitem [ref=e223]:
+        - link "WP File Manager" [ref=e224] [cursor=pointer]:
+          - /url: admin.php?page=wp_file_manager
+        - list [ref=e227]:
+          - listitem [ref=e228]:
+            - link "WP File Manager" [ref=e229] [cursor=pointer]:
+              - /url: admin.php?page=wp_file_manager
+          - listitem [ref=e230]:
+            - link "Settings" [ref=e231] [cursor=pointer]:
+              - /url: admin.php?page=wp_file_manager_settings
+          - listitem [ref=e232]:
+            - link "Preferences" [ref=e233] [cursor=pointer]:
+              - /url: admin.php?page=wp_file_manager_preferences
+          - listitem [ref=e234]:
+            - link "System Properties" [ref=e235] [cursor=pointer]:
+              - /url: admin.php?page=wp_file_manager_sys_properties
+          - listitem [ref=e236]:
+            - link "Shortcode – PRO" [ref=e237] [cursor=pointer]:
+              - /url: admin.php?page=wp_file_manager_shortcode_doc
+          - listitem [ref=e238]:
+            - link "Logs" [ref=e239] [cursor=pointer]:
+              - /url: admin.php?page=wpfm-logs
+          - listitem [ref=e240]:
+            - link "Backup/Restore" [ref=e241] [cursor=pointer]:
+              - /url: admin.php?page=wpfm-backup
+      - listitem [ref=e242]:
+        - button "Collapse Main menu" [expanded] [ref=e243] [cursor=pointer]:
+          - generic [ref=e244]: 
+          - generic [ref=e245]: Collapse Menu
+  - generic [ref=e246]:
+    - generic [ref=e247]:
+      - navigation "Toolbar":
+        - menu:
+          - group [ref=e248]:
+            - menuitem "About WordPress" [ref=e249] [cursor=pointer]:
+              - generic [ref=e250]: 
+          - group [ref=e252]:
+            - menuitem " Code to Block Phase 4" [ref=e253] [cursor=pointer]
+          - group [ref=e254]:
+            - menuitem "5 updates available" [ref=e255] [cursor=pointer]:
+              - generic [ref=e256]: 
+              - generic [ref=e257]: "5"
+          - group [ref=e259]:
+            - menuitem "0 Comments in moderation" [ref=e260] [cursor=pointer]:
+              - generic [ref=e261]: 
+              - generic [ref=e262]: "0"
+          - group [ref=e264]:
+            - menuitem "New" [ref=e265] [cursor=pointer]:
+              - generic [ref=e266]: 
+        - menu [ref=e268]:
+          - group [ref=e269]:
+            - menuitem "Howdy, kervee" [ref=e270] [cursor=pointer]
+    - generic [ref=e272]:
+      - heading "Add New" [level=1] [ref=e273]
+      - generic [ref=e274]:
+        - heading "Store Activity" [level=2] [ref=e275]
+        - complementary "Store Activity" [ref=e276]:
+          - tablist [ref=e277]:
+            - tab "Activity" [ref=e278] [cursor=pointer]
+    - main [ref=e284]:
+      - generic [ref=e285]:
+        - generic [ref=e286]:
+          - button "Screen Options " [ref=e288] [cursor=pointer]
+          - button "Help " [ref=e290] [cursor=pointer]
+        - generic [ref=e293]:
+          - heading "Add new coupon" [level=1] [ref=e294]
+          - paragraph [ref=e296]:
+            - strong [ref=e297]: "Action Scheduler:"
+            - text: "13"
+            - link "past-due actions" [ref=e298] [cursor=pointer]:
+              - /url: http://localhost:8090/wp-admin/tools.php?page=action-scheduler&status=past-due&order=asc
+            - text: found; something may be wrong.
+            - link "Read documentation »" [ref=e299] [cursor=pointer]:
+              - /url: https://actionscheduler.org/faq/#my-site-has-past-due-actions-what-can-i-do
+          - generic [ref=e300]:
+            - link " Dismiss" [ref=e301] [cursor=pointer]:
+              - /url: /wp-admin/post-new.php?post_type=shop_coupon&wc-hide-notice=no_secure_connection&_wc_notice_nonce=e2d1b03138
+            - paragraph [ref=e302]:
+              - text: Your store does not appear to be using a secure connection. We highly recommend serving your entire website over an HTTPS connection to help keep customer data secure.
+              - link "Learn more here." [ref=e303] [cursor=pointer]:
+                - /url: https://woocommerce.com/document/ssl-and-https/
+          - text: 
+          - generic [ref=e305]:
+            - generic:
+              - generic [ref=e306]:
+                - generic [ref=e308]:
+                  - generic: Coupon code
+                  - textbox "Coupon code" [active] [ref=e309]
+                  - link "Generate coupon code" [ref=e310] [cursor=pointer]:
+                    - /url: "#"
+                - textbox "Description (optional)" [ref=e311]
+              - generic [ref=e314]:
+                - generic [ref=e315]:
+                  - heading "Publish" [level=2] [ref=e316]
+                  - generic [ref=e317]:
+                    - button "Move up" [disabled] [ref=e318]:
+                      - generic [ref=e320]: 
+                    - button "Move down" [ref=e321] [cursor=pointer]:
+                      - generic [ref=e323]: 
+                    - 'button "Toggle panel: Publish" [expanded] [ref=e324] [cursor=pointer]':
+                      - generic [ref=e326]: 
+                - generic [ref=e328]:
+                  - generic [ref=e330]:
+                    - generic [ref=e331]:
+                      - text: " Status: Draft"
+                      - button "Edit status" [ref=e332] [cursor=pointer]: Edit
+                    - generic [ref=e334]:
+                      - text: " Visibility: Public"
+                      - button "Edit visibility" [ref=e335] [cursor=pointer]: Edit
+                    - generic [ref=e337]:
+                      - generic [ref=e338]:  Publish immediately
+                      - button "Edit date and time" [ref=e339] [cursor=pointer]: Edit
+                  - button "Publish" [ref=e343] [cursor=pointer]
+              - generic [ref=e346]:
+                - generic [ref=e347]:
+                  - heading "Coupon data" [level=2] [ref=e348]
+                  - generic [ref=e349]:
+                    - button "Move up" [ref=e350] [cursor=pointer]:
+                      - generic [ref=e352]: 
+                    - button "Move down" [ref=e353] [cursor=pointer]:
+                      - generic [ref=e355]: 
+                    - 'button "Toggle panel: Coupon data" [expanded] [ref=e356] [cursor=pointer]':
+                      - generic [ref=e358]: 
+                - generic [ref=e360]:
+                  - list [ref=e361]:
+                    - listitem [ref=e362]:
+                      - link " General" [ref=e363] [cursor=pointer]:
+                        - /url: "#general_coupon_data"
+                    - listitem [ref=e364]:
+                      - link " Usage restriction" [ref=e365] [cursor=pointer]:
+                        - /url: "#usage_restriction_coupon_data"
+                    - listitem [ref=e366]:
+                      - link " Usage limits" [ref=e367] [cursor=pointer]:
+                        - /url: "#usage_limit_coupon_data"
+                  - generic [ref=e368]:
+                    - paragraph [ref=e369]:
+                      - generic [ref=e370]: Discount type
+                      - combobox "Discount type" [ref=e371] [cursor=pointer]:
+                        - option "Percentage discount"
+                        - option "Fixed cart discount" [selected]
+                        - option "Fixed product discount"
+                    - paragraph [ref=e372]:
+                      - generic [ref=e373]: Coupon amount
+                      - generic "Value of the coupon." [ref=e374]: 
+                      - textbox "Coupon amount" [ref=e375]:
+                        - /placeholder: "0"
+                        - text: "0"
+                    - paragraph [ref=e376]:
+                      - generic [ref=e377]: Allow free shipping
+                      - checkbox "Allow free shipping" [ref=e378] [cursor=pointer]
+                      - generic [ref=e379]:
+                        - text: Check this box if the coupon grants free shipping. A
+                        - link "free shipping method" [ref=e380] [cursor=pointer]:
+                          - /url: https://woocommerce.com/document/free-shipping/
+                        - text: must be enabled in your shipping zone and be set to require "a valid free shipping coupon" (see the "Free Shipping Requires" setting).
+                    - paragraph [ref=e381]:
+                      - generic [ref=e382]: Coupon expiry date
+                      - generic "The coupon will expire at 00:00:00 of this date." [ref=e383]: 
+                      - textbox "Coupon expiry date" [ref=e384]:
+                        - /placeholder: YYYY-MM-DD
+                  - text:          
+  - text: 

@@ -1,0 +1,441 @@
+- generic [active] [ref=f10e1]:
+  - text:     
+  - generic [ref=f10e2]:
+    - generic [ref=f10e3]:
+      - strong [ref=f10e4]: Perf Stress Test
+      - text: Dedicated editor — no admin chrome
+    - generic [ref=f10e5]:
+      - link "Back to WordPress editor" [ref=f10e6] [cursor=pointer]:
+        - /url: http://localhost:8090/wp-admin/post.php?post=39&action=edit
+      - text: "|"
+      - link "View live page" [ref=f10e7] [cursor=pointer]:
+        - /url: http://localhost:8090/?ctb_page=perf-stress-test
+  - region "Code to Block visual editor" [ref=f10e9]:
+    - generic [ref=f10e10]:
+      - generic [ref=f10e11]:
+        - paragraph [ref=f10e12]: Phase 7 / Reusable components
+        - heading "Pricing card" [level=2] [ref=f10e13]
+      - generic [ref=f10e14]:
+        - generic [ref=f10e15]: Zustand history active
+        - button "Undo" [disabled] [ref=f10e16]
+        - button "Redo" [disabled] [ref=f10e17]
+        - button "Load" [ref=f10e18] [cursor=pointer]
+        - button "Save tree" [ref=f10e19] [cursor=pointer]
+    - generic [ref=f10e20]:
+      - generic [ref=f10e21]:
+        - generic [ref=f10e22]:
+          - paragraph [ref=f10e23]: HTML + CSS importer
+          - heading "Paste code into editable blocks" [level=3] [ref=f10e24]
+        - button "Parse onto canvas" [ref=f10e25] [cursor=pointer]
+      - generic [ref=f10e26]:
+        - generic [ref=f10e27]:
+          - generic [ref=f10e28]: HTML
+          - textbox "HTML to import" [ref=f10e29]:
+            - /placeholder: <article class="card">...</article>
+        - generic [ref=f10e30]:
+          - generic [ref=f10e31]: CSS
+          - textbox "CSS to import" [ref=f10e32]:
+            - /placeholder: ".card { padding: 2rem; }"
+    - generic [ref=f10e33]:
+      - complementary "Document details" [ref=f10e34]:
+        - generic [ref=f10e35]:
+          - paragraph [ref=f10e36]: Loaded document
+          - strong [ref=f10e37]: Pricing card
+          - generic [ref=f10e38]:
+            - generic [ref=f10e39]:
+              - term [ref=f10e40]: Schema
+              - definition [ref=f10e41]: v1
+            - generic [ref=f10e42]:
+              - term [ref=f10e43]: Blocks
+              - definition [ref=f10e44]: "8"
+            - generic [ref=f10e45]:
+              - term [ref=f10e46]: Root
+              - definition [ref=f10e47]: <article>
+          - paragraph [ref=f10e48]: Each dashed outline is a separate schema block.
+          - group [ref=f10e49]:
+            - generic "Global design tokens 0 defined" [ref=f10e50] [cursor=pointer]:
+              - generic [ref=f10e51]: Global design tokens
+              - generic [ref=f10e52]: 0 defined
+            - option "Colors" [selected]
+            - option "Typography"
+            - option "Spacing"
+          - group [ref=f10e53]:
+            - generic "Starter templates 4 ready" [ref=f10e54] [cursor=pointer]:
+              - generic [ref=f10e55]: Starter templates
+              - generic [ref=f10e56]: 4 ready
+            - paragraph [ref=f10e57]: Replace the canvas or insert a starter after the selected block.
+            - generic [ref=f10e58]:
+              - generic [ref=f10e59]:
+                - generic [ref=f10e60]:
+                  - strong [ref=f10e61]: Hero landing
+                  - generic [ref=f10e62]: Full hero with headline, intro and CTA
+                - generic [ref=f10e63]:
+                  - button "Replace canvas" [ref=f10e64] [cursor=pointer]
+                  - button "Insert after selection" [ref=f10e65] [cursor=pointer]
+              - generic [ref=f10e66]:
+                - generic [ref=f10e67]:
+                  - strong [ref=f10e68]: Pricing card
+                  - generic [ref=f10e69]: Single pricing card with features and CTA
+                - generic [ref=f10e70]:
+                  - button "Replace canvas" [ref=f10e71] [cursor=pointer]
+                  - button "Insert after selection" [ref=f10e72] [cursor=pointer]
+              - generic [ref=f10e73]:
+                - generic [ref=f10e74]:
+                  - strong [ref=f10e75]: Testimonial
+                  - generic [ref=f10e76]: Quote card with avatar and caption
+                - generic [ref=f10e77]:
+                  - button "Replace canvas" [ref=f10e78] [cursor=pointer]
+                  - button "Insert after selection" [ref=f10e79] [cursor=pointer]
+              - generic [ref=f10e80]:
+                - generic [ref=f10e81]:
+                  - strong [ref=f10e82]: Footer columns
+                  - generic [ref=f10e83]: Three-column footer with links
+                - generic [ref=f10e84]:
+                  - button "Replace canvas" [ref=f10e85] [cursor=pointer]
+                  - button "Insert after selection" [ref=f10e86] [cursor=pointer]
+          - group [ref=f10e87]:
+            - generic "Saved components 0 saved" [ref=f10e88] [cursor=pointer]:
+              - generic [ref=f10e89]: Saved components
+              - generic [ref=f10e90]: 0 saved
+            - paragraph [ref=f10e91]: Save the selected subtree, then insert a linked instance here or on another page.
+            - generic [ref=f10e92]:
+              - generic [ref=f10e93]:
+                - generic [ref=f10e94]: Name
+                - textbox "Name" [ref=f10e95]:
+                  - /placeholder: Feature card
+              - button "Save selection" [disabled] [ref=f10e96]
+            - paragraph [ref=f10e97]: Loading library...
+          - group [ref=f10e98]:
+            - generic "WooCommerce Blocks" [ref=f10e99] [cursor=pointer]:
+              - generic [ref=f10e100]: WooCommerce
+              - generic [ref=f10e101]: Blocks
+          - group [ref=f10e102]:
+            - generic "Forms — native or external Blocks" [ref=f10e103] [cursor=pointer]:
+              - generic [ref=f10e104]: Forms — native or external
+              - generic [ref=f10e105]: Blocks
+          - group [ref=f10e106]:
+            - generic "Widget Library — 8 pre-built On File 4" [ref=f10e107] [cursor=pointer]:
+              - generic [ref=f10e108]: Widget Library — 8 pre-built
+              - generic [ref=f10e109]: On File 4
+          - group [ref=f10e110]:
+            - generic "SEO 0 fields" [ref=f10e111] [cursor=pointer]:
+              - generic [ref=f10e112]: SEO
+              - generic [ref=f10e113]: 0 fields
+          - group [ref=f10e114]:
+            - generic "Accessibility — helps identify common issues 1 found" [ref=f10e115] [cursor=pointer]:
+              - generic [ref=f10e116]: Accessibility — helps identify common issues
+              - generic [ref=f10e117]: 1 found
+            - paragraph [ref=f10e118]: Automated checks catch many common issues but cannot replace testing with real assistive technology and real users. This tool never claims compliance.
+            - list [ref=f10e119]:
+              - listitem [ref=f10e120]:
+                - generic [ref=f10e121]:
+                  - strong [ref=f10e122]: heading
+                  - button "pricing-plan-name" [ref=f10e123] [cursor=pointer]
+                - paragraph [ref=f10e124]: No H1 found — pages should have one main heading
+                - generic [ref=f10e125]: An H1 describes the main topic so screen readers and search engines understand the page hierarchy.
+          - group [ref=f10e126]:
+            - generic "Diagnostics Woo conflict check" [ref=f10e127] [cursor=pointer]:
+              - generic [ref=f10e128]: Diagnostics
+              - generic [ref=f10e129]: Woo conflict check
+          - generic [ref=f10e130]:
+            - paragraph [ref=f10e131]: Selected block
+            - strong [ref=f10e132]: pricing-card
+            - group [ref=f10e133]:
+              - generic "Explain CSS no import data" [ref=f10e134] [cursor=pointer]:
+                - generic [ref=f10e135]: Explain CSS
+                - generic [ref=f10e136]: no import data
+            - generic [ref=f10e137]:
+              - paragraph [ref=f10e138]: Editing breakpoint
+              - group "Style breakpoint" [ref=f10e139]:
+                - button "Desktop 100%" [pressed] [ref=f10e140] [cursor=pointer]:
+                  - generic [ref=f10e141]: Desktop
+                  - generic [ref=f10e142]: 100%
+                - button "Tablet 768px" [ref=f10e143] [cursor=pointer]:
+                  - generic [ref=f10e144]: Tablet
+                  - generic [ref=f10e145]: 768px
+                - button "Mobile 390px" [ref=f10e146] [cursor=pointer]:
+                  - generic [ref=f10e147]: Mobile
+                  - generic [ref=f10e148]: 390px
+              - paragraph [ref=f10e149]: 7 base declarations
+            - generic [ref=f10e150]:
+              - generic [ref=f10e151]:
+                - checkbox "Hide on desktop" [ref=f10e152] [cursor=pointer]
+                - generic [ref=f10e153]: Hide on desktop
+              - generic [ref=f10e154]: Visible on this device
+            - generic [ref=f10e156]:
+              - checkbox "Bind to WooCommerce data" [ref=f10e157] [cursor=pointer]
+              - generic [ref=f10e158]: Bind to WooCommerce data
+            - generic [ref=f10e159]:
+              - button "Move up" [disabled] [ref=f10e160]
+              - button "Move down" [disabled] [ref=f10e161]
+            - generic [ref=f10e163]:
+              - generic [ref=f10e164]: Color
+              - textbox "Desktop color for pricing-card" [ref=f10e165] [cursor=pointer]: "#000000"
+            - generic [ref=f10e166]:
+              - generic [ref=f10e167]:
+                - generic [ref=f10e168]: Panel mode
+                - generic [ref=f10e169]:
+                  - button "Simple" [ref=f10e170] [cursor=pointer]
+                  - button "Advanced" [ref=f10e171] [cursor=pointer]
+              - generic [ref=f10e172]:
+                - generic [ref=f10e173]: Search controls
+                - textbox "Search controls" [ref=f10e174] [cursor=pointer]:
+                  - /placeholder: Search — try 'shadow' in Simple mode to surface advanced
+              - generic [ref=f10e175]: Simple shows essential controls for business owners; Advanced shows all. Search finds any control even when hidden — e.g. search "shadow" while in Simple to surface Box Shadow. Values persist when switching modes.
+            - generic [ref=f10e176]:
+              - paragraph [ref=f10e177]: Base mapped controls
+              - generic [ref=f10e179]:
+                - generic [ref=f10e180]: Padding
+                - textbox "Padding" [ref=f10e181]:
+                  - /placeholder: 24px 32px
+                  - text: 34px
+              - generic [ref=f10e183]:
+                - generic [ref=f10e184]: Margin
+                - textbox "Margin" [ref=f10e185]:
+                  - /placeholder: 0 auto
+              - generic [ref=f10e187]:
+                - generic [ref=f10e188]: Font size
+                - textbox "Font size" [ref=f10e189]:
+                  - /placeholder: 18px
+              - generic [ref=f10e191]:
+                - generic [ref=f10e192]: Font weight
+                - textbox "Font weight" [ref=f10e193]:
+                  - /placeholder: "700"
+              - generic [ref=f10e195]:
+                - generic [ref=f10e196]: Border
+                - textbox "Border" [ref=f10e197]:
+                  - /placeholder: "1px solid #ccc"
+                  - text: "1px solid #c8cee0"
+              - generic [ref=f10e199]:
+                - generic [ref=f10e200]: Border radius
+                - textbox "Border radius" [ref=f10e201]:
+                  - /placeholder: 12px
+                  - text: 18px
+              - generic [ref=f10e203]:
+                - generic [ref=f10e204]: Display / Layout mode
+                - textbox "Display / Layout mode" [ref=f10e205]:
+                  - /placeholder: flex | grid | block
+              - generic [ref=f10e207]:
+                - generic [ref=f10e208]:
+                  - text: Flex direction
+                  - generic [ref=f10e209]: Flex controls apply when Display is flex
+                - textbox "Flex direction Flex controls apply when Display is flex" [disabled] [ref=f10e210]:
+                  - /placeholder: Flex controls apply when Display is flex
+              - generic [ref=f10e212]:
+                - generic [ref=f10e213]:
+                  - text: Flex wrap
+                  - generic [ref=f10e214]: Flex controls apply when Display is flex
+                - textbox "Flex wrap Flex controls apply when Display is flex" [disabled] [ref=f10e215]:
+                  - /placeholder: Flex controls apply when Display is flex
+              - generic [ref=f10e217]:
+                - generic [ref=f10e218]:
+                  - text: Justify content
+                  - generic [ref=f10e219]: Flex controls apply when Display is flex
+                - textbox "Justify content Flex controls apply when Display is flex" [disabled] [ref=f10e220]:
+                  - /placeholder: Flex controls apply when Display is flex
+              - generic [ref=f10e222]:
+                - generic [ref=f10e223]:
+                  - text: Align items
+                  - generic [ref=f10e224]: Flex controls apply when Display is flex
+                - textbox "Align items Flex controls apply when Display is flex" [disabled] [ref=f10e225]:
+                  - /placeholder: Flex controls apply when Display is flex
+              - generic [ref=f10e227]:
+                - generic [ref=f10e228]:
+                  - text: Align content
+                  - generic [ref=f10e229]: Flex controls apply when Display is flex
+                - textbox "Align content Flex controls apply when Display is flex" [disabled] [ref=f10e230]:
+                  - /placeholder: Flex controls apply when Display is flex
+              - generic [ref=f10e232]:
+                - generic [ref=f10e233]: Gap
+                - textbox "Gap" [ref=f10e234]:
+                  - /placeholder: 16px
+              - generic [ref=f10e236]:
+                - generic [ref=f10e237]: Row gap
+                - textbox "Row gap" [ref=f10e238]:
+                  - /placeholder: 16px
+              - generic [ref=f10e240]:
+                - generic [ref=f10e241]: Column gap
+                - textbox "Column gap" [ref=f10e242]:
+                  - /placeholder: 16px
+              - generic [ref=f10e244]:
+                - generic [ref=f10e245]:
+                  - text: Grid columns
+                  - generic [ref=f10e246]: Grid controls apply when Display is grid
+                - textbox "Grid columns Grid controls apply when Display is grid" [disabled] [ref=f10e247]:
+                  - /placeholder: Grid controls apply when Display is grid
+              - generic [ref=f10e249]:
+                - generic [ref=f10e250]:
+                  - text: Grid rows
+                  - generic [ref=f10e251]: Grid controls apply when Display is grid
+                - textbox "Grid rows Grid controls apply when Display is grid" [disabled] [ref=f10e252]:
+                  - /placeholder: Grid controls apply when Display is grid
+              - generic [ref=f10e254]:
+                - generic [ref=f10e255]:
+                  - text: Flex grow
+                  - generic [ref=f10e256]: Flex controls apply when Display is flex
+                - textbox "Flex grow Flex controls apply when Display is flex" [disabled] [ref=f10e257]:
+                  - /placeholder: Flex controls apply when Display is flex
+              - generic [ref=f10e259]:
+                - generic [ref=f10e260]:
+                  - text: Flex shrink
+                  - generic [ref=f10e261]: Flex controls apply when Display is flex
+                - textbox "Flex shrink Flex controls apply when Display is flex" [disabled] [ref=f10e262]:
+                  - /placeholder: Flex controls apply when Display is flex
+              - generic [ref=f10e264]:
+                - generic [ref=f10e265]:
+                  - text: Flex basis
+                  - generic [ref=f10e266]: Flex controls apply when Display is flex
+                - textbox "Flex basis Flex controls apply when Display is flex" [disabled] [ref=f10e267]:
+                  - /placeholder: Flex controls apply when Display is flex
+              - generic [ref=f10e269]:
+                - generic [ref=f10e270]:
+                  - text: Align self
+                  - generic [ref=f10e271]: Flex controls apply when Display is flex
+                - textbox "Align self Flex controls apply when Display is flex" [disabled] [ref=f10e272]:
+                  - /placeholder: Flex controls apply when Display is flex
+              - generic [ref=f10e274]:
+                - generic [ref=f10e275]:
+                  - text: Order
+                  - generic [ref=f10e276]: Flex controls apply when Display is flex
+                - textbox "Order Flex controls apply when Display is flex" [disabled] [ref=f10e277]:
+                  - /placeholder: Flex controls apply when Display is flex
+              - generic [ref=f10e279]:
+                - generic [ref=f10e280]:
+                  - text: Grid column
+                  - generic [ref=f10e281]: Grid controls apply when Display is grid
+                - textbox "Grid column Grid controls apply when Display is grid" [disabled] [ref=f10e282]:
+                  - /placeholder: Grid controls apply when Display is grid
+              - generic [ref=f10e284]:
+                - generic [ref=f10e285]:
+                  - text: Grid row
+                  - generic [ref=f10e286]: Grid controls apply when Display is grid
+                - textbox "Grid row Grid controls apply when Display is grid" [disabled] [ref=f10e287]:
+                  - /placeholder: Grid controls apply when Display is grid
+              - generic [ref=f10e289]:
+                - generic [ref=f10e290]: Width
+                - textbox "Width" [ref=f10e291]:
+                  - /placeholder: 100% | 320px
+              - generic [ref=f10e293]:
+                - generic [ref=f10e294]: Height
+                - textbox "Height" [ref=f10e295]:
+                  - /placeholder: auto | 400px
+              - generic [ref=f10e297]:
+                - generic [ref=f10e298]: Max width
+                - textbox "Max width" [ref=f10e299]:
+                  - /placeholder: 720px
+                  - text: 360px
+              - generic [ref=f10e301]:
+                - generic [ref=f10e302]: Min height
+                - textbox "Min height" [ref=f10e303]:
+                  - /placeholder: 400px
+              - generic [ref=f10e305]:
+                - generic [ref=f10e306]: Position
+                - textbox "Position" [ref=f10e307]:
+                  - /placeholder: static | relative | absolute | sticky
+              - generic [ref=f10e309]:
+                - generic [ref=f10e310]: Top
+                - textbox "Top" [ref=f10e311]:
+                  - /placeholder: 0 | 16px
+              - generic [ref=f10e313]:
+                - generic [ref=f10e314]: Right
+                - textbox "Right" [ref=f10e315]:
+                  - /placeholder: "0"
+              - generic [ref=f10e317]:
+                - generic [ref=f10e318]: Bottom
+                - textbox "Bottom" [ref=f10e319]:
+                  - /placeholder: "0"
+              - generic [ref=f10e321]:
+                - generic [ref=f10e322]: Left
+                - textbox "Left" [ref=f10e323]:
+                  - /placeholder: "0"
+              - generic [ref=f10e325]:
+                - generic [ref=f10e326]: Z-index
+                - textbox "Z-index" [ref=f10e327]:
+                  - /placeholder: "10"
+              - generic [ref=f10e329]:
+                - generic [ref=f10e330]: Background
+                - textbox "Background" [ref=f10e331]:
+                  - /placeholder: "linear-gradient(...), #fff"
+                  - text: "#ffffff"
+              - generic [ref=f10e333]:
+                - generic [ref=f10e334]: Background color
+                - textbox "Background color" [ref=f10e335]:
+                  - /placeholder: "#ffffff"
+              - generic [ref=f10e337]:
+                - generic [ref=f10e338]: Background image
+                - textbox "Background image" [ref=f10e339]:
+                  - /placeholder: url(image.jpg)
+              - generic [ref=f10e341]:
+                - generic [ref=f10e342]: Background size
+                - textbox "Background size" [ref=f10e343]:
+                  - /placeholder: cover | contain
+              - generic [ref=f10e345]:
+                - generic [ref=f10e346]: Background position
+                - textbox "Background position" [ref=f10e347]:
+                  - /placeholder: center
+              - generic [ref=f10e349]:
+                - generic [ref=f10e350]: Box shadow
+                - textbox "Box shadow" [ref=f10e351]:
+                  - /placeholder: 0 4px 12px rgba(0,0,0,0.1)
+                  - text: 0 22px 55px rgba(25, 33, 61, 0.16)
+              - generic [ref=f10e353]:
+                - generic [ref=f10e354]: Opacity
+                - textbox "Opacity" [ref=f10e355]:
+                  - /placeholder: 1 | 0.8
+              - generic [ref=f10e357]:
+                - generic [ref=f10e358]: Filter
+                - textbox "Filter" [ref=f10e359]:
+                  - /placeholder: blur(4px) brightness(1.1)
+              - generic [ref=f10e361]:
+                - generic [ref=f10e362]: Backdrop filter
+                - textbox "Backdrop filter" [ref=f10e363]:
+                  - /placeholder: blur(8px)
+              - generic [ref=f10e365]:
+                - generic [ref=f10e366]: Transform
+                - textbox "Transform" [ref=f10e367]:
+                  - /placeholder: translateY(4px) rotate(2deg)
+              - generic [ref=f10e369]:
+                - generic [ref=f10e370]: Text shadow
+                - textbox "Text shadow" [ref=f10e371]:
+                  - /placeholder: 0 1px 2px rgba(0,0,0,0.2)
+              - generic [ref=f10e373]:
+                - generic [ref=f10e374]: Overflow
+                - textbox "Overflow" [ref=f10e375]:
+                  - /placeholder: hidden | visible
+              - button "Apply desktop styles" [disabled] [ref=f10e376]
+            - generic [ref=f10e377]:
+              - generic [ref=f10e378]: Raw CSS fallback
+              - textbox "Raw CSS fallback" [ref=f10e379]
+              - generic [ref=f10e380]:
+                - generic [ref=f10e381]: No fallback CSS
+                - button "Apply CSS" [disabled] [ref=f10e382]
+              - paragraph [ref=f10e383]: Enter declarations for desktop only. Mapped controls win unless a raw value uses !important.
+      - main "Rendered block canvas" [ref=f10e384]:
+        - generic [ref=f10e385]:
+          - generic [ref=f10e386]:
+            - paragraph [ref=f10e387]: Live canvas width
+            - strong [ref=f10e388]: Desktop / 100%
+          - group "Canvas breakpoint" [ref=f10e389]:
+            - button "Desktop 100%" [pressed] [ref=f10e390] [cursor=pointer]:
+              - generic [ref=f10e391]: Desktop
+              - generic [ref=f10e392]: 100%
+            - button "Tablet 768px" [ref=f10e393] [cursor=pointer]:
+              - generic [ref=f10e394]: Tablet
+              - generic [ref=f10e395]: 768px
+            - button "Mobile 390px" [ref=f10e396] [cursor=pointer]:
+              - generic [ref=f10e397]: Mobile
+              - generic [ref=f10e398]: 390px
+        - generic [ref=f10e399]: Drag a block onto text to reorder · onto a container to nest
+        - article [ref=f10e402]:
+          - text: article · pricing-card
+          - button "h2 · pricing-plan-name Professional" [ref=f10e403]
+          - button [ref=f10e404]:
+            - text: p · pricing-price
+            - button "span · pricing-price-value $29" [ref=f10e405]
+            - text: /month
+          - button [ref=f10e406]:
+            - text: ul · pricing-features
+            - button "li · pricing-feature-projects Unlimited projects" [ref=f10e407]
+            - button "li · pricing-feature-support Priority support" [ref=f10e408]
+          - button "a · pricing-cta Start free trial" [ref=f10e409]
+      - status [ref=f10e410]

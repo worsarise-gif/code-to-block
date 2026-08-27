@@ -1,0 +1,284 @@
+- generic [ref=f14e2]:
+  - navigation "Main menu":
+    - link "Skip to main content" [ref=f14e3] [cursor=pointer]:
+      - /url: "#wpbody-content"
+    - link "Skip to toolbar" [ref=f14e4] [cursor=pointer]:
+      - /url: "#wp-toolbar"
+    - list [ref=f14e7]:
+      - listitem [ref=f14e8]:
+        - link "Dashboard" [ref=f14e9] [cursor=pointer]:
+          - /url: index.php
+          - generic [ref=f14e10]: 
+        - list [ref=f14e12]:
+          - listitem [ref=f14e13]:
+            - link "Home" [ref=f14e14] [cursor=pointer]:
+              - /url: index.php
+          - listitem [ref=f14e15]:
+            - link "Updates 4" [ref=f14e16] [cursor=pointer]:
+              - /url: update-core.php
+              - text: Updates
+              - generic [ref=f14e17]: "4"
+      - listitem [ref=f14e18]
+      - listitem [ref=f14e20]:
+        - link "Posts" [ref=f14e21] [cursor=pointer]:
+          - /url: edit.php
+          - generic [ref=f14e22]: 
+        - list [ref=f14e24]:
+          - listitem [ref=f14e25]:
+            - link "All Posts" [ref=f14e26] [cursor=pointer]:
+              - /url: edit.php
+          - listitem [ref=f14e27]:
+            - link "Add Post" [ref=f14e28] [cursor=pointer]:
+              - /url: post-new.php
+          - listitem [ref=f14e29]:
+            - link "Categories" [ref=f14e30] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=category
+          - listitem [ref=f14e31]:
+            - link "Tags" [ref=f14e32] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=post_tag
+      - listitem [ref=f14e33]:
+        - link "Media" [ref=f14e34] [cursor=pointer]:
+          - /url: upload.php
+          - generic [ref=f14e35]: 
+        - list [ref=f14e37]:
+          - listitem [ref=f14e38]:
+            - link "Library" [ref=f14e39] [cursor=pointer]:
+              - /url: upload.php
+          - listitem [ref=f14e40]:
+            - link "Add Media File" [ref=f14e41] [cursor=pointer]:
+              - /url: media-new.php
+      - listitem [ref=f14e42]:
+        - link "Pages" [ref=f14e43] [cursor=pointer]:
+          - /url: edit.php?post_type=page
+          - generic [ref=f14e44]: 
+        - list [ref=f14e46]:
+          - listitem [ref=f14e47]:
+            - link "All Pages" [ref=f14e48] [cursor=pointer]:
+              - /url: edit.php?post_type=page
+          - listitem [ref=f14e49]:
+            - link "Add Page" [ref=f14e50] [cursor=pointer]:
+              - /url: post-new.php?post_type=page
+      - listitem [ref=f14e51]:
+        - link "Comments" [ref=f14e52] [cursor=pointer]:
+          - /url: edit-comments.php
+          - generic [ref=f14e53]: 
+      - listitem [ref=f14e55]:
+        - link "Code to Block Pages" [ref=f14e56] [cursor=pointer]:
+          - /url: edit.php?post_type=ctb_page
+          - generic [ref=f14e57]: 
+        - list [ref=f14e59]:
+          - listitem [ref=f14e60]:
+            - link "Code to Block Pages" [ref=f14e61] [cursor=pointer]:
+              - /url: edit.php?post_type=ctb_page
+          - listitem [ref=f14e62]:
+            - link "Add Code to Block Page" [ref=f14e63] [cursor=pointer]:
+              - /url: post-new.php?post_type=ctb_page
+      - listitem [ref=f14e64]
+      - listitem [ref=f14e66]:
+        - link "Appearance" [ref=f14e67] [cursor=pointer]:
+          - /url: themes.php
+          - generic [ref=f14e68]: 
+        - list [ref=f14e70]:
+          - listitem [ref=f14e71]:
+            - link "Themes 2" [ref=f14e72] [cursor=pointer]:
+              - /url: themes.php
+              - text: Themes
+              - generic [ref=f14e73]: "2"
+          - listitem [ref=f14e74]:
+            - link "Editor" [ref=f14e75] [cursor=pointer]:
+              - /url: site-editor.php
+      - listitem [ref=f14e76]:
+        - link "Plugins 1" [ref=f14e77] [cursor=pointer]:
+          - /url: plugins.php
+          - generic [ref=f14e78]: 
+          - generic [ref=f14e79]:
+            - text: Plugins
+            - generic [ref=f14e80]: "1"
+        - list [ref=f14e81]:
+          - listitem [ref=f14e82]:
+            - link "Installed Plugins" [ref=f14e83] [cursor=pointer]:
+              - /url: plugins.php
+          - listitem [ref=f14e84]:
+            - link "Add Plugin" [ref=f14e85] [cursor=pointer]:
+              - /url: plugin-install.php
+      - listitem [ref=f14e86]:
+        - link "Users" [ref=f14e87] [cursor=pointer]:
+          - /url: users.php
+          - generic [ref=f14e88]: 
+        - list [ref=f14e90]:
+          - listitem [ref=f14e91]:
+            - link "All Users" [ref=f14e92] [cursor=pointer]:
+              - /url: users.php
+          - listitem [ref=f14e93]:
+            - link "Add User" [ref=f14e94] [cursor=pointer]:
+              - /url: user-new.php
+          - listitem [ref=f14e95]:
+            - link "Profile" [ref=f14e96] [cursor=pointer]:
+              - /url: profile.php
+      - listitem [ref=f14e97]:
+        - link "Tools" [ref=f14e98] [cursor=pointer]:
+          - /url: tools.php
+          - generic [ref=f14e99]: 
+        - list [ref=f14e101]:
+          - listitem [ref=f14e102]:
+            - link "Available Tools" [ref=f14e103] [cursor=pointer]:
+              - /url: tools.php
+          - listitem [ref=f14e104]:
+            - link "Import" [ref=f14e105] [cursor=pointer]:
+              - /url: import.php
+          - listitem [ref=f14e106]:
+            - link "Export" [ref=f14e107] [cursor=pointer]:
+              - /url: export.php
+          - listitem [ref=f14e108]:
+            - link "Site Health" [ref=f14e109] [cursor=pointer]:
+              - /url: site-health.php
+          - listitem [ref=f14e110]:
+            - link "Export Personal Data" [ref=f14e111] [cursor=pointer]:
+              - /url: export-personal-data.php
+          - listitem [ref=f14e112]:
+            - link "Erase Personal Data" [ref=f14e113] [cursor=pointer]:
+              - /url: erase-personal-data.php
+          - listitem [ref=f14e114]:
+            - link "Theme File Editor" [ref=f14e115] [cursor=pointer]:
+              - /url: theme-editor.php
+          - listitem [ref=f14e116]:
+            - link "Plugin File Editor" [ref=f14e117] [cursor=pointer]:
+              - /url: plugin-editor.php
+      - listitem [ref=f14e118]:
+        - link "Settings" [ref=f14e119] [cursor=pointer]:
+          - /url: options-general.php
+          - generic [ref=f14e120]: 
+        - list [ref=f14e122]:
+          - listitem [ref=f14e123]:
+            - link "General" [ref=f14e124] [cursor=pointer]:
+              - /url: options-general.php
+          - listitem [ref=f14e125]:
+            - link "Writing" [ref=f14e126] [cursor=pointer]:
+              - /url: options-writing.php
+          - listitem [ref=f14e127]:
+            - link "Reading" [ref=f14e128] [cursor=pointer]:
+              - /url: options-reading.php
+          - listitem [ref=f14e129]:
+            - link "Discussion" [ref=f14e130] [cursor=pointer]:
+              - /url: options-discussion.php
+          - listitem [ref=f14e131]:
+            - link "Media" [ref=f14e132] [cursor=pointer]:
+              - /url: options-media.php
+          - listitem [ref=f14e133]:
+            - link "Permalinks" [ref=f14e134] [cursor=pointer]:
+              - /url: options-permalink.php
+          - listitem [ref=f14e135]:
+            - link "Privacy" [ref=f14e136] [cursor=pointer]:
+              - /url: options-privacy.php
+      - listitem [ref=f14e137]:
+        - button "Collapse Main menu" [expanded] [ref=f14e138] [cursor=pointer]:
+          - generic [ref=f14e139]: 
+          - generic [ref=f14e140]: Collapse Menu
+  - generic [ref=f14e141]:
+    - generic [ref=f14e142]:
+      - navigation "Toolbar":
+        - menu:
+          - group [ref=f14e143]:
+            - menuitem "About WordPress" [ref=f14e144] [cursor=pointer]:
+              - generic [ref=f14e145]: 
+          - group [ref=f14e147]:
+            - menuitem " Code to Block Phase 4" [ref=f14e148] [cursor=pointer]
+          - group [ref=f14e149]:
+            - menuitem "4 updates available" [ref=f14e150] [cursor=pointer]:
+              - generic [ref=f14e151]: 
+              - generic [ref=f14e152]: "4"
+          - group [ref=f14e154]:
+            - menuitem "0 Comments in moderation" [ref=f14e155] [cursor=pointer]:
+              - generic [ref=f14e156]: 
+              - generic [ref=f14e157]: "0"
+          - group [ref=f14e159]:
+            - menuitem "New" [ref=f14e160] [cursor=pointer]:
+              - generic [ref=f14e161]: 
+          - group [ref=f14e163]:
+            - menuitem "View Post" [ref=f14e164] [cursor=pointer]
+        - menu [ref=f14e165]:
+          - group [ref=f14e166]:
+            - menuitem "Howdy, admin" [ref=f14e167] [cursor=pointer]
+    - main [ref=f14e168]:
+      - generic [ref=f14e169]:
+        - button "Screen Options " [ref=f14e172] [cursor=pointer]
+        - generic [ref=f14e173]:
+          - link "WordPress 7.0.4" [ref=f14e174] [cursor=pointer]:
+            - /url: https://wordpress.org/documentation/wordpress-version/version-7-0-4/
+          - text: is available!
+          - link "Please update WordPress now" [ref=f14e175] [cursor=pointer]:
+            - /url: http://localhost:8090/wp-admin/update-core.php
+            - text: Please update now
+          - text: .
+        - generic [ref=f14e176]:
+          - heading "Edit Code to Block Page" [level=1] [ref=f14e177]
+          - link "Add Code to Block Page" [ref=f14e178] [cursor=pointer]:
+            - /url: http://localhost:8090/wp-admin/post-new.php?post_type=ctb_page
+          - text: 
+          - generic [ref=f14e180]:
+            - generic:
+              - generic [ref=f14e182]:
+                - generic [ref=f14e183]:
+                  - generic: Add title
+                  - textbox "Add title" [ref=f14e184]: Code to Block MVP
+                - generic [ref=f14e186]:
+                  - strong [ref=f14e187]: "Permalink:"
+                  - link "http://localhost:8090/?ctb_page=code-to-block-mvp" [ref=f14e188] [cursor=pointer]:
+                    - /url: http://localhost:8090/?ctb_page=code-to-block-mvp
+                  - link "Change Permalink Structure" [ref=f14e190] [cursor=pointer]:
+                    - /url: options-permalink.php
+              - generic [ref=f14e193]:
+                - generic [ref=f14e194]:
+                  - heading "Publish" [level=2] [ref=f14e195]
+                  - generic [ref=f14e196]:
+                    - button "Move up" [disabled] [ref=f14e197]:
+                      - generic [ref=f14e199]: 
+                    - button "Move down" [ref=f14e200] [cursor=pointer]:
+                      - generic [ref=f14e202]: 
+                    - 'button "Toggle panel: Publish" [expanded] [ref=f14e203] [cursor=pointer]':
+                      - generic [ref=f14e205]: 
+                - generic [ref=f14e207]:
+                  - generic [ref=f14e208]:
+                    - link "Preview Changes (opens in a new tab)" [ref=f14e210] [cursor=pointer]:
+                      - /url: http://localhost:8090/?ctb_page=code-to-block-mvp&preview=true
+                      - text: Preview Changes
+                      - generic [ref=f14e211]: (opens in a new tab)
+                    - generic [ref=f14e212]:
+                      - generic [ref=f14e213]:
+                        - text: " Status: Published"
+                        - button "Edit status" [ref=f14e214] [cursor=pointer]: Edit
+                      - generic [ref=f14e216]:
+                        - text: " Visibility: Public"
+                        - button "Edit visibility" [ref=f14e217] [cursor=pointer]: Edit
+                      - generic [ref=f14e219]:
+                        - generic [ref=f14e220]: " Published on: Aug 19, 2026 at 02:05"
+                        - button "Edit date and time" [ref=f14e221] [cursor=pointer]: Edit
+                  - generic [ref=f14e223]:
+                    - link "Move to Trash" [ref=f14e225] [cursor=pointer]:
+                      - /url: http://localhost:8090/wp-admin/post.php?post=11&action=trash&_wpnonce=5aace2e05a
+                    - button "Update" [ref=f14e227] [cursor=pointer]
+              - generic [ref=f14e228]:
+                - generic [ref=f14e229]:   
+                - generic [ref=f14e231]:
+                  - generic [ref=f14e232]:
+                    - heading "Code to Block Canvas" [level=2] [ref=f14e233]
+                    - generic [ref=f14e234]:
+                      - button "Move up" [ref=f14e235] [cursor=pointer]:
+                        - generic [ref=f14e237]: 
+                      - button "Move down" [disabled] [ref=f14e238]:
+                        - generic [ref=f14e240]: 
+                      - 'button "Toggle panel: Code to Block Canvas" [ref=f14e241] [cursor=pointer]':
+                        - generic [ref=f14e243]: 
+                  - text: article · pricing-card h2 · pricing-plan-name p · pricing-price span · pricing-price-value ul · pricing-features li · pricing-feature-projects li · pricing-feature-support a · pricing-cta
+  - contentinfo [ref=f14e244]:
+    - paragraph [ref=f14e245]:
+      - generic [ref=f14e246]:
+        - text: Thank you for creating with
+        - link "WordPress" [ref=f14e247] [cursor=pointer]:
+          - /url: https://wordpress.org/
+        - text: .
+    - paragraph [ref=f14e248]:
+      - strong [ref=f14e249]:
+        - link "Get Version 7.0.4" [ref=f14e250] [cursor=pointer]:
+          - /url: http://localhost:8090/wp-admin/update-core.php
+  - text: 

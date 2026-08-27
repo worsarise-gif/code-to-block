@@ -1,0 +1,437 @@
+- generic [ref=f3e1]:
+  - text:     
+  - generic [ref=f3e2]:
+    - generic [ref=f3e3]:
+      - strong [ref=f3e4]: Perf Stress Test
+      - text: Dedicated editor — no admin chrome
+    - generic [ref=f3e5]:
+      - link "Back to WordPress editor" [ref=f3e6] [cursor=pointer]:
+        - /url: http://localhost:8090/wp-admin/post.php?post=39&action=edit
+      - text: "|"
+      - link "View live page" [ref=f3e7] [cursor=pointer]:
+        - /url: http://localhost:8090/?ctb_page=perf-stress-test
+  - region "Code to Block visual editor" [ref=f3e9]:
+    - generic [ref=f3e10]:
+      - generic [ref=f3e11]:
+        - paragraph [ref=f3e12]: Phase 7 / Reusable components
+        - heading "Perf stress test" [level=2] [ref=f3e202]
+      - generic [ref=f3e14]:
+        - generic [ref=f3e15]: Zustand history active
+        - button "Undo" [disabled] [ref=f3e16]
+        - button "Redo" [disabled] [ref=f3e17]
+        - button "Load" [active] [ref=f3e18] [cursor=pointer]
+        - button "Save tree" [ref=f3e19] [cursor=pointer]
+    - generic [ref=f3e20]:
+      - generic [ref=f3e21]:
+        - generic [ref=f3e22]:
+          - paragraph [ref=f3e23]: HTML + CSS importer
+          - heading "Paste code into editable blocks" [level=3] [ref=f3e24]
+        - button "Parse onto canvas" [ref=f3e25] [cursor=pointer]
+      - generic [ref=f3e26]:
+        - generic [ref=f3e27]:
+          - generic [ref=f3e28]: HTML
+          - textbox "HTML to import" [ref=f3e29]:
+            - /placeholder: <article class="card">...</article>
+        - generic [ref=f3e30]:
+          - generic [ref=f3e31]: CSS
+          - textbox "CSS to import" [ref=f3e32]:
+            - /placeholder: ".card { padding: 2rem; }"
+    - generic [ref=f3e33]:
+      - complementary "Document details" [ref=f3e34]:
+        - generic [ref=f3e35]:
+          - paragraph [ref=f3e36]: Loaded document
+          - strong [ref=f3e37]: Perf stress test
+          - generic [ref=f3e38]:
+            - generic [ref=f3e39]:
+              - term [ref=f3e40]: Schema
+              - definition [ref=f3e41]: v1
+            - generic [ref=f3e42]:
+              - term [ref=f3e43]: Blocks
+              - definition [ref=f3e44]: "160"
+            - generic [ref=f3e45]:
+              - term [ref=f3e46]: Root
+              - definition [ref=f3e47]: <div>
+          - paragraph [ref=f3e48]: Each dashed outline is a separate schema block.
+          - group [ref=f3e49]:
+            - generic "Global design tokens 0 defined" [ref=f3e50] [cursor=pointer]:
+              - generic [ref=f3e51]: Global design tokens
+              - generic [ref=f3e52]: 0 defined
+            - option "Colors" [selected]
+            - option "Typography"
+            - option "Spacing"
+          - group [ref=f3e53]:
+            - generic "Starter templates 4 ready" [ref=f3e54] [cursor=pointer]:
+              - generic [ref=f3e55]: Starter templates
+              - generic [ref=f3e56]: 4 ready
+            - paragraph [ref=f3e57]: Replace the canvas or insert a starter after the selected block.
+            - generic [ref=f3e58]:
+              - generic [ref=f3e59]:
+                - generic [ref=f3e60]:
+                  - strong [ref=f3e61]: Hero landing
+                  - generic [ref=f3e62]: Full hero with headline, intro and CTA
+                - generic [ref=f3e63]:
+                  - button "Replace canvas" [ref=f3e64] [cursor=pointer]
+                  - button "Insert after selection" [ref=f3e65] [cursor=pointer]
+              - generic [ref=f3e66]:
+                - generic [ref=f3e67]:
+                  - strong [ref=f3e68]: Pricing card
+                  - generic [ref=f3e69]: Single pricing card with features and CTA
+                - generic [ref=f3e70]:
+                  - button "Replace canvas" [ref=f3e71] [cursor=pointer]
+                  - button "Insert after selection" [ref=f3e72] [cursor=pointer]
+              - generic [ref=f3e73]:
+                - generic [ref=f3e74]:
+                  - strong [ref=f3e75]: Testimonial
+                  - generic [ref=f3e76]: Quote card with avatar and caption
+                - generic [ref=f3e77]:
+                  - button "Replace canvas" [ref=f3e78] [cursor=pointer]
+                  - button "Insert after selection" [ref=f3e79] [cursor=pointer]
+              - generic [ref=f3e80]:
+                - generic [ref=f3e81]:
+                  - strong [ref=f3e82]: Footer columns
+                  - generic [ref=f3e83]: Three-column footer with links
+                - generic [ref=f3e84]:
+                  - button "Replace canvas" [ref=f3e85] [cursor=pointer]
+                  - button "Insert after selection" [ref=f3e86] [cursor=pointer]
+          - group [ref=f3e87]:
+            - generic "Saved components 1 saved" [ref=f3e193] [cursor=pointer]:
+              - generic [ref=f3e89]: Saved components
+              - generic [ref=f3e90]: 1 saved
+            - paragraph [ref=f3e91]: Save the selected subtree, then insert a linked instance here or on another page.
+            - generic [ref=f3e92]:
+              - generic [ref=f3e93]:
+                - generic [ref=f3e94]: Name
+                - textbox "Name" [ref=f3e95]:
+                  - /placeholder: Feature card
+              - button "Save selection" [disabled] [ref=f3e96]
+            - generic [ref=f3e195]:
+              - generic [ref=f3e196]:
+                - strong [ref=f3e197]: Phase 7 reusable card
+                - generic [ref=f3e198]: "#29 · linked"
+              - generic [ref=f3e199]:
+                - button "Insert" [ref=f3e200] [cursor=pointer]
+                - button "Replace from selection" [ref=f3e201] [cursor=pointer]
+          - generic [ref=f3e98]:
+            - paragraph [ref=f3e99]: Selected block
+            - strong [ref=f3e100]: perf-container-8-510
+            - group [ref=f3e101]:
+              - generic "Explain CSS no import data" [ref=f3e102] [cursor=pointer]:
+                - generic [ref=f3e103]: Explain CSS
+                - generic [ref=f3e104]: no import data
+            - generic [ref=f3e105]:
+              - paragraph [ref=f3e106]: Editing breakpoint
+              - group "Style breakpoint" [ref=f3e107]:
+                - button "Desktop 100%" [pressed] [ref=f3e108] [cursor=pointer]:
+                  - generic [ref=f3e109]: Desktop
+                  - generic [ref=f3e110]: 100%
+                - button "Tablet 768px" [ref=f3e111] [cursor=pointer]:
+                  - generic [ref=f3e112]: Tablet
+                  - generic [ref=f3e113]: 768px
+                - button "Mobile 390px" [ref=f3e114] [cursor=pointer]:
+                  - generic [ref=f3e115]: Mobile
+                  - generic [ref=f3e116]: 390px
+              - paragraph [ref=f3e117]: 0 base declarations
+            - generic [ref=f3e118]:
+              - generic [ref=f3e119]:
+                - checkbox "Hide on desktop" [ref=f3e120] [cursor=pointer]
+                - generic [ref=f3e121]: Hide on desktop
+              - generic [ref=f3e122]: Visible on this device
+            - generic [ref=f3e123]:
+              - button "Move up" [disabled] [ref=f3e124]
+              - button "Move down" [disabled] [ref=f3e125]
+            - generic [ref=f3e127]:
+              - generic [ref=f3e128]: Color
+              - textbox "Desktop color for perf-container-8-510" [ref=f3e203] [cursor=pointer]: "#000000"
+            - generic [ref=f3e204]:
+              - paragraph [ref=f3e205]: Base mapped controls
+              - generic [ref=f3e207]:
+                - generic [ref=f3e208]: Padding
+                - textbox "Padding" [ref=f3e209]:
+                  - /placeholder: 24px 32px
+              - generic [ref=f3e211]:
+                - generic [ref=f3e212]: Margin
+                - textbox "Margin" [ref=f3e213]:
+                  - /placeholder: 0 auto
+              - generic [ref=f3e215]:
+                - generic [ref=f3e216]: Font size
+                - textbox "Font size" [ref=f3e217]:
+                  - /placeholder: 18px
+              - generic [ref=f3e219]:
+                - generic [ref=f3e220]: Font weight
+                - textbox "Font weight" [ref=f3e221]:
+                  - /placeholder: "700"
+              - generic [ref=f3e223]:
+                - generic [ref=f3e224]: Border
+                - textbox "Border" [ref=f3e225]:
+                  - /placeholder: "1px solid #ccc"
+              - generic [ref=f3e227]:
+                - generic [ref=f3e228]: Border radius
+                - textbox "Border radius" [ref=f3e229]:
+                  - /placeholder: 12px
+              - button "Apply desktop styles" [disabled] [ref=f3e230]
+            - generic [ref=f3e231]:
+              - generic [ref=f3e232]: Raw CSS fallback
+              - textbox "Raw CSS fallback" [ref=f3e233]
+              - generic [ref=f3e234]:
+                - generic [ref=f3e235]: No fallback CSS
+                - button "Apply CSS" [disabled] [ref=f3e236]
+              - paragraph [ref=f3e237]: Enter declarations for desktop only. Mapped controls win unless a raw value uses !important.
+          - status [ref=f3e238]: Loaded.
+      - main "Rendered block canvas" [ref=f3e164]:
+        - generic [ref=f3e165]:
+          - generic [ref=f3e166]:
+            - paragraph [ref=f3e167]: Live canvas width
+            - strong [ref=f3e168]: Desktop / 100%
+          - group "Canvas breakpoint" [ref=f3e169]:
+            - button "Desktop 100%" [pressed] [ref=f3e170] [cursor=pointer]:
+              - generic [ref=f3e171]: Desktop
+              - generic [ref=f3e172]: 100%
+            - button "Tablet 768px" [ref=f3e173] [cursor=pointer]:
+              - generic [ref=f3e174]: Tablet
+              - generic [ref=f3e175]: 768px
+            - button "Mobile 390px" [ref=f3e176] [cursor=pointer]:
+              - generic [ref=f3e177]: Mobile
+              - generic [ref=f3e178]: 390px
+        - generic [ref=f3e179]: Drag a block onto text to reorder · onto a container to nest
+        - generic [ref=f3e239]:
+          - text: div · perf-container-8-510
+          - button [ref=f3e240]:
+            - text: div · perf-container-7-509
+            - button [ref=f3e241]:
+              - text: div · perf-container-6-381
+              - button [ref=f3e242]:
+                - text: div · perf-container-5-380
+                - button [ref=f3e243]:
+                  - text: div · perf-container-4-379
+                  - button [ref=f3e244]:
+                    - text: div · perf-container-3-363
+                    - button [ref=f3e245]:
+                      - text: div · perf-container-2-355
+                      - button "div · perf-container-1-351"
+                      - button [ref=f3e246]:
+                        - text: div · perf-container-1-354
+                        - button "p · perf-leaf-352 Leaf 353" [ref=f3e247]
+                        - button "p · perf-leaf-353 Leaf 354" [ref=f3e248]
+                    - button [ref=f3e249]:
+                      - text: div · perf-container-2-362
+                      - button [ref=f3e250]:
+                        - text: div · perf-container-1-358
+                        - button "p · perf-leaf-356 Leaf 357" [ref=f3e251]
+                        - button "p · perf-leaf-357 Leaf 358" [ref=f3e252]
+                      - button [ref=f3e253]:
+                        - text: div · perf-container-1-361
+                        - button "p · perf-leaf-359 Leaf 360" [ref=f3e254]
+                        - button "p · perf-leaf-360 Leaf 361" [ref=f3e255]
+                  - button [ref=f3e256]:
+                    - text: div · perf-container-3-378
+                    - button [ref=f3e257]:
+                      - text: div · perf-container-2-370
+                      - button [ref=f3e258]:
+                        - text: div · perf-container-1-366
+                        - button "p · perf-leaf-364 Leaf 365" [ref=f3e259]
+                        - button "p · perf-leaf-365 Leaf 366" [ref=f3e260]
+                      - button [ref=f3e261]:
+                        - text: div · perf-container-1-369
+                        - button "p · perf-leaf-367 Leaf 368" [ref=f3e262]
+                        - button "p · perf-leaf-368 Leaf 369" [ref=f3e263]
+                    - button [ref=f3e264]:
+                      - text: div · perf-container-2-377
+                      - button [ref=f3e265]:
+                        - text: div · perf-container-1-373
+                        - button "p · perf-leaf-371 Leaf 372" [ref=f3e266]
+                        - button "p · perf-leaf-372 Leaf 373" [ref=f3e267]
+                      - button [ref=f3e268]:
+                        - text: div · perf-container-1-376
+                        - button "p · perf-leaf-374 Leaf 375" [ref=f3e269]
+                        - button "p · perf-leaf-375 Leaf 376" [ref=f3e270]
+            - button [ref=f3e271]:
+              - text: div · perf-container-6-508
+              - button [ref=f3e272]:
+                - text: div · perf-container-5-444
+                - button [ref=f3e273]:
+                  - text: div · perf-container-4-412
+                  - button [ref=f3e274]:
+                    - text: div · perf-container-3-396
+                    - button [ref=f3e275]:
+                      - text: div · perf-container-2-388
+                      - button [ref=f3e276]:
+                        - text: div · perf-container-1-384
+                        - button "p · perf-leaf-382 Leaf 383" [ref=f3e277]
+                        - button "p · perf-leaf-383 Leaf 384" [ref=f3e278]
+                      - button [ref=f3e279]:
+                        - text: div · perf-container-1-387
+                        - button "p · perf-leaf-385 Leaf 386" [ref=f3e280]
+                        - button "p · perf-leaf-386 Leaf 387" [ref=f3e281]
+                    - button [ref=f3e282]:
+                      - text: div · perf-container-2-395
+                      - button [ref=f3e283]:
+                        - text: div · perf-container-1-391
+                        - button "p · perf-leaf-389 Leaf 390" [ref=f3e284]
+                        - button "p · perf-leaf-390 Leaf 391" [ref=f3e285]
+                      - button [ref=f3e286]:
+                        - text: div · perf-container-1-394
+                        - button "p · perf-leaf-392 Leaf 393" [ref=f3e287]
+                        - button "p · perf-leaf-393 Leaf 394" [ref=f3e288]
+                  - button [ref=f3e289]:
+                    - text: div · perf-container-3-411
+                    - button [ref=f3e290]:
+                      - text: div · perf-container-2-403
+                      - button [ref=f3e291]:
+                        - text: div · perf-container-1-399
+                        - button "p · perf-leaf-397 Leaf 398" [ref=f3e292]
+                        - button "p · perf-leaf-398 Leaf 399" [ref=f3e293]
+                      - button [ref=f3e294]:
+                        - text: div · perf-container-1-402
+                        - button "p · perf-leaf-400 Leaf 401" [ref=f3e295]
+                        - button "p · perf-leaf-401 Leaf 402" [ref=f3e296]
+                    - button [ref=f3e297]:
+                      - text: div · perf-container-2-410
+                      - button [ref=f3e298]:
+                        - text: div · perf-container-1-406
+                        - button "p · perf-leaf-404 Leaf 405" [ref=f3e299]
+                        - button "p · perf-leaf-405 Leaf 406" [ref=f3e300]
+                      - button [ref=f3e301]:
+                        - text: div · perf-container-1-409
+                        - button "p · perf-leaf-407 Leaf 408" [ref=f3e302]
+                        - button "p · perf-leaf-408 Leaf 409" [ref=f3e303]
+                - button [ref=f3e304]:
+                  - text: div · perf-container-4-443
+                  - button [ref=f3e305]:
+                    - text: div · perf-container-3-427
+                    - button [ref=f3e306]:
+                      - text: div · perf-container-2-419
+                      - button [ref=f3e307]:
+                        - text: div · perf-container-1-415
+                        - button "p · perf-leaf-413 Leaf 414" [ref=f3e308]
+                        - button "p · perf-leaf-414 Leaf 415" [ref=f3e309]
+                      - button [ref=f3e310]:
+                        - text: div · perf-container-1-418
+                        - button "p · perf-leaf-416 Leaf 417" [ref=f3e311]
+                        - button "p · perf-leaf-417 Leaf 418" [ref=f3e312]
+                    - button [ref=f3e313]:
+                      - text: div · perf-container-2-426
+                      - button [ref=f3e314]:
+                        - text: div · perf-container-1-422
+                        - button "p · perf-leaf-420 Leaf 421" [ref=f3e315]
+                        - button "p · perf-leaf-421 Leaf 422" [ref=f3e316]
+                      - button [ref=f3e317]:
+                        - text: div · perf-container-1-425
+                        - button "p · perf-leaf-423 Leaf 424" [ref=f3e318]
+                        - button "p · perf-leaf-424 Leaf 425" [ref=f3e319]
+                  - button [ref=f3e320]:
+                    - text: div · perf-container-3-442
+                    - button [ref=f3e321]:
+                      - text: div · perf-container-2-434
+                      - button [ref=f3e322]:
+                        - text: div · perf-container-1-430
+                        - button "p · perf-leaf-428 Leaf 429" [ref=f3e323]
+                        - button "p · perf-leaf-429 Leaf 430" [ref=f3e324]
+                      - button [ref=f3e325]:
+                        - text: div · perf-container-1-433
+                        - button "p · perf-leaf-431 Leaf 432" [ref=f3e326]
+                        - button "p · perf-leaf-432 Leaf 433" [ref=f3e327]
+                    - button [ref=f3e328]:
+                      - text: div · perf-container-2-441
+                      - button [ref=f3e329]:
+                        - text: div · perf-container-1-437
+                        - button "p · perf-leaf-435 Leaf 436" [ref=f3e330]
+                        - button "p · perf-leaf-436 Leaf 437" [ref=f3e331]
+                      - button [ref=f3e332]:
+                        - text: div · perf-container-1-440
+                        - button "p · perf-leaf-438 Leaf 439" [ref=f3e333]
+                        - button "p · perf-leaf-439 Leaf 440" [ref=f3e334]
+              - button [ref=f3e335]:
+                - text: div · perf-container-5-507
+                - button [ref=f3e336]:
+                  - text: div · perf-container-4-475
+                  - button [ref=f3e337]:
+                    - text: div · perf-container-3-459
+                    - button [ref=f3e338]:
+                      - text: div · perf-container-2-451
+                      - button [ref=f3e339]:
+                        - text: div · perf-container-1-447
+                        - button "p · perf-leaf-445 Leaf 446" [ref=f3e340]
+                        - button "p · perf-leaf-446 Leaf 447" [ref=f3e341]
+                      - button [ref=f3e342]:
+                        - text: div · perf-container-1-450
+                        - button "p · perf-leaf-448 Leaf 449" [ref=f3e343]
+                        - button "p · perf-leaf-449 Leaf 450" [ref=f3e344]
+                    - button [ref=f3e345]:
+                      - text: div · perf-container-2-458
+                      - button [ref=f3e346]:
+                        - text: div · perf-container-1-454
+                        - button "p · perf-leaf-452 Leaf 453" [ref=f3e347]
+                        - button "p · perf-leaf-453 Leaf 454" [ref=f3e348]
+                      - button [ref=f3e349]:
+                        - text: div · perf-container-1-457
+                        - button "p · perf-leaf-455 Leaf 456" [ref=f3e350]
+                        - button "p · perf-leaf-456 Leaf 457" [ref=f3e351]
+                  - button [ref=f3e352]:
+                    - text: div · perf-container-3-474
+                    - button [ref=f3e353]:
+                      - text: div · perf-container-2-466
+                      - button [ref=f3e354]:
+                        - text: div · perf-container-1-462
+                        - button "p · perf-leaf-460 Leaf 461" [ref=f3e355]
+                        - button "p · perf-leaf-461 Leaf 462" [ref=f3e356]
+                      - button [ref=f3e357]:
+                        - text: div · perf-container-1-465
+                        - button "p · perf-leaf-463 Leaf 464" [ref=f3e358]
+                        - button "p · perf-leaf-464 Leaf 465" [ref=f3e359]
+                    - button [ref=f3e360]:
+                      - text: div · perf-container-2-473
+                      - button [ref=f3e361]:
+                        - text: div · perf-container-1-469
+                        - button "p · perf-leaf-467 Leaf 468" [ref=f3e362]
+                        - button "p · perf-leaf-468 Leaf 469" [ref=f3e363]
+                      - button [ref=f3e364]:
+                        - text: div · perf-container-1-472
+                        - button "p · perf-leaf-470 Leaf 471" [ref=f3e365]
+                        - button "p · perf-leaf-471 Leaf 472" [ref=f3e366]
+                - button [ref=f3e367]:
+                  - text: div · perf-container-4-506
+                  - button [ref=f3e368]:
+                    - text: div · perf-container-3-490
+                    - button [ref=f3e369]:
+                      - text: div · perf-container-2-482
+                      - button [ref=f3e370]:
+                        - text: div · perf-container-1-478
+                        - button "p · perf-leaf-476 Leaf 477" [ref=f3e371]
+                        - button "p · perf-leaf-477 Leaf 478" [ref=f3e372]
+                      - button [ref=f3e373]:
+                        - text: div · perf-container-1-481
+                        - button "p · perf-leaf-479 Leaf 480" [ref=f3e374]
+                        - button "p · perf-leaf-480 Leaf 481" [ref=f3e375]
+                    - button [ref=f3e376]:
+                      - text: div · perf-container-2-489
+                      - button [ref=f3e377]:
+                        - text: div · perf-container-1-485
+                        - button "p · perf-leaf-483 Leaf 484" [ref=f3e378]
+                        - button "p · perf-leaf-484 Leaf 485" [ref=f3e379]
+                      - button [ref=f3e380]:
+                        - text: div · perf-container-1-488
+                        - button "p · perf-leaf-486 Leaf 487" [ref=f3e381]
+                        - button "p · perf-leaf-487 Leaf 488" [ref=f3e382]
+                  - button [ref=f3e383]:
+                    - text: div · perf-container-3-505
+                    - button [ref=f3e384]:
+                      - text: div · perf-container-2-497
+                      - button [ref=f3e385]:
+                        - text: div · perf-container-1-493
+                        - button "p · perf-leaf-491 Leaf 492" [ref=f3e386]
+                        - button "p · perf-leaf-492 Leaf 493" [ref=f3e387]
+                      - button [ref=f3e388]:
+                        - text: div · perf-container-1-496
+                        - button "p · perf-leaf-494 Leaf 495" [ref=f3e389]
+                        - button "p · perf-leaf-495 Leaf 496" [ref=f3e390]
+                    - button [ref=f3e391]:
+                      - text: div · perf-container-2-504
+                      - button [ref=f3e392]:
+                        - text: div · perf-container-1-500
+                        - button "p · perf-leaf-498 Leaf 499" [ref=f3e393]
+                        - button "p · perf-leaf-499 Leaf 500" [ref=f3e394]
+                      - button [ref=f3e395]:
+                        - text: div · perf-container-1-503
+                        - button "p · perf-leaf-501 Leaf 502" [ref=f3e396]
+                        - button "p · perf-leaf-502 Leaf 503" [ref=f3e397]
+      - status [ref=f3e190]

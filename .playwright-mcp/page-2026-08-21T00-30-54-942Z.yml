@@ -1,0 +1,221 @@
+- generic [ref=f3e2]:
+  - navigation "Main menu":
+    - link "Skip to main content" [ref=f3e3] [cursor=pointer]:
+      - /url: "#wpbody-content"
+    - link "Skip to toolbar" [ref=f3e4] [cursor=pointer]:
+      - /url: "#wp-toolbar"
+    - text:            
+  - generic [ref=f3e5]:
+    - generic [ref=f3e6]:
+      - navigation "Toolbar":
+        - menu:
+          - group [ref=f3e7]:
+            - menuitem "Menu" [ref=f3e8] [cursor=pointer]:
+              - generic [ref=f3e9]: 
+          - text: 
+          - group [ref=f3e11]:
+            - menuitem " Code to Block Phase 4" [ref=f3e12] [cursor=pointer]
+          - text:  
+          - group [ref=f3e13]:
+            - menuitem "New" [ref=f3e14] [cursor=pointer]:
+              - generic [ref=f3e15]: 
+        - menu [ref=f3e17]:
+          - group [ref=f3e18]:
+            - menuitem "Howdy, admin" [ref=f3e19] [cursor=pointer]
+    - main [ref=f3e20]:
+      - generic [ref=f3e21]:
+        - button "Screen Options " [ref=f3e24] [cursor=pointer]
+        - generic [ref=f3e25]:
+          - link "WordPress 7.1" [ref=f3e26] [cursor=pointer]:
+            - /url: https://wordpress.org/documentation/wordpress-version/version-7-1/
+          - text: is available!
+          - link "Please update WordPress now" [ref=f3e27] [cursor=pointer]:
+            - /url: http://localhost:8090/wp-admin/update-core.php
+            - text: Please update now
+          - text: .
+        - generic [ref=f3e28]:
+          - heading "Edit Code to Block Page" [level=1] [ref=f3e29]
+          - link "Add Code to Block Page" [ref=f3e30] [cursor=pointer]:
+            - /url: http://localhost:8090/wp-admin/post-new.php?post_type=ctb_page
+          - text: 
+          - generic [ref=f3e32]:
+            - generic:
+              - generic [ref=f3e34]:
+                - generic [ref=f3e35]:
+                  - generic: Add title
+                  - textbox "Add title" [ref=f3e36]: Phase 7 Action Binding
+                - generic [ref=f3e38]:
+                  - strong [ref=f3e39]: "Permalink:"
+                  - link "http://localhost:8090/?ctb_page=phase-7-action-binding" [ref=f3e40] [cursor=pointer]:
+                    - /url: http://localhost:8090/?ctb_page=phase-7-action-binding
+                  - link "Change Permalink Structure" [ref=f3e42] [cursor=pointer]:
+                    - /url: options-permalink.php
+              - generic [ref=f3e45]:
+                - generic [ref=f3e46]:
+                  - heading "Publish" [level=2] [ref=f3e47]
+                  - generic [ref=f3e48]:
+                    - button "Move up" [disabled] [ref=f3e49]:
+                      - generic [ref=f3e51]: 
+                    - button "Move down" [ref=f3e52] [cursor=pointer]:
+                      - generic [ref=f3e54]: 
+                    - 'button "Toggle panel: Publish" [expanded] [ref=f3e55] [cursor=pointer]':
+                      - generic [ref=f3e57]: 
+                - generic [ref=f3e59]:
+                  - generic [ref=f3e60]:
+                    - link "Preview Changes (opens in a new tab)" [ref=f3e62] [cursor=pointer]:
+                      - /url: http://localhost:8090/?ctb_page=phase-7-action-binding&preview=true
+                      - text: Preview Changes
+                      - generic [ref=f3e63]: (opens in a new tab)
+                    - generic [ref=f3e64]:
+                      - generic [ref=f3e65]:
+                        - text: " Status: Published"
+                        - button "Edit status" [ref=f3e66] [cursor=pointer]: Edit
+                      - generic [ref=f3e68]:
+                        - text: " Visibility: Public"
+                        - button "Edit visibility" [ref=f3e69] [cursor=pointer]: Edit
+                      - generic [ref=f3e71]:
+                        - generic [ref=f3e72]: " Published on: Aug 20, 2026 at 23:37"
+                        - button "Edit date and time" [ref=f3e73] [cursor=pointer]: Edit
+                  - generic [ref=f3e75]:
+                    - link "Move to Trash" [ref=f3e77] [cursor=pointer]:
+                      - /url: http://localhost:8090/wp-admin/post.php?post=22&action=trash&_wpnonce=5ae6174d2f
+                    - button "Update" [ref=f3e79] [cursor=pointer]
+              - generic [ref=f3e80]:
+                - generic:   
+                - generic [ref=f3e82]:
+                  - generic [ref=f3e83]:
+                    - heading "Code to Block Canvas" [level=2] [ref=f3e84]
+                    - generic [ref=f3e85]:
+                      - button "Move up" [ref=f3e86] [cursor=pointer]:
+                        - generic [ref=f3e88]: 
+                      - button "Move down" [disabled] [ref=f3e89]:
+                        - generic [ref=f3e91]: 
+                      - 'button "Toggle panel: Code to Block Canvas" [expanded] [ref=f3e92] [cursor=pointer]':
+                        - generic [ref=f3e94]: 
+                  - region "Code to Block visual editor" [ref=f3e97]:
+                    - generic [ref=f3e98]:
+                      - generic [ref=f3e99]:
+                        - paragraph [ref=f3e100]: Phase 7 / PHP review
+                        - heading "Imported layout" [level=2] [ref=f3e188]
+                      - generic [ref=f3e102]:
+                        - generic [ref=f3e103]: Zustand history active
+                        - button "Undo" [ref=f3e104] [cursor=pointer]
+                        - button "Redo" [disabled] [ref=f3e105]
+                        - button "Load" [ref=f3e106] [cursor=pointer]
+                        - button "Save tree" [ref=f3e107] [cursor=pointer]
+                    - generic [ref=f3e108]:
+                      - generic [ref=f3e109]:
+                        - generic [ref=f3e110]:
+                          - paragraph [ref=f3e111]: HTML + CSS importer
+                          - heading "Paste code into editable blocks" [level=3] [ref=f3e112]
+                        - button "Parse onto canvas" [active] [ref=f3e113] [cursor=pointer]
+                      - generic [ref=f3e114]:
+                        - generic [ref=f3e115]:
+                          - generic [ref=f3e116]: HTML
+                          - textbox "HTML to import" [ref=f3e117]:
+                            - /placeholder: <article class="card">...</article>
+                            - text: <section class="php-demo"><p class="eyebrow">SERVER-REVIEWED COMPONENT</p><h1>Explicit PHP confirmation</h1><p>The output below remains an inert shortcode until an administrator reviews and confirms the source.</p><div class="php-output"><?php $values = shortcode_atts( array( 'message' => 'Safe PHP confirmed.' ), $atts, $tag ); return '<strong class="safe-php">' . esc_html( $values['message'] ) . '</strong>'; ?></div></section>
+                        - generic [ref=f3e118]:
+                          - generic [ref=f3e119]: CSS
+                          - textbox "CSS to import" [ref=f3e120]:
+                            - /placeholder: ".card { padding: 2rem; }"
+                            - text: ".php-demo { max-width: 760px; margin: 64px auto; padding: 48px; background: #fff; color: #171d35; border: 1px solid #cbd5cc; font-family: Arial, sans-serif; } .eyebrow { color: #39734d; font-size: 12px; font-weight: 700; letter-spacing: 0.12em; } .php-demo h1 { font-family: Georgia, serif; font-size: 44px; margin: 12px 0; } .php-output { margin-top: 28px; padding: 20px; background: #eef6f0; border-left: 4px solid #39734d; } .safe-php { color: #1c6336; font-size: 20px; }"
+                      - region "Detected PHP" [ref=f3e189]:
+                        - generic [ref=f3e190]:
+                          - generic [ref=f3e191]:
+                            - strong [ref=f3e192]: Detected PHP
+                            - paragraph [ref=f3e193]: Static review reduces obvious risk; it is not a PHP sandbox.
+                          - generic [ref=f3e194]: 1 block
+                        - article [ref=f3e231]:
+                          - generic [ref=f3e232]:
+                            - text: Passed scan / confirmation required
+                            - paragraph [ref=f3e233]: Returns a value as shortcode output. Reads attributes and the shortcode tag. Calls shortcode_atts() and esc_html().
+                            - paragraph [ref=f3e234]:
+                              - text: "Canvas placeholder:"
+                              - code [ref=f3e235]: "[ctb_php_22_a126e306689b3d3f]"
+                          - generic [ref=f3e236]:
+                            - paragraph [ref=f3e237]: Full detected PHP
+                            - generic [ref=f3e238]: <?php $values = shortcode_atts( array( 'message' => 'Safe PHP confirmed.' ), $atts, $tag ); return '<strong class="safe-php">' . esc_html( $values['message'] ) . '</strong>'; ?>
+                          - generic [ref=f3e239]:
+                            - paragraph [ref=f3e240]:
+                              - text: This grants the snippet PHP execution privileges whenever
+                              - code [ref=f3e241]: "[ctb_php_22_a126e306689b3d3f]"
+                              - text: is rendered.
+                            - generic [ref=f3e242]:
+                              - text: Type
+                              - code [ref=f3e243]: REGISTER ctb_php_22_a126e306689b3d3f a635c8151868
+                              - textbox "Type REGISTER ctb_php_22_a126e306689b3d3f a635c8151868" [ref=f3e244]
+                            - button "Confirm and register shortcode" [disabled] [ref=f3e245]
+                    - generic [ref=f3e121]:
+                      - complementary "Document details" [ref=f3e122]:
+                        - generic [ref=f3e123]:
+                          - paragraph [ref=f3e124]: Loaded document
+                          - strong [ref=f3e125]: Imported layout
+                          - generic [ref=f3e126]:
+                            - generic [ref=f3e127]:
+                              - term [ref=f3e128]: Schema
+                              - definition [ref=f3e129]: v1
+                            - generic [ref=f3e130]:
+                              - term [ref=f3e131]: Blocks
+                              - definition [ref=f3e132]: "5"
+                            - generic [ref=f3e133]:
+                              - term [ref=f3e134]: Root
+                              - definition [ref=f3e135]: <section>
+                          - paragraph [ref=f3e136]: Each dashed outline is a separate schema block.
+                          - generic [ref=f3e137]:
+                            - paragraph [ref=f3e138]: Selected block
+                            - strong [ref=f3e139]: section-1
+                            - generic [ref=f3e140]:
+                              - button "Move up" [disabled] [ref=f3e141]
+                              - button "Move down" [disabled] [ref=f3e142]
+                            - generic [ref=f3e143]:
+                              - generic [ref=f3e144]: Color
+                              - textbox "Color for section-1" [ref=f3e205] [cursor=pointer]: "#171d35"
+                            - generic [ref=f3e246]:
+                              - paragraph [ref=f3e247]: Mapped controls
+                              - generic [ref=f3e248]:
+                                - generic [ref=f3e249]: Padding
+                                - textbox "Padding" [ref=f3e250]:
+                                  - /placeholder: 24px 32px
+                                  - text: 48px
+                              - generic [ref=f3e251]:
+                                - generic [ref=f3e252]: Margin
+                                - textbox "Margin" [ref=f3e253]:
+                                  - /placeholder: 0 auto
+                                  - text: 64px auto
+                              - generic [ref=f3e254]:
+                                - generic [ref=f3e255]: Font size
+                                - textbox "Font size" [ref=f3e256]:
+                                  - /placeholder: 18px
+                              - generic [ref=f3e257]:
+                                - generic [ref=f3e258]: Font weight
+                                - textbox "Font weight" [ref=f3e259]:
+                                  - /placeholder: "700"
+                              - generic [ref=f3e260]:
+                                - generic [ref=f3e261]: Border
+                                - textbox "Border" [ref=f3e262]:
+                                  - /placeholder: "1px solid #ccc"
+                                  - text: "1px solid #cbd5cc"
+                              - generic [ref=f3e263]:
+                                - generic [ref=f3e264]: Border radius
+                                - textbox "Border radius" [ref=f3e265]:
+                                  - /placeholder: 12px
+                              - button "Apply styles" [disabled] [ref=f3e266]
+                            - generic [ref=f3e167]:
+                              - generic [ref=f3e168]: Raw CSS fallback
+                              - textbox "Raw CSS fallback" [ref=f3e169]: "background: #fff; font-family: Arial, sans-serif; max-width: 760px;"
+                              - generic [ref=f3e170]:
+                                - generic [ref=f3e171]: Preserved CSS
+                                - button "Apply CSS" [disabled] [ref=f3e172]
+                              - paragraph [ref=f3e173]: Enter declarations only. Mapped controls win unless a raw value uses !important.
+                          - status [ref=f3e227]: Unsaved changes.
+                      - main "Rendered block canvas" [ref=f3e174]:
+                        - generic [ref=f3e175]: Drag a block onto text to reorder · onto a container to nest
+                        - generic [ref=f3e228]:
+                          - text: section · section-1
+                          - button "p · p-2 SERVER-REVIEWED COMPONENT" [ref=f3e267]
+                          - button "h1 · h1-3 Explicit PHP confirmation" [ref=f3e268]
+                          - button "p · p-4 The output below remains an inert shortcode until an administrator reviews and confirms the source." [ref=f3e269]
+                          - button "div · div-5 [ctb_php_22_a126e306689b3d3f]" [ref=f3e270]
+                      - status [ref=f3e185]
+  - text: 

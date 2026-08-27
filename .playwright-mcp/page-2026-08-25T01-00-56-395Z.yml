@@ -1,0 +1,22 @@
+- generic [ref=f3e1]:
+  - generic [ref=f3e2]:
+    - text:                    
+    - heading [level=1] [ref=f3e3]: Add Post
+    - text:  
+  - dialog "Welcome to the editor" [active] [ref=f3e8]:
+    - document [ref=f3e9]:
+      - button "Close" [ref=f3e11] [cursor=pointer]
+      - generic [ref=f3e15]:
+        - generic [ref=f3e16]:
+          - list "Guide controls" [ref=f3e18]:
+            - listitem [ref=f3e19]:
+              - button "Page 1 of 4" [ref=f3e20] [cursor=pointer]
+            - listitem [ref=f3e23]:
+              - button "Page 2 of 4" [ref=f3e24] [cursor=pointer]
+            - listitem [ref=f3e27]:
+              - button "Page 3 of 4" [ref=f3e28] [cursor=pointer]
+            - listitem [ref=f3e31]:
+              - button "Page 4 of 4" [ref=f3e32] [cursor=pointer]
+          - heading "Welcome to the editor" [level=1] [ref=f3e35]
+          - paragraph [ref=f3e36]: In the WordPress editor, each paragraph, image, or video is presented as a distinct “block” of content.
+        - button "Next" [ref=f3e38] [cursor=pointer]

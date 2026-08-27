@@ -1,0 +1,96 @@
+- generic [active] [ref=f7e1]:
+  - generic [ref=f7e2]:
+    - navigation "Toolbar":
+      - menu:
+        - text: 
+        - group [ref=f7e3]:
+          - menuitem " Code to Block Phase 4" [ref=f7e4] [cursor=pointer]
+        - group [ref=f7e5]:
+          - menuitem " Edit Site" [ref=f7e6] [cursor=pointer]
+        - text:  
+        - group [ref=f7e7]:
+          - menuitem "New" [ref=f7e8] [cursor=pointer]:
+            - generic [ref=f7e9]: 
+        - group [ref=f7e11]:
+          - menuitem " Edit Code to Block Page" [ref=f7e12] [cursor=pointer]
+      - menu [ref=f7e13]:
+        - group [ref=f7e14]:
+          - menuitem "Howdy, admin" [ref=f7e15] [cursor=pointer]
+        - text: 
+  - link "Skip to content" [ref=f7e16] [cursor=pointer]:
+    - /url: "#wp--skip-link--target"
+  - generic [ref=f7e17]:
+    - banner [ref=f7e18]:
+      - generic [ref=f7e21]:
+        - paragraph [ref=f7e22]:
+          - link "Code to Block Phase 4" [ref=f7e23] [cursor=pointer]:
+            - /url: http://localhost:8090
+        - navigation [ref=f7e25]:
+          - button "Open menu" [ref=f7e26] [cursor=pointer]
+    - main [ref=f7e27]:
+      - generic [ref=f7e28]:
+        - heading "Phase 4 Hero" [level=1] [ref=f7e29]
+        - generic [ref=f7e30]:
+          - paragraph [ref=f7e31]: Written by
+          - paragraph [ref=f7e32]: in
+        - generic [ref=f7e36]:
+          - paragraph [ref=f7e37]: Build faster
+          - heading "Launch your next idea" [level=1] [ref=f7e38]
+          - paragraph [ref=f7e39]: A focused toolkit for modern product teams.
+        - navigation "Post navigation" [ref=f7e42]:
+          - generic [ref=f7e43]:
+            - link "Phase 4 Pricing Card" [ref=f7e44] [cursor=pointer]:
+              - /url: http://localhost:8090/?ctb_page=phase-4-pricing-card
+            - generic [ref=f7e45]: →
+      - generic [ref=f7e46]:
+        - heading "More posts" [level=2] [ref=f7e47]
+        - list [ref=f7e49]:
+          - listitem [ref=f7e50]:
+            - generic [ref=f7e51]:
+              - heading [level=3] [ref=f7e52]:
+                - link "Hello world!" [ref=f7e53] [cursor=pointer]:
+                  - /url: http://localhost:8090/?p=1
+              - time [ref=f7e55]:
+                - link "August 19, 2026" [ref=f7e56] [cursor=pointer]:
+                  - /url: http://localhost:8090/?p=1
+    - contentinfo [ref=f7e57]:
+      - generic [ref=f7e59]:
+        - generic [ref=f7e60]:
+          - heading [level=2] [ref=f7e63]:
+            - link "Code to Block Phase 4" [ref=f7e64] [cursor=pointer]:
+              - /url: http://localhost:8090
+          - generic [ref=f7e66]:
+            - navigation [ref=f7e67]:
+              - list [ref=f7e68]:
+                - listitem [ref=f7e69]:
+                  - link "Blog" [ref=f7e70] [cursor=pointer]:
+                    - /url: "#"
+                - listitem [ref=f7e71]:
+                  - link "About" [ref=f7e72] [cursor=pointer]:
+                    - /url: "#"
+                - listitem [ref=f7e73]:
+                  - link "FAQs" [ref=f7e74] [cursor=pointer]:
+                    - /url: "#"
+                - listitem [ref=f7e75]:
+                  - link "Authors" [ref=f7e76] [cursor=pointer]:
+                    - /url: "#"
+            - navigation [ref=f7e77]:
+              - list [ref=f7e78]:
+                - listitem [ref=f7e79]:
+                  - link "Events" [ref=f7e80] [cursor=pointer]:
+                    - /url: "#"
+                - listitem [ref=f7e81]:
+                  - link "Shop" [ref=f7e82] [cursor=pointer]:
+                    - /url: "#"
+                - listitem [ref=f7e83]:
+                  - link "Patterns" [ref=f7e84] [cursor=pointer]:
+                    - /url: "#"
+                - listitem [ref=f7e85]:
+                  - link "Themes" [ref=f7e86] [cursor=pointer]:
+                    - /url: "#"
+        - generic [ref=f7e88]:
+          - paragraph [ref=f7e89]: Twenty Twenty-Five
+          - paragraph [ref=f7e90]:
+            - text: Designed with
+            - link "WordPress" [ref=f7e91] [cursor=pointer]:
+              - /url: https://wordpress.org

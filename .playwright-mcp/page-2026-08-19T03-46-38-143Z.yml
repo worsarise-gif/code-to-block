@@ -1,0 +1,35 @@
+- generic [active] [ref=f44e1]:
+  - generic [ref=f44e2]:
+    - navigation "Toolbar":
+      - menu:
+        - group [ref=f44e3]:
+          - menuitem "About WordPress" [ref=f44e4] [cursor=pointer]:
+            - generic [ref=f44e5]: 
+        - group [ref=f44e7]:
+          - menuitem " Code to Block Phase 4" [ref=f44e8] [cursor=pointer]
+        - group [ref=f44e9]:
+          - menuitem " Edit Site" [ref=f44e10] [cursor=pointer]
+        - group [ref=f44e11]:
+          - menuitem "3 updates available" [ref=f44e12] [cursor=pointer]:
+            - generic [ref=f44e13]: 
+            - generic [ref=f44e14]: "3"
+        - group [ref=f44e16]:
+          - menuitem "0 Comments in moderation" [ref=f44e17] [cursor=pointer]:
+            - generic [ref=f44e18]: 
+            - generic [ref=f44e19]: "0"
+        - group [ref=f44e21]:
+          - menuitem "New" [ref=f44e22] [cursor=pointer]:
+            - generic [ref=f44e23]: 
+        - group [ref=f44e25]:
+          - menuitem " Edit Code to Block Page" [ref=f44e26] [cursor=pointer]
+      - menu [ref=f44e27]:
+        - group [ref=f44e28]:
+          - menuitem "Howdy, admin" [ref=f44e29] [cursor=pointer]
+        - group [ref=f44e30]:
+          - menuitem " Search" [ref=f44e31]:
+            - generic [ref=f44e32]:
+              - text: 
+              - textbox "Search" [ref=f44e33] [cursor=pointer]
+              - generic [ref=f44e34]: Search
+  - article [ref=f44e37]:
+    - heading "Raw CSS survives" [level=2] [ref=f44e38]

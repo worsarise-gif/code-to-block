@@ -1,0 +1,228 @@
+- generic [ref=f2e1]:
+  - text:     
+  - generic [ref=f2e2]:
+    - generic [ref=f2e3]:
+      - strong [ref=f2e4]: Dynamic Product Template
+      - text: Dedicated editor — no admin chrome
+    - generic [ref=f2e5]:
+      - link "Back to WordPress editor" [ref=f2e6] [cursor=pointer]:
+        - /url: http://localhost:8090/wp-admin/post.php?post=74&action=edit
+      - text: "|"
+      - link "View live page" [ref=f2e7] [cursor=pointer]:
+        - /url: http://localhost:8090/?post_type=ctb_page&p=74
+  - region "Code to Block visual editor" [ref=f2e9]:
+    - generic [ref=f2e10]:
+      - generic [ref=f2e11]:
+        - paragraph [ref=f2e12]: Phase 7 / Reusable components
+        - heading "Imported layout" [level=2] [ref=f2e211]
+      - generic [ref=f2e14]:
+        - generic [ref=f2e15]: Zustand history active
+        - button "Undo" [ref=f2e16] [cursor=pointer]
+        - button "Redo" [disabled] [ref=f2e17]
+        - button "Load" [ref=f2e18] [cursor=pointer]
+        - button "Save tree" [ref=f2e19] [cursor=pointer]
+    - generic [ref=f2e20]:
+      - generic [ref=f2e21]:
+        - generic [ref=f2e22]:
+          - paragraph [ref=f2e23]: HTML + CSS importer
+          - heading "Paste code into editable blocks" [level=3] [ref=f2e24]
+        - button "Parse onto canvas" [ref=f2e25] [cursor=pointer]
+      - generic [ref=f2e26]:
+        - generic [ref=f2e27]:
+          - generic [ref=f2e28]: HTML
+          - textbox "HTML to import" [ref=f2e29]:
+            - /placeholder: <article class="card">...</article>
+            - text: <div class="product-loop"> <img src="https://via.placeholder.com/150" alt="Placeholder"> <h2>Product Name</h2> <p class="price">$0.00</p> <div class="short-desc">Description here</div> <span class="stock">In stock</span> </div>
+        - generic [ref=f2e30]:
+          - generic [ref=f2e31]: CSS
+          - textbox "CSS to import" [ref=f2e32]:
+            - /placeholder: ".card { padding: 2rem; }"
+    - generic [ref=f2e33]:
+      - complementary "Document details" [ref=f2e34]:
+        - generic [ref=f2e35]:
+          - paragraph [ref=f2e36]: Loaded document
+          - strong [ref=f2e37]: Imported layout
+          - generic [ref=f2e38]:
+            - generic [ref=f2e39]:
+              - term [ref=f2e40]: Schema
+              - definition [ref=f2e41]: v1
+            - generic [ref=f2e42]:
+              - term [ref=f2e43]: Blocks
+              - definition [ref=f2e44]: "6"
+            - generic [ref=f2e45]:
+              - term [ref=f2e46]: Root
+              - definition [ref=f2e47]: <div>
+          - paragraph [ref=f2e48]: Each dashed outline is a separate schema block.
+          - group [ref=f2e49]:
+            - generic "Global design tokens 0 defined" [ref=f2e50] [cursor=pointer]:
+              - generic [ref=f2e51]: Global design tokens
+              - generic [ref=f2e52]: 0 defined
+            - option "Colors" [selected]
+            - option "Typography"
+            - option "Spacing"
+          - group [ref=f2e53]:
+            - generic "Starter templates 4 ready" [ref=f2e54] [cursor=pointer]:
+              - generic [ref=f2e55]: Starter templates
+              - generic [ref=f2e56]: 4 ready
+            - paragraph [ref=f2e57]: Replace the canvas or insert a starter after the selected block.
+            - generic [ref=f2e58]:
+              - generic [ref=f2e59]:
+                - generic [ref=f2e60]:
+                  - strong [ref=f2e61]: Hero landing
+                  - generic [ref=f2e62]: Full hero with headline, intro and CTA
+                - generic [ref=f2e63]:
+                  - button "Replace canvas" [ref=f2e64] [cursor=pointer]
+                  - button "Insert after selection" [ref=f2e65] [cursor=pointer]
+              - generic [ref=f2e66]:
+                - generic [ref=f2e67]:
+                  - strong [ref=f2e68]: Pricing card
+                  - generic [ref=f2e69]: Single pricing card with features and CTA
+                - generic [ref=f2e70]:
+                  - button "Replace canvas" [ref=f2e71] [cursor=pointer]
+                  - button "Insert after selection" [ref=f2e72] [cursor=pointer]
+              - generic [ref=f2e73]:
+                - generic [ref=f2e74]:
+                  - strong [ref=f2e75]: Testimonial
+                  - generic [ref=f2e76]: Quote card with avatar and caption
+                - generic [ref=f2e77]:
+                  - button "Replace canvas" [ref=f2e78] [cursor=pointer]
+                  - button "Insert after selection" [ref=f2e79] [cursor=pointer]
+              - generic [ref=f2e80]:
+                - generic [ref=f2e81]:
+                  - strong [ref=f2e82]: Footer columns
+                  - generic [ref=f2e83]: Three-column footer with links
+                - generic [ref=f2e84]:
+                  - button "Replace canvas" [ref=f2e85] [cursor=pointer]
+                  - button "Insert after selection" [ref=f2e86] [cursor=pointer]
+          - group [ref=f2e87]:
+            - generic "Saved components 2 saved" [ref=f2e88] [cursor=pointer]:
+              - generic [ref=f2e89]: Saved components
+              - generic [ref=f2e90]: 2 saved
+            - paragraph [ref=f2e91]: Save the selected subtree, then insert a linked instance here or on another page.
+            - generic [ref=f2e92]:
+              - generic [ref=f2e93]:
+                - generic [ref=f2e94]: Name
+                - textbox "Name" [ref=f2e95]:
+                  - /placeholder: Feature card
+              - button "Save selection" [disabled] [ref=f2e96]
+            - generic [ref=f2e97]:
+              - generic [ref=f2e98]:
+                - generic [ref=f2e99]:
+                  - strong [ref=f2e100]: asdasd
+                  - generic [ref=f2e101]: "#41 · linked"
+                - generic [ref=f2e102]:
+                  - button "Insert" [ref=f2e103] [cursor=pointer]
+                  - button "Replace from selection" [ref=f2e104] [cursor=pointer]
+              - generic [ref=f2e105]:
+                - generic [ref=f2e106]:
+                  - strong [ref=f2e107]: Phase 7 reusable card
+                  - generic [ref=f2e108]: "#29 · linked"
+                - generic [ref=f2e109]:
+                  - button "Insert" [ref=f2e110] [cursor=pointer]
+                  - button "Replace from selection" [ref=f2e111] [cursor=pointer]
+          - generic [ref=f2e112]:
+            - paragraph [ref=f2e113]: Selected block
+            - strong [ref=f2e114]: h2-3
+            - group [ref=f2e115]:
+              - generic "Explain CSS no import data" [ref=f2e116] [cursor=pointer]:
+                - generic [ref=f2e117]: Explain CSS
+                - generic [ref=f2e118]: no import data
+            - generic [ref=f2e119]:
+              - paragraph [ref=f2e120]: Editing breakpoint
+              - group "Style breakpoint" [ref=f2e121]:
+                - button "Desktop 100%" [pressed] [ref=f2e122] [cursor=pointer]:
+                  - generic [ref=f2e123]: Desktop
+                  - generic [ref=f2e124]: 100%
+                - button "Tablet 768px" [ref=f2e125] [cursor=pointer]:
+                  - generic [ref=f2e126]: Tablet
+                  - generic [ref=f2e127]: 768px
+                - button "Mobile 390px" [ref=f2e128] [cursor=pointer]:
+                  - generic [ref=f2e129]: Mobile
+                  - generic [ref=f2e130]: 390px
+              - paragraph [ref=f2e131]: 0 base declarations
+            - generic [ref=f2e132]:
+              - generic [ref=f2e133]:
+                - checkbox "Hide on desktop" [ref=f2e134] [cursor=pointer]
+                - generic [ref=f2e135]: Hide on desktop
+              - generic [ref=f2e136]: Visible on this device
+            - generic [ref=f2e137]:
+              - generic [ref=f2e138]:
+                - checkbox "Bind to WooCommerce data" [checked] [ref=f2e139] [cursor=pointer]
+                - generic [ref=f2e140]: Bind to WooCommerce data
+              - generic [ref=f2e329]:
+                - generic [ref=f2e330]: Data Source
+                - combobox "Data Source" [ref=f2e331]:
+                  - option "Product Title" [selected]
+                  - option "Product Price"
+                  - option "Short Description"
+                  - option "Stock Status"
+            - generic [ref=f2e254]:
+              - paragraph [ref=f2e255]: Client Content
+              - generic [ref=f2e256]:
+                - checkbox "Make editable for clients" [ref=f2e257] [cursor=pointer]
+                - generic [ref=f2e258]: Make editable for clients
+            - generic [ref=f2e141]:
+              - button "Move up" [ref=f2e142] [cursor=pointer]
+              - button "Move down" [ref=f2e143] [cursor=pointer]
+            - generic [ref=f2e145]:
+              - generic [ref=f2e146]: Color
+              - textbox "Desktop color for h2-3" [ref=f2e294] [cursor=pointer]: "#000000"
+            - generic [ref=f2e295]:
+              - paragraph [ref=f2e296]: Base mapped controls
+              - generic [ref=f2e298]:
+                - generic [ref=f2e299]: Padding
+                - textbox "Padding" [ref=f2e300]:
+                  - /placeholder: 24px 32px
+              - generic [ref=f2e302]:
+                - generic [ref=f2e303]: Margin
+                - textbox "Margin" [ref=f2e304]:
+                  - /placeholder: 0 auto
+              - generic [ref=f2e306]:
+                - generic [ref=f2e307]: Font size
+                - textbox "Font size" [ref=f2e308]:
+                  - /placeholder: 18px
+              - generic [ref=f2e310]:
+                - generic [ref=f2e311]: Font weight
+                - textbox "Font weight" [ref=f2e312]:
+                  - /placeholder: "700"
+              - generic [ref=f2e314]:
+                - generic [ref=f2e315]: Border
+                - textbox "Border" [ref=f2e316]:
+                  - /placeholder: "1px solid #ccc"
+              - generic [ref=f2e318]:
+                - generic [ref=f2e319]: Border radius
+                - textbox "Border radius" [ref=f2e320]:
+                  - /placeholder: 12px
+              - button "Apply desktop styles" [disabled] [ref=f2e321]
+            - generic [ref=f2e322]:
+              - generic [ref=f2e323]: Raw CSS fallback
+              - textbox "Raw CSS fallback" [ref=f2e324]
+              - generic [ref=f2e325]:
+                - generic [ref=f2e326]: No fallback CSS
+                - button "Apply CSS" [disabled] [ref=f2e327]
+              - paragraph [ref=f2e328]: Enter declarations for desktop only. Mapped controls win unless a raw value uses !important.
+          - status [ref=f2e247]: Dynamic binding changed. Unsaved changes.
+      - main "Rendered block canvas" [ref=f2e182]:
+        - generic [ref=f2e183]:
+          - generic [ref=f2e184]:
+            - paragraph [ref=f2e185]: Live canvas width
+            - strong [ref=f2e186]: Desktop / 100%
+          - group "Canvas breakpoint" [ref=f2e187]:
+            - button "Desktop 100%" [pressed] [ref=f2e188] [cursor=pointer]:
+              - generic [ref=f2e189]: Desktop
+              - generic [ref=f2e190]: 100%
+            - button "Tablet 768px" [ref=f2e191] [cursor=pointer]:
+              - generic [ref=f2e192]: Tablet
+              - generic [ref=f2e193]: 768px
+            - button "Mobile 390px" [ref=f2e194] [cursor=pointer]:
+              - generic [ref=f2e195]: Mobile
+              - generic [ref=f2e196]: 390px
+        - generic [ref=f2e197]: Drag a block onto text to reorder · onto a container to nest
+        - generic [ref=f2e248]:
+          - text: div · div-1
+          - button "Placeholder" [ref=f2e249]: img · img-2
+          - button "h2 · h2-3 Product Name" [active] [ref=f2e250]
+          - button "p · p-4 $0.00" [ref=f2e251]
+          - button "div · div-5 Description here" [ref=f2e252]
+          - button "span · span-6 In stock" [ref=f2e253]
+      - status [ref=f2e208]

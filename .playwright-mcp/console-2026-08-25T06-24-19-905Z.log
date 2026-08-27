@@ -1,0 +1,1 @@
+[   57501ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:8090/index.php?rest_route=%2Fcode-to-block%2Fv1%2Fpages%2F89%2Fcontent&_locale=user:0

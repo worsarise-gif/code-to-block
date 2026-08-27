@@ -1,0 +1,26 @@
+- generic [active] [ref=f28e1]:
+  - heading "Log In" [level=1] [ref=f28e2]
+  - generic [ref=f28e3]:
+    - link "Powered by WordPress" [ref=f28e4] [cursor=pointer]:
+      - /url: https://wordpress.org/
+    - generic [ref=f28e5]:
+      - paragraph [ref=f28e6]:
+        - generic [ref=f28e7]: Username or Email Address
+        - textbox "Username or Email Address" [ref=f28e8]
+      - generic [ref=f28e9]:
+        - generic [ref=f28e10]: Password
+        - generic [ref=f28e11]:
+          - textbox "Password" [ref=f28e12]
+          - button "Show password" [ref=f28e13] [cursor=pointer]:
+            - generic [ref=f28e14]: 
+      - paragraph [ref=f28e15]:
+        - checkbox "Remember Me" [ref=f28e16] [cursor=pointer]
+        - generic [ref=f28e17]: Remember Me
+      - paragraph:
+        - button "Log In" [ref=f28e18] [cursor=pointer]
+    - paragraph [ref=f28e19]:
+      - link "Lost your password?" [ref=f28e20] [cursor=pointer]:
+        - /url: http://localhost:8090/wp-login.php?action=lostpassword
+    - paragraph [ref=f28e21]:
+      - link "← Go to Code to Block Phase 4" [ref=f28e22] [cursor=pointer]:
+        - /url: http://localhost:8090/

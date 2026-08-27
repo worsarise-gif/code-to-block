@@ -1,0 +1,490 @@
+- generic [ref=f20e2]:
+  - navigation "Main menu":
+    - link "Skip to main content" [ref=f20e3] [cursor=pointer]:
+      - /url: "#wpbody-content"
+    - link "Skip to toolbar" [ref=f20e4] [cursor=pointer]:
+      - /url: "#wp-toolbar"
+    - list [ref=f20e7]:
+      - listitem [ref=f20e8]:
+        - link "Dashboard" [ref=f20e9] [cursor=pointer]:
+          - /url: index.php
+          - generic [ref=f20e10]: 
+        - list [ref=f20e12]:
+          - listitem [ref=f20e13]:
+            - link "Home" [ref=f20e14] [cursor=pointer]:
+              - /url: index.php
+          - listitem [ref=f20e15]:
+            - link "Updates 5" [ref=f20e16] [cursor=pointer]:
+              - /url: update-core.php
+              - text: Updates
+              - generic [ref=f20e17]: "5"
+      - listitem [ref=f20e18]
+      - listitem [ref=f20e20]:
+        - link "Posts" [ref=f20e21] [cursor=pointer]:
+          - /url: edit.php
+          - generic [ref=f20e22]: 
+        - list [ref=f20e24]:
+          - listitem [ref=f20e25]:
+            - link "All Posts" [ref=f20e26] [cursor=pointer]:
+              - /url: edit.php
+          - listitem [ref=f20e27]:
+            - link "Add Post" [ref=f20e28] [cursor=pointer]:
+              - /url: post-new.php
+          - listitem [ref=f20e29]:
+            - link "Categories" [ref=f20e30] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=category
+          - listitem [ref=f20e31]:
+            - link "Tags" [ref=f20e32] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=post_tag
+      - listitem [ref=f20e33]:
+        - link "Media" [ref=f20e34] [cursor=pointer]:
+          - /url: upload.php
+          - generic [ref=f20e35]: 
+        - list [ref=f20e37]:
+          - listitem [ref=f20e38]:
+            - link "Library" [ref=f20e39] [cursor=pointer]:
+              - /url: upload.php
+          - listitem [ref=f20e40]:
+            - link "Add Media File" [ref=f20e41] [cursor=pointer]:
+              - /url: media-new.php
+      - listitem [ref=f20e42]:
+        - link "Pages" [ref=f20e43] [cursor=pointer]:
+          - /url: edit.php?post_type=page
+          - generic [ref=f20e44]: 
+        - list [ref=f20e46]:
+          - listitem [ref=f20e47]:
+            - link "All Pages" [ref=f20e48] [cursor=pointer]:
+              - /url: edit.php?post_type=page
+          - listitem [ref=f20e49]:
+            - link "Add Page" [ref=f20e50] [cursor=pointer]:
+              - /url: post-new.php?post_type=page
+      - listitem [ref=f20e51]:
+        - link "Comments" [ref=f20e52] [cursor=pointer]:
+          - /url: edit-comments.php
+          - generic [ref=f20e53]: 
+      - listitem [ref=f20e55]:
+        - link "Code to Block Pages" [ref=f20e56] [cursor=pointer]:
+          - /url: edit.php?post_type=ctb_page
+          - generic [ref=f20e57]: 
+        - list [ref=f20e59]:
+          - listitem [ref=f20e60]:
+            - link "Code to Block Pages" [ref=f20e61] [cursor=pointer]:
+              - /url: edit.php?post_type=ctb_page
+          - listitem [ref=f20e62]:
+            - link "Add Code to Block Page" [ref=f20e63] [cursor=pointer]:
+              - /url: post-new.php?post_type=ctb_page
+      - listitem [ref=f20e64]
+      - listitem [ref=f20e66]:
+        - link "Appearance" [ref=f20e67] [cursor=pointer]:
+          - /url: themes.php
+          - generic [ref=f20e68]: 
+        - list [ref=f20e70]:
+          - listitem [ref=f20e71]:
+            - link "Themes 3" [ref=f20e72] [cursor=pointer]:
+              - /url: themes.php
+              - text: Themes
+              - generic [ref=f20e73]: "3"
+          - listitem [ref=f20e74]:
+            - link "Editor" [ref=f20e75] [cursor=pointer]:
+              - /url: site-editor.php
+      - listitem [ref=f20e76]:
+        - link "Plugins 1" [ref=f20e77] [cursor=pointer]:
+          - /url: plugins.php
+          - generic [ref=f20e78]: 
+          - generic [ref=f20e79]:
+            - text: Plugins
+            - generic [ref=f20e80]: "1"
+        - list [ref=f20e81]:
+          - listitem [ref=f20e82]:
+            - link "Installed Plugins" [ref=f20e83] [cursor=pointer]:
+              - /url: plugins.php
+          - listitem [ref=f20e84]:
+            - link "Add Plugin" [ref=f20e85] [cursor=pointer]:
+              - /url: plugin-install.php
+      - listitem [ref=f20e86]:
+        - link "Users" [ref=f20e87] [cursor=pointer]:
+          - /url: users.php
+          - generic [ref=f20e88]: 
+        - list [ref=f20e90]:
+          - listitem [ref=f20e91]:
+            - link "All Users" [ref=f20e92] [cursor=pointer]:
+              - /url: users.php
+          - listitem [ref=f20e93]:
+            - link "Add User" [ref=f20e94] [cursor=pointer]:
+              - /url: user-new.php
+          - listitem [ref=f20e95]:
+            - link "Profile" [ref=f20e96] [cursor=pointer]:
+              - /url: profile.php
+      - listitem [ref=f20e97]:
+        - link "Tools" [ref=f20e98] [cursor=pointer]:
+          - /url: tools.php
+          - generic [ref=f20e99]: 
+        - list [ref=f20e101]:
+          - listitem [ref=f20e102]:
+            - link "Available Tools" [ref=f20e103] [cursor=pointer]:
+              - /url: tools.php
+          - listitem [ref=f20e104]:
+            - link "Import" [ref=f20e105] [cursor=pointer]:
+              - /url: import.php
+          - listitem [ref=f20e106]:
+            - link "Export" [ref=f20e107] [cursor=pointer]:
+              - /url: export.php
+          - listitem [ref=f20e108]:
+            - link "Site Health" [ref=f20e109] [cursor=pointer]:
+              - /url: site-health.php
+          - listitem [ref=f20e110]:
+            - link "Export Personal Data" [ref=f20e111] [cursor=pointer]:
+              - /url: export-personal-data.php
+          - listitem [ref=f20e112]:
+            - link "Erase Personal Data" [ref=f20e113] [cursor=pointer]:
+              - /url: erase-personal-data.php
+          - listitem [ref=f20e114]:
+            - link "Theme File Editor" [ref=f20e115] [cursor=pointer]:
+              - /url: theme-editor.php
+          - listitem [ref=f20e116]:
+            - link "Plugin File Editor" [ref=f20e117] [cursor=pointer]:
+              - /url: plugin-editor.php
+      - listitem [ref=f20e118]:
+        - link "Settings" [ref=f20e119] [cursor=pointer]:
+          - /url: options-general.php
+          - generic [ref=f20e120]: 
+        - list [ref=f20e122]:
+          - listitem [ref=f20e123]:
+            - link "General" [ref=f20e124] [cursor=pointer]:
+              - /url: options-general.php
+          - listitem [ref=f20e125]:
+            - link "Writing" [ref=f20e126] [cursor=pointer]:
+              - /url: options-writing.php
+          - listitem [ref=f20e127]:
+            - link "Reading" [ref=f20e128] [cursor=pointer]:
+              - /url: options-reading.php
+          - listitem [ref=f20e129]:
+            - link "Discussion" [ref=f20e130] [cursor=pointer]:
+              - /url: options-discussion.php
+          - listitem [ref=f20e131]:
+            - link "Media" [ref=f20e132] [cursor=pointer]:
+              - /url: options-media.php
+          - listitem [ref=f20e133]:
+            - link "Permalinks" [ref=f20e134] [cursor=pointer]:
+              - /url: options-permalink.php
+          - listitem [ref=f20e135]:
+            - link "Privacy" [ref=f20e136] [cursor=pointer]:
+              - /url: options-privacy.php
+      - listitem [ref=f20e137]:
+        - button "Collapse Main menu" [expanded] [ref=f20e138] [cursor=pointer]:
+          - generic [ref=f20e139]: 
+          - generic [ref=f20e140]: Collapse Menu
+  - generic [ref=f20e141]:
+    - generic [ref=f20e142]:
+      - navigation "Toolbar":
+        - menu:
+          - group [ref=f20e143]:
+            - menuitem "About WordPress" [ref=f20e144] [cursor=pointer]:
+              - generic [ref=f20e145]: 
+          - group [ref=f20e147]:
+            - menuitem " Code to Block Phase 4" [ref=f20e148] [cursor=pointer]
+          - group [ref=f20e149]:
+            - menuitem "5 updates available" [ref=f20e150] [cursor=pointer]:
+              - generic [ref=f20e151]: 
+              - generic [ref=f20e152]: "5"
+          - group [ref=f20e154]:
+            - menuitem "0 Comments in moderation" [ref=f20e155] [cursor=pointer]:
+              - generic [ref=f20e156]: 
+              - generic [ref=f20e157]: "0"
+          - group [ref=f20e159]:
+            - menuitem "New" [ref=f20e160] [cursor=pointer]:
+              - generic [ref=f20e161]: 
+          - group [ref=f20e163]:
+            - menuitem "View Post" [ref=f20e164] [cursor=pointer]
+        - menu [ref=f20e165]:
+          - group [ref=f20e166]:
+            - menuitem "Howdy, ctb_verifier" [ref=f20e167] [cursor=pointer]
+    - main [ref=f20e168]:
+      - generic [ref=f20e169]:
+        - button "Screen Options " [ref=f20e172] [cursor=pointer]
+        - generic [ref=f20e173]:
+          - link "WordPress 7.1" [ref=f20e174] [cursor=pointer]:
+            - /url: https://wordpress.org/documentation/wordpress-version/version-7-1/
+          - text: is available!
+          - link "Please update WordPress now" [ref=f20e175] [cursor=pointer]:
+            - /url: http://localhost:8090/wp-admin/update-core.php
+            - text: Please update now
+          - text: .
+        - generic [ref=f20e176]:
+          - heading "Edit Code to Block Page" [level=1] [ref=f20e177]
+          - link "Add Code to Block Page" [ref=f20e178] [cursor=pointer]:
+            - /url: http://localhost:8090/wp-admin/post-new.php?post_type=ctb_page
+          - text: 
+          - generic [ref=f20e180]:
+            - generic:
+              - generic [ref=f20e182]:
+                - generic [ref=f20e183]:
+                  - generic: Add title
+                  - textbox "Add title" [ref=f20e184]: Phase 7 Global Design Tokens
+                - generic [ref=f20e186]:
+                  - strong [ref=f20e187]: "Permalink:"
+                  - link "http://localhost:8090/?ctb_page=phase-7-global-design-tokens" [ref=f20e188] [cursor=pointer]:
+                    - /url: http://localhost:8090/?ctb_page=phase-7-global-design-tokens
+                  - link "Change Permalink Structure" [ref=f20e190] [cursor=pointer]:
+                    - /url: options-permalink.php
+              - generic [ref=f20e193]:
+                - generic [ref=f20e194]:
+                  - heading "Publish" [level=2] [ref=f20e195]
+                  - generic [ref=f20e196]:
+                    - button "Move up" [disabled] [ref=f20e197]:
+                      - generic [ref=f20e199]: 
+                    - button "Move down" [ref=f20e200] [cursor=pointer]:
+                      - generic [ref=f20e202]: 
+                    - 'button "Toggle panel: Publish" [expanded] [ref=f20e203] [cursor=pointer]':
+                      - generic [ref=f20e205]: 
+                - generic [ref=f20e207]:
+                  - generic [ref=f20e208]:
+                    - link "Preview Changes (opens in a new tab)" [ref=f20e210] [cursor=pointer]:
+                      - /url: http://localhost:8090/?ctb_page=phase-7-global-design-tokens&preview=true
+                      - text: Preview Changes
+                      - generic [ref=f20e211]: (opens in a new tab)
+                    - generic [ref=f20e212]:
+                      - generic [ref=f20e213]:
+                        - text: " Status: Published"
+                        - button "Edit status" [ref=f20e214] [cursor=pointer]: Edit
+                      - generic [ref=f20e216]:
+                        - text: " Visibility: Public"
+                        - button "Edit visibility" [ref=f20e217] [cursor=pointer]: Edit
+                      - generic [ref=f20e219]:
+                        - generic [ref=f20e220]: " Published on: Aug 21, 2026 at 01:44"
+                        - button "Edit date and time" [ref=f20e221] [cursor=pointer]: Edit
+                  - generic [ref=f20e223]:
+                    - link "Move to Trash" [ref=f20e225] [cursor=pointer]:
+                      - /url: http://localhost:8090/wp-admin/post.php?post=25&action=trash&_wpnonce=c56d58733e
+                    - button "Update" [ref=f20e227] [cursor=pointer]
+              - generic [ref=f20e229]:
+                - generic [ref=f20e230]:
+                  - generic [ref=f20e231]:
+                    - heading "Code to Block Canvas" [level=2] [ref=f20e232]
+                    - generic [ref=f20e233]:
+                      - button "Move up" [ref=f20e234] [cursor=pointer]:
+                        - generic [ref=f20e236]: 
+                      - button "Move down" [ref=f20e237] [cursor=pointer]:
+                        - generic [ref=f20e239]: 
+                      - 'button "Toggle panel: Code to Block Canvas" [expanded] [ref=f20e240] [cursor=pointer]':
+                        - generic [ref=f20e242]: 
+                  - region "Code to Block visual editor" [ref=f20e245]:
+                    - generic [ref=f20e246]:
+                      - generic [ref=f20e247]:
+                        - paragraph [ref=f20e248]: Phase 7 / Reusable components
+                        - heading "Imported layout" [level=2] [ref=f20e401]
+                      - generic [ref=f20e250]:
+                        - generic [ref=f20e251]: Zustand history active
+                        - button "Undo" [disabled] [ref=f20e252]
+                        - button "Redo" [disabled] [ref=f20e253]
+                        - button "Load" [active] [ref=f20e254] [cursor=pointer]
+                        - button "Save tree" [ref=f20e255] [cursor=pointer]
+                    - generic [ref=f20e256]:
+                      - generic [ref=f20e257]:
+                        - generic [ref=f20e258]:
+                          - paragraph [ref=f20e259]: HTML + CSS importer
+                          - heading "Paste code into editable blocks" [level=3] [ref=f20e260]
+                        - button "Parse onto canvas" [ref=f20e261] [cursor=pointer]
+                      - generic [ref=f20e262]:
+                        - generic [ref=f20e263]:
+                          - generic [ref=f20e264]: HTML
+                          - textbox "HTML to import" [ref=f20e265]:
+                            - /placeholder: <article class="card">...</article>
+                        - generic [ref=f20e266]:
+                          - generic [ref=f20e267]: CSS
+                          - textbox "CSS to import" [ref=f20e268]:
+                            - /placeholder: ".card { padding: 2rem; }"
+                    - generic [ref=f20e269]:
+                      - complementary "Document details" [ref=f20e270]:
+                        - generic [ref=f20e271]:
+                          - paragraph [ref=f20e272]: Loaded document
+                          - strong [ref=f20e273]: Imported layout
+                          - generic [ref=f20e274]:
+                            - generic [ref=f20e275]:
+                              - term [ref=f20e276]: Schema
+                              - definition [ref=f20e277]: v1
+                            - generic [ref=f20e278]:
+                              - term [ref=f20e279]: Blocks
+                              - definition [ref=f20e280]: "18"
+                            - generic [ref=f20e281]:
+                              - term [ref=f20e282]: Root
+                              - definition [ref=f20e283]: <section>
+                          - paragraph [ref=f20e284]: Each dashed outline is a separate schema block.
+                          - group [ref=f20e285]:
+                            - generic "Global design tokens 3 defined" [ref=f20e402] [cursor=pointer]:
+                              - generic [ref=f20e287]: Global design tokens
+                              - generic [ref=f20e288]: 3 defined
+                            - option "Colors" [selected]
+                            - option "Typography"
+                            - option "Spacing"
+                          - group [ref=f20e289]:
+                            - generic "Saved components 1 saved" [ref=f20e290] [cursor=pointer]:
+                              - generic [ref=f20e291]: Saved components
+                              - generic [ref=f20e292]: 1 saved
+                            - paragraph [ref=f20e293]: Save the selected subtree, then insert a linked instance here or on another page.
+                            - generic [ref=f20e294]:
+                              - generic [ref=f20e295]:
+                                - generic [ref=f20e296]: Name
+                                - textbox "Name" [ref=f20e297]:
+                                  - /placeholder: Feature card
+                              - button "Save selection" [disabled] [ref=f20e298]
+                            - generic [ref=f20e300]:
+                              - generic [ref=f20e301]:
+                                - strong [ref=f20e302]: Phase 7 reusable card
+                                - generic [ref=f20e303]: "#26 · linked"
+                              - generic [ref=f20e304]:
+                                - button "Insert" [ref=f20e305] [cursor=pointer]
+                                - button "Replace from selection" [ref=f20e306] [cursor=pointer]
+                          - generic [ref=f20e307]:
+                            - paragraph [ref=f20e308]: Selected block
+                            - strong [ref=f20e309]: section-1
+                            - generic [ref=f20e310]:
+                              - paragraph [ref=f20e311]: Editing breakpoint
+                              - group "Style breakpoint" [ref=f20e312]:
+                                - button "Desktop 100%" [pressed] [ref=f20e313] [cursor=pointer]:
+                                  - generic [ref=f20e314]: Desktop
+                                  - generic [ref=f20e315]: 100%
+                                - button "Tablet 768px" [ref=f20e316] [cursor=pointer]:
+                                  - generic [ref=f20e317]: Tablet
+                                  - generic [ref=f20e318]: 768px
+                                - button "Mobile 390px" [ref=f20e319] [cursor=pointer]:
+                                  - generic [ref=f20e320]: Mobile
+                                  - generic [ref=f20e321]: 390px
+                              - paragraph [ref=f20e322]: 4 base declarations
+                            - generic [ref=f20e323]:
+                              - button "Move up" [disabled] [ref=f20e324]
+                              - button "Move down" [disabled] [ref=f20e325]
+                            - generic [ref=f20e326]:
+                              - generic [ref=f20e327]:
+                                - generic [ref=f20e328]: Color
+                                - textbox "Desktop color for section-1" [ref=f20e403] [cursor=pointer]: "#19352b"
+                              - generic [ref=f20e404]:
+                                - generic [ref=f20e405]:
+                                  - generic [ref=f20e406]: Global token
+                                  - combobox "desktop color global token" [ref=f20e407] [cursor=pointer]:
+                                    - option "Local value" [selected]
+                                    - 'option "Brand accent · #5965d8"'
+                                - generic [ref=f20e408]: Local value
+                            - generic [ref=f20e410]:
+                              - paragraph [ref=f20e411]: Base mapped controls
+                              - generic [ref=f20e412]:
+                                - generic [ref=f20e413]:
+                                  - generic [ref=f20e414]: Padding
+                                  - textbox "Padding" [ref=f20e415]:
+                                    - /placeholder: 24px 32px
+                                    - text: 52px
+                                - generic [ref=f20e416]:
+                                  - generic [ref=f20e417]:
+                                    - generic [ref=f20e418]: Global token
+                                    - combobox "desktop padding global token" [ref=f20e419] [cursor=pointer]:
+                                      - option "Local value" [selected]
+                                      - option "Card inset · 26px"
+                                  - generic [ref=f20e420]: Local value
+                              - generic [ref=f20e422]:
+                                - generic [ref=f20e423]:
+                                  - generic [ref=f20e424]: Margin
+                                  - textbox "Margin" [ref=f20e425]:
+                                    - /placeholder: 0 auto
+                                    - text: 48px auto
+                                - generic [ref=f20e426]:
+                                  - generic [ref=f20e427]:
+                                    - generic [ref=f20e428]: Global token
+                                    - combobox "desktop margin global token" [ref=f20e429] [cursor=pointer]:
+                                      - option "Local value" [selected]
+                                      - option "Card inset · 26px"
+                                  - generic [ref=f20e430]: Local value
+                              - generic [ref=f20e432]:
+                                - generic [ref=f20e433]:
+                                  - generic [ref=f20e434]: Font size
+                                  - textbox "Font size" [ref=f20e435]:
+                                    - /placeholder: 18px
+                                - generic [ref=f20e436]:
+                                  - generic [ref=f20e437]:
+                                    - generic [ref=f20e438]: Global token
+                                    - combobox "desktop font-size global token" [ref=f20e439] [cursor=pointer]:
+                                      - option "Local value" [selected]
+                                      - option "Card heading · 30px"
+                                  - generic [ref=f20e440]: Local value
+                              - generic [ref=f20e443]:
+                                - generic [ref=f20e444]: Font weight
+                                - textbox "Font weight" [ref=f20e445]:
+                                  - /placeholder: "700"
+                              - generic [ref=f20e447]:
+                                - generic [ref=f20e448]: Border
+                                - textbox "Border" [ref=f20e449]:
+                                  - /placeholder: "1px solid #ccc"
+                              - generic [ref=f20e450]:
+                                - generic [ref=f20e451]:
+                                  - generic [ref=f20e452]: Border radius
+                                  - textbox "Border radius" [ref=f20e453]:
+                                    - /placeholder: 12px
+                                - generic [ref=f20e454]:
+                                  - generic [ref=f20e455]:
+                                    - generic [ref=f20e456]: Global token
+                                    - combobox "desktop border-radius global token" [ref=f20e457] [cursor=pointer]:
+                                      - option "Local value" [selected]
+                                      - option "Card inset · 26px"
+                                  - generic [ref=f20e458]: Local value
+                              - button "Apply desktop styles" [disabled] [ref=f20e460]
+                            - generic [ref=f20e461]:
+                              - generic [ref=f20e462]: Raw CSS fallback
+                              - textbox "Raw CSS fallback" [ref=f20e463]: "background: #f1efe8; font-family: Arial, sans-serif; max-width: 1040px;"
+                              - generic [ref=f20e464]:
+                                - generic [ref=f20e465]: desktop CSS override
+                                - button "Apply CSS" [disabled] [ref=f20e466]
+                              - paragraph [ref=f20e467]: Enter declarations for desktop only. Mapped controls win unless a raw value uses !important.
+                          - status [ref=f20e468]: Loaded.
+                      - main "Rendered block canvas" [ref=f20e364]:
+                        - generic [ref=f20e365]:
+                          - generic [ref=f20e366]:
+                            - paragraph [ref=f20e367]: Live canvas width
+                            - strong [ref=f20e368]: Desktop / 100%
+                          - group "Canvas breakpoint" [ref=f20e369]:
+                            - button "Desktop 100%" [pressed] [ref=f20e370] [cursor=pointer]:
+                              - generic [ref=f20e371]: Desktop
+                              - generic [ref=f20e372]: 100%
+                            - button "Tablet 768px" [ref=f20e373] [cursor=pointer]:
+                              - generic [ref=f20e374]: Tablet
+                              - generic [ref=f20e375]: 768px
+                            - button "Mobile 390px" [ref=f20e376] [cursor=pointer]:
+                              - generic [ref=f20e377]: Mobile
+                              - generic [ref=f20e378]: 390px
+                        - generic [ref=f20e379]: Drag a block onto text to reorder · onto a container to nest
+                        - generic [ref=f20e469]:
+                          - text: section · section-1
+                          - button "p · p-2 SYSTEM / GLOBAL TOKENS" [ref=f20e470]
+                          - button "h1 · h1-3 One source. Three linked voices." [ref=f20e471]
+                          - button [ref=f20e472]:
+                            - text: div · div-4
+                            - button [ref=f20e473]:
+                              - text: article · article-5
+                              - button "span · span-6 01" [ref=f20e474]
+                              - button "h2 · h2-7 Strategy" [ref=f20e475]
+                              - button [ref=f20e476]:
+                                - text: saved component · saved-component-mt2c76il-1
+                                - heading "h2 · saved-26-tnozdq-1 Strategy" [level=2] [ref=f20e477]
+                              - button "p · p-8 Shared color, independently structured." [ref=f20e478]
+                            - button [ref=f20e479]:
+                              - text: article · article-9
+                              - button "span · span-10 02" [ref=f20e480]
+                              - button "h2 · h2-11 · token override Systems" [ref=f20e481]
+                              - button "p · p-12 Local override, visibly intentional." [ref=f20e482]
+                            - button [ref=f20e483]:
+                              - text: article · article-13
+                              - button "span · span-14 03" [ref=f20e484]
+                              - button "h2 · h2-15 Scale" [ref=f20e485]
+                              - button "p · p-16 Global changes propagate instantly." [ref=f20e486]
+                      - status [ref=f20e390]
+                - text:   
+  - contentinfo [ref=f20e392]:
+    - paragraph [ref=f20e393]:
+      - generic [ref=f20e394]:
+        - text: Thank you for creating with
+        - link "WordPress" [ref=f20e395] [cursor=pointer]:
+          - /url: https://wordpress.org/
+        - text: .
+    - paragraph [ref=f20e396]:
+      - strong [ref=f20e397]:
+        - link "Get Version 7.1" [ref=f20e398] [cursor=pointer]:
+          - /url: http://localhost:8090/wp-admin/update-core.php
+  - text: 

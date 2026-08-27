@@ -1,0 +1,13 @@
+- generic [active] [ref=f5e1]:
+  - text:     
+  - generic [ref=f5e2]:
+    - generic [ref=f5e3]:
+      - strong [ref=f5e4]: Small Perf
+      - text: Content mode — no structure editing
+    - generic [ref=f5e5]:
+      - link "Back to WordPress editor" [ref=f5e6] [cursor=pointer]:
+        - /url: http://localhost:8090/wp-admin/post.php?post=40&action=edit
+      - text: "|"
+      - link "View live page" [ref=f5e7] [cursor=pointer]:
+        - /url: http://localhost:8090/?ctb_page=small-perf
+  - paragraph [ref=f5e10]: Loading content...

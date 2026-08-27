@@ -1,0 +1,288 @@
+- generic [ref=f23e2]:
+  - navigation "Main menu":
+    - link "Skip to main content" [ref=f23e3] [cursor=pointer]:
+      - /url: "#wpbody-content"
+    - link "Skip to toolbar" [ref=f23e4] [cursor=pointer]:
+      - /url: "#wp-toolbar"
+    - text:            
+  - generic [ref=f23e5]:
+    - generic [ref=f23e6]:
+      - navigation "Toolbar":
+        - menu:
+          - group [ref=f23e7]:
+            - menuitem "Menu" [ref=f23e8] [cursor=pointer]:
+              - generic [ref=f23e9]: 
+          - text: 
+          - group [ref=f23e11]:
+            - menuitem " Code to Block Phase 4" [ref=f23e12] [cursor=pointer]
+          - text:  
+          - group [ref=f23e13]:
+            - menuitem "New" [ref=f23e14] [cursor=pointer]:
+              - generic [ref=f23e15]: 
+        - menu [ref=f23e17]:
+          - group [ref=f23e18]:
+            - menuitem "Howdy, admin" [ref=f23e19] [cursor=pointer]
+    - main [ref=f23e20]:
+      - generic [ref=f23e21]:
+        - generic [ref=f23e22]:
+          - button "Screen Options " [ref=f23e24] [cursor=pointer]
+          - button "Help " [ref=f23e26] [cursor=pointer]
+        - generic [ref=f23e27]:
+          - link "WordPress 7.0.4" [ref=f23e28] [cursor=pointer]:
+            - /url: https://wordpress.org/documentation/wordpress-version/version-7-0-4/
+          - text: is available!
+          - link "Please update WordPress now" [ref=f23e29] [cursor=pointer]:
+            - /url: http://localhost:8090/wp-admin/update-core.php
+            - text: Please update now
+          - text: .
+        - generic [ref=f23e30]:
+          - heading "Dashboard" [level=1] [ref=f23e31]
+          - generic [ref=f23e32]:
+            - link "Dismiss the welcome panel" [ref=f23e33] [cursor=pointer]:
+              - /url: http://localhost:8090/wp-admin/?welcome=0
+              - text:  Dismiss
+            - generic [ref=f23e34]:
+              - generic [ref=f23e35]:
+                - heading "Welcome to WordPress!" [level=2] [ref=f23e36]
+                - paragraph [ref=f23e37]:
+                  - link "Learn more about the 6.8.2 version." [ref=f23e38] [cursor=pointer]:
+                    - /url: http://localhost:8090/wp-admin/about.php
+              - generic [ref=f23e39]:
+                - generic [ref=f23e44]:
+                  - heading "Author rich content with blocks and patterns" [level=3] [ref=f23e45]
+                  - paragraph [ref=f23e46]: Block patterns are pre-configured block layouts. Use them to get inspired or create new pages in a flash.
+                  - link "Add a new page" [ref=f23e47] [cursor=pointer]:
+                    - /url: http://localhost:8090/wp-admin/post-new.php?post_type=page
+                - generic [ref=f23e52]:
+                  - heading "Customize your entire site with block themes" [level=3] [ref=f23e53]
+                  - paragraph [ref=f23e54]: Design everything on your site — from the header down to the footer, all using blocks and patterns.
+                  - link "Open site editor" [ref=f23e55] [cursor=pointer]:
+                    - /url: http://localhost:8090/wp-admin/site-editor.php
+                - generic [ref=f23e60]:
+                  - heading "Switch up your site’s look & feel with Styles" [level=3] [ref=f23e61]
+                  - paragraph [ref=f23e62]: Tweak your site, or give it a whole new look! Get creative — how about a new color palette or font?
+                  - link "Edit styles" [ref=f23e63] [cursor=pointer]:
+                    - /url: http://localhost:8090/wp-admin/site-editor.php?path=%2Fwp_global_styles
+          - generic [ref=f23e65]:
+            - generic [ref=f23e67]:
+              - generic [ref=f23e68]:
+                - generic [ref=f23e69]:
+                  - heading "Site Health Status" [level=2] [ref=f23e70]
+                  - generic [ref=f23e71]:
+                    - button "Move up" [ref=f23e72] [cursor=pointer]:
+                      - generic [ref=f23e74]: 
+                    - button "Move down" [ref=f23e75] [cursor=pointer]:
+                      - generic [ref=f23e77]: 
+                    - 'button "Toggle panel: Site Health Status" [expanded] [ref=f23e78] [cursor=pointer]':
+                      - generic [ref=f23e80]: 
+                - generic [ref=f23e82]:
+                  - generic [ref=f23e83]: No information yet…
+                  - paragraph [ref=f23e90]:
+                    - text: Site health checks will automatically run periodically to gather information about your site. You can also
+                    - link "visit the Site Health screen" [ref=f23e91] [cursor=pointer]:
+                      - /url: http://localhost:8090/wp-admin/site-health.php
+                    - text: to gather information about your site now.
+              - generic [ref=f23e92]:
+                - generic [ref=f23e93]:
+                  - heading "At a Glance" [level=2] [ref=f23e94]
+                  - generic [ref=f23e95]:
+                    - button "Move up" [ref=f23e96] [cursor=pointer]:
+                      - generic [ref=f23e98]: 
+                    - button "Move down" [ref=f23e99] [cursor=pointer]:
+                      - generic [ref=f23e101]: 
+                    - 'button "Toggle panel: At a Glance" [expanded] [ref=f23e102] [cursor=pointer]':
+                      - generic [ref=f23e104]: 
+                - generic [ref=f23e106]:
+                  - list [ref=f23e107]:
+                    - listitem [ref=f23e108]:
+                      - link " 1 Post" [ref=f23e109] [cursor=pointer]:
+                        - /url: edit.php?post_type=post
+                    - listitem [ref=f23e110]:
+                      - link " 1 Page" [ref=f23e111] [cursor=pointer]:
+                        - /url: edit.php?post_type=page
+                    - listitem [ref=f23e112]:
+                      - link " 1 Comment" [ref=f23e113] [cursor=pointer]:
+                        - /url: edit-comments.php
+                    - text: 
+                  - paragraph [ref=f23e114]:
+                    - link "Update to 7.0.4" [ref=f23e115] [cursor=pointer]:
+                      - /url: http://localhost:8090/wp-admin/update-core.php
+                    - generic [ref=f23e116]:
+                      - text: WordPress 6.8.2 running
+                      - link "Twenty Twenty-Five" [ref=f23e117] [cursor=pointer]:
+                        - /url: themes.php
+                      - text: theme.
+              - generic [ref=f23e118]:
+                - generic [ref=f23e119]:
+                  - heading "Activity" [level=2] [ref=f23e120]
+                  - generic [ref=f23e121]:
+                    - button "Move up" [ref=f23e122] [cursor=pointer]:
+                      - generic [ref=f23e124]: 
+                    - button "Move down" [ref=f23e125] [cursor=pointer]:
+                      - generic [ref=f23e127]: 
+                    - 'button "Toggle panel: Activity" [expanded] [ref=f23e128] [cursor=pointer]':
+                      - generic [ref=f23e130]: 
+                - generic [ref=f23e132]:
+                  - generic [ref=f23e133]:
+                    - heading "Recently Published" [level=3] [ref=f23e134]
+                    - list [ref=f23e135]:
+                      - listitem [ref=f23e136]:
+                        - generic [ref=f23e137]: Today, 1:25 am
+                        - link "Edit “Hello world!”" [ref=f23e138] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/post.php?post=1&action=edit
+                          - text: Hello world!
+                  - generic [ref=f23e139]:
+                    - heading "Recent Comments" [level=3] [ref=f23e140]
+                    - list [ref=f23e141]:
+                      - listitem [ref=f23e142]:
+                        - generic [ref=f23e143]:
+                          - paragraph [ref=f23e144]:
+                            - text: From
+                            - link "A WordPress Commenter" [ref=f23e146] [cursor=pointer]:
+                              - /url: https://wordpress.org/
+                            - text: "on"
+                            - link "Hello world!" [ref=f23e147] [cursor=pointer]:
+                              - /url: http://localhost:8090/?p=1
+                            - text: 
+                          - blockquote [ref=f23e148]:
+                            - paragraph [ref=f23e149]: Hi, this is a comment. To get started with moderating, editing, and deleting comments, please visit the Comments screen in…
+                          - paragraph [ref=f23e150]:
+                            - text: "|"
+                            - generic [ref=f23e151]:
+                              - text: "|"
+                              - link "Unapprove this comment" [ref=f23e152] [cursor=pointer]:
+                                - /url: comment.php?action=unapprovecomment&p=1&c=1&_wpnonce=aa9bd8d2bf
+                                - text: Unapprove
+                            - generic [ref=f23e153]:
+                              - text: "|"
+                              - button "Reply to this comment" [ref=f23e154] [cursor=pointer]: Reply
+                            - generic [ref=f23e155]:
+                              - text: "|"
+                              - link "Edit this comment" [ref=f23e156] [cursor=pointer]:
+                                - /url: comment.php?action=editcomment&c=1
+                                - text: Edit
+                            - generic [ref=f23e157]:
+                              - text: "|"
+                              - link "Mark this comment as spam" [ref=f23e158] [cursor=pointer]:
+                                - /url: comment.php?action=spamcomment&p=1&c=1&_wpnonce=572393a3fd
+                                - text: Spam
+                            - generic [ref=f23e159]:
+                              - text: "|"
+                              - link "Move this comment to the Trash" [ref=f23e160] [cursor=pointer]:
+                                - /url: comment.php?action=trashcomment&p=1&c=1&_wpnonce=572393a3fd
+                                - text: Trash
+                            - generic [ref=f23e161]:
+                              - text: "|"
+                              - link "View this comment" [ref=f23e162] [cursor=pointer]:
+                                - /url: http://localhost:8090/?p=1#comment-1
+                                - text: View
+                    - heading "View more comments" [level=3] [ref=f23e163]
+                    - list [ref=f23e164]:
+                      - listitem [ref=f23e165]:
+                        - link "All (1)" [ref=f23e166] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/edit-comments.php?comment_status=all
+                          - text: All
+                          - generic [ref=f23e167]: (1)
+                        - text: "|"
+                      - listitem [ref=f23e168]:
+                        - link "Mine (0)" [ref=f23e169] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/edit-comments.php?comment_status=mine&user_id=1
+                          - text: Mine
+                          - generic [ref=f23e170]: (0)
+                        - text: "|"
+                      - listitem [ref=f23e171]:
+                        - link "Pending (0)" [ref=f23e172] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/edit-comments.php?comment_status=moderated
+                          - text: Pending
+                          - generic [ref=f23e173]: (0)
+                        - text: "|"
+                      - listitem [ref=f23e174]:
+                        - link "Approved (1)" [ref=f23e175] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/edit-comments.php?comment_status=approved
+                          - text: Approved
+                          - generic [ref=f23e176]: (1)
+                        - text: "|"
+                      - listitem [ref=f23e177]:
+                        - link "Spam (0)" [ref=f23e178] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/edit-comments.php?comment_status=spam
+                          - text: Spam
+                          - generic [ref=f23e179]: (0)
+                        - text: "|"
+                      - listitem [ref=f23e180]:
+                        - link "Trash (0)" [ref=f23e181] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/edit-comments.php?comment_status=trash
+                          - text: Trash
+                          - generic [ref=f23e182]: (0)
+            - generic [ref=f23e184]:
+              - generic [ref=f23e185]:
+                - generic [ref=f23e186]:
+                  - heading "Quick Draft" [level=2] [ref=f23e187]
+                  - generic [ref=f23e189]:
+                    - button "Move up" [ref=f23e190] [cursor=pointer]:
+                      - generic [ref=f23e192]: 
+                    - button "Move down" [ref=f23e193] [cursor=pointer]:
+                      - generic [ref=f23e195]: 
+                    - 'button "Toggle panel: Quick Draft" [expanded] [ref=f23e196] [cursor=pointer]':
+                      - generic [ref=f23e197]:
+                        - text: "Toggle panel:"
+                        - generic [ref=f23e198]: Quick Draft
+                      - generic [ref=f23e199]: 
+                - generic [ref=f23e201]:
+                  - generic [ref=f23e202]:
+                    - generic [ref=f23e203]: Title
+                    - textbox "Title" [ref=f23e204]
+                  - generic [ref=f23e205]:
+                    - generic [ref=f23e206]: Content
+                    - textbox "Content" [ref=f23e207]:
+                      - /placeholder: What’s on your mind?
+                  - paragraph [ref=f23e208]:
+                    - button "Save Draft" [ref=f23e209] [cursor=pointer]
+              - generic [ref=f23e210]:
+                - generic [ref=f23e211]:
+                  - heading "WordPress Events and News" [level=2] [ref=f23e212]
+                  - generic [ref=f23e213]:
+                    - button "Move up" [ref=f23e214] [cursor=pointer]:
+                      - generic [ref=f23e216]: 
+                    - button "Move down" [ref=f23e217] [cursor=pointer]:
+                      - generic [ref=f23e219]: 
+                    - 'button "Toggle panel: WordPress Events and News" [expanded] [ref=f23e220] [cursor=pointer]':
+                      - generic [ref=f23e222]: 
+                - generic [ref=f23e223]:
+                  - text: 
+                  - generic [ref=f23e224]:
+                    - list [ref=f23e226]:
+                      - listitem [ref=f23e227]:
+                        - link "Introducing the WordPress Browser Extension" [ref=f23e228] [cursor=pointer]:
+                          - /url: https://wordpress.org/news/2026/08/browser-extension/
+                      - listitem [ref=f23e229]:
+                        - link "WordPress 7.0.4 Release" [ref=f23e230] [cursor=pointer]:
+                          - /url: https://wordpress.org/news/2026/08/wordpress-7-0-4-release/
+                    - list [ref=f23e232]:
+                      - listitem [ref=f23e233]:
+                        - 'link "Matt: Student Plan" [ref=f23e234] [cursor=pointer]':
+                          - /url: https://ma.tt/2026/08/student-plan/
+                      - listitem [ref=f23e235]:
+                        - 'link "Open Channels FM: How AI is Transforming Open Source Communities and Digital Innovation" [ref=f23e236] [cursor=pointer]':
+                          - /url: https://openchannels.fm/how-ai-is-transforming-open-source-communities-and-digital-innovation/
+                      - listitem [ref=f23e237]:
+                        - 'link "Open Channels FM: Are We Forgetting Our Human Skills Thanks to AI?" [ref=f23e238] [cursor=pointer]':
+                          - /url: https://openchannels.fm/are-we-forgetting-our-human-skills-thanks-to-ai/
+                  - paragraph [ref=f23e239]:
+                    - link "Meetups (opens in a new tab)" [ref=f23e240] [cursor=pointer]:
+                      - /url: https://make.wordpress.org/community/meetups-landing-page
+                      - text: Meetups
+                      - generic [ref=f23e241]: (opens in a new tab)
+                      - generic [ref=f23e242]: 
+                    - text: "|"
+                    - link "WordCamps (opens in a new tab)" [ref=f23e243] [cursor=pointer]:
+                      - /url: https://central.wordcamp.org/schedule/
+                      - text: WordCamps
+                      - generic [ref=f23e244]: (opens in a new tab)
+                      - generic [ref=f23e245]: 
+                    - text: "|"
+                    - link "News (opens in a new tab)" [ref=f23e246] [cursor=pointer]:
+                      - /url: https://wordpress.org/news/
+                      - text: News
+                      - generic [ref=f23e247]: (opens in a new tab)
+                      - generic [ref=f23e248]: 
+  - text: 

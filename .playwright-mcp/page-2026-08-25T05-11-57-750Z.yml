@@ -1,0 +1,35 @@
+- generic [active]:
+  - generic [ref=f6e1]:
+    - navigation "Toolbar":
+      - menu:
+        - group [ref=f6e2]:
+          - menuitem "About WordPress" [ref=f6e3] [cursor=pointer]:
+            - generic [ref=f6e4]: 
+        - group [ref=f6e6]:
+          - menuitem " Code to Block Phase 4" [ref=f6e7] [cursor=pointer]
+        - group [ref=f6e8]:
+          - menuitem " Edit Site" [ref=f6e9] [cursor=pointer]
+        - group [ref=f6e10]:
+          - menuitem "4 updates available" [ref=f6e11] [cursor=pointer]:
+            - generic [ref=f6e12]: 
+            - generic [ref=f6e13]: "4"
+        - group [ref=f6e15]:
+          - menuitem "0 Comments in moderation" [ref=f6e16] [cursor=pointer]:
+            - generic [ref=f6e17]: 
+            - generic [ref=f6e18]: "0"
+        - group [ref=f6e20]:
+          - menuitem "New" [ref=f6e21] [cursor=pointer]:
+            - generic [ref=f6e22]: 
+        - group [ref=f6e24]:
+          - menuitem " Edit Code to Block Page" [ref=f6e25] [cursor=pointer]
+      - menu [ref=f6e26]:
+        - group [ref=f6e27]:
+          - menuitem "Howdy, kervee" [ref=f6e28] [cursor=pointer]
+        - group [ref=f6e29]:
+          - menuitem " Search" [ref=f6e30]:
+            - generic [ref=f6e31]:
+              - text: 
+              - textbox "Search" [ref=f6e32] [cursor=pointer]
+              - generic [ref=f6e33]: Search
+  - link "Skip to content" [ref=f6e34] [cursor=pointer]:
+    - /url: "#ctb-main-content"

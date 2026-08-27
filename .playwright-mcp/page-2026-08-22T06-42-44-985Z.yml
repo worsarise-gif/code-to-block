@@ -1,0 +1,22 @@
+- generic [active] [ref=f11e1]:
+  - text:     
+  - generic [ref=f11e2]:
+    - generic [ref=f11e3]:
+      - strong [ref=f11e4]: Small Perf (Copy)
+      - text: Content mode — no structure editing
+    - generic [ref=f11e5]:
+      - link "Back to WordPress editor" [ref=f11e6] [cursor=pointer]:
+        - /url: http://localhost:8090/wp-admin/post.php?post=42&action=edit
+      - text: "|"
+      - link "View live page" [ref=f11e7] [cursor=pointer]:
+        - /url: http://localhost:8090/?post_type=ctb_page&p=42
+  - generic [ref=f11e9]:
+    - banner [ref=f11e10]:
+      - 'heading "Editing Content: Small perf" [level=1] [ref=f11e11]'
+      - button "Save Content" [ref=f11e12]
+    - main [ref=f11e13]:
+      - generic [ref=f11e15]:
+        - generic [ref=f11e16]:
+          - text: Hero Headline
+          - generic [ref=f11e17]: (text)
+        - textbox "Hero Headline (text)" [ref=f11e18]: Small 1

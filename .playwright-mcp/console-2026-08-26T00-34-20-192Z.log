@@ -1,0 +1,2 @@
+[    1064ms] [LOG] JQMIGRATE: Migrate is installed, version 3.4.1 @ http://localhost:8090/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1:1
+[    1930ms] [WARNING] showSpinner prop is deprecated and will be removed from WooCommerce in version 8.9.0. Please use Render a spinner in the button children instead. instead. @ http://localhost:8090/wp-includes/js/dist/deprecated.min.js?ver=e1f84915c5e8ae38964c:1

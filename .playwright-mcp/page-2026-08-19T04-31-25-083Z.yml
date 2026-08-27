@@ -1,0 +1,383 @@
+- generic [ref=f48e2]:
+  - navigation "Main menu":
+    - link "Skip to main content" [ref=f48e3] [cursor=pointer]:
+      - /url: "#wpbody-content"
+    - link "Skip to toolbar" [ref=f48e4] [cursor=pointer]:
+      - /url: "#wp-toolbar"
+    - list [ref=f48e7]:
+      - listitem [ref=f48e8]:
+        - link "Dashboard" [ref=f48e9] [cursor=pointer]:
+          - /url: index.php
+          - generic [ref=f48e10]: 
+        - list [ref=f48e12]:
+          - listitem [ref=f48e13]:
+            - link "Home" [ref=f48e14] [cursor=pointer]:
+              - /url: index.php
+          - listitem [ref=f48e15]:
+            - link "Updates 4" [ref=f48e16] [cursor=pointer]:
+              - /url: update-core.php
+              - text: Updates
+              - generic [ref=f48e17]: "4"
+      - listitem [ref=f48e18]
+      - listitem [ref=f48e20]:
+        - link "Posts" [ref=f48e21] [cursor=pointer]:
+          - /url: edit.php
+          - generic [ref=f48e22]: 
+        - list [ref=f48e24]:
+          - listitem [ref=f48e25]:
+            - link "All Posts" [ref=f48e26] [cursor=pointer]:
+              - /url: edit.php
+          - listitem [ref=f48e27]:
+            - link "Add Post" [ref=f48e28] [cursor=pointer]:
+              - /url: post-new.php
+          - listitem [ref=f48e29]:
+            - link "Categories" [ref=f48e30] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=category
+          - listitem [ref=f48e31]:
+            - link "Tags" [ref=f48e32] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=post_tag
+      - listitem [ref=f48e33]:
+        - link "Media" [ref=f48e34] [cursor=pointer]:
+          - /url: upload.php
+          - generic [ref=f48e35]: 
+        - list [ref=f48e37]:
+          - listitem [ref=f48e38]:
+            - link "Library" [ref=f48e39] [cursor=pointer]:
+              - /url: upload.php
+          - listitem [ref=f48e40]:
+            - link "Add Media File" [ref=f48e41] [cursor=pointer]:
+              - /url: media-new.php
+      - listitem [ref=f48e42]:
+        - link "Pages" [ref=f48e43] [cursor=pointer]:
+          - /url: edit.php?post_type=page
+          - generic [ref=f48e44]: 
+        - list [ref=f48e46]:
+          - listitem [ref=f48e47]:
+            - link "All Pages" [ref=f48e48] [cursor=pointer]:
+              - /url: edit.php?post_type=page
+          - listitem [ref=f48e49]:
+            - link "Add Page" [ref=f48e50] [cursor=pointer]:
+              - /url: post-new.php?post_type=page
+      - listitem [ref=f48e51]:
+        - link "Comments" [ref=f48e52] [cursor=pointer]:
+          - /url: edit-comments.php
+          - generic [ref=f48e53]: 
+      - listitem [ref=f48e55]:
+        - link "Code to Block Pages" [ref=f48e56] [cursor=pointer]:
+          - /url: edit.php?post_type=ctb_page
+          - generic [ref=f48e57]: 
+        - list [ref=f48e59]:
+          - listitem [ref=f48e60]:
+            - link "Code to Block Pages" [ref=f48e61] [cursor=pointer]:
+              - /url: edit.php?post_type=ctb_page
+          - listitem [ref=f48e62]:
+            - link "Add Code to Block Page" [ref=f48e63] [cursor=pointer]:
+              - /url: post-new.php?post_type=ctb_page
+      - listitem [ref=f48e64]
+      - listitem [ref=f48e66]:
+        - link "Appearance" [ref=f48e67] [cursor=pointer]:
+          - /url: themes.php
+          - generic [ref=f48e68]: 
+        - list [ref=f48e70]:
+          - listitem [ref=f48e71]:
+            - link "Themes 2" [ref=f48e72] [cursor=pointer]:
+              - /url: themes.php
+              - text: Themes
+              - generic [ref=f48e73]: "2"
+          - listitem [ref=f48e74]:
+            - link "Editor" [ref=f48e75] [cursor=pointer]:
+              - /url: site-editor.php
+      - listitem [ref=f48e76]:
+        - link "Plugins 1" [ref=f48e77] [cursor=pointer]:
+          - /url: plugins.php
+          - generic [ref=f48e78]: 
+          - generic [ref=f48e79]:
+            - text: Plugins
+            - generic [ref=f48e80]: "1"
+        - list [ref=f48e81]:
+          - listitem [ref=f48e82]:
+            - link "Installed Plugins" [ref=f48e83] [cursor=pointer]:
+              - /url: plugins.php
+          - listitem [ref=f48e84]:
+            - link "Add Plugin" [ref=f48e85] [cursor=pointer]:
+              - /url: plugin-install.php
+      - listitem [ref=f48e86]:
+        - link "Users" [ref=f48e87] [cursor=pointer]:
+          - /url: users.php
+          - generic [ref=f48e88]: 
+        - list [ref=f48e90]:
+          - listitem [ref=f48e91]:
+            - link "All Users" [ref=f48e92] [cursor=pointer]:
+              - /url: users.php
+          - listitem [ref=f48e93]:
+            - link "Add User" [ref=f48e94] [cursor=pointer]:
+              - /url: user-new.php
+          - listitem [ref=f48e95]:
+            - link "Profile" [ref=f48e96] [cursor=pointer]:
+              - /url: profile.php
+      - listitem [ref=f48e97]:
+        - link "Tools" [ref=f48e98] [cursor=pointer]:
+          - /url: tools.php
+          - generic [ref=f48e99]: 
+        - list [ref=f48e101]:
+          - listitem [ref=f48e102]:
+            - link "Available Tools" [ref=f48e103] [cursor=pointer]:
+              - /url: tools.php
+          - listitem [ref=f48e104]:
+            - link "Import" [ref=f48e105] [cursor=pointer]:
+              - /url: import.php
+          - listitem [ref=f48e106]:
+            - link "Export" [ref=f48e107] [cursor=pointer]:
+              - /url: export.php
+          - listitem [ref=f48e108]:
+            - link "Site Health" [ref=f48e109] [cursor=pointer]:
+              - /url: site-health.php
+          - listitem [ref=f48e110]:
+            - link "Export Personal Data" [ref=f48e111] [cursor=pointer]:
+              - /url: export-personal-data.php
+          - listitem [ref=f48e112]:
+            - link "Erase Personal Data" [ref=f48e113] [cursor=pointer]:
+              - /url: erase-personal-data.php
+          - listitem [ref=f48e114]:
+            - link "Theme File Editor" [ref=f48e115] [cursor=pointer]:
+              - /url: theme-editor.php
+          - listitem [ref=f48e116]:
+            - link "Plugin File Editor" [ref=f48e117] [cursor=pointer]:
+              - /url: plugin-editor.php
+      - listitem [ref=f48e118]:
+        - link "Settings" [ref=f48e119] [cursor=pointer]:
+          - /url: options-general.php
+          - generic [ref=f48e120]: 
+        - list [ref=f48e122]:
+          - listitem [ref=f48e123]:
+            - link "General" [ref=f48e124] [cursor=pointer]:
+              - /url: options-general.php
+          - listitem [ref=f48e125]:
+            - link "Writing" [ref=f48e126] [cursor=pointer]:
+              - /url: options-writing.php
+          - listitem [ref=f48e127]:
+            - link "Reading" [ref=f48e128] [cursor=pointer]:
+              - /url: options-reading.php
+          - listitem [ref=f48e129]:
+            - link "Discussion" [ref=f48e130] [cursor=pointer]:
+              - /url: options-discussion.php
+          - listitem [ref=f48e131]:
+            - link "Media" [ref=f48e132] [cursor=pointer]:
+              - /url: options-media.php
+          - listitem [ref=f48e133]:
+            - link "Permalinks" [ref=f48e134] [cursor=pointer]:
+              - /url: options-permalink.php
+          - listitem [ref=f48e135]:
+            - link "Privacy" [ref=f48e136] [cursor=pointer]:
+              - /url: options-privacy.php
+      - listitem [ref=f48e137]:
+        - button "Collapse Main menu" [expanded] [ref=f48e138] [cursor=pointer]:
+          - generic [ref=f48e139]: 
+          - generic [ref=f48e140]: Collapse Menu
+  - generic [ref=f48e141]:
+    - generic [ref=f48e142]:
+      - navigation "Toolbar":
+        - menu:
+          - group [ref=f48e143]:
+            - menuitem "About WordPress" [ref=f48e144] [cursor=pointer]:
+              - generic [ref=f48e145]: 
+          - group [ref=f48e147]:
+            - menuitem " Code to Block Phase 4" [ref=f48e148] [cursor=pointer]
+          - group [ref=f48e149]:
+            - menuitem "4 updates available" [ref=f48e150] [cursor=pointer]:
+              - generic [ref=f48e151]: 
+              - generic [ref=f48e152]: "4"
+          - group [ref=f48e154]:
+            - menuitem "0 Comments in moderation" [ref=f48e155] [cursor=pointer]:
+              - generic [ref=f48e156]: 
+              - generic [ref=f48e157]: "0"
+          - group [ref=f48e159]:
+            - menuitem "New" [ref=f48e160] [cursor=pointer]:
+              - generic [ref=f48e161]: 
+          - group [ref=f48e163]:
+            - menuitem "View Post" [ref=f48e164] [cursor=pointer]
+        - menu [ref=f48e165]:
+          - group [ref=f48e166]:
+            - menuitem "Howdy, admin" [ref=f48e167] [cursor=pointer]
+    - main [ref=f48e168]:
+      - generic [ref=f48e169]:
+        - button "Screen Options " [ref=f48e172] [cursor=pointer]
+        - generic [ref=f48e173]:
+          - link "WordPress 7.0.4" [ref=f48e174] [cursor=pointer]:
+            - /url: https://wordpress.org/documentation/wordpress-version/version-7-0-4/
+          - text: is available!
+          - link "Please update WordPress now" [ref=f48e175] [cursor=pointer]:
+            - /url: http://localhost:8090/wp-admin/update-core.php
+            - text: Please update now
+          - text: .
+        - generic [ref=f48e176]:
+          - heading "Edit Code to Block Page" [level=1] [ref=f48e177]
+          - link "Add Code to Block Page" [ref=f48e178] [cursor=pointer]:
+            - /url: http://localhost:8090/wp-admin/post-new.php?post_type=ctb_page
+          - text: 
+          - generic [ref=f48e180]:
+            - generic:
+              - generic [ref=f48e182]:
+                - generic [ref=f48e183]:
+                  - generic: Add title
+                  - textbox "Add title" [ref=f48e184]: Phase 6 Dogfood MVP
+                - generic [ref=f48e186]:
+                  - strong [ref=f48e187]: "Permalink:"
+                  - link "http://localhost:8090/?ctb_page=phase-6-dogfood-mvp" [ref=f48e188] [cursor=pointer]:
+                    - /url: http://localhost:8090/?ctb_page=phase-6-dogfood-mvp
+                  - link "Change Permalink Structure" [ref=f48e190] [cursor=pointer]:
+                    - /url: options-permalink.php
+              - generic [ref=f48e193]:
+                - generic [ref=f48e194]:
+                  - heading "Publish" [level=2] [ref=f48e195]
+                  - generic [ref=f48e196]:
+                    - button "Move up" [disabled] [ref=f48e197]:
+                      - generic [ref=f48e199]: 
+                    - button "Move down" [ref=f48e200] [cursor=pointer]:
+                      - generic [ref=f48e202]: 
+                    - 'button "Toggle panel: Publish" [expanded] [ref=f48e203] [cursor=pointer]':
+                      - generic [ref=f48e205]: 
+                - generic [ref=f48e207]:
+                  - generic [ref=f48e208]:
+                    - link "Preview Changes (opens in a new tab)" [ref=f48e210] [cursor=pointer]:
+                      - /url: http://localhost:8090/?ctb_page=phase-6-dogfood-mvp&preview=true
+                      - text: Preview Changes
+                      - generic [ref=f48e211]: (opens in a new tab)
+                    - generic [ref=f48e212]:
+                      - generic [ref=f48e213]:
+                        - text: " Status: Published"
+                        - button "Edit status" [ref=f48e214] [cursor=pointer]: Edit
+                      - generic [ref=f48e216]:
+                        - text: " Visibility: Public"
+                        - button "Edit visibility" [ref=f48e217] [cursor=pointer]: Edit
+                      - generic [ref=f48e219]:
+                        - generic [ref=f48e220]: " Published on: Aug 19, 2026 at 04:27"
+                        - button "Edit date and time" [ref=f48e221] [cursor=pointer]: Edit
+                  - generic [ref=f48e223]:
+                    - link "Move to Trash" [ref=f48e225] [cursor=pointer]:
+                      - /url: http://localhost:8090/wp-admin/post.php?post=20&action=trash&_wpnonce=63e414b1fc
+                    - button "Update" [ref=f48e227] [cursor=pointer]
+              - generic [ref=f48e228]:
+                - generic [ref=f48e229]:   
+                - generic [ref=f48e231]:
+                  - generic [ref=f48e232]:
+                    - heading "Code to Block Canvas" [level=2] [ref=f48e233]
+                    - generic [ref=f48e234]:
+                      - button "Move up" [ref=f48e235] [cursor=pointer]:
+                        - generic [ref=f48e237]: 
+                      - button "Move down" [disabled] [ref=f48e238]:
+                        - generic [ref=f48e240]: 
+                      - 'button "Toggle panel: Code to Block Canvas" [expanded] [ref=f48e241] [cursor=pointer]':
+                        - generic [ref=f48e243]: 
+                  - region "Code to Block visual editor" [ref=f48e246]:
+                    - generic [ref=f48e247]:
+                      - generic [ref=f48e248]:
+                        - paragraph [ref=f48e249]: Phase 5 / Core editor
+                        - heading "Pricing card" [level=2] [ref=f48e250]
+                      - generic [ref=f48e251]:
+                        - generic [ref=f48e252]: Zustand history active
+                        - button "Undo" [disabled] [ref=f48e253]
+                        - button "Redo" [disabled] [ref=f48e254]
+                        - button "Load" [ref=f48e255] [cursor=pointer]
+                        - button "Save tree" [ref=f48e256] [cursor=pointer]
+                    - generic [ref=f48e257]:
+                      - generic [ref=f48e258]:
+                        - generic [ref=f48e259]:
+                          - paragraph [ref=f48e260]: HTML + CSS importer
+                          - heading "Paste code into editable blocks" [level=3] [ref=f48e261]
+                        - button "Parse onto canvas" [ref=f48e262] [cursor=pointer]
+                      - generic [ref=f48e263]:
+                        - generic [ref=f48e264]:
+                          - generic [ref=f48e265]: HTML
+                          - textbox "HTML to import" [ref=f48e266]:
+                            - /placeholder: <article class="card">...</article>
+                        - generic [ref=f48e267]:
+                          - generic [ref=f48e268]: CSS
+                          - textbox "CSS to import" [ref=f48e269]:
+                            - /placeholder: ".card { padding: 2rem; }"
+                    - generic [ref=f48e270]:
+                      - complementary "Document details" [ref=f48e271]:
+                        - generic [ref=f48e272]:
+                          - paragraph [ref=f48e273]: Loaded document
+                          - strong [ref=f48e274]: Pricing card
+                          - generic [ref=f48e275]:
+                            - generic [ref=f48e276]:
+                              - term [ref=f48e277]: Schema
+                              - definition [ref=f48e278]: v1
+                            - generic [ref=f48e279]:
+                              - term [ref=f48e280]: Blocks
+                              - definition [ref=f48e281]: "8"
+                            - generic [ref=f48e282]:
+                              - term [ref=f48e283]: Root
+                              - definition [ref=f48e284]: <article>
+                          - paragraph [ref=f48e285]: Each dashed outline is a separate schema block.
+                          - generic [ref=f48e286]:
+                            - paragraph [ref=f48e287]: Selected block
+                            - strong [ref=f48e288]: pricing-card
+                            - generic [ref=f48e289]:
+                              - generic [ref=f48e290]: Color
+                              - textbox "Color for pricing-card" [ref=f48e291] [cursor=pointer]: "#000000"
+                            - generic [ref=f48e292]:
+                              - paragraph [ref=f48e293]: Mapped controls
+                              - generic [ref=f48e294]:
+                                - generic [ref=f48e295]: Padding
+                                - textbox "Padding" [ref=f48e296]:
+                                  - /placeholder: 24px 32px
+                                  - text: 34px
+                              - generic [ref=f48e297]:
+                                - generic [ref=f48e298]: Margin
+                                - textbox "Margin" [ref=f48e299]:
+                                  - /placeholder: 0 auto
+                              - generic [ref=f48e300]:
+                                - generic [ref=f48e301]: Font size
+                                - textbox "Font size" [ref=f48e302]:
+                                  - /placeholder: 18px
+                              - generic [ref=f48e303]:
+                                - generic [ref=f48e304]: Font weight
+                                - textbox "Font weight" [ref=f48e305]:
+                                  - /placeholder: "700"
+                              - generic [ref=f48e306]:
+                                - generic [ref=f48e307]: Border
+                                - textbox "Border" [ref=f48e308]:
+                                  - /placeholder: "1px solid #ccc"
+                                  - text: "1px solid #c8cee0"
+                              - generic [ref=f48e309]:
+                                - generic [ref=f48e310]: Border radius
+                                - textbox "Border radius" [ref=f48e311]:
+                                  - /placeholder: 12px
+                                  - text: 18px
+                              - button "Apply styles" [disabled] [ref=f48e312]
+                            - generic [ref=f48e313]:
+                              - generic [ref=f48e314]: Raw CSS fallback
+                              - textbox "Raw CSS fallback" [ref=f48e315]
+                              - generic [ref=f48e316]:
+                                - generic [ref=f48e317]: No fallback CSS
+                                - button "Apply CSS" [disabled] [ref=f48e318]
+                              - paragraph [ref=f48e319]: Enter declarations only. Mapped controls win unless a raw value uses !important.
+                      - main "Rendered block canvas" [ref=f48e320]:
+                        - generic [ref=f48e321]: Drag a block onto text to reorder · onto a container to nest
+                        - article [ref=f48e323]:
+                          - text: article · pricing-card
+                          - button "h2 · pricing-plan-name Professional" [ref=f48e324]
+                          - button [ref=f48e325]:
+                            - text: p · pricing-price
+                            - button "span · pricing-price-value $29" [ref=f48e326]
+                            - text: /month
+                          - button [ref=f48e327]:
+                            - text: ul · pricing-features
+                            - button "li · pricing-feature-projects Unlimited projects" [ref=f48e328]
+                            - button "li · pricing-feature-support Priority support" [ref=f48e329]
+                          - button "a · pricing-cta Start free trial" [ref=f48e330]
+                      - status [ref=f48e331]
+  - contentinfo [ref=f48e332]:
+    - paragraph [ref=f48e333]:
+      - generic [ref=f48e334]:
+        - text: Thank you for creating with
+        - link "WordPress" [ref=f48e335] [cursor=pointer]:
+          - /url: https://wordpress.org/
+        - text: .
+    - paragraph [ref=f48e336]:
+      - strong [ref=f48e337]:
+        - link "Get Version 7.0.4" [ref=f48e338] [cursor=pointer]:
+          - /url: http://localhost:8090/wp-admin/update-core.php
+  - text: 

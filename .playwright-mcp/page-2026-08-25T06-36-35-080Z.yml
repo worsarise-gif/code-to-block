@@ -1,0 +1,68 @@
+- generic [active] [ref=f40e1]:
+  - generic [ref=f40e2]:
+    - generic [ref=f40e3]:
+      - strong [ref=f40e4]: Content Patch Concurrency Audit
+      - text: Content mode — no structure editing
+    - generic [ref=f40e5]:
+      - link "Back to WordPress editor" [ref=f40e6] [cursor=pointer]:
+        - /url: http://localhost:8090/wp-admin/post.php?post=83&action=edit
+      - text: "|"
+      - link "View live page" [ref=f40e7] [cursor=pointer]:
+        - /url: http://localhost:8090/?ctb_page=content-patch-concurrency-audit
+  - generic [ref=f40e9]:
+    - banner [ref=f40e11]:
+      - 'heading "Editing Content: Content Patch Audit" [level=1] [ref=f40e12]'
+      - button "Save Content" [disabled] [ref=f40e13]
+      - generic [ref=f40e51]: Saving...
+    - main [ref=f40e14]:
+      - generic [ref=f40e15]:
+        - heading "SEO — same view as other content" [level=2] [ref=f40e16]
+        - paragraph [ref=f40e17]: Title/description/canonical/Open Graph are editable here alongside other page content — not a separate SEO panel. JSON-LD (WebPage/Product/LocalBusiness) is auto-generated from your blocks.
+        - generic [ref=f40e18]:
+          - generic [ref=f40e19]:
+            - generic [ref=f40e20]: SEO Title
+            - textbox "SEO Title" [disabled] [ref=f40e21]:
+              - /placeholder: Page title — 50-60 chars ideal
+            - text: Title tag — shown in Google results. Keep 50-60 chars.
+          - generic [ref=f40e22]:
+            - generic [ref=f40e23]: Meta Description
+            - textbox "Meta Description" [disabled] [ref=f40e24]:
+              - /placeholder: Brief summary — 120-160 chars ideal
+            - text: Meta description — shown under title in search. Aim 120-160 chars.
+          - generic [ref=f40e25]:
+            - generic [ref=f40e26]: Canonical URL
+            - textbox "Canonical URL" [disabled] [ref=f40e27]:
+              - /placeholder: https://example.com/page/
+            - text: Preferred URL for this page. Blank = auto.
+          - generic [ref=f40e28]:
+            - generic [ref=f40e29]: Open Graph Title
+            - textbox "Open Graph Title" [disabled] [ref=f40e30]:
+              - /placeholder: Social title
+            - text: For Facebook/Twitter shares. Falls back to SEO Title.
+          - generic [ref=f40e31]:
+            - generic [ref=f40e32]: OG Description
+            - textbox "OG Description" [disabled] [ref=f40e33]:
+              - /placeholder: Social description
+            - text: Social share description.
+          - generic [ref=f40e34]:
+            - generic [ref=f40e35]: OG Image URL
+            - textbox "OG Image URL" [disabled] [ref=f40e36]:
+              - /placeholder: https://example.com/image.jpg
+            - text: Preview image for social shares.
+      - heading "Content Slots" [level=2] [ref=f40e37]
+      - generic [ref=f40e38]:
+        - generic [ref=f40e39]:
+          - generic [ref=f40e40]:
+            - text: Headline
+            - generic [ref=f40e41]: (text)
+          - textbox "Headline (text)" [disabled] [ref=f40e42]: Patched slot
+        - generic [ref=f40e43]:
+          - generic [ref=f40e44]:
+            - text: Linked heading
+            - generic [ref=f40e45]: (text)
+          - textbox "Linked heading (text)" [disabled] [ref=f40e46]: Instance A personalized
+        - generic [ref=f40e47]:
+          - generic [ref=f40e48]:
+            - text: Linked heading
+            - generic [ref=f40e49]: (text)
+          - textbox "Linked heading (text)" [disabled] [ref=f40e50]: Shared default

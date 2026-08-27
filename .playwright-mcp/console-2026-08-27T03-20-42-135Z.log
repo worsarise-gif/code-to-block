@@ -1,0 +1,4 @@
+[    1468ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:29904
+[    2179ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:8888/wp-json/code-to-block/v1/pages/4/block-tree?_locale=user:0
+[   21274ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:29904
+[   24124ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:8888/wp-json/code-to-block/v1/pages/4/block-tree?_locale=user:0

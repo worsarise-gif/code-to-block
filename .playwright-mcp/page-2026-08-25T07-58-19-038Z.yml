@@ -1,0 +1,284 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - strong [ref=e4]: Content Patch Concurrency Audit
+      - text: Dedicated editor — no admin chrome
+    - generic [ref=e5]:
+      - link "Back to WordPress editor" [ref=e6] [cursor=pointer]:
+        - /url: http://localhost:8090/wp-admin/post.php?post=83&action=edit
+      - text: "|"
+      - link "View live page" [ref=e7] [cursor=pointer]:
+        - /url: http://localhost:8090/?ctb_page=content-patch-concurrency-audit
+  - region "Code to Block visual editor" [ref=e9]:
+    - generic [ref=e10]:
+      - generic [ref=e11]:
+        - paragraph [ref=e12]: Phase 7 / Reusable components
+        - heading "Content Patch Audit" [level=2] [ref=e251]
+      - generic [ref=e14]:
+        - generic [ref=e15]: Zustand history active
+        - button "Undo" [disabled] [ref=e16]
+        - button "Redo" [disabled] [ref=e17]
+        - button "Load" [ref=e18] [cursor=pointer]
+        - button "Save tree" [ref=e19] [cursor=pointer]
+    - generic [ref=e20]:
+      - generic [ref=e21]:
+        - generic [ref=e22]:
+          - paragraph [ref=e23]: HTML + CSS importer
+          - heading "Paste code into editable blocks" [level=3] [ref=e24]
+        - button "Parse onto canvas" [ref=e25] [cursor=pointer]
+      - generic [ref=e26]:
+        - generic [ref=e27]:
+          - generic [ref=e28]: HTML
+          - textbox "HTML to import" [ref=e29]:
+            - /placeholder: <article class="card">...</article>
+        - generic [ref=e30]:
+          - generic [ref=e31]: CSS
+          - textbox "CSS to import" [ref=e32]:
+            - /placeholder: ".card { padding: 2rem; }"
+    - generic [ref=e33]:
+      - complementary "Document details" [ref=e34]:
+        - generic [ref=e35]:
+          - paragraph [ref=e36]: Loaded document
+          - strong [ref=e37]: Content Patch Audit
+          - generic [ref=e38]:
+            - generic [ref=e39]:
+              - term [ref=e40]: Schema
+              - definition [ref=e41]: v1
+            - generic [ref=e42]:
+              - term [ref=e43]: Blocks
+              - definition [ref=e44]: "8"
+            - generic [ref=e45]:
+              - term [ref=e46]: Root
+              - definition [ref=e47]: <main>
+          - paragraph [ref=e48]: Each dashed outline is a separate schema block.
+          - group [ref=e49]:
+            - generic "Global design tokens 0 defined" [ref=e50] [cursor=pointer]:
+              - generic [ref=e51]: Global design tokens
+              - generic [ref=e52]: 0 defined
+            - option "Colors" [selected]
+            - option "Typography"
+            - option "Spacing"
+          - group [ref=e53]:
+            - generic "Starter templates 4 ready" [ref=e54] [cursor=pointer]:
+              - generic [ref=e55]: Starter templates
+              - generic [ref=e56]: 4 ready
+            - paragraph [ref=e57]: Replace the canvas or insert a starter after the selected block.
+            - generic [ref=e58]:
+              - generic [ref=e59]:
+                - generic [ref=e60]:
+                  - strong [ref=e61]: Hero landing
+                  - generic [ref=e62]: Full hero with headline, intro and CTA
+                - generic [ref=e63]:
+                  - button "Replace canvas" [ref=e64] [cursor=pointer]
+                  - button "Insert after selection" [ref=e65] [cursor=pointer]
+              - generic [ref=e66]:
+                - generic [ref=e67]:
+                  - strong [ref=e68]: Pricing card
+                  - generic [ref=e69]: Single pricing card with features and CTA
+                - generic [ref=e70]:
+                  - button "Replace canvas" [ref=e71] [cursor=pointer]
+                  - button "Insert after selection" [ref=e72] [cursor=pointer]
+              - generic [ref=e73]:
+                - generic [ref=e74]:
+                  - strong [ref=e75]: Testimonial
+                  - generic [ref=e76]: Quote card with avatar and caption
+                - generic [ref=e77]:
+                  - button "Replace canvas" [ref=e78] [cursor=pointer]
+                  - button "Insert after selection" [ref=e79] [cursor=pointer]
+              - generic [ref=e80]:
+                - generic [ref=e81]:
+                  - strong [ref=e82]: Footer columns
+                  - generic [ref=e83]: Three-column footer with links
+                - generic [ref=e84]:
+                  - button "Replace canvas" [ref=e85] [cursor=pointer]
+                  - button "Insert after selection" [ref=e86] [cursor=pointer]
+          - group [ref=e87]:
+            - generic "Saved components 3 saved" [ref=e252] [cursor=pointer]:
+              - generic [ref=e89]: Saved components
+              - generic [ref=e90]: 3 saved
+            - paragraph [ref=e91]: Save the selected subtree, then insert a linked instance here or on another page.
+            - generic [ref=e92]:
+              - generic [ref=e93]:
+                - generic [ref=e94]: Name
+                - textbox "Name" [ref=e95]:
+                  - /placeholder: Feature card
+              - button "Save selection" [disabled] [ref=e96]
+            - generic [ref=e253]:
+              - generic [ref=e254]:
+                - generic [ref=e255]:
+                  - strong [ref=e256]: asdasd
+                  - generic [ref=e257]: "#41 · linked"
+                - generic [ref=e258]:
+                  - button "Insert" [ref=e259] [cursor=pointer]
+                  - button "Replace from selection" [ref=e260] [cursor=pointer]
+              - generic [ref=e261]:
+                - generic [ref=e262]:
+                  - strong [ref=e263]: Linked Slot Audit Component
+                  - generic [ref=e264]: "#91 · linked"
+                - generic [ref=e265]:
+                  - button "Insert" [ref=e266] [cursor=pointer]
+                  - button "Replace from selection" [ref=e267] [cursor=pointer]
+              - generic [ref=e268]:
+                - generic [ref=e269]:
+                  - strong [ref=e270]: Phase 7 reusable card
+                  - generic [ref=e271]: "#29 · linked"
+                - generic [ref=e272]:
+                  - button "Insert" [ref=e273] [cursor=pointer]
+                  - button "Replace from selection" [ref=e274] [cursor=pointer]
+          - group [ref=e98]:
+            - generic "WooCommerce Blocks" [ref=e99] [cursor=pointer]:
+              - generic [ref=e100]: WooCommerce
+              - generic [ref=e101]: Blocks
+          - group [ref=e102]:
+            - generic "Forms — native or external Blocks" [ref=e103] [cursor=pointer]:
+              - generic [ref=e104]: Forms — native or external
+              - generic [ref=e105]: Blocks
+          - group [ref=e106]:
+            - generic "Widget Library — 8 pre-built On File 4" [ref=e107] [cursor=pointer]:
+              - generic [ref=e108]: Widget Library — 8 pre-built
+              - generic [ref=e109]: On File 4
+          - group [ref=e110]:
+            - generic "SEO 0 fields" [ref=e111] [cursor=pointer]:
+              - generic [ref=e112]: SEO
+              - generic [ref=e113]: 0 fields
+          - group [ref=e114]:
+            - generic "Accessibility — helps identify common issues 1 found" [ref=e115] [cursor=pointer]:
+              - generic [ref=e116]: Accessibility — helps identify common issues
+              - generic [ref=e117]: 1 found
+            - paragraph [ref=e118]: Automated checks catch many common issues but cannot replace testing with real assistive technology and real users. This tool never claims compliance.
+            - list [ref=e119]:
+              - listitem [ref=e275]:
+                - generic [ref=e276]:
+                  - strong [ref=e277]: contrast
+                  - button "patch-slot" [ref=e278] [cursor=pointer]
+                - paragraph [ref=e279]: Text contrast 4.00:1 is below 4.5:1 — low contrast text is hard to read
+                - generic [ref=e280]: "Low contrast makes text harder to read, especially for low vision. Try a darker text or lighter background (4.5:1 is the AA threshold for normal text). Colors: red on {\"r\":255,\"g\":255,\"b\":255}."
+          - group [ref=e126]:
+            - generic "Diagnostics Woo conflict check" [ref=e127] [cursor=pointer]:
+              - generic [ref=e128]: Diagnostics
+              - generic [ref=e129]: Woo conflict check
+          - generic [ref=e130]:
+            - paragraph [ref=e131]: Selected block
+            - strong [ref=e132]: patch-root
+            - group [ref=e133]:
+              - generic "Explain CSS no import data" [ref=e134] [cursor=pointer]:
+                - generic [ref=e135]: Explain CSS
+                - generic [ref=e136]: no import data
+            - generic [ref=e137]:
+              - paragraph [ref=e138]: Editing breakpoint
+              - group "Style breakpoint" [ref=e139]:
+                - button "Desktop 100%" [pressed] [ref=e140] [cursor=pointer]:
+                  - generic [ref=e141]: Desktop
+                  - generic [ref=e142]: 100%
+                - button "Tablet 768px" [ref=e143] [cursor=pointer]:
+                  - generic [ref=e144]: Tablet
+                  - generic [ref=e145]: 768px
+                - button "Mobile 390px" [ref=e146] [cursor=pointer]:
+                  - generic [ref=e147]: Mobile
+                  - generic [ref=e148]: 390px
+              - paragraph [ref=e149]: 0 base declarations
+            - generic [ref=e150]:
+              - generic [ref=e151]:
+                - checkbox "Hide on desktop" [ref=e152] [cursor=pointer]
+                - generic [ref=e153]: Hide on desktop
+              - generic [ref=e154]: Visible on this device
+            - generic [ref=e156]:
+              - checkbox "Bind to WooCommerce data" [ref=e157] [cursor=pointer]
+              - generic [ref=e158]: Bind to WooCommerce data
+            - generic [ref=e159]:
+              - button "Move up" [disabled] [ref=e160]
+              - button "Move down" [disabled] [ref=e161]
+            - region "Animations for patch-root" [ref=e281]:
+              - paragraph [ref=e163]: Motion
+              - paragraph [ref=e164]: CSS reveal adds no JavaScript. Scroll and stagger load GSAP and ScrollTrigger only on pages that use them.
+              - generic [ref=e165]:
+                - button "Add CSS reveal" [ref=e166] [cursor=pointer]
+                - button "Add scroll scrub" [ref=e167] [cursor=pointer]
+                - button "Add child stagger" [ref=e168] [cursor=pointer]
+            - generic [ref=e170]:
+              - generic [ref=e171]: Color
+              - textbox "Desktop color for patch-root" [ref=e282] [cursor=pointer]: "#000000"
+            - generic [ref=e173]:
+              - generic [ref=e174]:
+                - generic [ref=e175]: Panel mode
+                - generic [ref=e176]:
+                  - button "Simple" [ref=e177] [cursor=pointer]
+                  - button "Advanced" [ref=e178] [cursor=pointer]
+              - generic [ref=e179]:
+                - generic [ref=e180]: Search controls
+                - textbox "Search controls" [ref=e181] [cursor=pointer]:
+                  - /placeholder: Search — try 'shadow' in Simple mode to surface advanced
+              - generic [ref=e182]: Simple shows essential controls for business owners; Advanced shows all. Search finds any control even when hidden — e.g. search "shadow" while in Simple to surface Box Shadow. Values persist when switching modes.
+            - generic [ref=e283]:
+              - paragraph [ref=e284]: Base mapped controls
+              - generic [ref=e286]:
+                - generic [ref=e287]: Padding
+                - textbox "Padding" [ref=e288]:
+                  - /placeholder: 24px 32px
+              - generic [ref=e290]:
+                - generic [ref=e291]: Margin
+                - textbox "Margin" [ref=e292]:
+                  - /placeholder: 0 auto
+              - generic [ref=e294]:
+                - generic [ref=e295]: Font size
+                - textbox "Font size" [ref=e296]:
+                  - /placeholder: 18px
+              - generic [ref=e298]:
+                - generic [ref=e299]: Font weight
+                - textbox "Font weight" [ref=e300]:
+                  - /placeholder: "700"
+              - generic [ref=e302]:
+                - generic [ref=e303]: Border
+                - textbox "Border" [ref=e304]:
+                  - /placeholder: "1px solid #ccc"
+              - generic [ref=e306]:
+                - generic [ref=e307]: Border radius
+                - textbox "Border radius" [ref=e308]:
+                  - /placeholder: 12px
+              - generic [ref=e310]:
+                - generic [ref=e311]: Width
+                - textbox "Width" [ref=e312]:
+                  - /placeholder: 100% | 320px
+              - generic [ref=e314]:
+                - generic [ref=e315]: Max width
+                - textbox "Max width" [ref=e316]:
+                  - /placeholder: 720px
+              - generic [ref=e318]:
+                - generic [ref=e319]: Background color
+                - textbox "Background color" [ref=e320]:
+                  - /placeholder: "#ffffff"
+              - button "Apply desktop styles" [disabled] [ref=e321]
+            - generic [ref=e222]: Raw Custom CSS is an Advanced control — switch to Advanced or search “raw” to edit. Values persist while hidden.
+          - status [ref=e223]: Loaded.
+      - main "Rendered block canvas" [ref=e224]:
+        - generic [ref=e225]:
+          - generic [ref=e226]:
+            - paragraph [ref=e227]: Live canvas width
+            - strong [ref=e228]: Desktop / 100%
+          - group "Canvas breakpoint" [ref=e229]:
+            - button "Desktop 100%" [pressed] [ref=e230] [cursor=pointer]:
+              - generic [ref=e231]: Desktop
+              - generic [ref=e232]: 100%
+            - button "Tablet 768px" [ref=e233] [cursor=pointer]:
+              - generic [ref=e234]: Tablet
+              - generic [ref=e235]: 768px
+            - button "Mobile 390px" [ref=e236] [cursor=pointer]:
+              - generic [ref=e237]: Mobile
+              - generic [ref=e238]: 390px
+        - generic [ref=e239]: Drag a block onto text to reorder · onto a container to nest
+        - main [ref=e322]:
+          - text: main · patch-root
+          - 'button "Slot: Headline (h1 · patch-slot) Patched slot" [ref=e323]'
+          - button "section · patch-structure Structure v2" [ref=e324]
+          - button [ref=e325]:
+            - text: saved component · linked-instance-a
+            - 'heading "Slot: Linked heading (h2 · saved-91-linked-instance-a-1) Shared default" [level=2] [ref=e326]'
+          - button [ref=e327]:
+            - text: saved component · linked-instance-b
+            - 'heading "Slot: Linked heading (h2 · saved-91-linked-instance-b-1) Shared default" [level=2] [ref=e328]'
+          - button [ref=e329]:
+            - text: "Slot: Formatted introduction (p · rich-slot-audit)"
+            - strong [ref=e330]: Formatted
+            - emphasis [ref=e331]: copy
+            - text: window.__ctbUnsafe=2
+      - status [ref=e250]

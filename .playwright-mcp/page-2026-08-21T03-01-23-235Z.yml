@@ -1,0 +1,9 @@
+- article [ref=f4e4]:
+  - heading "Professional" [level=2] [ref=f4e5]
+  - paragraph [ref=f4e6]: $29/month
+  - list [ref=f4e7]:
+    - listitem [ref=f4e8]: Unlimited projects
+    - listitem [ref=f4e9]: Priority support
+  - link "Start free trial" [ref=f4e10] [cursor=pointer]:
+    - /url: "#signup"
+  - generic [ref=f4e11]: this saved component failed to load

@@ -1,0 +1,184 @@
+- generic [ref=f10e1]:
+  - text: "Deprecated: Function print_emoji_styles is"
+  - strong [ref=f10e2]: deprecated
+  - text: "since version 6.4.0! Use wp_enqueue_emoji_styles instead. in /var/www/html/wp-includes/functions.php on line 6260 Deprecated: Function wp_admin_bar_header is"
+  - strong [ref=f10e3]: deprecated
+  - text: since version 6.4.0! Use wp_enqueue_admin_bar_header_styles instead. in /var/www/html/wp-includes/functions.php on line 6260
+  - generic [ref=f10e4]:
+    - generic [ref=f10e5]:
+      - strong [ref=f10e6]: Last Upgrade Verification
+      - text: Dedicated editor — no admin chrome
+    - generic [ref=f10e7]:
+      - link "Back to WordPress editor" [ref=f10e8] [cursor=pointer]:
+        - /url: http://localhost:8888/wp-admin/post.php?post=4&action=edit
+      - text: "|"
+      - link "View live page" [ref=f10e9] [cursor=pointer]:
+        - /url: http://localhost:8888/built-page/last-upgrade-verification/
+  - region "Code to Block visual editor" [ref=f10e11]:
+    - generic [ref=f10e12]:
+      - generic [ref=f10e13]:
+        - paragraph [ref=f10e14]: Phase 7 / Reusable components
+        - heading "Pricing card" [level=2] [ref=f10e15]
+      - generic [ref=f10e16]:
+        - generic [ref=f10e17]: Zustand history active
+        - button "Undo" [disabled] [ref=f10e18]
+        - button "Redo" [disabled] [ref=f10e19]
+        - button "Load" [ref=f10e20] [cursor=pointer]
+        - button "Save tree" [active] [ref=f10e21] [cursor=pointer]
+    - generic [ref=f10e22]:
+      - generic [ref=f10e23]:
+        - generic [ref=f10e24]:
+          - paragraph [ref=f10e25]: Unified Importer
+          - heading "Paste your code" [level=3] [ref=f10e26]
+          - paragraph [ref=f10e27]: Paste HTML, CSS, JavaScript, and PHP together. The editor previews what it found before parsing.
+        - button "Parse onto canvas" [ref=f10e28] [cursor=pointer]
+      - generic [ref=f10e30]:
+        - generic [ref=f10e31]: Combined HTML, CSS, JS, PHP
+        - textbox "Code to import" [ref=f10e32]:
+          - /placeholder: Paste your combined code here...
+    - generic [ref=f10e33]:
+      - complementary "Add Elements" [ref=f10e34]:
+        - generic [ref=f10e35]:
+          - heading "Add Elements" [level=3] [ref=f10e36]
+          - group [ref=f10e37]:
+            - generic "Starter templates 4 ready" [ref=f10e38] [cursor=pointer]:
+              - generic [ref=f10e39]: Starter templates
+              - generic [ref=f10e40]: 4 ready
+            - paragraph [ref=f10e41]: Replace the canvas or insert a starter after the selected block.
+            - generic [ref=f10e42]:
+              - generic [ref=f10e43]:
+                - generic [ref=f10e44]:
+                  - strong [ref=f10e45]: Hero landing
+                  - generic [ref=f10e46]: Full hero with headline, intro and CTA
+                - generic [ref=f10e47]:
+                  - button "Replace canvas" [ref=f10e48] [cursor=pointer]
+                  - button "Insert after selection" [ref=f10e49] [cursor=pointer]
+              - generic [ref=f10e50]:
+                - generic [ref=f10e51]:
+                  - strong [ref=f10e52]: Pricing card
+                  - generic [ref=f10e53]: Single pricing card with features and CTA
+                - generic [ref=f10e54]:
+                  - button "Replace canvas" [ref=f10e55] [cursor=pointer]
+                  - button "Insert after selection" [ref=f10e56] [cursor=pointer]
+              - generic [ref=f10e57]:
+                - generic [ref=f10e58]:
+                  - strong [ref=f10e59]: Testimonial
+                  - generic [ref=f10e60]: Quote card with avatar and caption
+                - generic [ref=f10e61]:
+                  - button "Replace canvas" [ref=f10e62] [cursor=pointer]
+                  - button "Insert after selection" [ref=f10e63] [cursor=pointer]
+              - generic [ref=f10e64]:
+                - generic [ref=f10e65]:
+                  - strong [ref=f10e66]: Footer columns
+                  - generic [ref=f10e67]: Three-column footer with links
+                - generic [ref=f10e68]:
+                  - button "Replace canvas" [ref=f10e69] [cursor=pointer]
+                  - button "Insert after selection" [ref=f10e70] [cursor=pointer]
+          - group [ref=f10e71]:
+            - generic "Saved components 0 saved" [ref=f10e72] [cursor=pointer]:
+              - generic [ref=f10e73]: Saved components
+              - generic [ref=f10e74]: 0 saved
+            - paragraph [ref=f10e75]: Save the selected subtree, then insert a linked instance here or on another page.
+            - generic [ref=f10e76]:
+              - generic [ref=f10e77]:
+                - generic [ref=f10e78]: Name
+                - textbox "Name" [ref=f10e79]:
+                  - /placeholder: Feature card
+              - button "Save selection" [disabled] [ref=f10e80]
+          - group [ref=f10e81]:
+            - generic "WooCommerce Blocks" [ref=f10e82] [cursor=pointer]:
+              - generic [ref=f10e83]: WooCommerce
+              - generic [ref=f10e84]: Blocks
+            - option "Select a product" [selected]
+          - group [ref=f10e85]:
+            - generic "Forms — native or external Blocks" [ref=f10e86] [cursor=pointer]:
+              - generic [ref=f10e87]: Forms — native or external
+              - generic [ref=f10e88]: Blocks
+          - group [ref=f10e89]:
+            - generic "Widget Library — 8 pre-built On File 4" [ref=f10e90] [cursor=pointer]:
+              - generic [ref=f10e91]: Widget Library — 8 pre-built
+              - generic [ref=f10e92]: On File 4
+      - main [ref=f10e93]:
+        - generic [ref=f10e94]:
+          - button "Navigator ►" [ref=f10e95]
+          - group "Canvas breakpoint" [ref=f10e96]:
+            - button "Desktop 100%" [pressed] [ref=f10e97] [cursor=pointer]:
+              - generic [ref=f10e98]: Desktop
+              - generic [ref=f10e99]: 100%
+            - button "Tablet 768px" [ref=f10e100] [cursor=pointer]:
+              - generic [ref=f10e101]: Tablet
+              - generic [ref=f10e102]: 768px
+            - button "Mobile 390px" [ref=f10e103] [cursor=pointer]:
+              - generic [ref=f10e104]: Mobile
+              - generic [ref=f10e105]: 390px
+          - generic [ref=f10e106]: Saved.
+        - button "article" [ref=f10e109] [cursor=pointer]
+        - article [ref=f10e112]:
+          - text: article · pricing-card
+          - button "h2 · pricing-plan-name Professional" [ref=f10e113]
+          - button [ref=f10e114]:
+            - text: p · pricing-price
+            - button "span · pricing-price-value $29" [ref=f10e115]
+            - text: /month
+          - button [ref=f10e116]:
+            - text: ul · pricing-features
+            - button "li · pricing-feature-projects Unlimited projects" [ref=f10e117]
+            - button "li · pricing-feature-support Priority support" [ref=f10e118]
+          - button "a · pricing-cta Start free trial" [ref=f10e119]
+        - status [ref=f10e120]
+      - complementary [ref=f10e121]:
+        - generic [ref=f10e122]:
+          - button "Content" [ref=f10e123] [cursor=pointer]
+          - button "Style" [ref=f10e124] [cursor=pointer]
+          - button "Advanced" [ref=f10e125] [cursor=pointer]
+        - generic [ref=f10e127]:
+          - heading "Content Source" [level=4] [ref=f10e128]
+          - generic [ref=f10e130]:
+            - checkbox "Bind to WooCommerce data" [ref=f10e131]
+            - generic [ref=f10e132]: Bind to WooCommerce data
+      - complementary [ref=f10e133]:
+        - generic [ref=f10e134]:
+          - heading "Dynamic Data" [level=4] [ref=f10e135]
+          - paragraph [ref=f10e136]: No dynamic data connected.
+        - generic [ref=f10e137]:
+          - heading "Visibility & Conditions" [level=4] [ref=f10e138]
+          - generic [ref=f10e139]:
+            - generic [ref=f10e140]:
+              - checkbox "Hide on desktop" [ref=f10e141]
+              - generic [ref=f10e142]: Hide on desktop
+            - generic [ref=f10e143]: Visible on this device
+          - generic [ref=f10e145]:
+            - text: Require Login
+            - checkbox "Require Login" [ref=f10e146]
+        - generic [ref=f10e147]:
+          - heading "States" [level=4] [ref=f10e148]
+          - generic [ref=f10e149]:
+            - button "Default" [ref=f10e150]
+            - button "Hover" [ref=f10e151]
+            - button "Focus" [ref=f10e152]
+            - button "Active" [ref=f10e153]
+        - generic [ref=f10e154]:
+          - heading "Permissions" [level=4] [ref=f10e155]
+          - generic [ref=f10e156]:
+            - generic [ref=f10e157]:
+              - text: Lock Element
+              - checkbox "Lock Element" [ref=f10e158]
+            - paragraph [ref=f10e159]: Restrict editing to specific roles.
+        - generic [ref=f10e160]:
+          - heading "SEO & Meta" [level=4] [ref=f10e161]
+          - group [ref=f10e162]:
+            - generic "SEO 0 fields" [ref=f10e163] [cursor=pointer]:
+              - generic [ref=f10e164]: SEO
+              - generic [ref=f10e165]: 0 fields
+          - paragraph [ref=f10e166]:
+            - link "Edit in Content Mode" [ref=f10e167] [cursor=pointer]:
+              - /url: "#"
+        - generic [ref=f10e168]:
+          - heading "Performance" [level=4] [ref=f10e169]
+          - generic [ref=f10e170]:
+            - text: Lazy Load Element
+            - checkbox "Lazy Load Element" [ref=f10e171]
+        - generic [ref=f10e172]:
+          - heading "History" [level=4] [ref=f10e173]
+          - list [ref=f10e174]:
+            - listitem [ref=f10e175]: No changes yet.

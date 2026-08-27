@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "name": "Phase 2 round trip",
+  "root": {
+    "id": "hero",
+    "type": "container",
+    "tag": "section",
+    "attributes": {},
+    "children": [
+      {
+        "id": "hero-heading",
+        "type": "text",
+        "tag": "h1",
+        "attributes": {},
+        "children": [
+          {
+            "kind": "text",
+            "value": "Launch \"now\""
+          }
+        ],
+        "styles": {
+          "mapped": {
+            "color": "white"
+          },
+          "custom_css_fallback": ""
+        },
+        "meta": {
+          "source": "manual-phase-2-test"
+        }
+      }
+    ],
+    "styles": {
+      "mapped": {
+        "background-image": "linear-gradient(rgba(10, 18, 35, 0.72), rgba(10, 18, 35, 0.72)), url(\"hero.jpg\")",
+        "background-size": "cover"
+      },
+      "custom_css_fallback": ""
+    },
+    "meta": {
+      "source": "manual-phase-2-test"
+    }
+  }
+}

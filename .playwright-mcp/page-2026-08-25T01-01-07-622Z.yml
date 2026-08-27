@@ -1,0 +1,101 @@
+- generic [ref=f3e1]:
+  - generic [ref=f3e2]:
+    - text:                    
+    - heading [level=1] [ref=f3e3]: Add Post
+    - generic [ref=f3e39]:
+      - generic [ref=f3e40]:
+        - region [ref=f3e41]:
+          - generic [ref=f3e42]:
+            - link [ref=f3e47] [cursor=pointer]:
+              - /url: edit.php?post_type=post
+            - toolbar [ref=f3e51]:
+              - generic [ref=f3e52]:
+                - button [ref=f3e53] [cursor=pointer]
+                - button [disabled] [ref=f3e56]
+                - button [disabled] [ref=f3e59]
+                - button [ref=f3e62] [cursor=pointer]
+            - button [ref=f3e67] [cursor=pointer]:
+              - heading [level=1] [ref=f3e69]:
+                - generic [ref=f3e70]: No title
+                - generic [ref=f3e71]: · Post
+              - generic [ref=f3e72]: Ctrl+K
+            - generic [ref=f3e73]:
+              - button [disabled] [ref=f3e74]: Save draft
+              - button [ref=f3e76] [cursor=pointer]
+              - button [expanded] [pressed] [ref=f3e80] [cursor=pointer]
+              - button [disabled] [ref=f3e83]: Publish
+              - button [ref=f3e85] [cursor=pointer]
+        - generic [ref=f3e88]:
+          - region [ref=f3e89]:
+            - generic [ref=f3e93]:
+              - textbox [ref=f3e95]:
+                - generic: Add title
+              - generic [ref=f3e98]:
+                - button [ref=f3e99]: Type / to choose a block
+                - button [ref=f3e101] [cursor=pointer]
+          - region [ref=f3e102]:
+            - generic [ref=f3e104]:
+              - generic [ref=f3e105]:
+                - tablist [ref=f3e106]:
+                  - tab [selected] [ref=f3e107] [cursor=pointer]:
+                    - generic [ref=f3e108]: Post
+                  - tab [ref=f3e109] [cursor=pointer]:
+                    - generic [ref=f3e110]: Block
+                - button [ref=f3e111] [cursor=pointer]
+              - tabpanel [ref=f3e115]:
+                - generic [ref=f3e117]:
+                  - generic [ref=f3e119]:
+                    - heading [level=2] [ref=f3e122]:
+                      - generic [ref=f3e123]: No title
+                    - button [ref=f3e124] [cursor=pointer]
+                  - button [ref=f3e129] [cursor=pointer]: Set featured image
+                  - button [ref=f3e132] [cursor=pointer]: Add an excerpt…
+                  - generic [ref=f3e133]: Last edited a second ago.
+                  - generic [ref=f3e136]:
+                    - generic [ref=f3e137]:
+                      - generic [ref=f3e138]: Status
+                      - button [ref=f3e141] [cursor=pointer]: Draft
+                    - generic [ref=f3e144]:
+                      - generic [ref=f3e145]: Publish
+                      - button [ref=f3e148] [cursor=pointer]: Immediately
+                    - generic [ref=f3e149]:
+                      - generic [ref=f3e150]: Slug
+                      - button [ref=f3e153] [cursor=pointer]: "75"
+                    - generic [ref=f3e154]:
+                      - generic [ref=f3e155]: Author
+                      - button [ref=f3e158] [cursor=pointer]: admin
+                    - generic [ref=f3e159]:
+                      - generic [ref=f3e160]: Template
+                      - button [ref=f3e163] [cursor=pointer]: Single Posts
+                    - generic [ref=f3e164]:
+                      - generic [ref=f3e165]: Discussion
+                      - button [ref=f3e168] [cursor=pointer]: Open
+                    - generic [ref=f3e169]:
+                      - generic [ref=f3e170]: Format
+                      - button [ref=f3e173] [cursor=pointer]: Standard
+                - heading [level=2] [ref=f3e175]:
+                  - button [ref=f3e176] [cursor=pointer]: Categories
+                - heading [level=2] [ref=f3e180]:
+                  - button [ref=f3e181] [cursor=pointer]: Tags
+          - button [ref=f3e185] [cursor=pointer]: Open publish panel
+      - region [ref=f3e186]:
+        - list [ref=f3e187]:
+          - listitem [ref=f3e188]: Post
+    - text:  
+  - dialog "Welcome to the editor" [active] [ref=f3e8]:
+    - document [ref=f3e9]:
+      - button "Close" [ref=f3e11] [cursor=pointer]
+      - generic [ref=f3e15]:
+        - generic [ref=f3e16]:
+          - list "Guide controls" [ref=f3e18]:
+            - listitem [ref=f3e19]:
+              - button "Page 1 of 4" [ref=f3e20] [cursor=pointer]
+            - listitem [ref=f3e23]:
+              - button "Page 2 of 4" [ref=f3e24] [cursor=pointer]
+            - listitem [ref=f3e27]:
+              - button "Page 3 of 4" [ref=f3e28] [cursor=pointer]
+            - listitem [ref=f3e31]:
+              - button "Page 4 of 4" [ref=f3e32] [cursor=pointer]
+          - heading "Welcome to the editor" [level=1] [ref=f3e35]
+          - paragraph [ref=f3e36]: In the WordPress editor, each paragraph, image, or video is presented as a distinct “block” of content.
+        - button "Next" [ref=f3e38] [cursor=pointer]

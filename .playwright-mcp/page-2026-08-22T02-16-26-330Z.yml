@@ -1,0 +1,210 @@
+- generic [active] [ref=f4e1]:
+  - text:     
+  - generic [ref=f4e2]:
+    - generic [ref=f4e3]:
+      - strong [ref=f4e4]: Perf Stress Test
+      - text: Dedicated editor — no admin chrome
+    - generic [ref=f4e5]:
+      - link "Back to WordPress editor" [ref=f4e6] [cursor=pointer]:
+        - /url: http://localhost:8090/wp-admin/post.php?post=39&action=edit
+      - text: "|"
+      - link "View live page" [ref=f4e7] [cursor=pointer]:
+        - /url: http://localhost:8090/?ctb_page=perf-stress-test
+  - region "Code to Block visual editor" [ref=f4e9]:
+    - generic [ref=f4e10]:
+      - generic [ref=f4e11]:
+        - paragraph [ref=f4e12]: Phase 7 / Reusable components
+        - heading "Pricing card" [level=2] [ref=f4e13]
+      - generic [ref=f4e14]:
+        - generic [ref=f4e15]: Zustand history active
+        - button "Undo" [disabled] [ref=f4e16]
+        - button "Redo" [disabled] [ref=f4e17]
+        - button "Load" [ref=f4e18] [cursor=pointer]
+        - button "Save tree" [ref=f4e19] [cursor=pointer]
+    - generic [ref=f4e20]:
+      - generic [ref=f4e21]:
+        - generic [ref=f4e22]:
+          - paragraph [ref=f4e23]: HTML + CSS importer
+          - heading "Paste code into editable blocks" [level=3] [ref=f4e24]
+        - button "Parse onto canvas" [ref=f4e25] [cursor=pointer]
+      - generic [ref=f4e26]:
+        - generic [ref=f4e27]:
+          - generic [ref=f4e28]: HTML
+          - textbox "HTML to import" [ref=f4e29]:
+            - /placeholder: <article class="card">...</article>
+        - generic [ref=f4e30]:
+          - generic [ref=f4e31]: CSS
+          - textbox "CSS to import" [ref=f4e32]:
+            - /placeholder: ".card { padding: 2rem; }"
+    - generic [ref=f4e33]:
+      - complementary "Document details" [ref=f4e34]:
+        - generic [ref=f4e35]:
+          - paragraph [ref=f4e36]: Loaded document
+          - strong [ref=f4e37]: Pricing card
+          - generic [ref=f4e38]:
+            - generic [ref=f4e39]:
+              - term [ref=f4e40]: Schema
+              - definition [ref=f4e41]: v1
+            - generic [ref=f4e42]:
+              - term [ref=f4e43]: Blocks
+              - definition [ref=f4e44]: "8"
+            - generic [ref=f4e45]:
+              - term [ref=f4e46]: Root
+              - definition [ref=f4e47]: <article>
+          - paragraph [ref=f4e48]: Each dashed outline is a separate schema block.
+          - group [ref=f4e49]:
+            - generic "Global design tokens 0 defined" [ref=f4e50] [cursor=pointer]:
+              - generic [ref=f4e51]: Global design tokens
+              - generic [ref=f4e52]: 0 defined
+            - option "Colors" [selected]
+            - option "Typography"
+            - option "Spacing"
+          - group [ref=f4e53]:
+            - generic "Starter templates 4 ready" [ref=f4e54] [cursor=pointer]:
+              - generic [ref=f4e55]: Starter templates
+              - generic [ref=f4e56]: 4 ready
+            - paragraph [ref=f4e57]: Replace the canvas or insert a starter after the selected block.
+            - generic [ref=f4e58]:
+              - generic [ref=f4e59]:
+                - generic [ref=f4e60]:
+                  - strong [ref=f4e61]: Hero landing
+                  - generic [ref=f4e62]: Full hero with headline, intro and CTA
+                - generic [ref=f4e63]:
+                  - button "Replace canvas" [ref=f4e64] [cursor=pointer]
+                  - button "Insert after selection" [ref=f4e65] [cursor=pointer]
+              - generic [ref=f4e66]:
+                - generic [ref=f4e67]:
+                  - strong [ref=f4e68]: Pricing card
+                  - generic [ref=f4e69]: Single pricing card with features and CTA
+                - generic [ref=f4e70]:
+                  - button "Replace canvas" [ref=f4e71] [cursor=pointer]
+                  - button "Insert after selection" [ref=f4e72] [cursor=pointer]
+              - generic [ref=f4e73]:
+                - generic [ref=f4e74]:
+                  - strong [ref=f4e75]: Testimonial
+                  - generic [ref=f4e76]: Quote card with avatar and caption
+                - generic [ref=f4e77]:
+                  - button "Replace canvas" [ref=f4e78] [cursor=pointer]
+                  - button "Insert after selection" [ref=f4e79] [cursor=pointer]
+              - generic [ref=f4e80]:
+                - generic [ref=f4e81]:
+                  - strong [ref=f4e82]: Footer columns
+                  - generic [ref=f4e83]: Three-column footer with links
+                - generic [ref=f4e84]:
+                  - button "Replace canvas" [ref=f4e85] [cursor=pointer]
+                  - button "Insert after selection" [ref=f4e86] [cursor=pointer]
+          - group [ref=f4e87]:
+            - generic "Saved components 1 saved" [ref=f4e88] [cursor=pointer]:
+              - generic [ref=f4e89]: Saved components
+              - generic [ref=f4e90]: 1 saved
+            - paragraph [ref=f4e91]: Save the selected subtree, then insert a linked instance here or on another page.
+            - generic [ref=f4e92]:
+              - generic [ref=f4e93]:
+                - generic [ref=f4e94]: Name
+                - textbox "Name" [ref=f4e95]:
+                  - /placeholder: Feature card
+              - button "Save selection" [disabled] [ref=f4e96]
+            - generic [ref=f4e98]:
+              - generic [ref=f4e99]:
+                - strong [ref=f4e100]: Phase 7 reusable card
+                - generic [ref=f4e101]: "#29 · linked"
+              - generic [ref=f4e102]:
+                - button "Insert" [ref=f4e103] [cursor=pointer]
+                - button "Replace from selection" [ref=f4e104] [cursor=pointer]
+          - generic [ref=f4e105]:
+            - paragraph [ref=f4e106]: Selected block
+            - strong [ref=f4e107]: pricing-card
+            - group [ref=f4e108]:
+              - generic "Explain CSS no import data" [ref=f4e109] [cursor=pointer]:
+                - generic [ref=f4e110]: Explain CSS
+                - generic [ref=f4e111]: no import data
+            - generic [ref=f4e112]:
+              - paragraph [ref=f4e113]: Editing breakpoint
+              - group "Style breakpoint" [ref=f4e114]:
+                - button "Desktop 100%" [pressed] [ref=f4e115] [cursor=pointer]:
+                  - generic [ref=f4e116]: Desktop
+                  - generic [ref=f4e117]: 100%
+                - button "Tablet 768px" [ref=f4e118] [cursor=pointer]:
+                  - generic [ref=f4e119]: Tablet
+                  - generic [ref=f4e120]: 768px
+                - button "Mobile 390px" [ref=f4e121] [cursor=pointer]:
+                  - generic [ref=f4e122]: Mobile
+                  - generic [ref=f4e123]: 390px
+              - paragraph [ref=f4e124]: 7 base declarations
+            - generic [ref=f4e125]:
+              - generic [ref=f4e126]:
+                - checkbox "Hide on desktop" [ref=f4e127] [cursor=pointer]
+                - generic [ref=f4e128]: Hide on desktop
+              - generic [ref=f4e129]: Visible on this device
+            - generic [ref=f4e130]:
+              - button "Move up" [disabled] [ref=f4e131]
+              - button "Move down" [disabled] [ref=f4e132]
+            - generic [ref=f4e134]:
+              - generic [ref=f4e135]: Color
+              - textbox "Desktop color for pricing-card" [ref=f4e136] [cursor=pointer]: "#000000"
+            - generic [ref=f4e137]:
+              - paragraph [ref=f4e138]: Base mapped controls
+              - generic [ref=f4e140]:
+                - generic [ref=f4e141]: Padding
+                - textbox "Padding" [ref=f4e142]:
+                  - /placeholder: 24px 32px
+                  - text: 34px
+              - generic [ref=f4e144]:
+                - generic [ref=f4e145]: Margin
+                - textbox "Margin" [ref=f4e146]:
+                  - /placeholder: 0 auto
+              - generic [ref=f4e148]:
+                - generic [ref=f4e149]: Font size
+                - textbox "Font size" [ref=f4e150]:
+                  - /placeholder: 18px
+              - generic [ref=f4e152]:
+                - generic [ref=f4e153]: Font weight
+                - textbox "Font weight" [ref=f4e154]:
+                  - /placeholder: "700"
+              - generic [ref=f4e156]:
+                - generic [ref=f4e157]: Border
+                - textbox "Border" [ref=f4e158]:
+                  - /placeholder: "1px solid #ccc"
+                  - text: "1px solid #c8cee0"
+              - generic [ref=f4e160]:
+                - generic [ref=f4e161]: Border radius
+                - textbox "Border radius" [ref=f4e162]:
+                  - /placeholder: 12px
+                  - text: 18px
+              - button "Apply desktop styles" [disabled] [ref=f4e163]
+            - generic [ref=f4e164]:
+              - generic [ref=f4e165]: Raw CSS fallback
+              - textbox "Raw CSS fallback" [ref=f4e166]
+              - generic [ref=f4e167]:
+                - generic [ref=f4e168]: No fallback CSS
+                - button "Apply CSS" [disabled] [ref=f4e169]
+              - paragraph [ref=f4e170]: Enter declarations for desktop only. Mapped controls win unless a raw value uses !important.
+      - main "Rendered block canvas" [ref=f4e171]:
+        - generic [ref=f4e172]:
+          - generic [ref=f4e173]:
+            - paragraph [ref=f4e174]: Live canvas width
+            - strong [ref=f4e175]: Desktop / 100%
+          - group "Canvas breakpoint" [ref=f4e176]:
+            - button "Desktop 100%" [pressed] [ref=f4e177] [cursor=pointer]:
+              - generic [ref=f4e178]: Desktop
+              - generic [ref=f4e179]: 100%
+            - button "Tablet 768px" [ref=f4e180] [cursor=pointer]:
+              - generic [ref=f4e181]: Tablet
+              - generic [ref=f4e182]: 768px
+            - button "Mobile 390px" [ref=f4e183] [cursor=pointer]:
+              - generic [ref=f4e184]: Mobile
+              - generic [ref=f4e185]: 390px
+        - generic [ref=f4e186]: Drag a block onto text to reorder · onto a container to nest
+        - article [ref=f4e189]:
+          - text: article · pricing-card
+          - button "h2 · pricing-plan-name Professional" [ref=f4e190]
+          - button [ref=f4e191]:
+            - text: p · pricing-price
+            - button "span · pricing-price-value $29" [ref=f4e192]
+            - text: /month
+          - button [ref=f4e193]:
+            - text: ul · pricing-features
+            - button "li · pricing-feature-projects Unlimited projects" [ref=f4e194]
+            - button "li · pricing-feature-support Priority support" [ref=f4e195]
+          - button "a · pricing-cta Start free trial" [ref=f4e196]
+      - status [ref=f4e197]

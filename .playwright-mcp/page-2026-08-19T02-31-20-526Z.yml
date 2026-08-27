@@ -1,0 +1,155 @@
+- generic [ref=f31e2]:
+  - navigation "Main menu":
+    - link "Skip to main content" [ref=f31e3] [cursor=pointer]:
+      - /url: "#wpbody-content"
+    - link "Skip to toolbar" [ref=f31e4] [cursor=pointer]:
+      - /url: "#wp-toolbar"
+    - text:            
+  - generic [ref=f31e5]:
+    - generic [ref=f31e6]:
+      - navigation "Toolbar":
+        - menu:
+          - group [ref=f31e7]:
+            - menuitem "Menu" [ref=f31e8] [cursor=pointer]:
+              - generic [ref=f31e9]: 
+          - text: 
+          - group [ref=f31e11]:
+            - menuitem " Code to Block Phase 4" [ref=f31e12] [cursor=pointer]
+          - text:  
+          - group [ref=f31e13]:
+            - menuitem "New" [ref=f31e14] [cursor=pointer]:
+              - generic [ref=f31e15]: 
+        - menu [ref=f31e17]:
+          - group [ref=f31e18]:
+            - menuitem "Howdy, admin" [ref=f31e19] [cursor=pointer]
+    - main [ref=f31e20]:
+      - generic [ref=f31e21]:
+        - button "Screen Options " [ref=f31e24] [cursor=pointer]
+        - generic [ref=f31e25]:
+          - link "WordPress 7.0.4" [ref=f31e26] [cursor=pointer]:
+            - /url: https://wordpress.org/documentation/wordpress-version/version-7-0-4/
+          - text: is available!
+          - link "Please update WordPress now" [ref=f31e27] [cursor=pointer]:
+            - /url: http://localhost:8090/wp-admin/update-core.php
+            - text: Please update now
+          - text: .
+        - generic [ref=f31e28]:
+          - heading "Edit Code to Block Page" [level=1] [ref=f31e29]
+          - link "Add Code to Block Page" [ref=f31e30] [cursor=pointer]:
+            - /url: http://localhost:8090/wp-admin/post-new.php?post_type=ctb_page
+          - text: 
+          - generic [ref=f31e32]:
+            - generic:
+              - generic [ref=f31e34]:
+                - generic [ref=f31e35]:
+                  - generic: Add title
+                  - textbox "Add title" [ref=f31e36]: Phase 5 Navigation
+                - generic [ref=f31e38]:
+                  - strong [ref=f31e39]: "Permalink:"
+                  - link "http://localhost:8090/?ctb_page=phase-5-navigation" [ref=f31e40] [cursor=pointer]:
+                    - /url: http://localhost:8090/?ctb_page=phase-5-navigation
+                  - link "Change Permalink Structure" [ref=f31e42] [cursor=pointer]:
+                    - /url: options-permalink.php
+              - generic [ref=f31e45]:
+                - generic [ref=f31e46]:
+                  - heading "Publish" [level=2] [ref=f31e47]
+                  - generic [ref=f31e48]:
+                    - button "Move up" [disabled] [ref=f31e49]:
+                      - generic [ref=f31e51]: 
+                    - button "Move down" [ref=f31e52] [cursor=pointer]:
+                      - generic [ref=f31e54]: 
+                    - 'button "Toggle panel: Publish" [expanded] [ref=f31e55] [cursor=pointer]':
+                      - generic [ref=f31e57]: 
+                - generic [ref=f31e59]:
+                  - generic [ref=f31e60]:
+                    - link "Preview Changes (opens in a new tab)" [ref=f31e62] [cursor=pointer]:
+                      - /url: http://localhost:8090/?ctb_page=phase-5-navigation&preview=true
+                      - text: Preview Changes
+                      - generic [ref=f31e63]: (opens in a new tab)
+                    - generic [ref=f31e64]:
+                      - generic [ref=f31e65]:
+                        - text: " Status: Published"
+                        - button "Edit status" [ref=f31e66] [cursor=pointer]: Edit
+                      - generic [ref=f31e68]:
+                        - text: " Visibility: Public"
+                        - button "Edit visibility" [ref=f31e69] [cursor=pointer]: Edit
+                      - generic [ref=f31e71]:
+                        - generic [ref=f31e72]: " Published on: Aug 19, 2026 at 02:30"
+                        - button "Edit date and time" [ref=f31e73] [cursor=pointer]: Edit
+                  - generic [ref=f31e75]:
+                    - link "Move to Trash" [ref=f31e77] [cursor=pointer]:
+                      - /url: http://localhost:8090/wp-admin/post.php?post=13&action=trash&_wpnonce=39756c5a5f
+                    - button "Update" [ref=f31e79] [cursor=pointer]
+              - generic [ref=f31e80]:
+                - generic:   
+                - generic [ref=f31e82]:
+                  - generic [ref=f31e83]:
+                    - heading "Code to Block Canvas" [level=2] [ref=f31e84]
+                    - generic [ref=f31e85]:
+                      - button "Move up" [ref=f31e86] [cursor=pointer]:
+                        - generic [ref=f31e88]: 
+                      - button "Move down" [disabled] [ref=f31e89]:
+                        - generic [ref=f31e91]: 
+                      - 'button "Toggle panel: Code to Block Canvas" [expanded] [ref=f31e92] [cursor=pointer]':
+                        - generic [ref=f31e94]: 
+                  - region "Code to Block visual editor" [ref=f31e97]:
+                    - generic [ref=f31e98]:
+                      - generic [ref=f31e99]:
+                        - paragraph [ref=f31e100]: Phase 3 / Canvas proof
+                        - heading "Pricing card" [level=2] [ref=f31e101]
+                      - generic [ref=f31e102]:
+                        - generic [ref=f31e103]: Zustand store active
+                        - button "Load" [ref=f31e104] [cursor=pointer]
+                        - button "Save tree" [ref=f31e105] [cursor=pointer]
+                    - generic [ref=f31e106]:
+                      - generic [ref=f31e107]:
+                        - generic [ref=f31e108]:
+                          - paragraph [ref=f31e109]: HTML + CSS importer
+                          - heading "Paste code into editable blocks" [level=3] [ref=f31e110]
+                        - button "Parse onto canvas" [ref=f31e111] [cursor=pointer]
+                      - generic [ref=f31e112]:
+                        - generic [ref=f31e113]:
+                          - generic [ref=f31e114]: HTML
+                          - textbox "HTML to import" [ref=f31e115]:
+                            - /placeholder: <article class="card">...</article>
+                        - generic [ref=f31e116]:
+                          - generic [ref=f31e117]: CSS
+                          - textbox "CSS to import" [ref=f31e118]:
+                            - /placeholder: ".card { padding: 2rem; }"
+                    - generic [ref=f31e119]:
+                      - complementary "Document details" [ref=f31e120]:
+                        - paragraph [ref=f31e121]: Loaded document
+                        - strong [ref=f31e122]: Pricing card
+                        - generic [ref=f31e123]:
+                          - generic [ref=f31e124]:
+                            - term [ref=f31e125]: Schema
+                            - definition [ref=f31e126]: v1
+                          - generic [ref=f31e127]:
+                            - term [ref=f31e128]: Blocks
+                            - definition [ref=f31e129]: "8"
+                          - generic [ref=f31e130]:
+                            - term [ref=f31e131]: Root
+                            - definition [ref=f31e132]: <article>
+                        - paragraph [ref=f31e133]: Each dashed outline is a separate schema block.
+                        - generic [ref=f31e134]:
+                          - paragraph [ref=f31e135]: Selected block
+                          - strong [ref=f31e136]: pricing-card
+                          - generic [ref=f31e137]:
+                            - generic [ref=f31e138]: Color
+                            - textbox "Color for pricing-card" [ref=f31e139] [cursor=pointer]: "#000000"
+                      - main "Rendered block canvas" [ref=f31e140]:
+                        - generic [ref=f31e141]: Drag a block onto text to reorder · onto a container to nest
+                        - article [ref=f31e143]:
+                          - text: article · pricing-card
+                          - button "h2 · pricing-plan-name Professional" [ref=f31e144]
+                          - button [ref=f31e145]:
+                            - text: p · pricing-price
+                            - button "span · pricing-price-value $29" [ref=f31e146]
+                            - text: /month
+                          - button [ref=f31e147]:
+                            - text: ul · pricing-features
+                            - button "li · pricing-feature-projects Unlimited projects" [ref=f31e148]
+                            - button "li · pricing-feature-support Priority support" [ref=f31e149]
+                          - button "a · pricing-cta Start free trial" [ref=f31e150]
+                      - status [ref=f31e151]
+  - text: 

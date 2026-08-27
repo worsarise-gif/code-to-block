@@ -1,0 +1,288 @@
+- generic [ref=f6e2]:
+  - navigation "Main menu":
+    - link "Skip to main content" [ref=f6e3] [cursor=pointer]:
+      - /url: "#wpbody-content"
+    - link "Skip to toolbar" [ref=f6e4] [cursor=pointer]:
+      - /url: "#wp-toolbar"
+    - text:            
+  - generic [ref=f6e5]:
+    - generic [ref=f6e6]:
+      - navigation "Toolbar":
+        - menu:
+          - group [ref=f6e7]:
+            - menuitem "Menu" [ref=f6e8] [cursor=pointer]:
+              - generic [ref=f6e9]: 
+          - text: 
+          - group [ref=f6e11]:
+            - menuitem " Code to Block Phase 4" [ref=f6e12] [cursor=pointer]
+          - text:  
+          - group [ref=f6e13]:
+            - menuitem "New" [ref=f6e14] [cursor=pointer]:
+              - generic [ref=f6e15]: 
+        - menu [ref=f6e17]:
+          - group [ref=f6e18]:
+            - menuitem "Howdy, ctb_fixtures" [ref=f6e19] [cursor=pointer]
+    - main [ref=f6e20]:
+      - generic [ref=f6e21]:
+        - button "Screen Options " [ref=f6e24] [cursor=pointer]
+        - generic [ref=f6e25]:
+          - link "WordPress 7.1" [ref=f6e26] [cursor=pointer]:
+            - /url: https://wordpress.org/documentation/wordpress-version/version-7-1/
+          - text: is available!
+          - link "Please update WordPress now" [ref=f6e27] [cursor=pointer]:
+            - /url: http://localhost:8090/wp-admin/update-core.php
+            - text: Please update now
+          - text: .
+        - generic [ref=f6e28]:
+          - heading "Edit Code to Block Page" [level=1] [ref=f6e29]
+          - link "Add Code to Block Page" [ref=f6e30] [cursor=pointer]:
+            - /url: http://localhost:8090/wp-admin/post-new.php?post_type=ctb_page
+          - text: 
+          - generic [ref=f6e32]:
+            - generic:
+              - generic [ref=f6e34]:
+                - generic [ref=f6e35]:
+                  - generic: Add title
+                  - textbox "Add title" [ref=f6e36]: Upgrade Fixtures
+                - generic [ref=f6e38]:
+                  - strong [ref=f6e39]: "Permalink:"
+                  - link "http://localhost:8090/?ctb_page=upgrade-fixtures" [ref=f6e40] [cursor=pointer]:
+                    - /url: http://localhost:8090/?ctb_page=upgrade-fixtures
+                  - link "Change Permalink Structure" [ref=f6e42] [cursor=pointer]:
+                    - /url: options-permalink.php
+              - generic [ref=f6e45]:
+                - generic [ref=f6e46]:
+                  - heading "Publish" [level=2] [ref=f6e47]
+                  - generic [ref=f6e48]:
+                    - button "Move up" [disabled] [ref=f6e49]:
+                      - generic [ref=f6e51]: 
+                    - button "Move down" [ref=f6e52] [cursor=pointer]:
+                      - generic [ref=f6e54]: 
+                    - 'button "Toggle panel: Publish" [expanded] [ref=f6e55] [cursor=pointer]':
+                      - generic [ref=f6e57]: 
+                - generic [ref=f6e59]:
+                  - generic [ref=f6e60]:
+                    - link "Preview Changes (opens in a new tab)" [ref=f6e62] [cursor=pointer]:
+                      - /url: http://localhost:8090/?ctb_page=upgrade-fixtures&preview=true
+                      - text: Preview Changes
+                      - generic [ref=f6e63]: (opens in a new tab)
+                    - generic [ref=f6e64]:
+                      - generic [ref=f6e65]:
+                        - text: " Status: Published"
+                        - button "Edit status" [ref=f6e66] [cursor=pointer]: Edit
+                      - generic [ref=f6e68]:
+                        - text: " Visibility: Public"
+                        - button "Edit visibility" [ref=f6e69] [cursor=pointer]: Edit
+                      - generic [ref=f6e71]:
+                        - generic [ref=f6e72]: " Published on: Aug 21, 2026 at 23:58"
+                        - button "Edit date and time" [ref=f6e73] [cursor=pointer]: Edit
+                  - generic [ref=f6e75]:
+                    - link "Move to Trash" [ref=f6e77] [cursor=pointer]:
+                      - /url: http://localhost:8090/wp-admin/post.php?post=35&action=trash&_wpnonce=4590c022dd
+                    - button "Update" [ref=f6e79] [cursor=pointer]
+              - generic [ref=f6e81]:
+                - generic [ref=f6e82]:
+                  - generic [ref=f6e83]:
+                    - heading "Code to Block Canvas" [level=2] [ref=f6e84]
+                    - generic [ref=f6e85]:
+                      - button "Move up" [ref=f6e86] [cursor=pointer]:
+                        - generic [ref=f6e88]: 
+                      - button "Move down" [ref=f6e89] [cursor=pointer]:
+                        - generic [ref=f6e91]: 
+                      - 'button "Toggle panel: Code to Block Canvas" [expanded] [ref=f6e92] [cursor=pointer]':
+                        - generic [ref=f6e94]: 
+                  - region "Code to Block visual editor" [ref=f6e97]:
+                    - generic [ref=f6e98]:
+                      - generic [ref=f6e99]:
+                        - paragraph [ref=f6e100]: Phase 7 / Reusable components
+                        - heading "Pricing card" [level=2] [ref=f6e101]
+                      - generic [ref=f6e102]:
+                        - generic [ref=f6e103]: Zustand history active
+                        - button "Undo" [disabled] [ref=f6e104]
+                        - button "Redo" [disabled] [ref=f6e105]
+                        - button "Load" [ref=f6e106] [cursor=pointer]
+                        - button "Save tree" [ref=f6e107] [cursor=pointer]
+                    - generic [ref=f6e108]:
+                      - generic [ref=f6e109]:
+                        - generic [ref=f6e110]:
+                          - paragraph [ref=f6e111]: HTML + CSS importer
+                          - heading "Paste code into editable blocks" [level=3] [ref=f6e112]
+                        - button "Parse onto canvas" [ref=f6e113] [cursor=pointer]
+                      - generic [ref=f6e114]:
+                        - generic [ref=f6e115]:
+                          - generic [ref=f6e116]: HTML
+                          - textbox "HTML to import" [ref=f6e117]:
+                            - /placeholder: <article class="card">...</article>
+                        - generic [ref=f6e118]:
+                          - generic [ref=f6e119]: CSS
+                          - textbox "CSS to import" [ref=f6e120]:
+                            - /placeholder: ".card { padding: 2rem; }"
+                    - generic [ref=f6e121]:
+                      - complementary "Document details" [ref=f6e122]:
+                        - generic [ref=f6e123]:
+                          - paragraph [ref=f6e124]: Loaded document
+                          - strong [ref=f6e125]: Pricing card
+                          - generic [ref=f6e126]:
+                            - generic [ref=f6e127]:
+                              - term [ref=f6e128]: Schema
+                              - definition [ref=f6e129]: v1
+                            - generic [ref=f6e130]:
+                              - term [ref=f6e131]: Blocks
+                              - definition [ref=f6e132]: "8"
+                            - generic [ref=f6e133]:
+                              - term [ref=f6e134]: Root
+                              - definition [ref=f6e135]: <article>
+                          - paragraph [ref=f6e136]: Each dashed outline is a separate schema block.
+                          - group [ref=f6e137]:
+                            - generic "Global design tokens 0 defined" [ref=f6e138] [cursor=pointer]:
+                              - generic [ref=f6e139]: Global design tokens
+                              - generic [ref=f6e140]: 0 defined
+                            - option "Colors" [selected]
+                            - option "Typography"
+                            - option "Spacing"
+                          - group [ref=f6e141]:
+                            - generic "Starter templates 4 ready" [ref=f6e142] [cursor=pointer]:
+                              - generic [ref=f6e143]: Starter templates
+                              - generic [ref=f6e144]: 4 ready
+                            - paragraph [ref=f6e145]: Replace the canvas or insert a starter after the selected block.
+                            - generic [ref=f6e146]:
+                              - generic [ref=f6e147]:
+                                - generic [ref=f6e148]:
+                                  - strong [ref=f6e149]: Hero landing
+                                  - generic [ref=f6e150]: Full hero with headline, intro and CTA
+                                - generic [ref=f6e151]:
+                                  - button "Replace canvas" [ref=f6e152] [cursor=pointer]
+                                  - button "Insert after selection" [ref=f6e153] [cursor=pointer]
+                              - generic [ref=f6e154]:
+                                - generic [ref=f6e155]:
+                                  - strong [ref=f6e156]: Pricing card
+                                  - generic [ref=f6e157]: Single pricing card with features and CTA
+                                - generic [ref=f6e158]:
+                                  - button "Replace canvas" [ref=f6e159] [cursor=pointer]
+                                  - button "Insert after selection" [ref=f6e160] [cursor=pointer]
+                              - generic [ref=f6e161]:
+                                - generic [ref=f6e162]:
+                                  - strong [ref=f6e163]: Testimonial
+                                  - generic [ref=f6e164]: Quote card with avatar and caption
+                                - generic [ref=f6e165]:
+                                  - button "Replace canvas" [ref=f6e166] [cursor=pointer]
+                                  - button "Insert after selection" [ref=f6e167] [cursor=pointer]
+                              - generic [ref=f6e168]:
+                                - generic [ref=f6e169]:
+                                  - strong [ref=f6e170]: Footer columns
+                                  - generic [ref=f6e171]: Three-column footer with links
+                                - generic [ref=f6e172]:
+                                  - button "Replace canvas" [ref=f6e173] [cursor=pointer]
+                                  - button "Insert after selection" [ref=f6e174] [cursor=pointer]
+                          - group [ref=f6e175]:
+                            - generic "Saved components 1 saved" [ref=f6e176] [cursor=pointer]:
+                              - generic [ref=f6e177]: Saved components
+                              - generic [ref=f6e178]: 1 saved
+                            - paragraph [ref=f6e179]: Save the selected subtree, then insert a linked instance here or on another page.
+                            - generic [ref=f6e180]:
+                              - generic [ref=f6e181]:
+                                - generic [ref=f6e182]: Name
+                                - textbox "Name" [ref=f6e183]:
+                                  - /placeholder: Feature card
+                              - button "Save selection" [disabled] [ref=f6e184]
+                            - generic [ref=f6e186]:
+                              - generic [ref=f6e187]:
+                                - strong [ref=f6e188]: Phase 7 reusable card
+                                - generic [ref=f6e189]: "#29 · linked"
+                              - generic [ref=f6e190]:
+                                - button "Insert" [ref=f6e191] [cursor=pointer]
+                                - button "Replace from selection" [ref=f6e192] [cursor=pointer]
+                          - generic [ref=f6e193]:
+                            - paragraph [ref=f6e194]: Selected block
+                            - strong [ref=f6e195]: pricing-card
+                            - group [ref=f6e196]:
+                              - generic "Explain CSS no import data" [ref=f6e197] [cursor=pointer]:
+                                - generic [ref=f6e198]: Explain CSS
+                                - generic [ref=f6e199]: no import data
+                            - generic [ref=f6e200]:
+                              - paragraph [ref=f6e201]: Editing breakpoint
+                              - group "Style breakpoint" [ref=f6e202]:
+                                - button "Desktop 100%" [pressed] [ref=f6e203] [cursor=pointer]:
+                                  - generic [ref=f6e204]: Desktop
+                                  - generic [ref=f6e205]: 100%
+                                - button "Tablet 768px" [ref=f6e206] [cursor=pointer]:
+                                  - generic [ref=f6e207]: Tablet
+                                  - generic [ref=f6e208]: 768px
+                                - button "Mobile 390px" [ref=f6e209] [cursor=pointer]:
+                                  - generic [ref=f6e210]: Mobile
+                                  - generic [ref=f6e211]: 390px
+                              - paragraph [ref=f6e212]: 7 base declarations
+                            - generic [ref=f6e213]:
+                              - button "Move up" [disabled] [ref=f6e214]
+                              - button "Move down" [disabled] [ref=f6e215]
+                            - generic [ref=f6e217]:
+                              - generic [ref=f6e218]: Color
+                              - textbox "Desktop color for pricing-card" [ref=f6e219] [cursor=pointer]: "#000000"
+                            - generic [ref=f6e220]:
+                              - paragraph [ref=f6e221]: Base mapped controls
+                              - generic [ref=f6e223]:
+                                - generic [ref=f6e224]: Padding
+                                - textbox "Padding" [ref=f6e225]:
+                                  - /placeholder: 24px 32px
+                                  - text: 34px
+                              - generic [ref=f6e227]:
+                                - generic [ref=f6e228]: Margin
+                                - textbox "Margin" [ref=f6e229]:
+                                  - /placeholder: 0 auto
+                              - generic [ref=f6e231]:
+                                - generic [ref=f6e232]: Font size
+                                - textbox "Font size" [ref=f6e233]:
+                                  - /placeholder: 18px
+                              - generic [ref=f6e235]:
+                                - generic [ref=f6e236]: Font weight
+                                - textbox "Font weight" [ref=f6e237]:
+                                  - /placeholder: "700"
+                              - generic [ref=f6e239]:
+                                - generic [ref=f6e240]: Border
+                                - textbox "Border" [ref=f6e241]:
+                                  - /placeholder: "1px solid #ccc"
+                                  - text: "1px solid #c8cee0"
+                              - generic [ref=f6e243]:
+                                - generic [ref=f6e244]: Border radius
+                                - textbox "Border radius" [ref=f6e245]:
+                                  - /placeholder: 12px
+                                  - text: 18px
+                              - button "Apply desktop styles" [disabled] [ref=f6e246]
+                            - generic [ref=f6e247]:
+                              - generic [ref=f6e248]: Raw CSS fallback
+                              - textbox "Raw CSS fallback" [ref=f6e249]
+                              - generic [ref=f6e250]:
+                                - generic [ref=f6e251]: No fallback CSS
+                                - button "Apply CSS" [disabled] [ref=f6e252]
+                              - paragraph [ref=f6e253]: Enter declarations for desktop only. Mapped controls win unless a raw value uses !important.
+                      - main "Rendered block canvas" [ref=f6e254]:
+                        - generic [ref=f6e255]:
+                          - generic [ref=f6e256]:
+                            - paragraph [ref=f6e257]: Live canvas width
+                            - strong [ref=f6e258]: Desktop / 100%
+                          - group "Canvas breakpoint" [ref=f6e259]:
+                            - button "Desktop 100%" [pressed] [ref=f6e260] [cursor=pointer]:
+                              - generic [ref=f6e261]: Desktop
+                              - generic [ref=f6e262]: 100%
+                            - button "Tablet 768px" [ref=f6e263] [cursor=pointer]:
+                              - generic [ref=f6e264]: Tablet
+                              - generic [ref=f6e265]: 768px
+                            - button "Mobile 390px" [ref=f6e266] [cursor=pointer]:
+                              - generic [ref=f6e267]: Mobile
+                              - generic [ref=f6e268]: 390px
+                        - generic [ref=f6e269]: Drag a block onto text to reorder · onto a container to nest
+                        - article [ref=f6e272]:
+                          - text: article · pricing-card
+                          - button "h2 · pricing-plan-name Professional" [ref=f6e273]
+                          - button [ref=f6e274]:
+                            - text: p · pricing-price
+                            - button "span · pricing-price-value $29" [ref=f6e275]
+                            - text: /month
+                          - button [ref=f6e276]:
+                            - text: ul · pricing-features
+                            - button "li · pricing-feature-projects Unlimited projects" [ref=f6e277]
+                            - button "li · pricing-feature-support Priority support" [ref=f6e278]
+                          - button "a · pricing-cta Start free trial" [ref=f6e279]
+                      - status [ref=f6e280]
+                - text:   
+  - text: 

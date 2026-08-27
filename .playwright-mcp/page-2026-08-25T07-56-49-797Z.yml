@@ -1,0 +1,83 @@
+- generic [active] [ref=f41e1]:
+  - generic [ref=f41e2]:
+    - generic [ref=f41e3]:
+      - strong [ref=f41e4]: Content Patch Concurrency Audit
+      - text: Content mode — no structure editing
+    - generic [ref=f41e5]:
+      - link "Back to WordPress editor" [ref=f41e6] [cursor=pointer]:
+        - /url: http://localhost:8090/wp-admin/post.php?post=83&action=edit
+      - text: "|"
+      - link "View live page" [ref=f41e7] [cursor=pointer]:
+        - /url: http://localhost:8090/?ctb_page=content-patch-concurrency-audit
+  - generic [ref=f41e9]:
+    - banner [ref=f41e11]:
+      - 'heading "Editing Content: Content Patch Audit" [level=1] [ref=f41e12]'
+      - button "Save Content" [ref=f41e13]
+      - generic [ref=f41e63]: Saved
+    - main [ref=f41e14]:
+      - generic [ref=f41e15]:
+        - heading "SEO — same view as other content" [level=2] [ref=f41e16]
+        - paragraph [ref=f41e17]: Title/description/canonical/Open Graph are editable here alongside other page content — not a separate SEO panel. JSON-LD (WebPage/Product/LocalBusiness) is auto-generated from your blocks.
+        - generic [ref=f41e18]:
+          - generic [ref=f41e19]:
+            - generic [ref=f41e20]: SEO Title
+            - textbox "SEO Title" [ref=f41e21]:
+              - /placeholder: Page title — 50-60 chars ideal
+            - text: Title tag — shown in Google results. Keep 50-60 chars.
+          - generic [ref=f41e22]:
+            - generic [ref=f41e23]: Meta Description
+            - textbox "Meta Description" [ref=f41e24]:
+              - /placeholder: Brief summary — 120-160 chars ideal
+            - text: Meta description — shown under title in search. Aim 120-160 chars.
+          - generic [ref=f41e25]:
+            - generic [ref=f41e26]: Canonical URL
+            - textbox "Canonical URL" [ref=f41e27]:
+              - /placeholder: https://example.com/page/
+            - text: Preferred URL for this page. Blank = auto.
+          - generic [ref=f41e28]:
+            - generic [ref=f41e29]: Open Graph Title
+            - textbox "Open Graph Title" [ref=f41e30]:
+              - /placeholder: Social title
+            - text: For Facebook/Twitter shares. Falls back to SEO Title.
+          - generic [ref=f41e31]:
+            - generic [ref=f41e32]: OG Description
+            - textbox "OG Description" [ref=f41e33]:
+              - /placeholder: Social description
+            - text: Social share description.
+          - generic [ref=f41e34]:
+            - generic [ref=f41e35]: OG Image URL
+            - textbox "OG Image URL" [ref=f41e36]:
+              - /placeholder: https://example.com/image.jpg
+            - text: Preview image for social shares.
+      - heading "Content Slots" [level=2] [ref=f41e37]
+      - generic [ref=f41e38]:
+        - generic [ref=f41e39]:
+          - generic [ref=f41e40]:
+            - text: Headline
+            - generic [ref=f41e41]: (text)
+          - textbox "Headline (text)" [ref=f41e42]: Patched slot
+        - generic [ref=f41e43]:
+          - generic [ref=f41e44]:
+            - text: Linked heading
+            - generic [ref=f41e45]: (text)
+          - textbox "Linked heading (text)" [ref=f41e46]: Instance A personalized
+        - generic [ref=f41e47]:
+          - generic [ref=f41e48]:
+            - text: Linked heading
+            - generic [ref=f41e49]: (text)
+          - textbox "Linked heading (text)" [ref=f41e50]: Shared default
+        - generic [ref=f41e51]:
+          - generic [ref=f41e52]:
+            - text: Formatted introduction
+            - generic [ref=f41e53]: (rich_text)
+          - generic [ref=f41e54]:
+            - toolbar "Text formatting" [ref=f41e55]:
+              - button "Bold" [ref=f41e56] [cursor=pointer]: B
+              - button "Italic" [ref=f41e57] [cursor=pointer]: I
+              - button "Underline" [ref=f41e58] [cursor=pointer]: U
+              - button "Strikethrough" [ref=f41e59] [cursor=pointer]: S
+              - button "Link" [ref=f41e60] [cursor=pointer]
+              - button "Unlink" [ref=f41e61] [cursor=pointer]
+            - textbox [ref=f41e62]:
+              - strong [ref=f41e64]: Formatted
+              - emphasis [ref=f41e65]: copy

@@ -1,0 +1,75 @@
+- generic [active] [ref=f1e1]:
+  - generic [ref=f1e2]:
+    - navigation "Toolbar":
+      - menu:
+        - group [ref=f1e3]:
+          - menuitem "About WordPress" [ref=f1e4] [cursor=pointer]:
+            - generic [ref=f1e5]: 
+        - group [ref=f1e7]:
+          - menuitem " Code to Block Phase 4" [ref=f1e8] [cursor=pointer]
+        - group [ref=f1e9]:
+          - menuitem " Edit Site" [ref=f1e10] [cursor=pointer]
+        - group [ref=f1e11]:
+          - menuitem "4 updates available" [ref=f1e12] [cursor=pointer]:
+            - generic [ref=f1e13]: 
+            - generic [ref=f1e14]: "4"
+        - group [ref=f1e16]:
+          - menuitem "0 Comments in moderation" [ref=f1e17] [cursor=pointer]:
+            - generic [ref=f1e18]: 
+            - generic [ref=f1e19]: "0"
+        - group [ref=f1e21]:
+          - menuitem "New" [ref=f1e22] [cursor=pointer]:
+            - generic [ref=f1e23]: 
+        - group [ref=f1e25]:
+          - menuitem " Edit Code to Block Page" [ref=f1e26] [cursor=pointer]
+      - menu [ref=f1e27]:
+        - group [ref=f1e28]:
+          - menuitem "Howdy, kervee" [ref=f1e29] [cursor=pointer]
+        - group [ref=f1e30]:
+          - menuitem " Search" [ref=f1e31]:
+            - generic [ref=f1e32]:
+              - text: 
+              - textbox "Search" [ref=f1e33] [cursor=pointer]
+              - generic [ref=f1e34]: Search
+  - link "Skip to content" [ref=f1e35] [cursor=pointer]:
+    - /url: "#ctb-main-content"
+  - generic [ref=f1e125]:
+    - heading "Your cart is currently empty!" [level=2] [ref=f1e126]
+    - separator [ref=f1e127]: ···
+    - heading "New in store" [level=2] [ref=f1e128]
+    - list [ref=f1e130]:
+      - listitem [ref=f1e131]:
+        - link "Test Product 5" [ref=f1e132] [cursor=pointer]:
+          - /url: http://localhost:8090/?product=test-product-5
+        - generic [ref=f1e135]: $5.99
+        - 'link "Add to cart: “Test Product 5”" [ref=f1e138] [cursor=pointer]':
+          - /url: "?add-to-cart=73"
+          - text: Add to cart
+      - listitem [ref=f1e139]:
+        - link "Test Product 4" [ref=f1e140] [cursor=pointer]:
+          - /url: http://localhost:8090/?product=test-product-4
+        - generic [ref=f1e143]: $5.99
+        - 'link "Add to cart: “Test Product 4”" [ref=f1e146] [cursor=pointer]':
+          - /url: "?add-to-cart=72"
+          - text: Add to cart
+      - listitem [ref=f1e147]:
+        - link "Test Product 3" [ref=f1e148] [cursor=pointer]:
+          - /url: http://localhost:8090/?product=test-product-3
+        - generic [ref=f1e151]: $5.99
+        - 'link "Add to cart: “Test Product 3”" [ref=f1e154] [cursor=pointer]':
+          - /url: "?add-to-cart=71"
+          - text: Add to cart
+      - listitem [ref=f1e155]:
+        - link "Test Variable Product Test Variable Product" [ref=f1e156] [cursor=pointer]:
+          - /url: http://localhost:8090/?product=test-variable-product
+          - img "Test Variable Product" [ref=f1e158]
+          - generic [ref=f1e159]: Test Variable Product
+        - generic [ref=f1e160]:
+          - generic [ref=f1e161]: $10.00
+          - text: –
+          - generic [ref=f1e162]: $20.00
+        - link "Select options for “Test Variable Product”" [ref=f1e164] [cursor=pointer]:
+          - /url: http://localhost:8090/?product=test-variable-product
+          - text: Select options
+  - paragraph [ref=f1e93]: Notifications
+  - generic [ref=f1e90]: Test Product 4 has been removed from your cart.

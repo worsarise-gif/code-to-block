@@ -1,0 +1,16 @@
+- generic [active] [ref=f4e1]:
+  - text: "Deprecated: Function print_emoji_styles is"
+  - strong [ref=f4e2]: deprecated
+  - text: "since version 6.4.0! Use wp_enqueue_emoji_styles instead. in /var/www/html/wp-includes/functions.php on line 6260 Deprecated: Function wp_admin_bar_header is"
+  - strong [ref=f4e3]: deprecated
+  - text: since version 6.4.0! Use wp_enqueue_admin_bar_header_styles instead. in /var/www/html/wp-includes/functions.php on line 6260
+  - generic [ref=f4e4]:
+    - generic [ref=f4e5]:
+      - strong [ref=f4e6]: Last Upgrade Verification
+      - text: Dedicated editor — no admin chrome
+    - generic [ref=f4e7]:
+      - link "Back to WordPress editor" [ref=f4e8] [cursor=pointer]:
+        - /url: http://localhost:8888/wp-admin/post.php?post=4&action=edit
+      - text: "|"
+      - link "View live page" [ref=f4e9] [cursor=pointer]:
+        - /url: http://localhost:8888/built-page/last-upgrade-verification/

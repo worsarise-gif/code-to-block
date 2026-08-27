@@ -1,0 +1,33 @@
+- generic [ref=f1e1]:
+  - heading "Log In" [level=1] [ref=f1e2]
+  - generic [ref=f1e3]:
+    - link "Powered by WordPress" [ref=f1e4] [cursor=pointer]:
+      - /url: https://wordpress.org/
+    - paragraph [ref=f1e6]:
+      - strong [ref=f1e7]: "Error:"
+      - text: The password you entered for the username
+      - strong [ref=f1e8]: admin
+      - text: is incorrect.
+      - link "Lost your password?" [ref=f1e9] [cursor=pointer]:
+        - /url: http://localhost:8090/?page_id=59&lost-password
+    - generic [ref=f1e10]:
+      - paragraph [ref=f1e11]:
+        - generic [ref=f1e12]: Username or Email Address
+        - textbox "Username or Email Address" [ref=f1e13]: admin
+      - generic [ref=f1e14]:
+        - generic [ref=f1e15]: Password
+        - generic [ref=f1e16]:
+          - textbox "Password" [active] [ref=f1e17]
+          - button "Show password" [ref=f1e18] [cursor=pointer]:
+            - generic [ref=f1e19]: 
+      - paragraph [ref=f1e20]:
+        - checkbox "Remember Me" [ref=f1e21] [cursor=pointer]
+        - generic [ref=f1e22]: Remember Me
+      - paragraph:
+        - button "Log In" [ref=f1e23] [cursor=pointer]
+    - paragraph [ref=f1e24]:
+      - link "Lost your password?" [ref=f1e25] [cursor=pointer]:
+        - /url: http://localhost:8090/?page_id=59&lost-password
+    - paragraph [ref=f1e26]:
+      - link "← Go to Code to Block Phase 4" [ref=f1e27] [cursor=pointer]:
+        - /url: http://localhost:8090/

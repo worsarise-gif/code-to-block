@@ -1,0 +1,1 @@
+<?php require 'wp-load.php'; $json = get_post_meta(48, '_code_to_block_document', true); $decoded = json_decode($json, true); var_dump(json_last_error_msg()); var_dump(is_wp_error(Code_To_Block_Schema::sanitize_document($decoded))); var_dump(Code_To_Block_Components::resolve_document(Code_To_Block_Schema::sanitize_document($decoded)));

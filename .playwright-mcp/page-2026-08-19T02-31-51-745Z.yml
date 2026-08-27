@@ -1,0 +1,39 @@
+- generic [active] [ref=f32e1]:
+  - generic [ref=f32e2]:
+    - navigation "Toolbar":
+      - menu:
+        - group [ref=f32e3]:
+          - menuitem "About WordPress" [ref=f32e4] [cursor=pointer]:
+            - generic [ref=f32e5]: 
+        - group [ref=f32e7]:
+          - menuitem " Code to Block Phase 4" [ref=f32e8] [cursor=pointer]
+        - group [ref=f32e9]:
+          - menuitem " Edit Site" [ref=f32e10] [cursor=pointer]
+        - group [ref=f32e11]:
+          - menuitem "3 updates available" [ref=f32e12] [cursor=pointer]:
+            - generic [ref=f32e13]: 
+            - generic [ref=f32e14]: "3"
+        - group [ref=f32e16]:
+          - menuitem "0 Comments in moderation" [ref=f32e17] [cursor=pointer]:
+            - generic [ref=f32e18]: 
+            - generic [ref=f32e19]: "0"
+        - group [ref=f32e21]:
+          - menuitem "New" [ref=f32e22] [cursor=pointer]:
+            - generic [ref=f32e23]: 
+        - group [ref=f32e25]:
+          - menuitem " Edit Code to Block Page" [ref=f32e26] [cursor=pointer]
+      - menu [ref=f32e27]:
+        - group [ref=f32e28]:
+          - menuitem "Howdy, admin" [ref=f32e29] [cursor=pointer]
+        - group [ref=f32e30]:
+          - menuitem " Search" [ref=f32e31]:
+            - generic [ref=f32e32]:
+              - text: 
+              - textbox "Search" [ref=f32e33] [cursor=pointer]
+              - generic [ref=f32e34]: Search
+  - figure "Maya Chen Product Lead" [ref=f32e37]:
+    - img "Portrait of Maya Chen" [ref=f32e38]
+    - blockquote [ref=f32e39]: “The team shipped in days, not weeks.”
+    - generic [ref=f32e40]:
+      - strong [ref=f32e41]: Maya Chen
+      - generic [ref=f32e42]: Product Lead

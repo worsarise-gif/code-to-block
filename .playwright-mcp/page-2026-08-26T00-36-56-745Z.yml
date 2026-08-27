@@ -1,0 +1,80 @@
+- generic [active] [ref=f3e1]:
+  - generic [ref=f3e2]:
+    - navigation "Toolbar":
+      - menu:
+        - group [ref=f3e3]:
+          - menuitem "About WordPress" [ref=f3e4] [cursor=pointer]:
+            - generic [ref=f3e5]: 
+        - group [ref=f3e7]:
+          - menuitem " Code to Block Phase 4" [ref=f3e8] [cursor=pointer]
+        - group [ref=f3e9]:
+          - menuitem " Edit Site" [ref=f3e10] [cursor=pointer]
+        - group [ref=f3e11]:
+          - menuitem "4 updates available" [ref=f3e12] [cursor=pointer]:
+            - generic [ref=f3e13]: 
+            - generic [ref=f3e14]: "4"
+        - group [ref=f3e16]:
+          - menuitem "0 Comments in moderation" [ref=f3e17] [cursor=pointer]:
+            - generic [ref=f3e18]: 
+            - generic [ref=f3e19]: "0"
+        - group [ref=f3e21]:
+          - menuitem "New" [ref=f3e22] [cursor=pointer]:
+            - generic [ref=f3e23]: 
+        - group [ref=f3e25]:
+          - menuitem " Edit Code to Block Page" [ref=f3e26] [cursor=pointer]
+      - menu [ref=f3e27]:
+        - group [ref=f3e28]:
+          - menuitem "Howdy, kervee" [ref=f3e29] [cursor=pointer]
+        - group [ref=f3e30]:
+          - menuitem " Search" [ref=f3e31]:
+            - generic [ref=f3e32]:
+              - text: 
+              - textbox "Search" [ref=f3e33] [cursor=pointer]
+              - generic [ref=f3e34]: Search
+  - link "Skip to content" [ref=f3e35] [cursor=pointer]:
+    - /url: "#ctb-main-content"
+  - generic [ref=f3e42]:
+    - table [ref=f3e44]:
+      - rowgroup [ref=f3e45]:
+        - row [ref=f3e46]:
+          - columnheader "Product" [ref=f3e47]
+          - columnheader "Total" [ref=f3e48]
+      - rowgroup [ref=f3e49]:
+        - row [ref=f3e50]:
+          - cell [ref=f3e51]:
+            - link [ref=f3e52] [cursor=pointer]:
+              - /url: http://localhost:8090/?product=test-simple-product
+          - cell "Test Simple Product $19.99 This is a simple test product. 1 Reduce quantity of Test Simple Product Increase quantity of Test Simple Product Remove Test Simple Product from cart" [ref=f3e53]:
+            - generic [ref=f3e54]:
+              - link "Test Simple Product" [ref=f3e55] [cursor=pointer]:
+                - /url: http://localhost:8090/?product=test-simple-product
+              - generic [ref=f3e56]: $19.99
+              - paragraph [ref=f3e60]: This is a simple test product.
+              - generic [ref=f3e61]:
+                - generic [ref=f3e62]:
+                  - spinbutton "Quantity of Test Simple Product in your cart." [ref=f3e63]: "1"
+                  - button "Reduce quantity of Test Simple Product" [disabled] [ref=f3e64]: －
+                  - button "Increase quantity of Test Simple Product" [ref=f3e65] [cursor=pointer]: ＋
+                - button "Remove Test Simple Product from cart" [ref=f3e66]: Remove item
+          - cell "$19.99" [ref=f3e67]
+    - generic [ref=f3e70]:
+      - generic [ref=f3e71]:
+        - text: Cart totals
+        - button "Add a coupon" [ref=f3e75] [cursor=pointer]
+        - generic [ref=f3e78]:
+          - generic [ref=f3e80]:
+            - generic [ref=f3e81]: Subtotal
+            - generic [ref=f3e82]: $19.99
+          - generic [ref=f3e84]:
+            - generic [ref=f3e85]: Discount
+            - generic [ref=f3e86]: "-$2.00"
+            - list [ref=f3e90]:
+              - listitem [ref=f3e91]:
+                - generic [ref=f3e92]: ctb10
+                - generic [ref=f3e93]: "Coupon: ctb10"
+                - button "Remove coupon \"ctb10\"" [ref=f3e94]
+        - generic [ref=f3e98]:
+          - generic [ref=f3e99]: Total
+          - generic [ref=f3e100]: $17.99
+      - link "Proceed to Checkout" [ref=f3e103] [cursor=pointer]:
+        - /url: http://localhost:8090/?page_id=58

@@ -1,0 +1,1018 @@
+- generic [ref=f3e2]:
+  - navigation "Main menu":
+    - link "Skip to main content" [ref=f3e3] [cursor=pointer]:
+      - /url: "#wpbody-content"
+    - link "Skip to toolbar" [ref=f3e4] [cursor=pointer]:
+      - /url: "#wp-toolbar"
+    - list [ref=f3e7]:
+      - listitem [ref=f3e8]:
+        - link "Dashboard" [ref=f3e9] [cursor=pointer]:
+          - /url: index.php
+          - generic [ref=f3e10]: 
+        - list [ref=f3e12]:
+          - listitem [ref=f3e13]:
+            - link "Home" [ref=f3e14] [cursor=pointer]:
+              - /url: index.php
+          - listitem [ref=f3e15]:
+            - link "Updates 5" [ref=f3e16] [cursor=pointer]:
+              - /url: update-core.php
+              - text: Updates
+              - generic [ref=f3e17]: "5"
+      - listitem [ref=f3e18]
+      - listitem [ref=f3e20]:
+        - link "Posts" [ref=f3e21] [cursor=pointer]:
+          - /url: edit.php
+          - generic [ref=f3e22]: 
+        - list [ref=f3e24]:
+          - listitem [ref=f3e25]:
+            - link "All Posts" [ref=f3e26] [cursor=pointer]:
+              - /url: edit.php
+          - listitem [ref=f3e27]:
+            - link "Add Post" [ref=f3e28] [cursor=pointer]:
+              - /url: post-new.php
+          - listitem [ref=f3e29]:
+            - link "Categories" [ref=f3e30] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=category
+          - listitem [ref=f3e31]:
+            - link "Tags" [ref=f3e32] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=post_tag
+      - listitem [ref=f3e33]:
+        - link "Media" [ref=f3e34] [cursor=pointer]:
+          - /url: upload.php
+          - generic [ref=f3e35]: 
+        - list [ref=f3e37]:
+          - listitem [ref=f3e38]:
+            - link "Library" [ref=f3e39] [cursor=pointer]:
+              - /url: upload.php
+          - listitem [ref=f3e40]:
+            - link "Add Media File" [ref=f3e41] [cursor=pointer]:
+              - /url: media-new.php
+      - listitem [ref=f3e42]:
+        - link "Pages" [ref=f3e43] [cursor=pointer]:
+          - /url: edit.php?post_type=page
+          - generic [ref=f3e44]: 
+        - list [ref=f3e46]:
+          - listitem [ref=f3e47]:
+            - link "All Pages" [ref=f3e48] [cursor=pointer]:
+              - /url: edit.php?post_type=page
+          - listitem [ref=f3e49]:
+            - link "Add Page" [ref=f3e50] [cursor=pointer]:
+              - /url: post-new.php?post_type=page
+      - listitem [ref=f3e51]:
+        - link "Comments" [ref=f3e52] [cursor=pointer]:
+          - /url: edit-comments.php
+          - generic [ref=f3e53]: 
+      - listitem [ref=f3e55]:
+        - link "Code to Block Pages" [ref=f3e56] [cursor=pointer]:
+          - /url: edit.php?post_type=ctb_page
+          - generic [ref=f3e57]: 
+        - list [ref=f3e59]:
+          - listitem [ref=f3e60]:
+            - link "Code to Block Pages" [ref=f3e61] [cursor=pointer]:
+              - /url: edit.php?post_type=ctb_page
+          - listitem [ref=f3e62]:
+            - link "Add Code to Block Page" [ref=f3e63] [cursor=pointer]:
+              - /url: post-new.php?post_type=ctb_page
+      - listitem [ref=f3e64]
+      - listitem [ref=f3e66]:
+        - link "Appearance" [ref=f3e67] [cursor=pointer]:
+          - /url: themes.php
+          - generic [ref=f3e68]: 
+        - list [ref=f3e70]:
+          - listitem [ref=f3e71]:
+            - link "Themes 3" [ref=f3e72] [cursor=pointer]:
+              - /url: themes.php
+              - text: Themes
+              - generic [ref=f3e73]: "3"
+          - listitem [ref=f3e74]:
+            - link "Editor" [ref=f3e75] [cursor=pointer]:
+              - /url: site-editor.php
+      - listitem [ref=f3e76]:
+        - link "Plugins 1" [ref=f3e77] [cursor=pointer]:
+          - /url: plugins.php
+          - generic [ref=f3e78]: 
+          - generic [ref=f3e79]:
+            - text: Plugins
+            - generic [ref=f3e80]: "1"
+        - list [ref=f3e81]:
+          - listitem [ref=f3e82]:
+            - link "Installed Plugins" [ref=f3e83] [cursor=pointer]:
+              - /url: plugins.php
+          - listitem [ref=f3e84]:
+            - link "Add Plugin" [ref=f3e85] [cursor=pointer]:
+              - /url: plugin-install.php
+      - listitem [ref=f3e86]:
+        - link "Users" [ref=f3e87] [cursor=pointer]:
+          - /url: users.php
+          - generic [ref=f3e88]: 
+        - list [ref=f3e90]:
+          - listitem [ref=f3e91]:
+            - link "All Users" [ref=f3e92] [cursor=pointer]:
+              - /url: users.php
+          - listitem [ref=f3e93]:
+            - link "Add User" [ref=f3e94] [cursor=pointer]:
+              - /url: user-new.php
+          - listitem [ref=f3e95]:
+            - link "Profile" [ref=f3e96] [cursor=pointer]:
+              - /url: profile.php
+      - listitem [ref=f3e97]:
+        - link "Tools" [ref=f3e98] [cursor=pointer]:
+          - /url: tools.php
+          - generic [ref=f3e99]: 
+        - list [ref=f3e101]:
+          - listitem [ref=f3e102]:
+            - link "Available Tools" [ref=f3e103] [cursor=pointer]:
+              - /url: tools.php
+          - listitem [ref=f3e104]:
+            - link "Import" [ref=f3e105] [cursor=pointer]:
+              - /url: import.php
+          - listitem [ref=f3e106]:
+            - link "Export" [ref=f3e107] [cursor=pointer]:
+              - /url: export.php
+          - listitem [ref=f3e108]:
+            - link "Site Health" [ref=f3e109] [cursor=pointer]:
+              - /url: site-health.php
+          - listitem [ref=f3e110]:
+            - link "Export Personal Data" [ref=f3e111] [cursor=pointer]:
+              - /url: export-personal-data.php
+          - listitem [ref=f3e112]:
+            - link "Erase Personal Data" [ref=f3e113] [cursor=pointer]:
+              - /url: erase-personal-data.php
+          - listitem [ref=f3e114]:
+            - link "Theme File Editor" [ref=f3e115] [cursor=pointer]:
+              - /url: theme-editor.php
+          - listitem [ref=f3e116]:
+            - link "Plugin File Editor" [ref=f3e117] [cursor=pointer]:
+              - /url: plugin-editor.php
+      - listitem [ref=f3e118]:
+        - link "Settings" [ref=f3e119] [cursor=pointer]:
+          - /url: options-general.php
+          - generic [ref=f3e120]: 
+        - list [ref=f3e122]:
+          - listitem [ref=f3e123]:
+            - link "General" [ref=f3e124] [cursor=pointer]:
+              - /url: options-general.php
+          - listitem [ref=f3e125]:
+            - link "Writing" [ref=f3e126] [cursor=pointer]:
+              - /url: options-writing.php
+          - listitem [ref=f3e127]:
+            - link "Reading" [ref=f3e128] [cursor=pointer]:
+              - /url: options-reading.php
+          - listitem [ref=f3e129]:
+            - link "Discussion" [ref=f3e130] [cursor=pointer]:
+              - /url: options-discussion.php
+          - listitem [ref=f3e131]:
+            - link "Media" [ref=f3e132] [cursor=pointer]:
+              - /url: options-media.php
+          - listitem [ref=f3e133]:
+            - link "Permalinks" [ref=f3e134] [cursor=pointer]:
+              - /url: options-permalink.php
+          - listitem [ref=f3e135]:
+            - link "Privacy" [ref=f3e136] [cursor=pointer]:
+              - /url: options-privacy.php
+      - listitem [ref=f3e137]
+      - listitem [ref=f3e139]:
+        - link "WP File Manager" [ref=f3e140] [cursor=pointer]:
+          - /url: admin.php?page=wp_file_manager
+        - list [ref=f3e143]:
+          - listitem [ref=f3e144]:
+            - link "WP File Manager" [ref=f3e145] [cursor=pointer]:
+              - /url: admin.php?page=wp_file_manager
+          - listitem [ref=f3e146]:
+            - link "Settings" [ref=f3e147] [cursor=pointer]:
+              - /url: admin.php?page=wp_file_manager_settings
+          - listitem [ref=f3e148]:
+            - link "Preferences" [ref=f3e149] [cursor=pointer]:
+              - /url: admin.php?page=wp_file_manager_preferences
+          - listitem [ref=f3e150]:
+            - link "System Properties" [ref=f3e151] [cursor=pointer]:
+              - /url: admin.php?page=wp_file_manager_sys_properties
+          - listitem [ref=f3e152]:
+            - link "Shortcode – PRO" [ref=f3e153] [cursor=pointer]:
+              - /url: admin.php?page=wp_file_manager_shortcode_doc
+          - listitem [ref=f3e154]:
+            - link "Logs" [ref=f3e155] [cursor=pointer]:
+              - /url: admin.php?page=wpfm-logs
+          - listitem [ref=f3e156]:
+            - link "Backup/Restore" [ref=f3e157] [cursor=pointer]:
+              - /url: admin.php?page=wpfm-backup
+      - listitem [ref=f3e158]:
+        - button "Collapse Main menu" [expanded] [ref=f3e159] [cursor=pointer]:
+          - generic [ref=f3e160]: 
+          - generic [ref=f3e161]: Collapse Menu
+  - generic [ref=f3e162]:
+    - generic [ref=f3e163]:
+      - navigation "Toolbar":
+        - menu:
+          - group [ref=f3e164]:
+            - menuitem "About WordPress" [ref=f3e165] [cursor=pointer]:
+              - generic [ref=f3e166]: 
+          - group [ref=f3e168]:
+            - menuitem " Code to Block Phase 4" [ref=f3e169] [cursor=pointer]
+          - group [ref=f3e170]:
+            - menuitem "5 updates available" [ref=f3e171] [cursor=pointer]:
+              - generic [ref=f3e172]: 
+              - generic [ref=f3e173]: "5"
+          - group [ref=f3e175]:
+            - menuitem "0 Comments in moderation" [ref=f3e176] [cursor=pointer]:
+              - generic [ref=f3e177]: 
+              - generic [ref=f3e178]: "0"
+          - group [ref=f3e180]:
+            - menuitem "New" [ref=f3e181] [cursor=pointer]:
+              - generic [ref=f3e182]: 
+        - menu [ref=f3e184]:
+          - group [ref=f3e185]:
+            - menuitem "Howdy, admin" [ref=f3e186] [cursor=pointer]
+    - main [ref=f3e187]:
+      - generic [ref=f3e188]:
+        - button "Screen Options " [ref=f3e191] [cursor=pointer]
+        - generic [ref=f3e192]:
+          - link "WordPress 7.1" [ref=f3e193] [cursor=pointer]:
+            - /url: https://wordpress.org/documentation/wordpress-version/version-7-1/
+          - text: is available!
+          - link "Please update WordPress now" [ref=f3e194] [cursor=pointer]:
+            - /url: http://localhost:8090/wp-admin/update-core.php
+            - text: Please update now
+          - text: .
+        - generic [ref=f3e195]:
+          - heading "Code to Block Pages" [level=1] [ref=f3e196]
+          - link "Add Code to Block Page" [ref=f3e197] [cursor=pointer]:
+            - /url: http://localhost:8090/wp-admin/post-new.php?post_type=ctb_page
+          - heading "Filter posts list" [level=2] [ref=f3e198]
+          - list [ref=f3e199]:
+            - listitem [ref=f3e200]:
+              - link "All (19)" [ref=f3e201] [cursor=pointer]:
+                - /url: edit.php?post_type=ctb_page&all_posts=1
+              - text: "|"
+            - listitem [ref=f3e202]:
+              - link "Mine (10)" [ref=f3e203] [cursor=pointer]:
+                - /url: edit.php?post_type=ctb_page&author=1
+              - text: "|"
+            - listitem [ref=f3e204]:
+              - link "Published (19)" [ref=f3e205] [cursor=pointer]:
+                - /url: edit.php?post_status=publish&post_type=ctb_page
+          - generic [ref=f3e206]:
+            - paragraph [ref=f3e207]:
+              - generic [ref=f3e208]: "Search Posts:"
+              - searchbox "Search Posts:" [ref=f3e209]
+              - button "Search Posts" [ref=f3e210] [cursor=pointer]
+            - generic [ref=f3e211]:
+              - generic [ref=f3e212]:
+                - generic [ref=f3e213]: Select bulk action
+                - combobox "Select bulk action" [ref=f3e214] [cursor=pointer]:
+                  - option "Bulk actions" [selected]
+                  - option "Edit"
+                  - option "Move to Trash"
+                - button "Apply" [ref=f3e215] [cursor=pointer]
+              - generic [ref=f3e216]:
+                - generic [ref=f3e217]: Filter by date
+                - combobox "Filter by date" [ref=f3e218] [cursor=pointer]:
+                  - option "All dates" [selected]
+                  - option "August 2026"
+                - button "Filter" [ref=f3e219] [cursor=pointer]
+              - generic [ref=f3e220]: 19 items
+            - heading "Posts list" [level=2] [ref=f3e222]
+            - table [ref=f3e223]:
+              - caption [ref=f3e224]: Table ordered by Date. Descending.
+              - rowgroup [ref=f3e225]:
+                - row [ref=f3e226]:
+                  - cell "Select All" [ref=f3e227]:
+                    - checkbox "Select All" [ref=f3e228] [cursor=pointer]
+                  - columnheader [ref=f3e231]:
+                    - link "Title Sort ascending." [ref=f3e232] [cursor=pointer]:
+                      - /url: http://localhost:8090/wp-admin/edit.php?post_type=ctb_page&orderby=title&order=asc
+                      - generic [ref=f3e233]: Title
+                      - generic [ref=f3e234]:
+                        - generic [ref=f3e235]: 
+                        - generic [ref=f3e236]: 
+                      - generic [ref=f3e237]: Sort ascending.
+                  - columnheader [ref=f3e238]:
+                    - link "Date" [ref=f3e239] [cursor=pointer]:
+                      - /url: http://localhost:8090/wp-admin/edit.php?post_type=ctb_page&orderby=date&order=asc
+                      - generic [ref=f3e241]:
+                        - generic [ref=f3e242]: 
+                        - generic [ref=f3e243]: 
+              - rowgroup [ref=f3e244]:
+                - row [ref=f3e245]:
+                  - rowheader "Select Small Perf" [ref=f3e246]:
+                    - checkbox "Select Small Perf" [ref=f3e247] [cursor=pointer]
+                    - text: 
+                  - cell [ref=f3e250]:
+                    - strong [ref=f3e251]:
+                      - link "“Small Perf” (Edit)" [ref=f3e252] [cursor=pointer]:
+                        - /url: http://localhost:8090/wp-admin/post.php?post=40&action=edit
+                        - text: Small Perf
+                    - generic [ref=f3e253]:
+                      - generic [ref=f3e254]:
+                        - link "Edit “Small Perf”" [ref=f3e255] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/post.php?post=40&action=edit
+                          - text: Edit
+                        - text: "|"
+                      - generic [ref=f3e256]:
+                        - button "Quick edit “Small Perf” inline" [ref=f3e257] [cursor=pointer]: Quick Edit
+                        - text: "|"
+                      - generic [ref=f3e258]:
+                        - link "Move “Small Perf” to the Trash" [ref=f3e259] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/post.php?post=40&action=trash&_wpnonce=9eb2871b7b
+                          - text: Trash
+                        - text: "|"
+                      - generic [ref=f3e260]:
+                        - link "View “Small Perf”" [ref=f3e261] [cursor=pointer]:
+                          - /url: http://localhost:8090/?ctb_page=small-perf
+                          - text: View
+                        - text: "|"
+                      - generic [ref=f3e262]:
+                        - link "Edit with Code to Block" [ref=f3e263] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/admin.php?page=code-to-block-dedicated&post=40
+                        - text: "|"
+                      - link "Content Mode" [ref=f3e265] [cursor=pointer]:
+                        - /url: http://localhost:8090/wp-admin/admin.php?page=code-to-block-content&post=40
+                    - text: 
+                  - cell "Published 2026/08/22 at 12:26 am" [ref=f3e266]: Published2026/08/22 at 12:26 am
+                - row [ref=f3e267]:
+                  - rowheader "Select Perf Stress Test" [ref=f3e268]:
+                    - checkbox "Select Perf Stress Test" [ref=f3e269] [cursor=pointer]
+                    - text: 
+                  - cell [ref=f3e272]:
+                    - strong [ref=f3e273]:
+                      - link "“Perf Stress Test” (Edit)" [ref=f3e274] [cursor=pointer]:
+                        - /url: http://localhost:8090/wp-admin/post.php?post=39&action=edit
+                        - text: Perf Stress Test
+                    - generic [ref=f3e275]:
+                      - generic [ref=f3e276]:
+                        - link "Edit “Perf Stress Test”" [ref=f3e277] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/post.php?post=39&action=edit
+                          - text: Edit
+                        - text: "|"
+                      - generic [ref=f3e278]:
+                        - button "Quick edit “Perf Stress Test” inline" [ref=f3e279] [cursor=pointer]: Quick Edit
+                        - text: "|"
+                      - generic [ref=f3e280]:
+                        - link "Move “Perf Stress Test” to the Trash" [ref=f3e281] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/post.php?post=39&action=trash&_wpnonce=c9d7829b86
+                          - text: Trash
+                        - text: "|"
+                      - generic [ref=f3e282]:
+                        - link "View “Perf Stress Test”" [ref=f3e283] [cursor=pointer]:
+                          - /url: http://localhost:8090/?ctb_page=perf-stress-test
+                          - text: View
+                        - text: "|"
+                      - generic [ref=f3e284]:
+                        - link "Edit with Code to Block" [ref=f3e285] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/admin.php?page=code-to-block-dedicated&post=39
+                        - text: "|"
+                      - link "Content Mode" [ref=f3e287] [cursor=pointer]:
+                        - /url: http://localhost:8090/wp-admin/admin.php?page=code-to-block-content&post=39
+                    - text: 
+                  - cell "Published 2026/08/22 at 12:26 am" [ref=f3e288]: Published2026/08/22 at 12:26 am
+                - row [ref=f3e289]:
+                  - rowheader "Select Responsive Regression" [ref=f3e290]:
+                    - checkbox "Select Responsive Regression" [ref=f3e291] [cursor=pointer]
+                    - text: 
+                  - cell [ref=f3e294]:
+                    - strong [ref=f3e295]:
+                      - link "“Responsive Regression” (Edit)" [ref=f3e296] [cursor=pointer]:
+                        - /url: http://localhost:8090/wp-admin/post.php?post=37&action=edit
+                        - text: Responsive Regression
+                    - generic [ref=f3e297]:
+                      - generic [ref=f3e298]:
+                        - link "Edit “Responsive Regression”" [ref=f3e299] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/post.php?post=37&action=edit
+                          - text: Edit
+                        - text: "|"
+                      - generic [ref=f3e300]:
+                        - button "Quick edit “Responsive Regression” inline" [ref=f3e301] [cursor=pointer]: Quick Edit
+                        - text: "|"
+                      - generic [ref=f3e302]:
+                        - link "Move “Responsive Regression” to the Trash" [ref=f3e303] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/post.php?post=37&action=trash&_wpnonce=91e3991e4d
+                          - text: Trash
+                        - text: "|"
+                      - generic [ref=f3e304]:
+                        - link "View “Responsive Regression”" [ref=f3e305] [cursor=pointer]:
+                          - /url: http://localhost:8090/?ctb_page=responsive-regression
+                          - text: View
+                        - text: "|"
+                      - generic [ref=f3e306]:
+                        - link "Edit with Code to Block" [ref=f3e307] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/admin.php?page=code-to-block-dedicated&post=37
+                        - text: "|"
+                      - link "Content Mode" [ref=f3e309] [cursor=pointer]:
+                        - /url: http://localhost:8090/wp-admin/admin.php?page=code-to-block-content&post=37
+                    - text: 
+                  - cell "Published 2026/08/22 at 12:09 am" [ref=f3e310]: Published2026/08/22 at 12:09 am
+                - row [ref=f3e311]:
+                  - rowheader "Select Upgrade Fixtures" [ref=f3e312]:
+                    - checkbox "Select Upgrade Fixtures" [ref=f3e313] [cursor=pointer]
+                    - text: 
+                  - cell [ref=f3e316]:
+                    - strong [ref=f3e317]:
+                      - link "“Upgrade Fixtures” (Edit)" [ref=f3e318] [cursor=pointer]:
+                        - /url: http://localhost:8090/wp-admin/post.php?post=35&action=edit
+                        - text: Upgrade Fixtures
+                    - generic [ref=f3e319]:
+                      - generic [ref=f3e320]:
+                        - link "Edit “Upgrade Fixtures”" [ref=f3e321] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/post.php?post=35&action=edit
+                          - text: Edit
+                        - text: "|"
+                      - generic [ref=f3e322]:
+                        - button "Quick edit “Upgrade Fixtures” inline" [ref=f3e323] [cursor=pointer]: Quick Edit
+                        - text: "|"
+                      - generic [ref=f3e324]:
+                        - link "Move “Upgrade Fixtures” to the Trash" [ref=f3e325] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/post.php?post=35&action=trash&_wpnonce=9e49ee441b
+                          - text: Trash
+                        - text: "|"
+                      - generic [ref=f3e326]:
+                        - link "View “Upgrade Fixtures”" [ref=f3e327] [cursor=pointer]:
+                          - /url: http://localhost:8090/?ctb_page=upgrade-fixtures
+                          - text: View
+                        - text: "|"
+                      - generic [ref=f3e328]:
+                        - link "Edit with Code to Block" [ref=f3e329] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/admin.php?page=code-to-block-dedicated&post=35
+                        - text: "|"
+                      - link "Content Mode" [ref=f3e331] [cursor=pointer]:
+                        - /url: http://localhost:8090/wp-admin/admin.php?page=code-to-block-content&post=35
+                    - text: 
+                  - cell "Published 2026/08/21 at 11:58 pm" [ref=f3e332]: Published2026/08/21 at 11:58 pm
+                - row [ref=f3e333]:
+                  - rowheader "Select Phase 7 Starter Templates" [ref=f3e334]:
+                    - checkbox "Select Phase 7 Starter Templates" [ref=f3e335] [cursor=pointer]
+                    - text: 
+                  - cell [ref=f3e338]:
+                    - strong [ref=f3e339]:
+                      - link "“Phase 7 Starter Templates” (Edit)" [ref=f3e340] [cursor=pointer]:
+                        - /url: http://localhost:8090/wp-admin/post.php?post=32&action=edit
+                        - text: Phase 7 Starter Templates
+                    - generic [ref=f3e341]:
+                      - generic [ref=f3e342]:
+                        - link "Edit “Phase 7 Starter Templates”" [ref=f3e343] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/post.php?post=32&action=edit
+                          - text: Edit
+                        - text: "|"
+                      - generic [ref=f3e344]:
+                        - button "Quick edit “Phase 7 Starter Templates” inline" [ref=f3e345] [cursor=pointer]: Quick Edit
+                        - text: "|"
+                      - generic [ref=f3e346]:
+                        - link "Move “Phase 7 Starter Templates” to the Trash" [ref=f3e347] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/post.php?post=32&action=trash&_wpnonce=3340387d70
+                          - text: Trash
+                        - text: "|"
+                      - generic [ref=f3e348]:
+                        - link "View “Phase 7 Starter Templates”" [ref=f3e349] [cursor=pointer]:
+                          - /url: http://localhost:8090/?ctb_page=phase-7-starter-templates
+                          - text: View
+                        - text: "|"
+                      - generic [ref=f3e350]:
+                        - link "Edit with Code to Block" [ref=f3e351] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/admin.php?page=code-to-block-dedicated&post=32
+                        - text: "|"
+                      - link "Content Mode" [ref=f3e353] [cursor=pointer]:
+                        - /url: http://localhost:8090/wp-admin/admin.php?page=code-to-block-content&post=32
+                    - text: 
+                  - cell "Published 2026/08/21 at 7:37 am" [ref=f3e354]: Published2026/08/21 at 7:37 am
+                - row [ref=f3e355]:
+                  - rowheader "Select Phase 7 Explain CSS" [ref=f3e356]:
+                    - checkbox "Select Phase 7 Explain CSS" [ref=f3e357] [cursor=pointer]
+                    - text: 
+                  - cell [ref=f3e360]:
+                    - strong [ref=f3e361]:
+                      - link "“Phase 7 Explain CSS” (Edit)" [ref=f3e362] [cursor=pointer]:
+                        - /url: http://localhost:8090/wp-admin/post.php?post=30&action=edit
+                        - text: Phase 7 Explain CSS
+                    - generic [ref=f3e363]:
+                      - generic [ref=f3e364]:
+                        - link "Edit “Phase 7 Explain CSS”" [ref=f3e365] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/post.php?post=30&action=edit
+                          - text: Edit
+                        - text: "|"
+                      - generic [ref=f3e366]:
+                        - button "Quick edit “Phase 7 Explain CSS” inline" [ref=f3e367] [cursor=pointer]: Quick Edit
+                        - text: "|"
+                      - generic [ref=f3e368]:
+                        - link "Move “Phase 7 Explain CSS” to the Trash" [ref=f3e369] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/post.php?post=30&action=trash&_wpnonce=0fcf0f17e2
+                          - text: Trash
+                        - text: "|"
+                      - generic [ref=f3e370]:
+                        - link "View “Phase 7 Explain CSS”" [ref=f3e371] [cursor=pointer]:
+                          - /url: http://localhost:8090/?ctb_page=phase-7-explain-css
+                          - text: View
+                        - text: "|"
+                      - generic [ref=f3e372]:
+                        - link "Edit with Code to Block" [ref=f3e373] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/admin.php?page=code-to-block-dedicated&post=30
+                        - text: "|"
+                      - link "Content Mode" [ref=f3e375] [cursor=pointer]:
+                        - /url: http://localhost:8090/wp-admin/admin.php?page=code-to-block-content&post=30
+                    - text: 
+                  - cell "Published 2026/08/21 at 5:12 am" [ref=f3e376]: Published2026/08/21 at 5:12 am
+                - row [ref=f3e377]:
+                  - rowheader "Select Phase 7 Reusable Components Target" [ref=f3e378]:
+                    - checkbox "Select Phase 7 Reusable Components Target" [ref=f3e379] [cursor=pointer]
+                    - text: 
+                  - cell [ref=f3e382]:
+                    - strong [ref=f3e383]:
+                      - link "“Phase 7 Reusable Components Target” (Edit)" [ref=f3e384] [cursor=pointer]:
+                        - /url: http://localhost:8090/wp-admin/post.php?post=28&action=edit
+                        - text: Phase 7 Reusable Components Target
+                    - generic [ref=f3e385]:
+                      - generic [ref=f3e386]:
+                        - link "Edit “Phase 7 Reusable Components Target”" [ref=f3e387] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/post.php?post=28&action=edit
+                          - text: Edit
+                        - text: "|"
+                      - generic [ref=f3e388]:
+                        - button "Quick edit “Phase 7 Reusable Components Target” inline" [ref=f3e389] [cursor=pointer]: Quick Edit
+                        - text: "|"
+                      - generic [ref=f3e390]:
+                        - link "Move “Phase 7 Reusable Components Target” to the Trash" [ref=f3e391] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/post.php?post=28&action=trash&_wpnonce=a19b693808
+                          - text: Trash
+                        - text: "|"
+                      - generic [ref=f3e392]:
+                        - link "View “Phase 7 Reusable Components Target”" [ref=f3e393] [cursor=pointer]:
+                          - /url: http://localhost:8090/?ctb_page=phase-7-reusable-components-target
+                          - text: View
+                        - text: "|"
+                      - generic [ref=f3e394]:
+                        - link "Edit with Code to Block" [ref=f3e395] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/admin.php?page=code-to-block-dedicated&post=28
+                        - text: "|"
+                      - link "Content Mode" [ref=f3e397] [cursor=pointer]:
+                        - /url: http://localhost:8090/wp-admin/admin.php?page=code-to-block-content&post=28
+                    - text: 
+                  - cell "Published 2026/08/21 at 2:35 am" [ref=f3e398]: Published2026/08/21 at 2:35 am
+                - row [ref=f3e399]:
+                  - rowheader "Select Phase 7 Reusable Components Source" [ref=f3e400]:
+                    - checkbox "Select Phase 7 Reusable Components Source" [ref=f3e401] [cursor=pointer]
+                    - text: 
+                  - cell [ref=f3e404]:
+                    - strong [ref=f3e405]:
+                      - link "“Phase 7 Reusable Components Source” (Edit)" [ref=f3e406] [cursor=pointer]:
+                        - /url: http://localhost:8090/wp-admin/post.php?post=27&action=edit
+                        - text: Phase 7 Reusable Components Source
+                    - generic [ref=f3e407]:
+                      - generic [ref=f3e408]:
+                        - link "Edit “Phase 7 Reusable Components Source”" [ref=f3e409] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/post.php?post=27&action=edit
+                          - text: Edit
+                        - text: "|"
+                      - generic [ref=f3e410]:
+                        - button "Quick edit “Phase 7 Reusable Components Source” inline" [ref=f3e411] [cursor=pointer]: Quick Edit
+                        - text: "|"
+                      - generic [ref=f3e412]:
+                        - link "Move “Phase 7 Reusable Components Source” to the Trash" [ref=f3e413] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/post.php?post=27&action=trash&_wpnonce=c2b70df616
+                          - text: Trash
+                        - text: "|"
+                      - generic [ref=f3e414]:
+                        - link "View “Phase 7 Reusable Components Source”" [ref=f3e415] [cursor=pointer]:
+                          - /url: http://localhost:8090/?ctb_page=phase-7-reusable-components-source
+                          - text: View
+                        - text: "|"
+                      - generic [ref=f3e416]:
+                        - link "Edit with Code to Block" [ref=f3e417] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/admin.php?page=code-to-block-dedicated&post=27
+                        - text: "|"
+                      - link "Content Mode" [ref=f3e419] [cursor=pointer]:
+                        - /url: http://localhost:8090/wp-admin/admin.php?page=code-to-block-content&post=27
+                    - text: 
+                  - cell "Published 2026/08/21 at 2:35 am" [ref=f3e420]: Published2026/08/21 at 2:35 am
+                - row [ref=f3e421]:
+                  - rowheader "Select Phase 7 Global Design Tokens" [ref=f3e422]:
+                    - checkbox "Select Phase 7 Global Design Tokens" [ref=f3e423] [cursor=pointer]
+                    - text: 
+                  - cell [ref=f3e426]:
+                    - strong [ref=f3e427]:
+                      - link "“Phase 7 Global Design Tokens” (Edit)" [ref=f3e428] [cursor=pointer]:
+                        - /url: http://localhost:8090/wp-admin/post.php?post=25&action=edit
+                        - text: Phase 7 Global Design Tokens
+                    - generic [ref=f3e429]:
+                      - generic [ref=f3e430]:
+                        - link "Edit “Phase 7 Global Design Tokens”" [ref=f3e431] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/post.php?post=25&action=edit
+                          - text: Edit
+                        - text: "|"
+                      - generic [ref=f3e432]:
+                        - button "Quick edit “Phase 7 Global Design Tokens” inline" [ref=f3e433] [cursor=pointer]: Quick Edit
+                        - text: "|"
+                      - generic [ref=f3e434]:
+                        - link "Move “Phase 7 Global Design Tokens” to the Trash" [ref=f3e435] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/post.php?post=25&action=trash&_wpnonce=8cb8135f32
+                          - text: Trash
+                        - text: "|"
+                      - generic [ref=f3e436]:
+                        - link "View “Phase 7 Global Design Tokens”" [ref=f3e437] [cursor=pointer]:
+                          - /url: http://localhost:8090/?ctb_page=phase-7-global-design-tokens
+                          - text: View
+                        - text: "|"
+                      - generic [ref=f3e438]:
+                        - link "Edit with Code to Block" [ref=f3e439] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/admin.php?page=code-to-block-dedicated&post=25
+                        - text: "|"
+                      - link "Content Mode" [ref=f3e441] [cursor=pointer]:
+                        - /url: http://localhost:8090/wp-admin/admin.php?page=code-to-block-content&post=25
+                    - text: 
+                  - cell "Published 2026/08/21 at 1:44 am" [ref=f3e442]: Published2026/08/21 at 1:44 am
+                - row [ref=f3e443]:
+                  - rowheader "Select Phase 7 Responsive Breakpoints" [ref=f3e444]:
+                    - checkbox "Select Phase 7 Responsive Breakpoints" [ref=f3e445] [cursor=pointer]
+                    - text: 
+                  - cell [ref=f3e448]:
+                    - strong [ref=f3e449]:
+                      - link "“Phase 7 Responsive Breakpoints” (Edit)" [ref=f3e450] [cursor=pointer]:
+                        - /url: http://localhost:8090/wp-admin/post.php?post=24&action=edit
+                        - text: Phase 7 Responsive Breakpoints
+                    - generic [ref=f3e451]:
+                      - generic [ref=f3e452]:
+                        - link "Edit “Phase 7 Responsive Breakpoints”" [ref=f3e453] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/post.php?post=24&action=edit
+                          - text: Edit
+                        - text: "|"
+                      - generic [ref=f3e454]:
+                        - button "Quick edit “Phase 7 Responsive Breakpoints” inline" [ref=f3e455] [cursor=pointer]: Quick Edit
+                        - text: "|"
+                      - generic [ref=f3e456]:
+                        - link "Move “Phase 7 Responsive Breakpoints” to the Trash" [ref=f3e457] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/post.php?post=24&action=trash&_wpnonce=f24cebe56c
+                          - text: Trash
+                        - text: "|"
+                      - generic [ref=f3e458]:
+                        - link "View “Phase 7 Responsive Breakpoints”" [ref=f3e459] [cursor=pointer]:
+                          - /url: http://localhost:8090/?ctb_page=phase-7-responsive-breakpoints
+                          - text: View
+                        - text: "|"
+                      - generic [ref=f3e460]:
+                        - link "Edit with Code to Block" [ref=f3e461] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/admin.php?page=code-to-block-dedicated&post=24
+                        - text: "|"
+                      - link "Content Mode" [ref=f3e463] [cursor=pointer]:
+                        - /url: http://localhost:8090/wp-admin/admin.php?page=code-to-block-content&post=24
+                    - text: 
+                  - cell "Published 2026/08/21 at 12:49 am" [ref=f3e464]: Published2026/08/21 at 12:49 am
+                - row [ref=f3e465]:
+                  - rowheader "Select Phase 7 Action Binding" [ref=f3e466]:
+                    - checkbox "Select Phase 7 Action Binding" [ref=f3e467] [cursor=pointer]
+                    - text: 
+                  - cell [ref=f3e470]:
+                    - strong [ref=f3e471]:
+                      - link "“Phase 7 Action Binding” (Edit)" [ref=f3e472] [cursor=pointer]:
+                        - /url: http://localhost:8090/wp-admin/post.php?post=22&action=edit
+                        - text: Phase 7 Action Binding
+                    - generic [ref=f3e473]:
+                      - generic [ref=f3e474]:
+                        - link "Edit “Phase 7 Action Binding”" [ref=f3e475] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/post.php?post=22&action=edit
+                          - text: Edit
+                        - text: "|"
+                      - generic [ref=f3e476]:
+                        - button "Quick edit “Phase 7 Action Binding” inline" [ref=f3e477] [cursor=pointer]: Quick Edit
+                        - text: "|"
+                      - generic [ref=f3e478]:
+                        - link "Move “Phase 7 Action Binding” to the Trash" [ref=f3e479] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/post.php?post=22&action=trash&_wpnonce=27b633a2eb
+                          - text: Trash
+                        - text: "|"
+                      - generic [ref=f3e480]:
+                        - link "View “Phase 7 Action Binding”" [ref=f3e481] [cursor=pointer]:
+                          - /url: http://localhost:8090/?ctb_page=phase-7-action-binding
+                          - text: View
+                        - text: "|"
+                      - generic [ref=f3e482]:
+                        - link "Edit with Code to Block" [ref=f3e483] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/admin.php?page=code-to-block-dedicated&post=22
+                        - text: "|"
+                      - link "Content Mode" [ref=f3e485] [cursor=pointer]:
+                        - /url: http://localhost:8090/wp-admin/admin.php?page=code-to-block-content&post=22
+                    - text: 
+                  - cell "Published 2026/08/20 at 11:37 pm" [ref=f3e486]: Published2026/08/20 at 11:37 pm
+                - row [ref=f3e487]:
+                  - rowheader "Select Phase 6 Dogfood MVP" [ref=f3e488]:
+                    - checkbox "Select Phase 6 Dogfood MVP" [ref=f3e489] [cursor=pointer]
+                    - text: 
+                  - cell [ref=f3e492]:
+                    - strong [ref=f3e493]:
+                      - link "“Phase 6 Dogfood MVP” (Edit)" [ref=f3e494] [cursor=pointer]:
+                        - /url: http://localhost:8090/wp-admin/post.php?post=20&action=edit
+                        - text: Phase 6 Dogfood MVP
+                    - generic [ref=f3e495]:
+                      - generic [ref=f3e496]:
+                        - link "Edit “Phase 6 Dogfood MVP”" [ref=f3e497] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/post.php?post=20&action=edit
+                          - text: Edit
+                        - text: "|"
+                      - generic [ref=f3e498]:
+                        - button "Quick edit “Phase 6 Dogfood MVP” inline" [ref=f3e499] [cursor=pointer]: Quick Edit
+                        - text: "|"
+                      - generic [ref=f3e500]:
+                        - link "Move “Phase 6 Dogfood MVP” to the Trash" [ref=f3e501] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/post.php?post=20&action=trash&_wpnonce=2ce2c17a38
+                          - text: Trash
+                        - text: "|"
+                      - generic [ref=f3e502]:
+                        - link "View “Phase 6 Dogfood MVP”" [ref=f3e503] [cursor=pointer]:
+                          - /url: http://localhost:8090/?ctb_page=phase-6-dogfood-mvp
+                          - text: View
+                        - text: "|"
+                      - generic [ref=f3e504]:
+                        - link "Edit with Code to Block" [ref=f3e505] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/admin.php?page=code-to-block-dedicated&post=20
+                        - text: "|"
+                      - link "Content Mode" [ref=f3e507] [cursor=pointer]:
+                        - /url: http://localhost:8090/wp-admin/admin.php?page=code-to-block-content&post=20
+                    - text: 
+                  - cell "Published 2026/08/19 at 4:27 am" [ref=f3e508]: Published2026/08/19 at 4:27 am
+                - row [ref=f3e509]:
+                  - rowheader "Select Phase 5 Style Controls" [ref=f3e510]:
+                    - checkbox "Select Phase 5 Style Controls" [ref=f3e511] [cursor=pointer]
+                    - text: 
+                  - cell [ref=f3e514]:
+                    - strong [ref=f3e515]:
+                      - link "“Phase 5 Style Controls” (Edit)" [ref=f3e516] [cursor=pointer]:
+                        - /url: http://localhost:8090/wp-admin/post.php?post=19&action=edit
+                        - text: Phase 5 Style Controls
+                    - generic [ref=f3e517]:
+                      - generic [ref=f3e518]:
+                        - link "Edit “Phase 5 Style Controls”" [ref=f3e519] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/post.php?post=19&action=edit
+                          - text: Edit
+                        - text: "|"
+                      - generic [ref=f3e520]:
+                        - button "Quick edit “Phase 5 Style Controls” inline" [ref=f3e521] [cursor=pointer]: Quick Edit
+                        - text: "|"
+                      - generic [ref=f3e522]:
+                        - link "Move “Phase 5 Style Controls” to the Trash" [ref=f3e523] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/post.php?post=19&action=trash&_wpnonce=cc0097772d
+                          - text: Trash
+                        - text: "|"
+                      - generic [ref=f3e524]:
+                        - link "View “Phase 5 Style Controls”" [ref=f3e525] [cursor=pointer]:
+                          - /url: http://localhost:8090/?ctb_page=phase-5-style-controls
+                          - text: View
+                        - text: "|"
+                      - generic [ref=f3e526]:
+                        - link "Edit with Code to Block" [ref=f3e527] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/admin.php?page=code-to-block-dedicated&post=19
+                        - text: "|"
+                      - link "Content Mode" [ref=f3e529] [cursor=pointer]:
+                        - /url: http://localhost:8090/wp-admin/admin.php?page=code-to-block-content&post=19
+                    - text: 
+                  - cell "Published 2026/08/19 at 3:53 am" [ref=f3e530]: Published2026/08/19 at 3:53 am
+                - row [ref=f3e531]:
+                  - rowheader "Select Phase 5 Raw CSS" [ref=f3e532]:
+                    - checkbox "Select Phase 5 Raw CSS" [ref=f3e533] [cursor=pointer]
+                    - text: 
+                  - cell [ref=f3e536]:
+                    - strong [ref=f3e537]:
+                      - link "“Phase 5 Raw CSS” (Edit)" [ref=f3e538] [cursor=pointer]:
+                        - /url: http://localhost:8090/wp-admin/post.php?post=17&action=edit
+                        - text: Phase 5 Raw CSS
+                    - generic [ref=f3e539]:
+                      - generic [ref=f3e540]:
+                        - link "Edit “Phase 5 Raw CSS”" [ref=f3e541] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/post.php?post=17&action=edit
+                          - text: Edit
+                        - text: "|"
+                      - generic [ref=f3e542]:
+                        - button "Quick edit “Phase 5 Raw CSS” inline" [ref=f3e543] [cursor=pointer]: Quick Edit
+                        - text: "|"
+                      - generic [ref=f3e544]:
+                        - link "Move “Phase 5 Raw CSS” to the Trash" [ref=f3e545] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/post.php?post=17&action=trash&_wpnonce=8d47761cab
+                          - text: Trash
+                        - text: "|"
+                      - generic [ref=f3e546]:
+                        - link "View “Phase 5 Raw CSS”" [ref=f3e547] [cursor=pointer]:
+                          - /url: http://localhost:8090/?ctb_page=phase-5-raw-css
+                          - text: View
+                        - text: "|"
+                      - generic [ref=f3e548]:
+                        - link "Edit with Code to Block" [ref=f3e549] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/admin.php?page=code-to-block-dedicated&post=17
+                        - text: "|"
+                      - link "Content Mode" [ref=f3e551] [cursor=pointer]:
+                        - /url: http://localhost:8090/wp-admin/admin.php?page=code-to-block-content&post=17
+                    - text: 
+                  - cell "Published 2026/08/19 at 3:44 am" [ref=f3e552]: Published2026/08/19 at 3:44 am
+                - row [ref=f3e553]:
+                  - rowheader "Select Phase 5 Testimonial" [ref=f3e554]:
+                    - checkbox "Select Phase 5 Testimonial" [ref=f3e555] [cursor=pointer]
+                    - text: 
+                  - cell [ref=f3e558]:
+                    - strong [ref=f3e559]:
+                      - link "“Phase 5 Testimonial” (Edit)" [ref=f3e560] [cursor=pointer]:
+                        - /url: http://localhost:8090/wp-admin/post.php?post=14&action=edit
+                        - text: Phase 5 Testimonial
+                    - generic [ref=f3e561]:
+                      - generic [ref=f3e562]:
+                        - link "Edit “Phase 5 Testimonial”" [ref=f3e563] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/post.php?post=14&action=edit
+                          - text: Edit
+                        - text: "|"
+                      - generic [ref=f3e564]:
+                        - button "Quick edit “Phase 5 Testimonial” inline" [ref=f3e565] [cursor=pointer]: Quick Edit
+                        - text: "|"
+                      - generic [ref=f3e566]:
+                        - link "Move “Phase 5 Testimonial” to the Trash" [ref=f3e567] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/post.php?post=14&action=trash&_wpnonce=8f91f35fc5
+                          - text: Trash
+                        - text: "|"
+                      - generic [ref=f3e568]:
+                        - link "View “Phase 5 Testimonial”" [ref=f3e569] [cursor=pointer]:
+                          - /url: http://localhost:8090/?ctb_page=phase-5-testimonial
+                          - text: View
+                        - text: "|"
+                      - generic [ref=f3e570]:
+                        - link "Edit with Code to Block" [ref=f3e571] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/admin.php?page=code-to-block-dedicated&post=14
+                        - text: "|"
+                      - link "Content Mode" [ref=f3e573] [cursor=pointer]:
+                        - /url: http://localhost:8090/wp-admin/admin.php?page=code-to-block-content&post=14
+                    - text: 
+                  - cell "Published 2026/08/19 at 2:30 am" [ref=f3e574]: Published2026/08/19 at 2:30 am
+                - row [ref=f3e575]:
+                  - rowheader "Select Phase 5 Navigation" [ref=f3e576]:
+                    - checkbox "Select Phase 5 Navigation" [ref=f3e577] [cursor=pointer]
+                    - text: 
+                  - cell [ref=f3e580]:
+                    - strong [ref=f3e581]:
+                      - link "“Phase 5 Navigation” (Edit)" [ref=f3e582] [cursor=pointer]:
+                        - /url: http://localhost:8090/wp-admin/post.php?post=13&action=edit
+                        - text: Phase 5 Navigation
+                    - generic [ref=f3e583]:
+                      - generic [ref=f3e584]:
+                        - link "Edit “Phase 5 Navigation”" [ref=f3e585] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/post.php?post=13&action=edit
+                          - text: Edit
+                        - text: "|"
+                      - generic [ref=f3e586]:
+                        - button "Quick edit “Phase 5 Navigation” inline" [ref=f3e587] [cursor=pointer]: Quick Edit
+                        - text: "|"
+                      - generic [ref=f3e588]:
+                        - link "Move “Phase 5 Navigation” to the Trash" [ref=f3e589] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/post.php?post=13&action=trash&_wpnonce=d3aa47e677
+                          - text: Trash
+                        - text: "|"
+                      - generic [ref=f3e590]:
+                        - link "View “Phase 5 Navigation”" [ref=f3e591] [cursor=pointer]:
+                          - /url: http://localhost:8090/?ctb_page=phase-5-navigation
+                          - text: View
+                        - text: "|"
+                      - generic [ref=f3e592]:
+                        - link "Edit with Code to Block" [ref=f3e593] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/admin.php?page=code-to-block-dedicated&post=13
+                        - text: "|"
+                      - link "Content Mode" [ref=f3e595] [cursor=pointer]:
+                        - /url: http://localhost:8090/wp-admin/admin.php?page=code-to-block-content&post=13
+                    - text: 
+                  - cell "Published 2026/08/19 at 2:30 am" [ref=f3e596]: Published2026/08/19 at 2:30 am
+                - row [ref=f3e597]:
+                  - rowheader "Select Code to Block MVP" [ref=f3e598]:
+                    - checkbox "Select Code to Block MVP" [ref=f3e599] [cursor=pointer]
+                    - text: 
+                  - cell [ref=f3e602]:
+                    - strong [ref=f3e603]:
+                      - link "“Code to Block MVP” (Edit)" [ref=f3e604] [cursor=pointer]:
+                        - /url: http://localhost:8090/wp-admin/post.php?post=11&action=edit
+                        - text: Code to Block MVP
+                    - generic [ref=f3e605]:
+                      - generic [ref=f3e606]:
+                        - link "Edit “Code to Block MVP”" [ref=f3e607] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/post.php?post=11&action=edit
+                          - text: Edit
+                        - text: "|"
+                      - generic [ref=f3e608]:
+                        - button "Quick edit “Code to Block MVP” inline" [ref=f3e609] [cursor=pointer]: Quick Edit
+                        - text: "|"
+                      - generic [ref=f3e610]:
+                        - link "Move “Code to Block MVP” to the Trash" [ref=f3e611] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/post.php?post=11&action=trash&_wpnonce=9bd910b846
+                          - text: Trash
+                        - text: "|"
+                      - generic [ref=f3e612]:
+                        - link "View “Code to Block MVP”" [ref=f3e613] [cursor=pointer]:
+                          - /url: http://localhost:8090/?ctb_page=code-to-block-mvp
+                          - text: View
+                        - text: "|"
+                      - generic [ref=f3e614]:
+                        - link "Edit with Code to Block" [ref=f3e615] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/admin.php?page=code-to-block-dedicated&post=11
+                        - text: "|"
+                      - link "Content Mode" [ref=f3e617] [cursor=pointer]:
+                        - /url: http://localhost:8090/wp-admin/admin.php?page=code-to-block-content&post=11
+                    - text: 
+                  - cell "Published 2026/08/19 at 2:05 am" [ref=f3e618]: Published2026/08/19 at 2:05 am
+                - row [ref=f3e619]:
+                  - rowheader "Select Phase 4 Pricing Card" [ref=f3e620]:
+                    - checkbox "Select Phase 4 Pricing Card" [ref=f3e621] [cursor=pointer]
+                    - text: 
+                  - cell [ref=f3e624]:
+                    - strong [ref=f3e625]:
+                      - link "“Phase 4 Pricing Card” (Edit)" [ref=f3e626] [cursor=pointer]:
+                        - /url: http://localhost:8090/wp-admin/post.php?post=5&action=edit
+                        - text: Phase 4 Pricing Card
+                    - generic [ref=f3e627]:
+                      - generic [ref=f3e628]:
+                        - link "Edit “Phase 4 Pricing Card”" [ref=f3e629] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/post.php?post=5&action=edit
+                          - text: Edit
+                        - text: "|"
+                      - generic [ref=f3e630]:
+                        - button "Quick edit “Phase 4 Pricing Card” inline" [ref=f3e631] [cursor=pointer]: Quick Edit
+                        - text: "|"
+                      - generic [ref=f3e632]:
+                        - link "Move “Phase 4 Pricing Card” to the Trash" [ref=f3e633] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/post.php?post=5&action=trash&_wpnonce=776a4265f5
+                          - text: Trash
+                        - text: "|"
+                      - generic [ref=f3e634]:
+                        - link "View “Phase 4 Pricing Card”" [ref=f3e635] [cursor=pointer]:
+                          - /url: http://localhost:8090/?ctb_page=phase-4-pricing-card
+                          - text: View
+                        - text: "|"
+                      - generic [ref=f3e636]:
+                        - link "Edit with Code to Block" [ref=f3e637] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/admin.php?page=code-to-block-dedicated&post=5
+                        - text: "|"
+                      - link "Content Mode" [ref=f3e639] [cursor=pointer]:
+                        - /url: http://localhost:8090/wp-admin/admin.php?page=code-to-block-content&post=5
+                    - text: 
+                  - cell "Published 2026/08/19 at 1:26 am" [ref=f3e640]: Published2026/08/19 at 1:26 am
+                - row [ref=f3e641]:
+                  - rowheader "Select Phase 4 Hero" [ref=f3e642]:
+                    - checkbox "Select Phase 4 Hero" [ref=f3e643] [cursor=pointer]
+                    - text: 
+                  - cell [ref=f3e646]:
+                    - strong [ref=f3e647]:
+                      - link "“Phase 4 Hero” (Edit)" [ref=f3e648] [cursor=pointer]:
+                        - /url: http://localhost:8090/wp-admin/post.php?post=4&action=edit
+                        - text: Phase 4 Hero
+                    - generic [ref=f3e649]:
+                      - generic [ref=f3e650]:
+                        - link "Edit “Phase 4 Hero”" [ref=f3e651] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/post.php?post=4&action=edit
+                          - text: Edit
+                        - text: "|"
+                      - generic [ref=f3e652]:
+                        - button "Quick edit “Phase 4 Hero” inline" [ref=f3e653] [cursor=pointer]: Quick Edit
+                        - text: "|"
+                      - generic [ref=f3e654]:
+                        - link "Move “Phase 4 Hero” to the Trash" [ref=f3e655] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/post.php?post=4&action=trash&_wpnonce=fc2f9c650d
+                          - text: Trash
+                        - text: "|"
+                      - generic [ref=f3e656]:
+                        - link "View “Phase 4 Hero”" [ref=f3e657] [cursor=pointer]:
+                          - /url: http://localhost:8090/?ctb_page=phase-4-hero
+                          - text: View
+                        - text: "|"
+                      - generic [ref=f3e658]:
+                        - link "Edit with Code to Block" [ref=f3e659] [cursor=pointer]:
+                          - /url: http://localhost:8090/wp-admin/admin.php?page=code-to-block-dedicated&post=4
+                        - text: "|"
+                      - link "Content Mode" [ref=f3e661] [cursor=pointer]:
+                        - /url: http://localhost:8090/wp-admin/admin.php?page=code-to-block-content&post=4
+                    - text: 
+                  - cell "Published 2026/08/19 at 1:26 am" [ref=f3e662]: Published2026/08/19 at 1:26 am
+              - rowgroup [ref=f3e663]:
+                - row [ref=f3e664]:
+                  - cell "Select All" [ref=f3e665]:
+                    - checkbox "Select All" [ref=f3e666] [cursor=pointer]
+                  - columnheader [ref=f3e669]:
+                    - link "Title Sort ascending." [ref=f3e670] [cursor=pointer]:
+                      - /url: http://localhost:8090/wp-admin/edit.php?post_type=ctb_page&orderby=title&order=asc
+                      - generic [ref=f3e671]: Title
+                      - generic [ref=f3e672]:
+                        - generic [ref=f3e673]: 
+                        - generic [ref=f3e674]: 
+                      - generic [ref=f3e675]: Sort ascending.
+                  - columnheader [ref=f3e676]:
+                    - link "Date" [ref=f3e677] [cursor=pointer]:
+                      - /url: http://localhost:8090/wp-admin/edit.php?post_type=ctb_page&orderby=date&order=asc
+                      - generic [ref=f3e679]:
+                        - generic [ref=f3e680]: 
+                        - generic [ref=f3e681]: 
+            - generic [ref=f3e682]:
+              - generic [ref=f3e683]:
+                - generic [ref=f3e684]: Select bulk action
+                - combobox "Select bulk action" [ref=f3e685] [cursor=pointer]:
+                  - option "Bulk actions" [selected]
+                  - option "Edit"
+                  - option "Move to Trash"
+                - button "Apply" [ref=f3e686] [cursor=pointer]
+              - generic [ref=f3e687]: 19 items
+  - contentinfo [ref=f3e689]:
+    - paragraph [ref=f3e690]:
+      - generic [ref=f3e691]:
+        - text: Thank you for creating with
+        - link "WordPress" [ref=f3e692] [cursor=pointer]:
+          - /url: https://wordpress.org/
+        - text: .
+    - paragraph [ref=f3e693]:
+      - strong [ref=f3e694]:
+        - link "Get Version 7.1" [ref=f3e695] [cursor=pointer]:
+          - /url: http://localhost:8090/wp-admin/update-core.php
+  - text: 

@@ -1,0 +1,12 @@
+- generic [active] [ref=f42e1]:
+  - generic [ref=f42e2]:
+    - generic [ref=f42e3]:
+      - strong [ref=f42e4]: Content Patch Concurrency Audit
+      - text: Content mode — no structure editing
+    - generic [ref=f42e5]:
+      - link "Back to WordPress editor" [ref=f42e6] [cursor=pointer]:
+        - /url: http://localhost:8090/wp-admin/post.php?post=83&action=edit
+      - text: "|"
+      - link "View live page" [ref=f42e7] [cursor=pointer]:
+        - /url: http://localhost:8090/?ctb_page=content-patch-concurrency-audit
+  - paragraph [ref=f42e10]: Loading content...

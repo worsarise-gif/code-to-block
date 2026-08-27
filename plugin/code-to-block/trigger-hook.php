@@ -1,0 +1,1 @@
+<?php require 'wp-load.php'; code_to_block_scan_for_gsap(0, 45, '_code_to_block_document', get_post_meta(45, '_code_to_block_document', true)); echo get_post_meta(45, '_code_to_block_needs_gsap', true);

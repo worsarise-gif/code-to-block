@@ -1,0 +1,85 @@
+- generic [active] [ref=f1e1]:
+  - generic [ref=f1e2]:
+    - navigation "Toolbar":
+      - menu:
+        - group [ref=f1e3]:
+          - menuitem "About WordPress" [ref=f1e4] [cursor=pointer]:
+            - generic [ref=f1e5]: 
+        - group [ref=f1e7]:
+          - menuitem " Code to Block Phase 4" [ref=f1e8] [cursor=pointer]
+        - group [ref=f1e9]:
+          - menuitem " Edit Site" [ref=f1e10] [cursor=pointer]
+        - group [ref=f1e11]:
+          - menuitem "4 updates available" [ref=f1e12] [cursor=pointer]:
+            - generic [ref=f1e13]: 
+            - generic [ref=f1e14]: "4"
+        - group [ref=f1e16]:
+          - menuitem "0 Comments in moderation" [ref=f1e17] [cursor=pointer]:
+            - generic [ref=f1e18]: 
+            - generic [ref=f1e19]: "0"
+        - group [ref=f1e21]:
+          - menuitem "New" [ref=f1e22] [cursor=pointer]:
+            - generic [ref=f1e23]: 
+        - group [ref=f1e25]:
+          - menuitem " Edit Code to Block Page" [ref=f1e26] [cursor=pointer]
+      - menu [ref=f1e27]:
+        - group [ref=f1e28]:
+          - menuitem "Howdy, kervee" [ref=f1e29] [cursor=pointer]
+        - group [ref=f1e30]:
+          - menuitem " Search" [ref=f1e31]:
+            - generic [ref=f1e32]:
+              - text: 
+              - textbox "Search" [ref=f1e33] [cursor=pointer]
+              - generic [ref=f1e34]: Search
+  - link "Skip to content" [ref=f1e35] [cursor=pointer]:
+    - /url: "#ctb-main-content"
+  - generic [ref=f1e39]:
+    - generic [ref=f1e104]:
+      - generic [ref=f1e107]: Coupon code "CTB10" has been applied to your cart.
+      - button "Dismiss this notice" [ref=f1e108] [cursor=pointer]
+    - generic [ref=f1e42]:
+      - table [ref=f1e44]:
+        - rowgroup [ref=f1e45]:
+          - row [ref=f1e46]:
+            - columnheader "Product" [ref=f1e47]
+            - columnheader "Total" [ref=f1e48]
+        - rowgroup [ref=f1e49]:
+          - row [ref=f1e94]:
+            - cell [ref=f1e51]:
+              - link [ref=f1e52] [cursor=pointer]:
+                - /url: http://localhost:8090/?product=test-product-4
+            - cell "Test Product 4 $5.99 2 Reduce quantity of Test Product 4 Increase quantity of Test Product 4 Remove Test Product 4 from cart" [ref=f1e92]:
+              - generic [ref=f1e54]:
+                - link "Test Product 4" [ref=f1e55] [cursor=pointer]:
+                  - /url: http://localhost:8090/?product=test-product-4
+                - generic [ref=f1e56]: $5.99
+                - generic [ref=f1e58]:
+                  - generic [ref=f1e59]:
+                    - spinbutton "Quantity of Test Product 4 in your cart." [ref=f1e60]: "2"
+                    - button "Reduce quantity of Test Product 4" [ref=f1e61] [cursor=pointer]: －
+                    - button "Increase quantity of Test Product 4" [ref=f1e62] [cursor=pointer]: ＋
+                  - button "Remove Test Product 4 from cart" [ref=f1e63]: Remove item
+            - cell "$11.98" [ref=f1e95]
+      - generic [ref=f1e67]:
+        - generic [ref=f1e68]:
+          - generic [ref=f1e69]: Cart totals
+          - button "Add a coupon" [ref=f1e73] [cursor=pointer]
+          - generic [ref=f1e76]:
+            - generic [ref=f1e78]:
+              - generic [ref=f1e79]: Subtotal
+              - generic [ref=f1e80]: $11.98
+            - generic [ref=f1e112]:
+              - generic [ref=f1e113]: Discount
+              - generic [ref=f1e114]: "-$1.20"
+              - list [ref=f1e118]:
+                - listitem [ref=f1e119]:
+                  - generic [ref=f1e120]: ctb10
+                  - generic [ref=f1e121]: "Coupon: ctb10"
+                  - button "Remove coupon \"ctb10\"" [ref=f1e122]
+          - generic [ref=f1e82]:
+            - generic [ref=f1e83]: Total
+            - generic [ref=f1e84]: $10.78
+        - link "Proceed to Checkout" [ref=f1e87] [cursor=pointer]:
+          - /url: http://localhost:8090/?page_id=58
+  - paragraph [ref=f1e93]: Notifications
+  - generic [ref=f1e90]: Coupon code "CTB10" has been applied to your cart.

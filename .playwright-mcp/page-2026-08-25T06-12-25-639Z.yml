@@ -1,0 +1,264 @@
+- generic [active] [ref=f26e1]:
+  - generic [ref=f26e2]:
+    - generic [ref=f26e3]:
+      - strong [ref=f26e4]: Motion Audit CSS
+      - text: Dedicated editor — no admin chrome
+    - generic [ref=f26e5]:
+      - link "Back to WordPress editor" [ref=f26e6] [cursor=pointer]:
+        - /url: http://localhost:8090/wp-admin/post.php?post=85&action=edit
+      - text: "|"
+      - link "View live page" [ref=f26e7] [cursor=pointer]:
+        - /url: http://localhost:8090/?ctb_page=motion-audit-css
+  - region "Code to Block visual editor" [ref=f26e9]:
+    - generic [ref=f26e10]:
+      - generic [ref=f26e11]:
+        - paragraph [ref=f26e12]: Phase 7 / Reusable components
+        - heading "Pricing card" [level=2] [ref=f26e13]
+      - generic [ref=f26e14]:
+        - generic [ref=f26e15]: Zustand history active
+        - button "Undo" [disabled] [ref=f26e16]
+        - button "Redo" [disabled] [ref=f26e17]
+        - button "Load" [ref=f26e18] [cursor=pointer]
+        - button "Save tree" [ref=f26e19] [cursor=pointer]
+    - generic [ref=f26e20]:
+      - generic [ref=f26e21]:
+        - generic [ref=f26e22]:
+          - paragraph [ref=f26e23]: HTML + CSS importer
+          - heading "Paste code into editable blocks" [level=3] [ref=f26e24]
+        - button "Parse onto canvas" [ref=f26e25] [cursor=pointer]
+      - generic [ref=f26e26]:
+        - generic [ref=f26e27]:
+          - generic [ref=f26e28]: HTML
+          - textbox "HTML to import" [ref=f26e29]:
+            - /placeholder: <article class="card">...</article>
+        - generic [ref=f26e30]:
+          - generic [ref=f26e31]: CSS
+          - textbox "CSS to import" [ref=f26e32]:
+            - /placeholder: ".card { padding: 2rem; }"
+    - generic [ref=f26e33]:
+      - complementary "Document details" [ref=f26e34]:
+        - generic [ref=f26e35]:
+          - paragraph [ref=f26e36]: Loaded document
+          - strong [ref=f26e37]: Pricing card
+          - generic [ref=f26e38]:
+            - generic [ref=f26e39]:
+              - term [ref=f26e40]: Schema
+              - definition [ref=f26e41]: v1
+            - generic [ref=f26e42]:
+              - term [ref=f26e43]: Blocks
+              - definition [ref=f26e44]: "8"
+            - generic [ref=f26e45]:
+              - term [ref=f26e46]: Root
+              - definition [ref=f26e47]: <article>
+          - paragraph [ref=f26e48]: Each dashed outline is a separate schema block.
+          - group [ref=f26e49]:
+            - generic "Global design tokens 0 defined" [ref=f26e50] [cursor=pointer]:
+              - generic [ref=f26e51]: Global design tokens
+              - generic [ref=f26e52]: 0 defined
+            - option "Colors" [selected]
+            - option "Typography"
+            - option "Spacing"
+          - group [ref=f26e53]:
+            - generic "Starter templates 4 ready" [ref=f26e54] [cursor=pointer]:
+              - generic [ref=f26e55]: Starter templates
+              - generic [ref=f26e56]: 4 ready
+            - paragraph [ref=f26e57]: Replace the canvas or insert a starter after the selected block.
+            - generic [ref=f26e58]:
+              - generic [ref=f26e59]:
+                - generic [ref=f26e60]:
+                  - strong [ref=f26e61]: Hero landing
+                  - generic [ref=f26e62]: Full hero with headline, intro and CTA
+                - generic [ref=f26e63]:
+                  - button "Replace canvas" [ref=f26e64] [cursor=pointer]
+                  - button "Insert after selection" [ref=f26e65] [cursor=pointer]
+              - generic [ref=f26e66]:
+                - generic [ref=f26e67]:
+                  - strong [ref=f26e68]: Pricing card
+                  - generic [ref=f26e69]: Single pricing card with features and CTA
+                - generic [ref=f26e70]:
+                  - button "Replace canvas" [ref=f26e71] [cursor=pointer]
+                  - button "Insert after selection" [ref=f26e72] [cursor=pointer]
+              - generic [ref=f26e73]:
+                - generic [ref=f26e74]:
+                  - strong [ref=f26e75]: Testimonial
+                  - generic [ref=f26e76]: Quote card with avatar and caption
+                - generic [ref=f26e77]:
+                  - button "Replace canvas" [ref=f26e78] [cursor=pointer]
+                  - button "Insert after selection" [ref=f26e79] [cursor=pointer]
+              - generic [ref=f26e80]:
+                - generic [ref=f26e81]:
+                  - strong [ref=f26e82]: Footer columns
+                  - generic [ref=f26e83]: Three-column footer with links
+                - generic [ref=f26e84]:
+                  - button "Replace canvas" [ref=f26e85] [cursor=pointer]
+                  - button "Insert after selection" [ref=f26e86] [cursor=pointer]
+          - group [ref=f26e87]:
+            - generic "Saved components 0 saved" [ref=f26e88] [cursor=pointer]:
+              - generic [ref=f26e89]: Saved components
+              - generic [ref=f26e90]: 0 saved
+            - paragraph [ref=f26e91]: Save the selected subtree, then insert a linked instance here or on another page.
+            - generic [ref=f26e92]:
+              - generic [ref=f26e93]:
+                - generic [ref=f26e94]: Name
+                - textbox "Name" [ref=f26e95]:
+                  - /placeholder: Feature card
+              - button "Save selection" [disabled] [ref=f26e96]
+            - paragraph [ref=f26e97]: Loading library...
+          - group [ref=f26e98]:
+            - generic "WooCommerce Blocks" [ref=f26e99] [cursor=pointer]:
+              - generic [ref=f26e100]: WooCommerce
+              - generic [ref=f26e101]: Blocks
+          - group [ref=f26e102]:
+            - generic "Forms — native or external Blocks" [ref=f26e103] [cursor=pointer]:
+              - generic [ref=f26e104]: Forms — native or external
+              - generic [ref=f26e105]: Blocks
+          - group [ref=f26e106]:
+            - generic "Widget Library — 8 pre-built On File 4" [ref=f26e107] [cursor=pointer]:
+              - generic [ref=f26e108]: Widget Library — 8 pre-built
+              - generic [ref=f26e109]: On File 4
+          - group [ref=f26e110]:
+            - generic "SEO 0 fields" [ref=f26e111] [cursor=pointer]:
+              - generic [ref=f26e112]: SEO
+              - generic [ref=f26e113]: 0 fields
+          - group [ref=f26e114]:
+            - generic "Accessibility — helps identify common issues 1 found" [ref=f26e115] [cursor=pointer]:
+              - generic [ref=f26e116]: Accessibility — helps identify common issues
+              - generic [ref=f26e117]: 1 found
+            - paragraph [ref=f26e118]: Automated checks catch many common issues but cannot replace testing with real assistive technology and real users. This tool never claims compliance.
+            - list [ref=f26e119]:
+              - listitem [ref=f26e120]:
+                - generic [ref=f26e121]:
+                  - strong [ref=f26e122]: heading
+                  - button "pricing-plan-name" [ref=f26e123] [cursor=pointer]
+                - paragraph [ref=f26e124]: No H1 found — pages should have one main heading
+                - generic [ref=f26e125]: An H1 describes the main topic so screen readers and search engines understand the page hierarchy.
+          - group [ref=f26e126]:
+            - generic "Diagnostics Woo conflict check" [ref=f26e127] [cursor=pointer]:
+              - generic [ref=f26e128]: Diagnostics
+              - generic [ref=f26e129]: Woo conflict check
+          - generic [ref=f26e130]:
+            - paragraph [ref=f26e131]: Selected block
+            - strong [ref=f26e132]: pricing-card
+            - group [ref=f26e133]:
+              - generic "Explain CSS no import data" [ref=f26e134] [cursor=pointer]:
+                - generic [ref=f26e135]: Explain CSS
+                - generic [ref=f26e136]: no import data
+            - generic [ref=f26e137]:
+              - paragraph [ref=f26e138]: Editing breakpoint
+              - group "Style breakpoint" [ref=f26e139]:
+                - button "Desktop 100%" [pressed] [ref=f26e140] [cursor=pointer]:
+                  - generic [ref=f26e141]: Desktop
+                  - generic [ref=f26e142]: 100%
+                - button "Tablet 768px" [ref=f26e143] [cursor=pointer]:
+                  - generic [ref=f26e144]: Tablet
+                  - generic [ref=f26e145]: 768px
+                - button "Mobile 390px" [ref=f26e146] [cursor=pointer]:
+                  - generic [ref=f26e147]: Mobile
+                  - generic [ref=f26e148]: 390px
+              - paragraph [ref=f26e149]: 7 base declarations
+            - generic [ref=f26e150]:
+              - generic [ref=f26e151]:
+                - checkbox "Hide on desktop" [ref=f26e152] [cursor=pointer]
+                - generic [ref=f26e153]: Hide on desktop
+              - generic [ref=f26e154]: Visible on this device
+            - generic [ref=f26e156]:
+              - checkbox "Bind to WooCommerce data" [ref=f26e157] [cursor=pointer]
+              - generic [ref=f26e158]: Bind to WooCommerce data
+            - generic [ref=f26e159]:
+              - button "Move up" [disabled] [ref=f26e160]
+              - button "Move down" [disabled] [ref=f26e161]
+            - region "Animations for pricing-card" [ref=f26e162]:
+              - paragraph [ref=f26e163]: Motion
+              - paragraph [ref=f26e164]: CSS reveal adds no JavaScript. Scroll and stagger load GSAP and ScrollTrigger only on pages that use them.
+              - generic [ref=f26e165]:
+                - button "Add CSS reveal" [ref=f26e166] [cursor=pointer]
+                - button "Add scroll scrub" [ref=f26e167] [cursor=pointer]
+                - button "Add child stagger" [ref=f26e168] [cursor=pointer]
+            - generic [ref=f26e170]:
+              - generic [ref=f26e171]: Color
+              - textbox "Desktop color for pricing-card" [ref=f26e172] [cursor=pointer]: "#000000"
+            - generic [ref=f26e173]:
+              - generic [ref=f26e174]:
+                - generic [ref=f26e175]: Panel mode
+                - generic [ref=f26e176]:
+                  - button "Simple" [ref=f26e177] [cursor=pointer]
+                  - button "Advanced" [ref=f26e178] [cursor=pointer]
+              - generic [ref=f26e179]:
+                - generic [ref=f26e180]: Search controls
+                - textbox "Search controls" [ref=f26e181] [cursor=pointer]:
+                  - /placeholder: Search — try 'shadow' in Simple mode to surface advanced
+              - generic [ref=f26e182]: Simple shows essential controls for business owners; Advanced shows all. Search finds any control even when hidden — e.g. search "shadow" while in Simple to surface Box Shadow. Values persist when switching modes.
+            - generic [ref=f26e183]:
+              - paragraph [ref=f26e184]: Base mapped controls
+              - generic [ref=f26e186]:
+                - generic [ref=f26e187]: Padding
+                - textbox "Padding" [ref=f26e188]:
+                  - /placeholder: 24px 32px
+                  - text: 34px
+              - generic [ref=f26e190]:
+                - generic [ref=f26e191]: Margin
+                - textbox "Margin" [ref=f26e192]:
+                  - /placeholder: 0 auto
+              - generic [ref=f26e194]:
+                - generic [ref=f26e195]: Font size
+                - textbox "Font size" [ref=f26e196]:
+                  - /placeholder: 18px
+              - generic [ref=f26e198]:
+                - generic [ref=f26e199]: Font weight
+                - textbox "Font weight" [ref=f26e200]:
+                  - /placeholder: "700"
+              - generic [ref=f26e202]:
+                - generic [ref=f26e203]: Border
+                - textbox "Border" [ref=f26e204]:
+                  - /placeholder: "1px solid #ccc"
+                  - text: "1px solid #c8cee0"
+              - generic [ref=f26e206]:
+                - generic [ref=f26e207]: Border radius
+                - textbox "Border radius" [ref=f26e208]:
+                  - /placeholder: 12px
+                  - text: 18px
+              - generic [ref=f26e210]:
+                - generic [ref=f26e211]: Width
+                - textbox "Width" [ref=f26e212]:
+                  - /placeholder: 100% | 320px
+              - generic [ref=f26e214]:
+                - generic [ref=f26e215]: Max width
+                - textbox "Max width" [ref=f26e216]:
+                  - /placeholder: 720px
+                  - text: 360px
+              - generic [ref=f26e218]:
+                - generic [ref=f26e219]: Background color
+                - textbox "Background color" [ref=f26e220]:
+                  - /placeholder: "#ffffff"
+              - button "Apply desktop styles" [disabled] [ref=f26e221]
+            - generic [ref=f26e222]: Raw Custom CSS is an Advanced control — switch to Advanced or search “raw” to edit. Values persist while hidden.
+          - status [ref=f26e223]: Loading...
+      - main "Rendered block canvas" [ref=f26e224]:
+        - generic [ref=f26e225]:
+          - generic [ref=f26e226]:
+            - paragraph [ref=f26e227]: Live canvas width
+            - strong [ref=f26e228]: Desktop / 100%
+          - group "Canvas breakpoint" [ref=f26e229]:
+            - button "Desktop 100%" [pressed] [ref=f26e230] [cursor=pointer]:
+              - generic [ref=f26e231]: Desktop
+              - generic [ref=f26e232]: 100%
+            - button "Tablet 768px" [ref=f26e233] [cursor=pointer]:
+              - generic [ref=f26e234]: Tablet
+              - generic [ref=f26e235]: 768px
+            - button "Mobile 390px" [ref=f26e236] [cursor=pointer]:
+              - generic [ref=f26e237]: Mobile
+              - generic [ref=f26e238]: 390px
+        - generic [ref=f26e239]: Drag a block onto text to reorder · onto a container to nest
+        - article [ref=f26e242]:
+          - text: article · pricing-card
+          - button "h2 · pricing-plan-name Professional" [ref=f26e243]
+          - button [ref=f26e244]:
+            - text: p · pricing-price
+            - button "span · pricing-price-value $29" [ref=f26e245]
+            - text: /month
+          - button [ref=f26e246]:
+            - text: ul · pricing-features
+            - button "li · pricing-feature-projects Unlimited projects" [ref=f26e247]
+            - button "li · pricing-feature-support Priority support" [ref=f26e248]
+          - button "a · pricing-cta Start free trial" [ref=f26e249]
+      - status [ref=f26e250]

@@ -1,0 +1,89 @@
+- main [ref=f19e4]:
+  - navigation "Primary navigation" [ref=f19e5]:
+    - link "CTB Code to Block" [ref=f19e6] [cursor=pointer]:
+      - /url: "#top"
+      - generic [ref=f19e7]: CTB
+      - generic [ref=f19e8]: Code to Block
+    - generic [ref=f19e9]: Private beta / 0.3
+    - link "Try the builder" [ref=f19e10] [cursor=pointer]:
+      - /url: "#start"
+  - generic [ref=f19e11]:
+    - generic [ref=f19e12]:
+      - paragraph [ref=f19e13]: A visual WordPress builder for code-first teams
+      - heading "Code in. Blocks you can move." [level=1] [ref=f19e14]
+      - paragraph [ref=f19e15]: Paste HTML and CSS, then rearrange every real element on a visual canvas without flattening your work.
+      - generic [ref=f19e16]:
+        - link "Build a page" [ref=f19e17] [cursor=pointer]:
+          - /url: "#start"
+        - link "See the workflow" [ref=f19e18] [cursor=pointer]:
+          - /url: "#method"
+    - figure "Live canvas HTML + CSS becomes editable structure" [ref=f19e19]:
+      - img "Code to Block editor showing a draggable pricing card canvas" [ref=f19e20]
+      - generic [ref=f19e21]:
+        - strong [ref=f19e22]: Live canvas
+        - generic [ref=f19e23]: HTML + CSS becomes editable structure
+  - region "Product principles" [ref=f19e24]:
+    - paragraph [ref=f19e25]: Designed around three non-negotiables
+    - list [ref=f19e26]:
+      - listitem [ref=f19e27]:
+        - strong [ref=f19e28]: "01"
+        - generic [ref=f19e29]: Real HTML semantics
+      - listitem [ref=f19e30]:
+        - strong [ref=f19e31]: "02"
+        - generic [ref=f19e32]: Resolved CSS fidelity
+      - listitem [ref=f19e33]:
+        - strong [ref=f19e34]: "03"
+        - generic [ref=f19e35]: WordPress-native saves
+  - generic [ref=f19e36]:
+    - generic [ref=f19e37]:
+      - heading "Code becomes a working page in three moves." [level=2] [ref=f19e38]
+      - paragraph [ref=f19e39]: No proprietary canvas export. The block tree stays inspectable, editable, and ready to render.
+    - list [ref=f19e40]:
+      - listitem [ref=f19e41]:
+        - text: 01 / Import
+        - heading "Paste the source" [level=3] [ref=f19e42]
+        - paragraph [ref=f19e43]: Bring one HTML root and its CSS. The parser resolves specificity before anything reaches the canvas.
+      - listitem [ref=f19e44]:
+        - text: 02 / Shape
+        - heading "Move real elements" [level=3] [ref=f19e45]
+        - paragraph [ref=f19e46]: Drag to reorder or nest. Headings, links, lists, images, and containers remain separate blocks.
+      - listitem [ref=f19e47]:
+        - text: 03 / Publish
+        - heading "Save to WordPress" [level=3] [ref=f19e48]
+        - paragraph [ref=f19e49]: The tree persists through authenticated REST routes and renders with a static, scoped stylesheet.
+  - generic [ref=f19e50]:
+    - article [ref=f19e51]:
+      - generic [ref=f19e52]:
+        - generic [ref=f19e53]: A
+        - heading "Specificity is settled before editing." [level=3] [ref=f19e54]
+        - paragraph [ref=f19e55]: Selectors, inheritance, and inline declarations resolve into a stable style map for each element.
+      - code [ref=f19e57]: ".card .title { color: blue; } h2 { color: black; } resolved → blue"
+    - article [ref=f19e58]:
+      - generic [ref=f19e59]: B
+      - heading "The structure stays visible." [level=3] [ref=f19e60]
+      - paragraph [ref=f19e61]: Every dashed outline is a block you can select, move, restyle, and save.
+      - generic "Example block hierarchy" [ref=f19e62]:
+        - strong [ref=f19e63]: section.hero
+        - generic [ref=f19e64]: div.content
+        - generic [ref=f19e65]: h1.heading
+        - generic [ref=f19e66]: a.cta
+    - article [ref=f19e67]:
+      - generic [ref=f19e68]: C
+      - heading "Frontend output stays fast." [level=3] [ref=f19e69]
+      - paragraph [ref=f19e70]: Content-hashed CSS is generated when you save, not recalculated on every public request.
+      - paragraph [ref=f19e71]:
+        - strong [ref=f19e72]: Save once
+        - generic [ref=f19e73]: Serve static HTML + CSS
+  - generic [ref=f19e74]:
+    - paragraph [ref=f19e75]: Minimum viable builder. Maximum structural honesty.
+    - heading "Turn your next code sample into something you can actually edit." [level=2] [ref=f19e76]
+    - link "Build a page" [ref=f19e77] [cursor=pointer]:
+      - /url: /wp-admin/post-new.php?post_type=ctb_page
+  - generic [ref=f19e78]:
+    - link "CTB Code to Block" [ref=f19e79] [cursor=pointer]:
+      - /url: "#top"
+      - generic [ref=f19e80]: CTB
+      - generic [ref=f19e81]: Code to Block
+    - paragraph [ref=f19e82]: HTML in. Editable WordPress pages out.
+    - link "How it works" [ref=f19e83] [cursor=pointer]:
+      - /url: "#method"
