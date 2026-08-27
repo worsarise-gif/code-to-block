@@ -1532,6 +1532,22 @@
 .ctb-rendered-block.is-draggable {
 	cursor: grab;
 	touch-action: none;
+	position: relative;
+}
+
+.ctb-rendered-block.is-draggable:hover::after {
+	content: "⣿";
+	position: absolute;
+	top: 4px;
+	left: 4px;
+	background: var(--ctb-purple);
+	color: white;
+	font-size: 12px;
+	padding: 2px 4px;
+	border-radius: 3px;
+	pointer-events: none;
+	z-index: 1000;
+	opacity: 0.8;
 }
 
 .ctb-rendered-block.is-draggable:active {
@@ -1543,8 +1559,9 @@
 }
 
 .ctb-rendered-block.is-drop-target {
-	box-shadow: 0 0 0 5px rgba(101, 88, 211, 0.22) !important;
-	outline: 2px solid var(--ctb-purple);
+	box-shadow: 0 0 0 6px rgba(101, 88, 211, 0.4) !important;
+	outline: 3px solid var(--ctb-purple);
+	background-color: rgba(101, 88, 211, 0.05);
 }
 
 .is-dragging-active .ctb-rendered-block[data-block-type="container"] {

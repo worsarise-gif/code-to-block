@@ -2029,6 +2029,152 @@ function Block( props ) {
 	return <BlockContent { ...props } />;
 }
 
+
+
+function CanvasDragHandles( { blockId } ) {
+	const activeBreakpoint = useEditorStore( ( state ) => state.activeBreakpoint );
+	const updateEditableBlock = ( mutate ) => {
+		useEditorStore.getState().updateBlock( blockId, mutate );
+	};
+
+	const parseShorthand = ( val ) => {
+		const parts = String( val || '' ).split( /\s+/ ).filter( Boolean );
+		let top = '0px', right = '0px', bottom = '0px', left = '0px';
+		if ( parts.length === 1 ) {
+			top = right = bottom = left = parts[ 0 ];
+		} else if ( parts.length === 2 ) {
+			top = bottom = parts[ 0 ];
+			right = left = parts[ 1 ];
+		} else if ( parts.length === 3 ) {
+			top = parts[ 0 ];
+			right = left = parts[ 1 ];
+			bottom = parts[ 2 ];
+		} else if ( parts.length >= 4 ) {
+			top = parts[ 0 ];
+			right = parts[ 1 ];
+			bottom = parts[ 2 ];
+			left = parts[ 3 ];
+		}
+		return { top, right, bottom, left };
+	};
+
+	const parsePart = ( val ) => {
+		const match = String( val || '' ).match( /^(-?\d*\.?\d+)(.*)$/ );
+		if ( match ) {
+			return { num: parseFloat( match[ 1 ] ), strUnit: match[ 2 ] || 'px' };
+		}
+		return { num: 0, strUnit: 'px' };
+	};
+
+	const createHandle = ( property, edge, cursor ) => {
+		const handleMouseDown = ( e ) => {
+			e.preventDefault();
+			e.stopPropagation();
+			const startX = e.clientX;
+			const startY = e.clientY;
+
+			// get current value from state directly
+			const state = useEditorStore.getState();
+			const block = findBlock( state.document.root, blockId );
+			if ( ! block ) return;
+
+			const currentMapped = block.styles?.mapped || {};
+			const currentVal = currentMapped[ property ] || '';
+
+			const parsedVals = parseShorthand( currentVal );
+			const startPart = parsePart( parsedVals[ edge ] );
+
+			const handleMouseMove = ( moveEvent ) => {
+				const deltaX = moveEvent.clientX - startX;
+				const deltaY = moveEvent.clientY - startY;
+				let delta = 0;
+				if ( edge === 'top' ) delta = deltaY;
+				else if ( edge === 'bottom' ) delta = -deltaY;
+				else if ( edge === 'left' ) delta = deltaX;
+				else if ( edge === 'right' ) delta = -deltaX;
+
+				let multiplier = 1;
+				if ( moveEvent.shiftKey ) multiplier = 10;
+				else if ( moveEvent.altKey || moveEvent.metaKey ) multiplier = 0.1;
+
+				const newNum = startPart.num + ( delta * multiplier * 0.5 );
+				const formattedValue = newNum.toFixed( 1 ).replace( /\.0$/, '' ) + startPart.strUnit;
+
+				parsedVals[ edge ] = formattedValue;
+
+				const newValue = `${ parsedVals.top } ${ parsedVals.right } ${ parsedVals.bottom } ${ parsedVals.left }`;
+
+				updateEditableBlock( ( draft ) => {
+					if ( ! draft.styles ) draft.styles = { mapped: {}, custom_css_fallback: '' };
+					if ( ! draft.styles.mapped ) draft.styles.mapped = {};
+					draft.styles.mapped[ property ] = newValue;
+				} );
+			};
+
+			const handleMouseUp = () => {
+				window.removeEventListener( 'mousemove', handleMouseMove );
+				window.removeEventListener( 'mouseup', handleMouseUp );
+				useEditorStore.getState().addPast( useEditorStore.getState().document );
+			};
+
+			window.addEventListener( 'mousemove', handleMouseMove );
+			window.addEventListener( 'mouseup', handleMouseUp );
+		};
+
+		const positionStyles = {
+			position: 'absolute',
+			zIndex: 9999,
+		};
+		if ( edge === 'top' ) {
+			positionStyles.top = '-5px';
+			positionStyles.left = '0';
+			positionStyles.right = '0';
+			positionStyles.height = '10px';
+			positionStyles.cursor = 'ns-resize';
+		} else if ( edge === 'bottom' ) {
+			positionStyles.bottom = '-5px';
+			positionStyles.left = '0';
+			positionStyles.right = '0';
+			positionStyles.height = '10px';
+			positionStyles.cursor = 'ns-resize';
+		} else if ( edge === 'left' ) {
+			positionStyles.left = '-5px';
+			positionStyles.top = '0';
+			positionStyles.bottom = '0';
+			positionStyles.width = '10px';
+			positionStyles.cursor = 'ew-resize';
+		} else if ( edge === 'right' ) {
+			positionStyles.right = '-5px';
+			positionStyles.top = '0';
+			positionStyles.bottom = '0';
+			positionStyles.width = '10px';
+			positionStyles.cursor = 'ew-resize';
+		}
+
+		return (
+			<div
+				key={ edge }
+				className={ `ctb-canvas-drag-handle is-${ property }-${ edge }` }
+				style={ positionStyles }
+				onMouseDown={ handleMouseDown }
+				title={ `Drag to adjust ${ property } ${ edge }` }
+			/>
+		);
+	};
+
+	return (
+		<div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, pointerEvents: 'none' }}>
+			<div style={{ pointerEvents: 'auto', position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}>
+				{ createHandle( 'padding', 'top' ) }
+				{ createHandle( 'padding', 'right' ) }
+				{ createHandle( 'padding', 'bottom' ) }
+				{ createHandle( 'padding', 'left' ) }
+			</div>
+		</div>
+	);
+}
+
+
 function BlockContent( {
 	block,
 	styleIndexes,
@@ -2247,6 +2393,13 @@ function BlockContent( {
 				</button>
 			</div>
 		);
+	}
+	if ( selectedBlockId === selectionId && !VOID_TAGS.has( block.tag ) ) {
+		// Only render drag handles if element is relative/absolute/fixed/sticky OR if we enforce relative position for handles
+		if ( !attributes.style.position || attributes.style.position === 'static' ) {
+			attributes.style.position = 'relative';
+		}
+		childrenNodes.push( <CanvasDragHandles key="canvas-drag-handles" blockId={ selectionId } /> );
 	}
 
 	return createElement( block.tag, attributes, childrenNodes );
@@ -4569,6 +4722,99 @@ function RawCssControl( { styleSet, breakpoint, onApply } ) {
 	);
 }
 
+
+function ScrubbableInput( { id, value, placeholder, disabled, onChange } ) {
+	const [ isDragging, setIsDragging ] = useState( false );
+	const [ startX, setStartX ] = useState( 0 );
+	const [ startValue, setStartValue ] = useState( 0 );
+	const [ unit, setUnit ] = useState( '' );
+
+	const parseValue = ( val ) => {
+		const match = String( val || '' ).match( /^(-?\d*\.?\d+)(.*)$/ );
+		if ( match ) {
+			return { num: parseFloat( match[ 1 ] ), strUnit: match[ 2 ] || 'px' };
+		}
+		return { num: 0, strUnit: 'px' };
+	};
+
+	const handleMouseDown = ( e ) => {
+		if ( disabled ) {
+			return;
+		}
+		setIsDragging( true );
+		setStartX( e.clientX );
+		const parsed = parseValue( value );
+		setStartValue( parsed.num );
+		setUnit( parsed.strUnit );
+		e.preventDefault(); // prevent text selection
+	};
+
+	useEffect( () => {
+		if ( ! isDragging ) {
+			return;
+		}
+
+		const handleMouseMove = ( e ) => {
+			const deltaX = e.clientX - startX;
+			let multiplier = 1;
+			if ( e.shiftKey ) {
+				multiplier = 10;
+			} else if ( e.altKey || e.metaKey ) {
+				multiplier = 0.1;
+			}
+
+			const newValue = startValue + ( deltaX * multiplier * 0.5 ); // 0.5 sensitivity factor
+			// format to 1 decimal place to avoid floating point issues, then remove trailing .0
+			const formattedValue = newValue.toFixed( 1 ).replace( /\.0$/, '' );
+			onChange( { target: { value: `${ formattedValue }${ unit }` } } );
+		};
+
+		const handleMouseUp = () => {
+			setIsDragging( false );
+		};
+
+		window.addEventListener( 'mousemove', handleMouseMove );
+		window.addEventListener( 'mouseup', handleMouseUp );
+
+		return () => {
+			window.removeEventListener( 'mousemove', handleMouseMove );
+			window.removeEventListener( 'mouseup', handleMouseUp );
+		};
+	}, [ isDragging, startX, startValue, unit, onChange ] );
+
+	const handleWheel = ( e ) => {
+		if ( disabled ) {
+			return;
+		}
+		e.preventDefault();
+		const parsed = parseValue( value );
+		let multiplier = 1;
+		if ( e.shiftKey ) {
+			multiplier = 10;
+		} else if ( e.altKey || e.metaKey ) {
+			multiplier = 0.1;
+		}
+		const delta = e.deltaY < 0 ? 1 : -1;
+		const newValue = parsed.num + ( delta * multiplier );
+		const formattedValue = newValue.toFixed( 1 ).replace( /\.0$/, '' );
+		onChange( { target: { value: `${ formattedValue }${ parsed.strUnit }` } } );
+	};
+
+	return (
+		<input
+			id={ id }
+			type="text"
+			disabled={ disabled }
+			placeholder={ placeholder }
+			value={ value }
+			onChange={ onChange }
+			onMouseDown={ handleMouseDown }
+			onWheel={ handleWheel }
+			style={ { cursor: isDragging ? 'ew-resize' : 'text' } }
+		/>
+	);
+}
+
 function MappedStyleControls( {
 	styleSet,
 	inheritedMapped,
@@ -4804,29 +5050,53 @@ function MappedStyleControls( {
 											<small>Inherited</small>
 										) : null }
 									</span>
-									<input
-										id={ `ctb-${ breakpoint }-${ field.property }` }
-										type="text"
-										disabled={ linked }
-										placeholder={
-											breakpoint !== 'desktop' &&
-											inheritedMapped[ field.property ]
-												? `Inherits ${
-														inheritedMapped[
-															field.property
-														]
-												  }`
-												: field.placeholder
-										}
-										value={ values[ field.property ] }
-										onChange={ ( event ) =>
-											setValues( {
-												...values,
-												[ field.property ]:
-													event.target.value,
-											} )
-										}
-									/>
+									{ field.options ? (
+										<select
+											id={ `ctb-${ breakpoint }-${ field.property }` }
+											disabled={ linked }
+											value={ values[ field.property ] || '' }
+											onChange={ ( event ) =>
+												setValues( {
+													...values,
+													[ field.property ]: event.target.value,
+												} )
+											}
+										>
+											<option value="">
+												{ breakpoint !== 'desktop' && inheritedMapped[ field.property ]
+													? `Inherits ${ inheritedMapped[ field.property ] }`
+													: field.placeholder || 'Default' }
+											</option>
+											{ field.options.map( ( opt ) => (
+												<option key={ opt } value={ opt }>
+													{ opt }
+												</option>
+											) ) }
+										</select>
+									) : (
+										<ScrubbableInput
+											id={ `ctb-${ breakpoint }-${ field.property }` }
+											disabled={ linked }
+											placeholder={
+												breakpoint !== 'desktop' &&
+												inheritedMapped[ field.property ]
+													? `Inherits ${
+															inheritedMapped[
+																field.property
+															]
+													  }`
+													: field.placeholder
+											}
+											value={ values[ field.property ] }
+											onChange={ ( event ) =>
+												setValues( {
+													...values,
+													[ field.property ]:
+														event.target.value,
+												} )
+											}
+										/>
+									) }
 								</label>
 								<TokenBindingControl
 									designTokens={ designTokens }
@@ -5734,7 +6004,7 @@ function Editor() {
 	const [ clipboardStyles, setClipboardStyles ] = useState( null );
 	const postId = Number( window.codeToBlockEditorSettings?.postId || 0 );
 	const sensors = useSensors(
-		useSensor( PointerSensor, { activationConstraint: { distance: 6 } } ),
+		useSensor( PointerSensor, { activationConstraint: { distance: 3 } } ),
 		useSensor( KeyboardSensor )
 	);
 	const viewDocument = materializeCommerce(
