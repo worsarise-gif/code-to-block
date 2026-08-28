@@ -1,3 +1,7 @@
+import TopHeader from './components/TopHeader.js';
+import RightInspector from './components/RightInspector.js';
+import CenterCanvas from './components/CenterCanvas.js';
+import NavigatorTree from './components/NavigatorTree.js';
 import {
 	Component,
 	createElement,
@@ -7122,83 +7126,26 @@ function Editor() {
 			}` }
 			aria-label="Code to Block visual editor"
 		>
-			<header className="h-14 bg-white border-b border-slate-200 flex items-center justify-between px-4 shrink-0 z-10" data-purpose="top-nav">
-				<div className="flex items-center gap-4">
-					<div className="w-8 h-8 bg-indigo-600 rounded flex items-center justify-center text-white">
-						<i className="fa-solid fa-layer-group"></i>
-					</div>
-					<button className="flex items-center gap-2 hover:bg-slate-100 px-2 py-1 rounded text-sm font-medium border-none bg-transparent cursor-pointer">
-						{ document.name } <i className="fa-solid fa-chevron-down text-xs text-slate-500"></i>
-					</button>
-				</div>
-				<div className="flex items-center gap-2">
-					<div className="flex bg-slate-100 rounded-md p-0.5 border border-slate-200" style={{border: 'none'}}>
-						<BreakpointSwitcher
-							value={ previewBreakpoint }
-							onChange={ setPreviewBreakpoint }
-							compact
-						/>
-					</div>
-					<div className="h-6 w-px bg-slate-200 mx-2"></div>
-					<button
-						type="button"
-						className="w-8 h-8 rounded flex items-center justify-center text-slate-400 hover:text-slate-800 transition-colors border-none bg-transparent cursor-pointer"
-						disabled={ ! canUndo }
-						title="Undo"
-						onClick={ undoChange }
-					>
-						<i className="fa-solid fa-rotate-left text-sm"></i>
-					</button>
-					<button
-						type="button"
-						className="w-8 h-8 rounded flex items-center justify-center text-slate-400 hover:text-slate-800 transition-colors border-none bg-transparent cursor-pointer"
-						disabled={ ! canRedo }
-						title="Redo"
-						onClick={ redoChange }
-					>
-						<i className="fa-solid fa-rotate-right text-sm"></i>
-					</button>
-					<button className="flex items-center gap-2 hover:bg-slate-100 px-2 py-1 rounded text-sm font-medium ml-2 border-none bg-transparent cursor-pointer">
-						100% <i className="fa-solid fa-chevron-down text-xs text-slate-500"></i>
-					</button>
-				</div>
-				<div className="flex items-center gap-3">
-					<span className="text-xs text-slate-500 mr-2">{ persistenceStatus || 'Ready' }</span>
-					{ window.codeToBlockEditorSettings?.previewUrl && (
-						<a
-							className="px-4 py-1.5 text-sm font-medium text-slate-700 bg-white border border-slate-300 rounded-md hover:bg-slate-50 transition-colors no-underline cursor-pointer"
-							href={ window.codeToBlockEditorSettings.previewUrl }
-							target="_blank"
-							rel="noreferrer"
-						>
-							Preview
-						</a>
-					) }
-					<button type="button" className="px-4 py-1.5 text-sm font-medium text-slate-700 bg-white border border-slate-300 rounded-md hover:bg-slate-50 transition-colors cursor-pointer" onClick={ () => setIsImporterOpen( ! isImporterOpen ) }>
-						Import
-					</button>
-					<div className="flex">
-						<button
-							type="button"
-							className="px-4 py-1.5 text-sm font-medium text-white bg-indigo-600 rounded-l-md hover:bg-indigo-700 transition-colors border-none cursor-pointer"
-							onClick={ saveDocument }
-						>
-							Publish
-						</button>
-						<button type="button" className="px-2 py-1.5 bg-indigo-700 text-white rounded-r-md border-l border-indigo-500 hover:bg-indigo-800 cursor-pointer">
-							<i className="fa-solid fa-chevron-down text-xs"></i>
-						</button>
-					</div>
-					<div className="h-6 w-px bg-slate-200 mx-1"></div>
-					<button type="button" className="w-8 h-8 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-100 transition-colors border-none bg-transparent cursor-pointer">
-						<i className="fa-regular fa-circle-question"></i>
-					</button>
-					<button type="button" className="w-8 h-8 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-100 transition-colors border-none bg-transparent cursor-pointer">
-						<i className="fa-regular fa-bell"></i>
-					</button>
-					<img alt="User Avatar" className="w-8 h-8 rounded-full border border-slate-200 ml-1" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7Ex9EHSWAM5mShH9TFzMycnSxvOCa7WvAJhwzXy9AFJlawMVJ8Onae1kmGSI5eoTqNcUeXmNgMDZ1JLW8GUmxogD1T7OQMbkmC1WGEKx9iyxcVqCGHe7-N1domsimVwxfi_JFCki3DT4MgtSM39-N93rZXoLsUru1chHyrT_kECCI3BX-q796CHMRxDIWUIetzebpPiZNbqORFwpHkYf3X3SVMqvzN9G7HrD39iJ0zzHmBdbTnL4x"/>
-				</div>
-			</header>
+			<TopHeader
+				documentName={document.name}
+				previewBreakpoint={previewBreakpoint}
+				setPreviewBreakpoint={setPreviewBreakpoint}
+				canUndo={canUndo}
+				canRedo={canRedo}
+				undoChange={undoChange}
+				redoChange={redoChange}
+				persistenceStatus={persistenceStatus}
+				previewUrl={window.codeToBlockEditorSettings?.previewUrl}
+				isImporterOpen={isImporterOpen}
+				setIsImporterOpen={setIsImporterOpen}
+				saveDocument={saveDocument}
+			>
+				<BreakpointSwitcher
+					value={ previewBreakpoint }
+					onChange={ setPreviewBreakpoint }
+					compact
+				/>
+			</TopHeader>
 			{ isImporterOpen && ( () => {
 				const detectedHtml = unifiedInput.trim() ? [ unifiedInput ] : [];
 				const detectedCss =
@@ -7498,50 +7445,25 @@ function Editor() {
 				</aside>
 
 				{ /* CANVAS WITH BREADCRUMBS */ }
-				<main className="ctb-canvas-stage flex-1 flex flex-col overflow-auto relative p-8 items-center bg-slate-50">
-					<style>{ previewStyles.css }</style>
-					<div className="absolute top-4 left-4 z-20 flex items-center bg-indigo-600 text-white text-[10px] font-medium px-2 py-1 rounded">
-						{ breadcrumbPath.map( ( block, idx ) => (
-							<span key={ block.id } style={{ display: 'flex', alignItems: 'center' }}>
-								<span
-									style={{ cursor: 'pointer' }}
-									onClick={ () => selectBlock( block.id ) }
-								>
-									{ block.tag }
-								</span>
-								{ idx < breadcrumbPath.length - 1 && <i className="fa-solid fa-chevron-right text-[8px] mx-1"></i> }
-							</span>
-						) ) }
-						{ breadcrumbPath.length === 0 && (
-							<span>Select an element</span>
-						) }
-					</div>
-					<DndContext
-						sensors={ sensors }
-						collisionDetection={ closestCenter }
-						onDragStart={ ( e ) => setActiveId( e.active.id ) }
-						onDragEnd={ finishDrag }
-					>
-						<div
-							className={ `ctb-canvas-wrapper w-full max-w-5xl bg-white shadow-xl rounded-lg border border-slate-200 overflow-hidden relative ${ paletteDragging ? ' is-palette-target' : '' }` }
-							onDragOver={ ( event ) => {
-								if ( event.dataTransfer.types.includes( 'application/x-ctb-element' ) ) {
-									event.preventDefault();
-									event.dataTransfer.dropEffect = 'copy';
-								}
-							} }
-							onDrop={ ( event ) => {
-								const primitive = event.dataTransfer.getData( 'application/x-ctb-element' );
-								if ( primitive ) {
-									event.preventDefault();
-									addPrimitiveAtSelection( primitive );
-									setPaletteDragging( null );
-								}
-							} }
-						>
-							<div
-								className={ `ctb-canvas-viewport is-${ previewBreakpoint }` }
-							>
+				<CenterCanvas
+					previewStyles={previewStyles}
+					breadcrumbPath={breadcrumbPath}
+					selectBlock={selectBlock}
+					DndContext={DndContext}
+					sensors={sensors}
+					closestCenter={closestCenter}
+					setActiveId={setActiveId}
+					finishDrag={finishDrag}
+					paletteDragging={paletteDragging}
+					previewBreakpoint={previewBreakpoint}
+					documentLoading={documentLoading}
+					SkeletonLoader={SkeletonLoader}
+					DragOverlay={DragOverlay}
+					activeBlock={activeBlock}
+					addPrimitiveAtSelection={addPrimitiveAtSelection}
+					setPaletteDragging={setPaletteDragging}
+				>
+
 								{ documentLoading ? (
 									<div className="ctb-editor-skeleton-layout">
 										<SkeletonLoader type="image" />
@@ -7572,190 +7494,32 @@ function Editor() {
 										onContextMenu={ handleBlockContextMenu }
 									/>
 								) }
-							</div>
-						</div>
-						<DragOverlay>
-							{ activeBlock ? (
-								<div className="ctb-drag-overlay">
-									Moving { activeBlock.id }
-								</div>
-							) : null }
-						</DragOverlay>
-					</DndContext>
-				</main>
+							</CenterCanvas>
 
 				{ /* RIGHT PANEL - Inspector Tabs */ }
-				<aside className="w-80 bg-white border-l border-slate-200 flex flex-col shrink-0 z-10" data-purpose="right-panel">
-					{ ! selectedBlock ? (
-						<div className="flex-1 flex items-center justify-center text-center text-slate-500 text-sm p-8">
-							<div>
-								<i className="fa-solid fa-arrow-pointer text-2xl mb-3 opacity-20 block"></i>
-								Select an element on the canvas to view and edit its properties.
-							</div>
-						</div>
-					) : (
-						<>
-							<div className="flex items-center justify-between px-3 py-2 border-b border-slate-200">
-								<div className="flex items-center gap-2">
-									<span className="text-xs font-medium bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded">{ selectedBlock.tag }</span>
-									<span className="text-xs text-slate-400 truncate max-w-[120px]">#{ selectedBlock.id }</span>
-								</div>
-								<div className="flex items-center">
-									<button
-										type="button"
-										className="w-7 h-7 flex items-center justify-center text-slate-400 hover:text-indigo-600 rounded hover:bg-slate-100 bg-transparent border-none cursor-pointer transition-colors"
-										title="Duplicate element"
-										disabled={ selectedBlock.id === document.root.id || selectedBlock.permissions?.locked }
-										onClick={ () => duplicateBlock( selectedBlock.id ) }
-									>
-										<i className="fa-regular fa-copy text-xs"></i>
-									</button>
-									<button
-										type="button"
-										className="w-7 h-7 flex items-center justify-center text-slate-400 hover:text-red-600 rounded hover:bg-slate-100 bg-transparent border-none cursor-pointer transition-colors"
-										title="Delete element"
-										disabled={ selectedBlock.id === document.root.id || selectedBlock.permissions?.locked }
-										onClick={ () => deleteBlock( selectedBlock.id ) }
-									>
-										<i className="fa-solid fa-trash-can text-xs"></i>
-									</button>
-								</div>
-							</div>
-							<div className="flex border-b border-slate-200 shrink-0 bg-slate-50">
-								<button
-									className={ `flex-1 py-2.5 text-[11px] font-medium text-center border-b-2 transition-colors cursor-pointer bg-transparent outline-none ${ activeTab === 'content' ? 'border-indigo-600 text-indigo-600 bg-white' : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300' }` }
-									onClick={ () => setActiveTab( 'content' ) }
-								>
-									Content
-								</button>
-								<button
-									className={ `flex-1 py-2.5 text-[11px] font-medium text-center border-b-2 transition-colors cursor-pointer bg-transparent outline-none ${ activeTab === 'style' ? 'border-indigo-600 text-indigo-600 bg-white' : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300' }` }
-									onClick={ () => setActiveTab( 'style' ) }
-								>
-									Style
-								</button>
-								<button
-									className={ `flex-1 py-2.5 text-[11px] font-medium text-center border-b-2 transition-colors cursor-pointer bg-transparent outline-none ${ activeTab === 'advanced' ? 'border-indigo-600 text-indigo-600 bg-white' : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300' }` }
-									onClick={ () => setActiveTab( 'advanced' ) }
-								>
-									Advanced
-								</button>
-							</div>
+				<RightInspector
+                    BlockDynamicControl={BlockDynamicControl}
+                    BlockSlotControl={BlockSlotControl}
+					navigatorDock={
+						<NavigatorTree>
+							{ renderNavigatorNode( document.root ) }
+						</NavigatorTree>
+					}
+					selectedBlock={selectedBlock}
+					activeTab={activeTab}
+					setActiveTab={setActiveTab}
+					duplicateBlock={duplicateBlock}
+					deleteBlock={deleteBlock}
+					documentRootId={document.root.id}
+					updateBlockContent={updateBlockContent}
+					updateBlockAttribute={updateBlockAttribute}
+					setBlockDynamicProperties={setBlockDynamicProperties}
+					setBlockSlotProperties={setBlockSlotProperties}
+					localUpdateHistoryStatus={localUpdateHistoryStatus}
+					VOID_TAGS={VOID_TAGS}
+					styleTabContent={
+						<div className="ctb-tab-pane" style={{ padding: '16px' }}>
 
-							<div className="flex-1 overflow-y-auto custom-scrollbar">
-						{ ! selectedBlock ? (
-							<div className="p-8 text-center text-slate-500 text-sm">
-								<i className="fa-solid fa-arrow-pointer text-2xl mb-3 opacity-20 block"></i>
-								Select an element on the canvas to view and edit its properties.
-							</div>
-						) : (
-							<>
-								{ activeTab === 'content' && (
-									<div className="ctb-tab-pane">
-										{ selectedBlock.permissions?.locked ? (
-											<div className="ctb-locked-notice">Locked elements are read-only until an administrator unlocks them.</div>
-										) : null }
-										<fieldset disabled={ selectedBlock.permissions?.locked } className="ctb-inspector-fields">
-											<label>
-												<span>HTML tag</span>
-												<input value={ selectedBlock.tag.toUpperCase() } readOnly />
-											</label>
-											{ ! VOID_TAGS.has( selectedBlock.tag ) && ! selectedBlock.is_dynamic ? (
-												<label>
-													<span>Text content</span>
-													<textarea
-														key={ `${ selectedBlock.id }:content` }
-														defaultValue={ ( selectedBlock.children || [] ).filter( ( child ) => child.kind === 'text' ).map( ( child ) => child.value ).join( '' ) }
-														onBlur={ ( event ) => updateBlockContent( selectedBlock.id, event.target.value ) }
-													/>
-												</label>
-											) : null }
-											{ selectedBlock.tag === 'a' ? (
-												<>
-													<label>
-														<span>Link</span>
-														<input
-															key={ `${ selectedBlock.id }:href` }
-															defaultValue={ selectedBlock.attributes?.href || '' }
-															onBlur={ ( event ) => updateBlockAttribute( selectedBlock.id, 'href', event.target.value ) }
-														/>
-													</label>
-													<label className="ctb-toggle-row">
-														<span>Open in new tab</span>
-														<input
-															type="checkbox"
-															checked={ selectedBlock.attributes?.target === '_blank' }
-															onChange={ ( event ) => {
-																updateBlockAttribute( selectedBlock.id, 'target', event.target.checked ? '_blank' : '' );
-																updateBlockAttribute( selectedBlock.id, 'rel', event.target.checked ? 'noopener noreferrer' : '' );
-															} }
-														/>
-													</label>
-												</>
-											) : null }
-											{ selectedBlock.tag === 'img' || selectedBlock.tag === 'iframe' ? (
-												<label>
-													<span>Source URL</span>
-													<input
-														key={ `${ selectedBlock.id }:src` }
-														defaultValue={ selectedBlock.attributes?.src || '' }
-														onBlur={ ( event ) => updateBlockAttribute( selectedBlock.id, 'src', event.target.value ) }
-													/>
-												</label>
-											) : null }
-											{ selectedBlock.tag === 'img' ? (
-												<label>
-													<span>Alt text</span>
-													<input
-														key={ `${ selectedBlock.id }:alt` }
-														defaultValue={ selectedBlock.attributes?.alt || '' }
-														onBlur={ ( event ) => updateBlockAttribute( selectedBlock.id, 'alt', event.target.value ) }
-													/>
-												</label>
-											) : null }
-										</fieldset>
-										<h4>Content Source</h4>
-										<BlockDynamicControl
-											block={ selectedBlock }
-											onChange={ (
-												id,
-												isDynamic,
-												dynamicSource
-											) => {
-												setBlockDynamicProperties(
-													id,
-													isDynamic,
-													dynamicSource
-												);
-												localUpdateHistoryStatus(
-													'Updated dynamic binding'
-												);
-											} }
-										/>
-										<BlockSlotControl
-											block={ selectedBlock }
-											onChange={ (
-												id,
-												isSlot,
-												label,
-												type
-											) => {
-												setBlockSlotProperties(
-													id,
-													isSlot,
-													label,
-													type
-												);
-												localUpdateHistoryStatus(
-													'Updated slot properties'
-												);
-											} }
-										/>
-									</div>
-								) }
-
-								{ activeTab === 'style' && (
-									<div className="ctb-tab-pane">
 										<h4>Design Tokens</h4>
 										<DesignTokenPanel
 											document={ document }
@@ -7798,11 +7562,12 @@ function Editor() {
 											onRemoveToken={ unlinkSelectedToken }
 											onOverrideToken={ overrideSelectedToken }
 										/>
-									</div>
-								) }
 
-								{ activeTab === 'advanced' && (
-									<div className="ctb-tab-pane">
+						</div>
+					}
+					advancedTabContent={
+						<div className="ctb-tab-pane" style={{ padding: '16px' }}>
+
 										<h4>Responsive</h4>
 										<BreakpointSwitcher
 											value={ previewBreakpoint }
@@ -7870,260 +7635,13 @@ function Editor() {
 											issues={ a11yIssues }
 											onSelect={ selectBlock }
 										/>
-									</div>
-								) }
-							</>
-						) }
-					</div>
-				</aside>
+
+						</div>
+					}
+				/>
 
 				{ /* FAR-RIGHT PANEL - Settings & Data */ }
-				<aside className="ctb-settings-panel">
-					{ isNavigatorOpen && (
-						<div className="ctb-settings-section">
-							<h4>Navigator</h4>
-							<div className="ctb-navigator-tree">
-								{ renderNavigatorNode( document.root ) }
-							</div>
-						</div>
-					) }
 
-					<div className="ctb-settings-section">
-						<h4>Dynamic Data</h4>
-						{ selectedBlock?.is_content_slot ? (
-							<div className="ctb-panel-card">
-								<p>
-									Bound to slot:{ ' ' }
-									<strong>
-										{ selectedBlock.slot_label ||
-											'Unnamed' }
-									</strong>
-								</p>
-								<p>Type: { selectedBlock.slot_content_type }</p>
-							</div>
-						) : (
-							<div className="ctb-empty-setting">
-								<p className="ctb-muted">Connect this element to dynamic content.</p>
-								<button type="button" onClick={ () => setActiveTab( 'content' ) }>Configure source</button>
-							</div>
-						) }
-					</div>
-
-					<div className="ctb-settings-section">
-						<h4>Visibility & Conditions</h4>
-						{ selectedBlock ? (
-							<BlockVisibilityControl
-								block={ selectedBlock }
-								breakpoint={ previewBreakpoint }
-								onToggle={ ( hidden ) => {
-									setBlockHidden(
-										selectedBlock.id,
-										previewBreakpoint,
-										hidden
-									);
-									localUpdateHistoryStatus(
-										'Changed visibility'
-									);
-								} }
-							/>
-						) : (
-							<p className="ctb-muted">Select an element</p>
-						) }
-						<fieldset disabled={ selectedBlock.permissions?.locked } className="ctb-condition-control">
-							<label>
-								<span>Conditions</span>
-								<select
-									value={ selectedBlock.visibility_conditions?.login || 'any' }
-									onChange={ ( event ) => setBlockVisibilityConditions( selectedBlock.id, {
-										...( selectedBlock.visibility_conditions || {} ),
-										login: event.target.value,
-									} ) }
-								>
-									<option value="any">Always</option>
-									<option value="logged_in">Logged-in visitors</option>
-									<option value="logged_out">Logged-out visitors</option>
-								</select>
-							</label>
-							<div className="ctb-role-conditions">
-								<span>User roles</span>
-								{ ( window.codeToBlockEditorSettings?.roles || [] ).map( ( role ) => {
-									const currentRoles = selectedBlock.visibility_conditions?.roles || [];
-									return (
-										<label key={ role.value } className="ctb-check-row">
-											<input
-												type="checkbox"
-												checked={ currentRoles.includes( role.value ) }
-												onChange={ ( event ) => setBlockVisibilityConditions( selectedBlock.id, {
-													...( selectedBlock.visibility_conditions || {} ),
-													roles: event.target.checked
-														? [ ...currentRoles, role.value ]
-														: currentRoles.filter( ( value ) => value !== role.value ),
-												} ) }
-											/>
-											<span>{ role.label }</span>
-										</label>
-									);
-								} ) }
-							</div>
-						</fieldset>
-					</div>
-
-					<div className="ctb-settings-section">
-						<h4>States</h4>
-						<div className="ctb-states-tabs">
-							{ [ 'default', 'hover', 'focus', 'active' ].map(
-								( stateName ) => (
-									<button
-										key={ stateName }
-										type="button"
-										className={ `ctb-state-btn${ activeState === stateName ? ' is-active' : '' }` }
-										onClick={ () => setActiveState( stateName ) }
-									>
-										{ stateName.charAt( 0 ).toUpperCase() + stateName.slice( 1 ) }
-									</button>
-								)
-							) }
-						</div>
-						<label className="ctb-state-color">
-							<span>Text color</span>
-							<input
-								type="color"
-								disabled={ selectedBlock.permissions?.locked }
-								value={
-									activeState === 'default'
-										? selectedBlock.styles?.mapped?.color || '#111827'
-										: selectedBlock.states?.[ activeState ]?.mapped?.color || selectedBlock.styles?.mapped?.color || '#111827'
-								}
-								onChange={ ( event ) => setBlockStateStyles( selectedBlock.id, activeState, { color: event.target.value } ) }
-							/>
-						</label>
-					</div>
-
-					<div className="ctb-settings-section">
-						<h4>Permissions</h4>
-						<fieldset
-							className="ctb-permissions-control"
-							disabled={ ! window.codeToBlockEditorSettings?.canManageElementPermissions }
-						>
-							<label>
-								<span>Role</span>
-								<select
-									value={ selectedBlock.permissions?.role || '' }
-									onChange={ ( event ) => setBlockPermissions( selectedBlock.id, {
-										...( selectedBlock.permissions || {} ),
-										role: event.target.value,
-									} ) }
-								>
-									<option value="">Any editor role</option>
-									{ ( window.codeToBlockEditorSettings?.roles || [] ).map( ( role ) => (
-										<option key={ role.value } value={ role.value }>{ role.label }</option>
-									) ) }
-								</select>
-							</label>
-							{ [
-								[ 'can_edit', 'Can edit' ],
-								[ 'can_delete', 'Can delete' ],
-								[ 'can_publish', 'Can publish' ],
-							].map( ( [ key, label ] ) => (
-								<label key={ key } className="ctb-check-row">
-									<input
-										type="checkbox"
-										checked={ selectedBlock.permissions?.[ key ] !== false }
-										onChange={ ( event ) => setBlockPermissions( selectedBlock.id, {
-											...( selectedBlock.permissions || {} ),
-											[ key ]: event.target.checked,
-										} ) }
-									/>
-									<span>{ label }</span>
-								</label>
-							) ) }
-							<button
-								type="button"
-								className={ selectedBlock.permissions?.locked ? 'is-locked' : '' }
-								onClick={ () => setBlockPermissions( selectedBlock.id, {
-									...( selectedBlock.permissions || {} ),
-									locked: ! selectedBlock.permissions?.locked,
-								} ) }
-							>
-								{ selectedBlock.permissions?.locked ? 'Unlock element' : 'Lock element' }
-							</button>
-						</fieldset>
-						{ ! window.codeToBlockEditorSettings?.canManageElementPermissions ? (
-							<p className="ctb-muted">Only administrators can change element permissions.</p>
-						) : null }
-					</div>
-
-					<div className="ctb-settings-section">
-						<h4>SEO & Meta</h4>
-						<div className="ctb-seo-summary">
-							<span>Title</span>
-							<strong>{ document.seo?.title || 'Not set' }</strong>
-							<span>Description</span>
-							<p>{ document.seo?.description || 'Not set' }</p>
-						</div>
-						{ window.codeToBlockEditorSettings?.contentModeUrl ? (
-							<a className="ctb-secondary-link" href={ window.codeToBlockEditorSettings.contentModeUrl }>
-								Edit in Content Mode →
-							</a>
-						) : null }
-					</div>
-
-					<div className="ctb-settings-section">
-						<h4>Performance</h4>
-						<label className="ctb-toggle-row">
-							<span>Lazy load media</span>
-							<input
-								type="checkbox"
-								disabled={ selectedBlock.permissions?.locked || ! [ 'img', 'iframe' ].includes( selectedBlock.tag ) }
-								checked={ Boolean( selectedBlock.performance?.lazy_load ) }
-								onChange={ ( event ) => setBlockPerformance( selectedBlock.id, {
-									...( selectedBlock.performance || {} ),
-									lazy_load: event.target.checked,
-								} ) }
-							/>
-						</label>
-						{ selectedBlock.tag === 'img' ? (
-							<label className="ctb-toggle-row">
-								<span>Image lazy load</span>
-								<input
-									type="checkbox"
-									disabled={ selectedBlock.permissions?.locked }
-									checked={ Boolean( selectedBlock.performance?.image_lazy_load ) }
-									onChange={ ( event ) => setBlockPerformance( selectedBlock.id, {
-										...( selectedBlock.performance || {} ),
-										image_lazy_load: event.target.checked,
-									} ) }
-								/>
-							</label>
-						) : null }
-						<p className="ctb-muted">Uses native deferral and the shared skeleton transition.</p>
-					</div>
-
-					<div className="ctb-settings-section ctb-history-section">
-						<h4>History</h4>
-						<ul className="ctb-history-log">
-							{ historyLog
-								.slice()
-								.reverse()
-								.map( ( entry ) => (
-									<li key={ entry.id }>
-										<span className="ctb-history-time">
-											{ new Date( entry.timestamp ).toLocaleTimeString( [], { hour: '2-digit', minute: '2-digit' } ) }
-										</span>
-										<span className="ctb-history-msg">
-											{ entry.action }
-										</span>
-									</li>
-								) ) }
-							{ historyLog.length === 0 && (
-								<li className="ctb-muted">No changes yet.</li>
-							) }
-						</ul>
-					</div>
-								)}
-							</>
-						)}
-				</aside>
 
 				<ContextMenu
 					menu={ contextMenu }
