@@ -1,0 +1,243 @@
+- generic [ref=f6e1]:
+  - text: "Deprecated: Function print_emoji_styles is"
+  - strong [ref=f6e2]: deprecated
+  - text: "since version 6.4.0! Use wp_enqueue_emoji_styles instead. in /var/www/html/wp-includes/functions.php on line 6260 Deprecated: Function wp_admin_bar_header is"
+  - strong [ref=f6e3]: deprecated
+  - text: since version 6.4.0! Use wp_enqueue_admin_bar_header_styles instead. in /var/www/html/wp-includes/functions.php on line 6260
+  - generic [ref=f6e4]:
+    - generic [ref=f6e5]:
+      - strong [ref=f6e6]: Auto Draft
+      - text: Dedicated editor — no admin chrome
+    - generic [ref=f6e7]:
+      - link "Back to WordPress editor" [ref=f6e8] [cursor=pointer]:
+        - /url: http://localhost:8888/wp-admin/post.php?post=7&action=edit
+      - text: "|"
+      - link "View live page" [ref=f6e9] [cursor=pointer]:
+        - /url: http://localhost:8888/built-page/auto-draft/
+  - region "Code to Block visual editor" [ref=f6e11]:
+    - generic [ref=f6e12]:
+      - button "Isolation Probe" [ref=f6e241] [cursor=pointer]:
+        - generic [ref=f6e20]: 
+      - group "Style breakpoint" [ref=f6e50]:
+        - button "Desktop" [pressed] [ref=f6e51] [cursor=pointer]:
+          - generic [ref=f6e52]: 
+        - button "Tablet" [ref=f6e54] [cursor=pointer]:
+          - generic [ref=f6e55]: 
+        - button "Mobile" [ref=f6e57] [cursor=pointer]:
+          - generic [ref=f6e58]: 
+      - generic [ref=f6e21]:
+        - button "Undo" [ref=f6e22] [cursor=pointer]:
+          - generic [ref=f6e23]: 
+        - button "Redo" [disabled] [ref=f6e25]:
+          - generic [ref=f6e26]: 
+        - button "Revisions" [ref=f6e60] [cursor=pointer]
+        - button "Preview" [ref=f6e61] [cursor=pointer]
+        - generic [ref=f6e28]:
+          - button "Update" [disabled] [ref=f6e29]
+          - combobox "More status options" [ref=f6e30] [cursor=pointer]:
+            - option "▼" [disabled] [selected]
+            - option "Submit for Review"
+            - option "Make Private"
+            - option "Switch to Draft"
+    - dialog [ref=f6e171]:
+      - generic [ref=f6e172]:
+        - generic [ref=f6e173]:
+          - paragraph [ref=f6e174]: Unified Importer
+          - heading "Paste your code" [level=3] [ref=f6e175]
+          - paragraph [ref=f6e176]: Paste HTML, CSS, JavaScript, and PHP together. Parsing is non-destructive; review the candidate before importing it.
+          - paragraph [ref=f6e177]: Import committed. One Undo restores the previous page.
+        - generic [ref=f6e178]:
+          - button "Close" [ref=f6e179] [cursor=pointer]
+          - button "Import into Builder" [active] [ref=f6e185] [cursor=pointer]
+      - generic [ref=f6e181]:
+        - generic [ref=f6e182]:
+          - generic [ref=f6e183]: Combined HTML, CSS, JS, PHP
+          - textbox "Code to import" [ref=f6e184]:
+            - /placeholder: Paste your combined code here...
+            - text: "<!doctype html><html lang=\"en\"><head><title>Isolation Probe</title><style>:root{--brand:#315efb}html,body{margin:0}.shell{min-height:100vh;background:#f7f8fb}.fixed-probe{position:fixed;inset:0;border:4px solid var(--brand);pointer-events:none}.card{padding:2rem;color:var(--brand)}@media(max-width:600px){.card{padding:1rem}}</style></head><body><main class=\"shell\"><section class=\"card\"><h1>Imported page</h1><p>Editable content</p></section><div class=\"fixed-probe\"></div></main><script>document.documentElement.dataset.importedScript='ran';</script></body></html>"
+        - region "Import review" [ref=f6e186]:
+          - generic [ref=f6e187]:
+            - generic [ref=f6e188]:
+              - text: Document
+              - strong [ref=f6e189]: Full HTML document
+            - generic [ref=f6e190]:
+              - text: Detected
+              - strong [ref=f6e191]: full-document · html, css, javascript
+            - generic [ref=f6e192]:
+              - text: Builder nodes
+              - strong [ref=f6e193]: "6"
+            - generic [ref=f6e194]:
+              - text: Stylesheets
+              - strong [ref=f6e195]: "1"
+            - generic [ref=f6e196]:
+              - text: CSS variables
+              - strong [ref=f6e197]: "1"
+            - generic [ref=f6e198]:
+              - text: Mapped responsive rules
+              - strong [ref=f6e199]: "1"
+            - generic [ref=f6e200]:
+              - text: Mapped state rules
+              - strong [ref=f6e201]: "0"
+            - generic [ref=f6e202]:
+              - text: Deferred custom CSS
+              - strong [ref=f6e203]: "8"
+            - generic [ref=f6e204]:
+              - text: Unsupported elements
+              - strong [ref=f6e205]: "0"
+            - generic [ref=f6e206]:
+              - text: Media conditions
+              - strong [ref=f6e207]: "1"
+            - generic [ref=f6e208]:
+              - text: Keyframes
+              - strong [ref=f6e209]: "0"
+            - generic [ref=f6e210]:
+              - text: Scripts
+              - strong [ref=f6e211]: 1 (Preview/Publish only)
+            - generic [ref=f6e212]:
+              - text: External assets
+              - strong [ref=f6e213]: "0"
+          - paragraph [ref=f6e214]:
+            - strong [ref=f6e215]: "Page title:"
+            - text: Isolation Probe
+          - group [ref=f6e216]:
+            - generic "Normalized source" [ref=f6e217] [cursor=pointer]
+          - group [ref=f6e218]:
+            - generic "Structure, styles, and diagnostics" [ref=f6e219] [cursor=pointer]
+        - generic [ref=f6e220]:
+          - strong [ref=f6e221]: "Detected blocks:"
+          - list [ref=f6e222]:
+            - listitem [ref=f6e223]:
+              - group [ref=f6e224]:
+                - generic "HTML structure" [ref=f6e225]
+            - listitem [ref=f6e226]:
+              - group [ref=f6e227]:
+                - generic "Stylesheet 1" [ref=f6e228]
+            - listitem [ref=f6e229]:
+              - group [ref=f6e230]:
+                - generic "Script block 1" [ref=f6e231]
+      - status [ref=f6e242]:
+        - strong [ref=f6e243]: "Imported with warnings:"
+        - list [ref=f6e244]:
+          - listitem [ref=f6e245]: 0 elements mapped to existing roles.
+          - listitem [ref=f6e246]: 0 deliberate differences kept as local overrides.
+      - region "Detected JavaScript" [ref=f6e232]:
+        - generic [ref=f6e233]:
+          - strong [ref=f6e234]: Detected JavaScript
+          - generic [ref=f6e235]: 1 script
+        - article [ref=f6e236]:
+          - generic [ref=f6e237]:
+            - text: Preserved / Preview and Publish only
+            - paragraph [ref=f6e238]: Preserved as a page script. Disabled in the editor; enabled only in Preview/Publish.
+            - paragraph [ref=f6e239]: Disabled in the editor iframe. Execution is limited to the separate opener-detached WordPress page.
+          - generic [ref=f6e240]: document.documentElement.dataset.importedScript='ran';
+    - generic [ref=f6e31]:
+      - complementary "Add elements" [ref=f6e62]:
+        - generic [ref=f6e63]:
+          - generic [ref=f6e64]:
+            - heading "Add Elements" [level=2] [ref=f6e65]
+            - generic [ref=f6e66]: Drag or click
+          - generic [ref=f6e67]:
+            - generic [ref=f6e68]: Search elements
+            - generic: 
+            - searchbox "Search elements Ctrl K" [ref=f6e69]
+            - generic: Ctrl K
+        - generic [ref=f6e70]:
+          - generic [ref=f6e71]:
+            - button "Basic" [expanded] [ref=f6e72] [cursor=pointer]:
+              - generic [ref=f6e74]: 
+            - generic [ref=f6e75]:
+              - button "Heading" [ref=f6e76]:
+                - generic [ref=f6e77]: 
+              - button "Text" [ref=f6e79]:
+                - generic [ref=f6e80]: 
+              - button "Button" [ref=f6e82]:
+                - generic [ref=f6e83]: 
+          - generic [ref=f6e85]:
+            - button "Layout" [expanded] [ref=f6e86] [cursor=pointer]:
+              - generic [ref=f6e88]: 
+            - generic [ref=f6e89]:
+              - button "Section" [ref=f6e90]:
+                - generic [ref=f6e91]: 
+              - button "Container" [ref=f6e93]:
+                - generic [ref=f6e94]: 
+          - generic [ref=f6e96]:
+            - button "Media" [expanded] [ref=f6e97] [cursor=pointer]:
+              - generic [ref=f6e99]: 
+            - button "Image" [ref=f6e101]:
+              - generic [ref=f6e102]: 
+      - main [ref=f6e32]:
+        - generic [ref=f6e33]:
+          - navigation "Selected element path" [ref=f6e34]:
+            - button "div" [ref=f6e248] [cursor=pointer]
+          - iframe [ref=f6e104]:
+            - button [ref=f7e13]:
+              - button [ref=f7e14]:
+                - button "Imported page" [ref=f7e15]
+                - button "Editable content" [ref=f7e16]
+              - button
+        - status [ref=f6e46]
+      - complementary [ref=f6e105]:
+        - generic [ref=f6e107]:
+          - generic [ref=f6e108]:
+            - heading "div" [level=2] [ref=f6e249]
+            - paragraph [ref=f6e110]: "#import-aa0j2y-page-root"
+          - generic [ref=f6e111]:
+            - button "Duplicate element" [disabled] [ref=f6e112]:
+              - generic [ref=f6e113]: 
+            - button "Delete element" [disabled] [ref=f6e114]:
+              - generic [ref=f6e115]: 
+        - tablist "Element settings" [ref=f6e116]:
+          - tab "content" [selected] [ref=f6e117] [cursor=pointer]
+          - tab "style" [ref=f6e118] [cursor=pointer]
+          - tab "advanced" [ref=f6e119] [cursor=pointer]
+        - group [ref=f6e122]:
+          - generic [ref=f6e123]:
+            - generic [ref=f6e124]: Content Source
+            - combobox "Content Source" [ref=f6e125]:
+              - option "HTML" [selected]
+              - option "Dynamic data"
+          - generic [ref=f6e126]:
+            - generic [ref=f6e127]:
+              - generic [ref=f6e128]: Title
+              - generic [ref=f6e129]:
+                - text: Dynamic
+                - switch "Use dynamic title" [ref=f6e130] [cursor=pointer]
+            - textbox "Title" [ref=f6e250]
+          - generic [ref=f6e133]:
+            - generic [ref=f6e134]: HTML Tag
+            - combobox "HTML Tag" [ref=f6e251]:
+              - option "DIV" [selected]
+              - option "H1"
+              - option "H2"
+              - option "H3"
+              - option "P"
+              - option "SPAN"
+          - generic [ref=f6e136]:
+            - generic [ref=f6e137]: Alignment
+            - generic [ref=f6e138]:
+              - button "left" [pressed] [ref=f6e139] [cursor=pointer]:
+                - generic [ref=f6e140]: 
+              - button "center" [ref=f6e142] [cursor=pointer]:
+                - generic [ref=f6e143]: 
+              - button "right" [ref=f6e145] [cursor=pointer]:
+                - generic [ref=f6e146]: 
+          - generic [ref=f6e148]:
+            - generic [ref=f6e149]: Visibility
+            - generic [ref=f6e150]:
+              - generic [ref=f6e151]:
+                - generic [ref=f6e152]:
+                  - generic [ref=f6e153]: 
+                  - text: desktop
+                - switch "Show on desktop" [checked] [ref=f6e154] [cursor=pointer]
+              - generic [ref=f6e156]:
+                - generic [ref=f6e157]:
+                  - generic [ref=f6e158]: 
+                  - text: tablet
+                - switch "Show on tablet" [checked] [ref=f6e159] [cursor=pointer]
+              - generic [ref=f6e161]:
+                - generic [ref=f6e162]:
+                  - generic [ref=f6e163]: 
+                  - text: mobile
+                - switch "Show on mobile" [checked] [ref=f6e164] [cursor=pointer]
+          - group [ref=f6e166]:
+            - generic "Dynamic and reusable content" [ref=f6e167] [cursor=pointer]

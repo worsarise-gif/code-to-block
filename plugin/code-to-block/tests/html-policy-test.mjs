@@ -8,11 +8,16 @@ import {
 } from '../src/html-policy.mjs';
 
 assert.equal( SUPPORTED_HTML_TAGS.has( 'section' ), true );
-assert.equal( SUPPORTED_HTML_TAGS.has( 'form' ), false );
+assert.equal( SUPPORTED_HTML_TAGS.has( 'form' ), true );
+assert.equal( SUPPORTED_HTML_TAGS.has( 'input' ), true );
+assert.equal( SUPPORTED_HTML_TAGS.has( 'textarea' ), true );
+assert.equal( SUPPORTED_HTML_TAGS.has( 'select' ), true );
 assert.equal( SUPPORTED_HTML_TAGS.has( 'script' ), false );
 assert.equal( attributeIsAllowed( 'a', 'href' ), true );
 assert.equal( attributeIsAllowed( 'div', 'onclick' ), false );
 assert.equal( attributeIsAllowed( 'img', 'srcset' ), true );
+assert.equal( attributeIsAllowed( 'form', 'method' ), true );
+assert.equal( attributeIsAllowed( 'input', 'required' ), true );
 assert.equal( sanitizeResourceUrl( 'javascript:alert(1)', true ), '' );
 assert.equal( sanitizeResourceUrl( ' java\nscript:alert(1)', true ), '' );
 assert.equal( sanitizeResourceUrl( 'mailto:team@example.test', true ), 'mailto:team@example.test' );
@@ -24,4 +29,4 @@ assert.equal(
 );
 assert.equal( sanitizeSrcset( 'photo.jpg invalid' ), '' );
 
-console.log( 'PASS: 13 HTML policy assertions.' );
+console.log( 'PASS: 18 HTML policy assertions.' );

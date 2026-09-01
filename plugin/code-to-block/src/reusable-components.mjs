@@ -40,6 +40,22 @@ function styleSetsFor( block ) {
 	].filter( Boolean );
 }
 
+function collectTokenReferences( value, references ) {
+	if ( Array.isArray( value ) ) {
+		value.forEach( ( item ) => collectTokenReferences( item, references ) );
+		return;
+	}
+	if ( value && typeof value === 'object' ) {
+		Object.values( value ).forEach( ( item ) =>
+			collectTokenReferences( item, references )
+		);
+		return;
+	}
+	if ( typeof value === 'string' && parseTokenReference( value ) ) {
+		references.add( value );
+	}
+}
+
 export function createComponentDocument( document, block, name ) {
 	if ( ! isBlock( block ) ) {
 		throw new Error( 'Select a valid block before saving a component.' );
@@ -49,6 +65,7 @@ export function createComponentDocument( document, block, name ) {
 		throw new Error( 'Component name is required.' );
 	}
 	const references = new Set();
+	const roleReferences = new Set();
 	visitBlocks( block, ( item ) => {
 		for ( const styleSet of styleSetsFor( item ) ) {
 			for ( const reference of Object.values(
@@ -56,8 +73,20 @@ export function createComponentDocument( document, block, name ) {
 			) ) {
 				references.add( reference );
 			}
+			for ( const binding of Object.values(
+				styleSet.role_bindings || {}
+			) ) {
+				roleReferences.add( binding.roleId );
+			}
 		}
 	} );
+	for ( const roleId of roleReferences ) {
+		const recipe = document.style_roles?.[ roleId ];
+		if ( ! recipe ) {
+			throw new Error( `Missing guided role ${ roleId }.` );
+		}
+		collectTokenReferences( recipe, references );
+	}
 
 	const designTokens = {};
 	for ( const reference of references ) {
@@ -73,12 +102,21 @@ export function createComponentDocument( document, block, name ) {
 	}
 
 	const component = {
-		schema_version: 1,
+		schema_version: document.schema_version >= 2 ? 2 : 1,
 		name: componentName,
 		root: clone( block ),
 	};
 	if ( Object.keys( designTokens ).length ) {
 		component.design_tokens = designTokens;
+	}
+	if ( roleReferences.size ) {
+		component.style_roles = {};
+		for ( const roleId of roleReferences ) {
+			component.style_roles[ roleId ] = clone(
+				document.style_roles[ roleId ]
+			);
+		}
+		component.feature_flags = { guided_roles: true };
 	}
 	return component;
 }
@@ -233,6 +271,66 @@ function mergeComponentTokens( component, tokens ) {
 	return map;
 }
 
+function rewriteRoleRecipeTokens( value, tokenMap ) {
+	if ( Array.isArray( value ) ) {
+		return value.map( ( item ) =>
+			rewriteRoleRecipeTokens( item, tokenMap )
+		);
+	}
+	if ( value && typeof value === 'object' ) {
+		return Object.fromEntries(
+			Object.entries( value ).map( ( [ key, item ] ) => [
+				key,
+				rewriteRoleRecipeTokens( item, tokenMap ),
+			] )
+		);
+	}
+	return tokenMap[ value ] || value;
+}
+
+function componentRoleIdFor( componentId, roleId, destination, recipe ) {
+	if (
+		! destination[ roleId ] ||
+		JSON.stringify( destination[ roleId ] ) === JSON.stringify( recipe )
+	) {
+		return roleId;
+	}
+	const [ prefix, slug = 'role' ] = roleId.split( '.', 2 );
+	const base = `${ prefix }.${ slug }-saved-${ componentId }`.slice( 0, 45 );
+	let candidate = base;
+	let suffix = 2;
+	while (
+		destination[ candidate ] &&
+		JSON.stringify( destination[ candidate ] ) !== JSON.stringify( recipe )
+	) {
+		const tail = `-${ suffix++ }`;
+		candidate = `${ base.slice( 0, 45 - tail.length ) }${ tail }`;
+	}
+	return candidate;
+}
+
+function mergeComponentRoles( component, roles, tokenMap ) {
+	const map = {};
+	for ( const [ roleId, sourceRecipe ] of Object.entries(
+		component.document.style_roles || {}
+	) ) {
+		const recipe = rewriteRoleRecipeTokens(
+			clone( sourceRecipe ),
+			tokenMap
+		);
+		const nextId = componentRoleIdFor(
+			component.id,
+			roleId,
+			roles,
+			recipe
+		);
+		recipe.id = nextId;
+		roles[ nextId ] = recipe;
+		map[ roleId ] = nextId;
+	}
+	return map;
+}
+
 function uniqueId( base, used, maxLength = 500 ) {
 	base = base.slice( 0, maxLength );
 	let id = base;
@@ -336,9 +434,31 @@ function rewriteDomReferences( block, domIdMap ) {
 	}
 }
 
-function rewriteClone( block, idMap, domIdMap, tokenMap ) {
+function rewriteClone( block, idMap, domIdMap, tokenMap, roleMap ) {
 	for ( const styleSet of styleSetsFor( block ) ) {
 		rewriteStyleTokens( styleSet, tokenMap );
+		for ( const binding of Object.values( styleSet.role_bindings || {} ) ) {
+			if ( roleMap[ binding.roleId ] ) {
+				binding.roleId = roleMap[ binding.roleId ];
+			} else {
+				styleSet.import_review_flags = [
+					...( styleSet.import_review_flags || [] ),
+					{
+						id: `missing-role-${ binding.roleId.replace(
+							/[^a-z0-9-]/gi,
+							'-'
+						) }`,
+						property:
+							binding.kind === 'typography'
+								? 'font-size'
+								: 'padding',
+						roleId: binding.roleId,
+						message:
+							'The source guided role is missing. The computed appearance was preserved locally.',
+					},
+				];
+			}
+		}
 	}
 	for ( const action of block.actions || [] ) {
 		const target = action.params?.target_block_id;
@@ -349,7 +469,7 @@ function rewriteClone( block, idMap, domIdMap, tokenMap ) {
 	rewriteDomReferences( block, domIdMap );
 	for ( const child of block.children ) {
 		if ( isBlock( child ) ) {
-			rewriteClone( child, idMap, domIdMap, tokenMap );
+			rewriteClone( child, idMap, domIdMap, tokenMap, roleMap );
 		}
 	}
 }
@@ -358,6 +478,7 @@ function cloneComponentRoot(
 	component,
 	instanceId,
 	tokenMap,
+	roleMap,
 	usedBlockIds,
 	usedDomIds
 ) {
@@ -374,7 +495,7 @@ function cloneComponentRoot(
 		usedBlockIds,
 		usedDomIds
 	);
-	rewriteClone( root, idMap, domIdMap, tokenMap );
+	rewriteClone( root, idMap, domIdMap, tokenMap, roleMap );
 	return root;
 }
 
@@ -448,10 +569,12 @@ function applySlotValues( block, values ) {
 export function materializeComponents( document, components ) {
 	const resolved = clone( document );
 	let tokens = clone( resolved.design_tokens || {} );
+	let roles = clone( resolved.style_roles || {} );
 	const records = new Map(
 		( components || [] ).map( ( component ) => [ component.id, component ] )
 	);
 	const tokenMaps = new Map();
+	const roleMaps = new Map();
 	const metricsCache = new Map();
 	let usedBlockIds = new Set();
 	let usedDomIds = new Set();
@@ -486,6 +609,10 @@ export function materializeComponents( document, components ) {
 				const tokenMap = tokenMaps.has( component.id )
 					? tokenMaps.get( component.id )
 					: mergeComponentTokens( component, nextTokens );
+				const nextRoles = clone( roles );
+				const roleMap = roleMaps.has( component.id )
+					? roleMaps.get( component.id )
+					: mergeComponentRoles( component, nextRoles, tokenMap );
 				if ( countTokens( nextTokens ) > 100 ) {
 					throw new Error( COMPONENT_FAILURE_MESSAGE );
 				}
@@ -495,6 +622,7 @@ export function materializeComponents( document, components ) {
 					component,
 					block.id,
 					tokenMap,
+					roleMap,
 					nextBlockIds,
 					nextDomIds
 				);
@@ -509,9 +637,11 @@ export function materializeComponents( document, components ) {
 				budget.blocks += metrics.blocks;
 				budget.bytes += cloneBytes + tokenBytes;
 				tokens = nextTokens;
+				roles = nextRoles;
 				usedBlockIds = nextBlockIds;
 				usedDomIds = nextDomIds;
 				tokenMaps.set( component.id, tokenMap );
+				roleMaps.set( component.id, roleMap );
 				block.attributes = {
 					...( block.attributes || {} ),
 					class: `${
@@ -539,6 +669,9 @@ export function materializeComponents( document, components ) {
 	resolved.root = resolve( resolved.root, 1 );
 	if ( Object.keys( tokens ).length ) {
 		resolved.design_tokens = tokens;
+	}
+	if ( Object.keys( roles ).length ) {
+		resolved.style_roles = roles;
 	}
 	if ( resolved.slot_values ) {
 		applySlotValues( resolved.root, resolved.slot_values );

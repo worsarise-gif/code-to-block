@@ -1,0 +1,7 @@
+- generic [active] [ref=e1]:
+  - text: "Notice: Function register_meta was called"
+  - strong [ref=e2]: incorrectly
+  - text: . Meta keys cannot enable revisions support unless the object subtype supports revisions. Please see
+  - link "Debugging in WordPress" [ref=e3] [cursor=pointer]:
+    - /url: https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/
+  - text: "for more information. (This message was added in version 6.4.0.) in /var/www/html/wp-includes/functions.php on line 6260 Warning: Cannot modify header information - headers already sent by (output started at /var/www/html/wp-includes/functions.php:6260) in /var/www/html/wp-includes/pluggable.php on line 1539 Warning: Cannot modify header information - headers already sent by (output started at /var/www/html/wp-includes/functions.php:6260) in /var/www/html/wp-includes/pluggable.php on line 1542"

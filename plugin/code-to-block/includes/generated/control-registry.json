@@ -1,0 +1,2921 @@
+{
+  "registry_version": 1,
+  "elements": {
+    "layout/section": {
+      "version": 1,
+      "rendererFamily": "container",
+      "allowedTags": [
+        "section",
+        "header",
+        "footer",
+        "main",
+        "aside",
+        "article"
+      ],
+      "props": [],
+      "targets": [
+        "root"
+      ],
+      "targetSelectors": {
+        "root": "&"
+      },
+      "styleGroups": [
+        "flex",
+        "grid",
+        "sizing",
+        "spacing",
+        "background",
+        "border",
+        "shadow",
+        "filters",
+        "childPlacement"
+      ],
+      "advancedGroups": [
+        "placement",
+        "motion",
+        "visibility",
+        "conditions",
+        "attributes",
+        "permissions",
+        "developer"
+      ],
+      "states": [
+        "hover"
+      ]
+    },
+    "layout/row": {
+      "version": 1,
+      "rendererFamily": "container",
+      "allowedTags": [
+        "div",
+        "section"
+      ],
+      "props": [
+        "columns"
+      ],
+      "targets": [
+        "root"
+      ],
+      "targetSelectors": {
+        "root": "&"
+      },
+      "styleGroups": [
+        "flex",
+        "grid",
+        "sizing",
+        "spacing",
+        "background",
+        "border",
+        "shadow",
+        "filters",
+        "childPlacement"
+      ],
+      "advancedGroups": [
+        "placement",
+        "motion",
+        "visibility",
+        "conditions",
+        "attributes",
+        "permissions",
+        "developer"
+      ],
+      "states": []
+    },
+    "layout/column": {
+      "version": 1,
+      "rendererFamily": "container",
+      "allowedTags": [
+        "div",
+        "article",
+        "aside"
+      ],
+      "props": [
+        "editorLabel"
+      ],
+      "targets": [
+        "root"
+      ],
+      "targetSelectors": {
+        "root": "&"
+      },
+      "styleGroups": [
+        "flex",
+        "grid",
+        "sizing",
+        "spacing",
+        "background",
+        "border",
+        "shadow",
+        "filters",
+        "childPlacement"
+      ],
+      "advancedGroups": [
+        "placement",
+        "motion",
+        "visibility",
+        "conditions",
+        "attributes",
+        "permissions",
+        "developer"
+      ],
+      "states": []
+    },
+    "layout/container": {
+      "version": 1,
+      "rendererFamily": "container",
+      "allowedTags": [
+        "div",
+        "article",
+        "aside",
+        "nav",
+        "header",
+        "footer",
+        "section"
+      ],
+      "props": [
+        "editorLabel"
+      ],
+      "targets": [
+        "root"
+      ],
+      "targetSelectors": {
+        "root": "&"
+      },
+      "styleGroups": [
+        "flex",
+        "grid",
+        "sizing",
+        "spacing",
+        "background",
+        "border",
+        "shadow",
+        "filters",
+        "childPlacement"
+      ],
+      "advancedGroups": [
+        "placement",
+        "motion",
+        "visibility",
+        "conditions",
+        "attributes",
+        "permissions",
+        "developer"
+      ],
+      "states": [
+        "hover"
+      ]
+    },
+    "layout/wrapper": {
+      "version": 1,
+      "rendererFamily": "container",
+      "allowedTags": [
+        "div",
+        "span"
+      ],
+      "props": [
+        "editorLabel"
+      ],
+      "targets": [
+        "root"
+      ],
+      "targetSelectors": {
+        "root": "&"
+      },
+      "styleGroups": [
+        "flex",
+        "grid",
+        "sizing",
+        "spacing",
+        "background",
+        "border",
+        "shadow",
+        "filters",
+        "childPlacement"
+      ],
+      "advancedGroups": [
+        "placement",
+        "motion",
+        "visibility",
+        "conditions",
+        "attributes",
+        "permissions",
+        "developer"
+      ],
+      "states": [
+        "hover"
+      ]
+    },
+    "core/heading": {
+      "version": 1,
+      "rendererFamily": "text",
+      "allowedTags": [
+        "h1",
+        "h2",
+        "h3",
+        "h4",
+        "h5",
+        "h6"
+      ],
+      "props": [],
+      "targets": [
+        "root",
+        "text"
+      ],
+      "targetSelectors": {
+        "root": "&",
+        "text": "[data-ctb-part=\"text\"]"
+      },
+      "styleGroups": [
+        "typography",
+        "text",
+        "sizing",
+        "spacing",
+        "background",
+        "border",
+        "shadow",
+        "childPlacement"
+      ],
+      "advancedGroups": [
+        "placement",
+        "motion",
+        "visibility",
+        "conditions",
+        "attributes",
+        "permissions",
+        "developer"
+      ],
+      "states": [
+        "hover",
+        "focusVisible",
+        "visited"
+      ]
+    },
+    "core/text": {
+      "version": 1,
+      "rendererFamily": "text",
+      "allowedTags": [
+        "p",
+        "span",
+        "small",
+        "address"
+      ],
+      "props": [],
+      "targets": [
+        "root",
+        "text"
+      ],
+      "targetSelectors": {
+        "root": "&",
+        "text": "[data-ctb-part=\"text\"]"
+      },
+      "styleGroups": [
+        "typography",
+        "text",
+        "sizing",
+        "spacing",
+        "background",
+        "border",
+        "shadow",
+        "childPlacement"
+      ],
+      "advancedGroups": [
+        "placement",
+        "motion",
+        "visibility",
+        "conditions",
+        "attributes",
+        "permissions",
+        "developer"
+      ],
+      "states": [
+        "hover"
+      ]
+    },
+    "core/rich-text": {
+      "version": 1,
+      "rendererFamily": "text",
+      "allowedTags": [
+        "div",
+        "article",
+        "address"
+      ],
+      "props": [],
+      "targets": [
+        "root",
+        "body",
+        "headings",
+        "links",
+        "lists",
+        "markers",
+        "quotes",
+        "code"
+      ],
+      "targetSelectors": {
+        "root": "&",
+        "body": "[data-ctb-part=\"body\"]",
+        "headings": "[data-ctb-part=\"headings\"]",
+        "links": "[data-ctb-part=\"links\"]",
+        "lists": "[data-ctb-part=\"lists\"]",
+        "markers": "[data-ctb-part=\"markers\"]",
+        "quotes": "[data-ctb-part=\"quotes\"]",
+        "code": "[data-ctb-part=\"code\"]"
+      },
+      "styleGroups": [
+        "typography",
+        "text",
+        "sizing",
+        "spacing",
+        "background",
+        "border",
+        "shadow",
+        "childPlacement"
+      ],
+      "advancedGroups": [
+        "placement",
+        "motion",
+        "visibility",
+        "conditions",
+        "attributes",
+        "permissions",
+        "developer"
+      ],
+      "states": [
+        "hover",
+        "focusVisible",
+        "visited"
+      ]
+    },
+    "core/link": {
+      "version": 1,
+      "rendererFamily": "button",
+      "allowedTags": [
+        "a"
+      ],
+      "props": [],
+      "targets": [
+        "root",
+        "label",
+        "icon"
+      ],
+      "targetSelectors": {
+        "root": "&",
+        "label": "[data-ctb-part=\"label\"]",
+        "icon": "[data-ctb-part=\"icon\"]"
+      },
+      "styleGroups": [
+        "typography",
+        "text",
+        "sizing",
+        "spacing",
+        "background",
+        "border",
+        "shadow",
+        "icon",
+        "filters",
+        "childPlacement"
+      ],
+      "advancedGroups": [
+        "placement",
+        "motion",
+        "visibility",
+        "conditions",
+        "attributes",
+        "permissions",
+        "developer"
+      ],
+      "states": [
+        "hover",
+        "focusVisible",
+        "active",
+        "visited"
+      ]
+    },
+    "core/list": {
+      "version": 1,
+      "rendererFamily": "container",
+      "allowedTags": [
+        "ul",
+        "ol",
+        "menu"
+      ],
+      "props": [],
+      "targets": [
+        "root",
+        "item",
+        "marker",
+        "link"
+      ],
+      "targetSelectors": {
+        "root": "&",
+        "item": "[data-ctb-part=\"item\"]",
+        "marker": "[data-ctb-part=\"marker\"]",
+        "link": "[data-ctb-part=\"link\"]"
+      },
+      "styleGroups": [
+        "typography",
+        "text",
+        "sizing",
+        "spacing",
+        "background",
+        "border",
+        "shadow",
+        "childPlacement"
+      ],
+      "advancedGroups": [
+        "placement",
+        "motion",
+        "visibility",
+        "conditions",
+        "attributes",
+        "permissions",
+        "developer"
+      ],
+      "states": [
+        "hover",
+        "focusVisible",
+        "visited"
+      ]
+    },
+    "core/list-item": {
+      "version": 1,
+      "rendererFamily": "text",
+      "allowedTags": [
+        "li"
+      ],
+      "props": [],
+      "targets": [
+        "root",
+        "item",
+        "marker"
+      ],
+      "targetSelectors": {
+        "root": "&",
+        "item": "[data-ctb-part=\"item\"]",
+        "marker": "[data-ctb-part=\"marker\"]"
+      },
+      "styleGroups": [
+        "typography",
+        "text",
+        "sizing",
+        "spacing",
+        "background",
+        "border",
+        "shadow",
+        "childPlacement"
+      ],
+      "advancedGroups": [
+        "placement",
+        "motion",
+        "visibility",
+        "conditions",
+        "attributes",
+        "permissions",
+        "developer"
+      ],
+      "states": []
+    },
+    "core/button": {
+      "version": 1,
+      "rendererFamily": "button",
+      "allowedTags": [
+        "a",
+        "button"
+      ],
+      "props": [
+        "mode",
+        "icon",
+        "iconPosition",
+        "accessibleName",
+        "loadingLabel"
+      ],
+      "targets": [
+        "root",
+        "label",
+        "icon",
+        "spinner"
+      ],
+      "targetSelectors": {
+        "root": "&",
+        "label": "[data-ctb-part=\"label\"]",
+        "icon": "[data-ctb-part=\"icon\"]",
+        "spinner": "[data-ctb-part=\"spinner\"]"
+      },
+      "styleGroups": [
+        "typography",
+        "text",
+        "sizing",
+        "spacing",
+        "background",
+        "border",
+        "shadow",
+        "icon",
+        "filters",
+        "childPlacement"
+      ],
+      "advancedGroups": [
+        "placement",
+        "motion",
+        "visibility",
+        "conditions",
+        "attributes",
+        "permissions",
+        "developer"
+      ],
+      "states": [
+        "hover",
+        "focusVisible",
+        "active",
+        "disabled",
+        "loading"
+      ]
+    },
+    "core/image": {
+      "version": 1,
+      "rendererFamily": "image",
+      "allowedTags": [
+        "img"
+      ],
+      "props": [
+        "mediaId",
+        "decorative",
+        "caption",
+        "link"
+      ],
+      "targets": [
+        "root",
+        "media",
+        "caption"
+      ],
+      "targetSelectors": {
+        "root": "&",
+        "media": "[data-ctb-part=\"media\"]",
+        "caption": "[data-ctb-part=\"caption\"]"
+      },
+      "styleGroups": [
+        "media",
+        "sizing",
+        "spacing",
+        "border",
+        "shadow",
+        "filters",
+        "childPlacement"
+      ],
+      "advancedGroups": [
+        "placement",
+        "motion",
+        "visibility",
+        "conditions",
+        "attributes",
+        "permissions",
+        "developer",
+        "performance"
+      ],
+      "states": [
+        "hover",
+        "focusVisible"
+      ]
+    },
+    "core/figure": {
+      "version": 1,
+      "rendererFamily": "container",
+      "allowedTags": [
+        "figure"
+      ],
+      "props": [
+        "caption",
+        "source"
+      ],
+      "targets": [
+        "root",
+        "media",
+        "caption"
+      ],
+      "targetSelectors": {
+        "root": "&",
+        "media": "[data-ctb-part=\"media\"]",
+        "caption": "[data-ctb-part=\"caption\"]"
+      },
+      "styleGroups": [
+        "media",
+        "sizing",
+        "spacing",
+        "border",
+        "shadow",
+        "filters",
+        "childPlacement"
+      ],
+      "advancedGroups": [
+        "placement",
+        "motion",
+        "visibility",
+        "conditions",
+        "attributes",
+        "permissions",
+        "developer",
+        "performance"
+      ],
+      "states": []
+    },
+    "core/icon": {
+      "version": 1,
+      "rendererFamily": "container",
+      "allowedTags": [
+        "span",
+        "svg"
+      ],
+      "props": [
+        "icon",
+        "decorative",
+        "link"
+      ],
+      "targets": [
+        "root",
+        "icon"
+      ],
+      "targetSelectors": {
+        "root": "&",
+        "icon": "[data-ctb-part=\"icon\"]"
+      },
+      "styleGroups": [
+        "icon",
+        "sizing",
+        "spacing",
+        "background",
+        "border",
+        "shadow",
+        "filters",
+        "childPlacement"
+      ],
+      "advancedGroups": [
+        "placement",
+        "motion",
+        "visibility",
+        "conditions",
+        "attributes",
+        "permissions",
+        "developer"
+      ],
+      "states": [
+        "hover",
+        "focusVisible",
+        "active"
+      ]
+    },
+    "core/divider": {
+      "version": 1,
+      "rendererFamily": "container",
+      "allowedTags": [
+        "hr",
+        "div"
+      ],
+      "props": [
+        "semantic",
+        "orientation"
+      ],
+      "targets": [
+        "root",
+        "line"
+      ],
+      "targetSelectors": {
+        "root": "&",
+        "line": "[data-ctb-part=\"line\"]"
+      },
+      "styleGroups": [
+        "sizing",
+        "spacing",
+        "border",
+        "alignment",
+        "childPlacement"
+      ],
+      "advancedGroups": [
+        "placement",
+        "motion",
+        "visibility",
+        "conditions",
+        "attributes",
+        "permissions",
+        "developer"
+      ],
+      "states": []
+    },
+    "core/spacer": {
+      "version": 1,
+      "rendererFamily": "container",
+      "allowedTags": [
+        "div"
+      ],
+      "props": [],
+      "targets": [
+        "root"
+      ],
+      "targetSelectors": {
+        "root": "&"
+      },
+      "styleGroups": [
+        "sizing"
+      ],
+      "advancedGroups": [
+        "visibility",
+        "attributes",
+        "developer"
+      ],
+      "states": []
+    },
+    "core/video": {
+      "version": 1,
+      "rendererFamily": "container",
+      "allowedTags": [
+        "video"
+      ],
+      "props": [
+        "captions",
+        "transcript"
+      ],
+      "targets": [
+        "root",
+        "media",
+        "caption"
+      ],
+      "targetSelectors": {
+        "root": "&",
+        "media": "[data-ctb-part=\"media\"]",
+        "caption": "[data-ctb-part=\"caption\"]"
+      },
+      "styleGroups": [
+        "media",
+        "sizing",
+        "spacing",
+        "border",
+        "shadow",
+        "filters",
+        "childPlacement"
+      ],
+      "advancedGroups": [
+        "placement",
+        "motion",
+        "visibility",
+        "conditions",
+        "attributes",
+        "permissions",
+        "developer",
+        "performance"
+      ],
+      "states": [
+        "hover",
+        "focusVisible"
+      ]
+    },
+    "core/audio": {
+      "version": 1,
+      "rendererFamily": "container",
+      "allowedTags": [
+        "audio"
+      ],
+      "props": [
+        "transcript"
+      ],
+      "targets": [
+        "root",
+        "player",
+        "caption"
+      ],
+      "targetSelectors": {
+        "root": "&",
+        "player": "[data-ctb-part=\"player\"]",
+        "caption": "[data-ctb-part=\"caption\"]"
+      },
+      "styleGroups": [
+        "sizing",
+        "spacing",
+        "background",
+        "border",
+        "shadow",
+        "childPlacement"
+      ],
+      "advancedGroups": [
+        "placement",
+        "motion",
+        "visibility",
+        "conditions",
+        "attributes",
+        "permissions",
+        "developer",
+        "performance"
+      ],
+      "states": [
+        "focusVisible"
+      ]
+    },
+    "core/embed": {
+      "version": 1,
+      "rendererFamily": "container",
+      "allowedTags": [
+        "iframe"
+      ],
+      "props": [],
+      "targets": [
+        "root",
+        "frame",
+        "placeholder"
+      ],
+      "targetSelectors": {
+        "root": "&",
+        "frame": "[data-ctb-part=\"frame\"]",
+        "placeholder": "[data-ctb-part=\"placeholder\"]"
+      },
+      "styleGroups": [
+        "media",
+        "sizing",
+        "spacing",
+        "border",
+        "shadow",
+        "filters",
+        "childPlacement"
+      ],
+      "advancedGroups": [
+        "placement",
+        "motion",
+        "visibility",
+        "conditions",
+        "attributes",
+        "permissions",
+        "developer",
+        "performance"
+      ],
+      "states": [
+        "focusVisible"
+      ]
+    },
+    "core/map": {
+      "version": 1,
+      "rendererFamily": "container",
+      "allowedTags": [
+        "iframe"
+      ],
+      "props": [
+        "provider",
+        "address",
+        "latitude",
+        "longitude",
+        "zoom",
+        "consentRequired"
+      ],
+      "targets": [
+        "root",
+        "frame",
+        "marker",
+        "placeholder"
+      ],
+      "targetSelectors": {
+        "root": "&",
+        "frame": "[data-ctb-part=\"frame\"]",
+        "marker": "[data-ctb-part=\"marker\"]",
+        "placeholder": "[data-ctb-part=\"placeholder\"]"
+      },
+      "styleGroups": [
+        "media",
+        "sizing",
+        "spacing",
+        "border",
+        "shadow",
+        "filters",
+        "childPlacement"
+      ],
+      "advancedGroups": [
+        "placement",
+        "motion",
+        "visibility",
+        "conditions",
+        "attributes",
+        "permissions",
+        "developer",
+        "performance"
+      ],
+      "states": [
+        "hover",
+        "focusVisible"
+      ]
+    },
+    "core/logo": {
+      "version": 1,
+      "rendererFamily": "image",
+      "allowedTags": [
+        "img"
+      ],
+      "props": [
+        "mediaId",
+        "linkHome",
+        "textFallback"
+      ],
+      "targets": [
+        "root",
+        "media",
+        "text"
+      ],
+      "targetSelectors": {
+        "root": "&",
+        "media": "[data-ctb-part=\"media\"]",
+        "text": "[data-ctb-part=\"text\"]"
+      },
+      "styleGroups": [
+        "media",
+        "sizing",
+        "spacing",
+        "border",
+        "shadow",
+        "filters",
+        "childPlacement"
+      ],
+      "advancedGroups": [
+        "placement",
+        "motion",
+        "visibility",
+        "conditions",
+        "attributes",
+        "permissions",
+        "developer",
+        "performance"
+      ],
+      "states": [
+        "hover",
+        "focusVisible",
+        "visited"
+      ]
+    },
+    "core/html": {
+      "version": 1,
+      "rendererFamily": "container",
+      "allowedTags": [
+        "div"
+      ],
+      "props": [],
+      "targets": [
+        "root"
+      ],
+      "targetSelectors": {
+        "root": "&"
+      },
+      "styleGroups": [
+        "sizing",
+        "spacing",
+        "background",
+        "border",
+        "childPlacement"
+      ],
+      "advancedGroups": [
+        "placement",
+        "motion",
+        "visibility",
+        "conditions",
+        "attributes",
+        "permissions",
+        "developer"
+      ],
+      "states": []
+    },
+    "core/code": {
+      "version": 1,
+      "rendererFamily": "text",
+      "allowedTags": [
+        "pre",
+        "code"
+      ],
+      "props": [
+        "language",
+        "lineNumbers",
+        "copyButton"
+      ],
+      "targets": [
+        "root",
+        "code",
+        "toolbar",
+        "copyButton"
+      ],
+      "targetSelectors": {
+        "root": "&",
+        "code": "[data-ctb-part=\"code\"]",
+        "toolbar": "[data-ctb-part=\"toolbar\"]",
+        "copyButton": "[data-ctb-part=\"copyButton\"]"
+      },
+      "styleGroups": [
+        "typography",
+        "text",
+        "sizing",
+        "spacing",
+        "background",
+        "border",
+        "shadow",
+        "childPlacement"
+      ],
+      "advancedGroups": [
+        "placement",
+        "motion",
+        "visibility",
+        "conditions",
+        "attributes",
+        "permissions",
+        "developer"
+      ],
+      "states": [
+        "hover",
+        "focusVisible"
+      ]
+    },
+    "core/shortcode": {
+      "version": 1,
+      "rendererFamily": "container",
+      "allowedTags": [
+        "div",
+        "span"
+      ],
+      "props": [
+        "shortcode",
+        "attributes",
+        "content",
+        "fallback"
+      ],
+      "targets": [
+        "root"
+      ],
+      "targetSelectors": {
+        "root": "&"
+      },
+      "styleGroups": [
+        "sizing",
+        "spacing",
+        "background",
+        "border",
+        "childPlacement"
+      ],
+      "advancedGroups": [
+        "placement",
+        "motion",
+        "visibility",
+        "conditions",
+        "attributes",
+        "permissions",
+        "developer"
+      ],
+      "states": []
+    },
+    "core/navigation": {
+      "version": 1,
+      "rendererFamily": "container",
+      "allowedTags": [
+        "nav"
+      ],
+      "props": [
+        "menuId",
+        "orientation",
+        "dropdownTrigger",
+        "mobileBreakpoint"
+      ],
+      "targets": [
+        "root",
+        "item",
+        "link",
+        "dropdown",
+        "dropdownItem",
+        "toggle",
+        "icon"
+      ],
+      "targetSelectors": {
+        "root": "&",
+        "item": "[data-ctb-part=\"item\"]",
+        "link": "[data-ctb-part=\"link\"]",
+        "dropdown": "[data-ctb-part=\"dropdown\"]",
+        "dropdownItem": "[data-ctb-part=\"dropdownItem\"]",
+        "toggle": "[data-ctb-part=\"toggle\"]",
+        "icon": "[data-ctb-part=\"icon\"]"
+      },
+      "styleGroups": [
+        "flex",
+        "grid",
+        "sizing",
+        "spacing",
+        "background",
+        "border",
+        "shadow",
+        "filters",
+        "childPlacement"
+      ],
+      "advancedGroups": [
+        "placement",
+        "motion",
+        "visibility",
+        "conditions",
+        "attributes",
+        "permissions",
+        "developer"
+      ],
+      "states": [
+        "hover",
+        "focusVisible",
+        "active",
+        "current",
+        "expanded"
+      ]
+    },
+    "forms/form": {
+      "version": 1,
+      "rendererFamily": "form",
+      "allowedTags": [
+        "form"
+      ],
+      "props": [
+        "submissionMode",
+        "successMessage",
+        "errorMessage",
+        "spamProtection",
+        "privacyText"
+      ],
+      "targets": [
+        "root",
+        "row",
+        "label",
+        "control",
+        "help",
+        "error",
+        "success",
+        "submit"
+      ],
+      "targetSelectors": {
+        "root": "&",
+        "row": "[data-ctb-part=\"row\"]",
+        "label": "[data-ctb-part=\"label\"]",
+        "control": "[data-ctb-part=\"control\"]",
+        "help": "[data-ctb-part=\"help\"]",
+        "error": "[data-ctb-part=\"error\"]",
+        "success": "[data-ctb-part=\"success\"]",
+        "submit": "[data-ctb-part=\"submit\"]"
+      },
+      "styleGroups": [
+        "flex",
+        "grid",
+        "sizing",
+        "spacing",
+        "background",
+        "border",
+        "shadow",
+        "typography",
+        "text",
+        "childPlacement"
+      ],
+      "advancedGroups": [
+        "placement",
+        "motion",
+        "visibility",
+        "conditions",
+        "attributes",
+        "permissions",
+        "developer"
+      ],
+      "states": [
+        "focusVisible",
+        "invalid",
+        "disabled"
+      ]
+    },
+    "forms/field-group": {
+      "version": 1,
+      "rendererFamily": "form_field",
+      "allowedTags": [
+        "div",
+        "fieldset"
+      ],
+      "props": [
+        "fieldType",
+        "label",
+        "name",
+        "help",
+        "required"
+      ],
+      "targets": [
+        "root",
+        "label",
+        "control",
+        "placeholder",
+        "help",
+        "error"
+      ],
+      "targetSelectors": {
+        "root": "&",
+        "label": "[data-ctb-part=\"label\"]",
+        "control": "[data-ctb-part=\"control\"]",
+        "placeholder": "[data-ctb-part=\"placeholder\"]",
+        "help": "[data-ctb-part=\"help\"]",
+        "error": "[data-ctb-part=\"error\"]"
+      },
+      "styleGroups": [
+        "typography",
+        "text",
+        "sizing",
+        "spacing",
+        "background",
+        "border",
+        "shadow",
+        "childPlacement"
+      ],
+      "advancedGroups": [
+        "placement",
+        "motion",
+        "visibility",
+        "conditions",
+        "attributes",
+        "permissions",
+        "developer"
+      ],
+      "states": [
+        "focusVisible",
+        "invalid",
+        "disabled",
+        "checked"
+      ]
+    },
+    "forms/input": {
+      "version": 1,
+      "rendererFamily": "form_field",
+      "allowedTags": [
+        "input"
+      ],
+      "props": [],
+      "targets": [
+        "root",
+        "control",
+        "placeholder",
+        "label",
+        "help",
+        "error"
+      ],
+      "targetSelectors": {
+        "root": "&",
+        "control": "[data-ctb-part=\"control\"]",
+        "placeholder": "[data-ctb-part=\"placeholder\"]",
+        "label": "[data-ctb-part=\"label\"]",
+        "help": "[data-ctb-part=\"help\"]",
+        "error": "[data-ctb-part=\"error\"]"
+      },
+      "styleGroups": [
+        "typography",
+        "text",
+        "sizing",
+        "spacing",
+        "background",
+        "border",
+        "shadow",
+        "childPlacement"
+      ],
+      "advancedGroups": [
+        "placement",
+        "motion",
+        "visibility",
+        "conditions",
+        "attributes",
+        "permissions",
+        "developer"
+      ],
+      "states": [
+        "focus",
+        "focusVisible",
+        "disabled",
+        "invalid",
+        "readOnly"
+      ]
+    },
+    "forms/textarea": {
+      "version": 1,
+      "rendererFamily": "form_field",
+      "allowedTags": [
+        "textarea"
+      ],
+      "props": [
+        "resize"
+      ],
+      "targets": [
+        "root",
+        "control",
+        "placeholder",
+        "label",
+        "help",
+        "error"
+      ],
+      "targetSelectors": {
+        "root": "&",
+        "control": "[data-ctb-part=\"control\"]",
+        "placeholder": "[data-ctb-part=\"placeholder\"]",
+        "label": "[data-ctb-part=\"label\"]",
+        "help": "[data-ctb-part=\"help\"]",
+        "error": "[data-ctb-part=\"error\"]"
+      },
+      "styleGroups": [
+        "typography",
+        "text",
+        "sizing",
+        "spacing",
+        "background",
+        "border",
+        "shadow",
+        "childPlacement"
+      ],
+      "advancedGroups": [
+        "placement",
+        "motion",
+        "visibility",
+        "conditions",
+        "attributes",
+        "permissions",
+        "developer"
+      ],
+      "states": [
+        "focus",
+        "focusVisible",
+        "disabled",
+        "invalid",
+        "readOnly"
+      ]
+    },
+    "forms/select": {
+      "version": 1,
+      "rendererFamily": "form_field",
+      "allowedTags": [
+        "select"
+      ],
+      "props": [
+        "options",
+        "placeholder"
+      ],
+      "targets": [
+        "root",
+        "control",
+        "indicator",
+        "label",
+        "help",
+        "error"
+      ],
+      "targetSelectors": {
+        "root": "&",
+        "control": "[data-ctb-part=\"control\"]",
+        "indicator": "[data-ctb-part=\"indicator\"]",
+        "label": "[data-ctb-part=\"label\"]",
+        "help": "[data-ctb-part=\"help\"]",
+        "error": "[data-ctb-part=\"error\"]"
+      },
+      "styleGroups": [
+        "typography",
+        "text",
+        "sizing",
+        "spacing",
+        "background",
+        "border",
+        "shadow",
+        "childPlacement"
+      ],
+      "advancedGroups": [
+        "placement",
+        "motion",
+        "visibility",
+        "conditions",
+        "attributes",
+        "permissions",
+        "developer"
+      ],
+      "states": [
+        "focusVisible",
+        "disabled",
+        "invalid",
+        "expanded"
+      ]
+    },
+    "forms/checkbox": {
+      "version": 1,
+      "rendererFamily": "form_field",
+      "allowedTags": [
+        "input"
+      ],
+      "props": [
+        "label",
+        "consent"
+      ],
+      "targets": [
+        "root",
+        "control",
+        "checkmark",
+        "label",
+        "help",
+        "error"
+      ],
+      "targetSelectors": {
+        "root": "&",
+        "control": "[data-ctb-part=\"control\"]",
+        "checkmark": "[data-ctb-part=\"checkmark\"]",
+        "label": "[data-ctb-part=\"label\"]",
+        "help": "[data-ctb-part=\"help\"]",
+        "error": "[data-ctb-part=\"error\"]"
+      },
+      "styleGroups": [
+        "typography",
+        "text",
+        "sizing",
+        "spacing",
+        "background",
+        "border",
+        "shadow",
+        "childPlacement"
+      ],
+      "advancedGroups": [
+        "placement",
+        "motion",
+        "visibility",
+        "conditions",
+        "attributes",
+        "permissions",
+        "developer"
+      ],
+      "states": [
+        "focusVisible",
+        "checked",
+        "disabled",
+        "invalid"
+      ]
+    },
+    "forms/radio": {
+      "version": 1,
+      "rendererFamily": "form_field",
+      "allowedTags": [
+        "div",
+        "fieldset"
+      ],
+      "props": [
+        "name",
+        "legend",
+        "options",
+        "selected",
+        "required"
+      ],
+      "targets": [
+        "root",
+        "option",
+        "control",
+        "dot",
+        "label",
+        "error"
+      ],
+      "targetSelectors": {
+        "root": "&",
+        "option": "[data-ctb-part=\"option\"]",
+        "control": "[data-ctb-part=\"control\"]",
+        "dot": "[data-ctb-part=\"dot\"]",
+        "label": "[data-ctb-part=\"label\"]",
+        "error": "[data-ctb-part=\"error\"]"
+      },
+      "styleGroups": [
+        "typography",
+        "text",
+        "sizing",
+        "spacing",
+        "background",
+        "border",
+        "shadow",
+        "childPlacement"
+      ],
+      "advancedGroups": [
+        "placement",
+        "motion",
+        "visibility",
+        "conditions",
+        "attributes",
+        "permissions",
+        "developer"
+      ],
+      "states": [
+        "focusVisible",
+        "checked",
+        "disabled",
+        "invalid"
+      ]
+    },
+    "forms/file-upload": {
+      "version": 1,
+      "rendererFamily": "form_field",
+      "allowedTags": [
+        "input"
+      ],
+      "props": [
+        "maxSize",
+        "label",
+        "help"
+      ],
+      "targets": [
+        "root",
+        "dropzone",
+        "button",
+        "filename",
+        "help",
+        "error"
+      ],
+      "targetSelectors": {
+        "root": "&",
+        "dropzone": "[data-ctb-part=\"dropzone\"]",
+        "button": "[data-ctb-part=\"button\"]",
+        "filename": "[data-ctb-part=\"filename\"]",
+        "help": "[data-ctb-part=\"help\"]",
+        "error": "[data-ctb-part=\"error\"]"
+      },
+      "styleGroups": [
+        "typography",
+        "text",
+        "sizing",
+        "spacing",
+        "background",
+        "border",
+        "shadow",
+        "childPlacement"
+      ],
+      "advancedGroups": [
+        "placement",
+        "motion",
+        "visibility",
+        "conditions",
+        "attributes",
+        "permissions",
+        "developer",
+        "performance"
+      ],
+      "states": [
+        "hover",
+        "focusVisible",
+        "disabled",
+        "invalid"
+      ]
+    },
+    "forms/submit-button": {
+      "version": 1,
+      "rendererFamily": "button",
+      "allowedTags": [
+        "button",
+        "input"
+      ],
+      "props": [
+        "loadingLabel",
+        "successLabel",
+        "icon"
+      ],
+      "targets": [
+        "root",
+        "label",
+        "icon",
+        "spinner"
+      ],
+      "targetSelectors": {
+        "root": "&",
+        "label": "[data-ctb-part=\"label\"]",
+        "icon": "[data-ctb-part=\"icon\"]",
+        "spinner": "[data-ctb-part=\"spinner\"]"
+      },
+      "styleGroups": [
+        "typography",
+        "text",
+        "sizing",
+        "spacing",
+        "background",
+        "border",
+        "shadow",
+        "icon",
+        "filters",
+        "childPlacement"
+      ],
+      "advancedGroups": [
+        "placement",
+        "motion",
+        "visibility",
+        "conditions",
+        "attributes",
+        "permissions",
+        "developer"
+      ],
+      "states": [
+        "hover",
+        "focusVisible",
+        "active",
+        "disabled",
+        "loading"
+      ]
+    },
+    "interactive/accordion": {
+      "version": 1,
+      "rendererFamily": "container",
+      "allowedTags": [
+        "div"
+      ],
+      "props": [
+        "items",
+        "multiple",
+        "defaultOpen",
+        "headingLevel"
+      ],
+      "targets": [
+        "root",
+        "item",
+        "header",
+        "title",
+        "icon",
+        "content"
+      ],
+      "targetSelectors": {
+        "root": "&",
+        "item": "[data-ctb-part=\"item\"]",
+        "header": "[data-ctb-part=\"header\"]",
+        "title": "[data-ctb-part=\"title\"]",
+        "icon": "[data-ctb-part=\"icon\"]",
+        "content": "[data-ctb-part=\"content\"]"
+      },
+      "styleGroups": [
+        "flex",
+        "grid",
+        "sizing",
+        "spacing",
+        "background",
+        "border",
+        "shadow",
+        "filters",
+        "childPlacement"
+      ],
+      "advancedGroups": [
+        "placement",
+        "motion",
+        "visibility",
+        "conditions",
+        "attributes",
+        "permissions",
+        "developer"
+      ],
+      "states": [
+        "hover",
+        "focusVisible",
+        "expanded",
+        "disabled"
+      ]
+    },
+    "interactive/toggle": {
+      "version": 1,
+      "rendererFamily": "container",
+      "allowedTags": [
+        "details"
+      ],
+      "props": [
+        "title",
+        "content",
+        "headingLevel"
+      ],
+      "targets": [
+        "root",
+        "header",
+        "title",
+        "icon",
+        "content"
+      ],
+      "targetSelectors": {
+        "root": "&",
+        "header": "[data-ctb-part=\"header\"]",
+        "title": "[data-ctb-part=\"title\"]",
+        "icon": "[data-ctb-part=\"icon\"]",
+        "content": "[data-ctb-part=\"content\"]"
+      },
+      "styleGroups": [
+        "flex",
+        "grid",
+        "sizing",
+        "spacing",
+        "background",
+        "border",
+        "shadow",
+        "filters",
+        "childPlacement"
+      ],
+      "advancedGroups": [
+        "placement",
+        "motion",
+        "visibility",
+        "conditions",
+        "attributes",
+        "permissions",
+        "developer"
+      ],
+      "states": [
+        "hover",
+        "focusVisible",
+        "expanded",
+        "disabled"
+      ]
+    },
+    "interactive/tabs": {
+      "version": 1,
+      "rendererFamily": "container",
+      "allowedTags": [
+        "div"
+      ],
+      "props": [
+        "tabs",
+        "activeTab",
+        "orientation",
+        "activation"
+      ],
+      "targets": [
+        "root",
+        "tablist",
+        "tab",
+        "activeTab",
+        "panel",
+        "icon"
+      ],
+      "targetSelectors": {
+        "root": "&",
+        "tablist": "[data-ctb-part=\"tablist\"]",
+        "tab": "[data-ctb-part=\"tab\"]",
+        "activeTab": "[data-ctb-part=\"activeTab\"]",
+        "panel": "[data-ctb-part=\"panel\"]",
+        "icon": "[data-ctb-part=\"icon\"]"
+      },
+      "styleGroups": [
+        "flex",
+        "grid",
+        "sizing",
+        "spacing",
+        "background",
+        "border",
+        "shadow",
+        "filters",
+        "childPlacement"
+      ],
+      "advancedGroups": [
+        "placement",
+        "motion",
+        "visibility",
+        "conditions",
+        "attributes",
+        "permissions",
+        "developer"
+      ],
+      "states": [
+        "hover",
+        "focusVisible",
+        "selected",
+        "disabled"
+      ]
+    },
+    "content/testimonial": {
+      "version": 1,
+      "rendererFamily": "container",
+      "allowedTags": [
+        "figure",
+        "blockquote"
+      ],
+      "props": [
+        "quote",
+        "author",
+        "role",
+        "avatar",
+        "rating",
+        "sourceUrl"
+      ],
+      "targets": [
+        "root",
+        "quote",
+        "author",
+        "role",
+        "avatar",
+        "rating"
+      ],
+      "targetSelectors": {
+        "root": "&",
+        "quote": "[data-ctb-part=\"quote\"]",
+        "author": "[data-ctb-part=\"author\"]",
+        "role": "[data-ctb-part=\"role\"]",
+        "avatar": "[data-ctb-part=\"avatar\"]",
+        "rating": "[data-ctb-part=\"rating\"]"
+      },
+      "styleGroups": [
+        "flex",
+        "grid",
+        "sizing",
+        "spacing",
+        "background",
+        "border",
+        "shadow",
+        "filters",
+        "childPlacement"
+      ],
+      "advancedGroups": [
+        "placement",
+        "motion",
+        "visibility",
+        "conditions",
+        "attributes",
+        "permissions",
+        "developer"
+      ],
+      "states": [
+        "hover",
+        "focusVisible",
+        "visited"
+      ]
+    },
+    "content/counter": {
+      "version": 1,
+      "rendererFamily": "text",
+      "allowedTags": [
+        "div",
+        "span"
+      ],
+      "props": [
+        "value",
+        "start",
+        "prefix",
+        "suffix",
+        "duration",
+        "decimals",
+        "label"
+      ],
+      "targets": [
+        "root",
+        "number",
+        "prefix",
+        "suffix",
+        "label"
+      ],
+      "targetSelectors": {
+        "root": "&",
+        "number": "[data-ctb-part=\"number\"]",
+        "prefix": "[data-ctb-part=\"prefix\"]",
+        "suffix": "[data-ctb-part=\"suffix\"]",
+        "label": "[data-ctb-part=\"label\"]"
+      },
+      "styleGroups": [
+        "typography",
+        "text",
+        "sizing",
+        "spacing",
+        "background",
+        "border",
+        "shadow",
+        "childPlacement"
+      ],
+      "advancedGroups": [
+        "placement",
+        "motion",
+        "visibility",
+        "conditions",
+        "attributes",
+        "permissions",
+        "developer"
+      ],
+      "states": []
+    },
+    "content/progress": {
+      "version": 1,
+      "rendererFamily": "container",
+      "allowedTags": [
+        "progress",
+        "div"
+      ],
+      "props": [
+        "label",
+        "showValue",
+        "indeterminate"
+      ],
+      "targets": [
+        "root",
+        "track",
+        "fill",
+        "label",
+        "value"
+      ],
+      "targetSelectors": {
+        "root": "&",
+        "track": "[data-ctb-part=\"track\"]",
+        "fill": "[data-ctb-part=\"fill\"]",
+        "label": "[data-ctb-part=\"label\"]",
+        "value": "[data-ctb-part=\"value\"]"
+      },
+      "styleGroups": [
+        "sizing",
+        "spacing",
+        "background",
+        "border",
+        "typography",
+        "text",
+        "childPlacement"
+      ],
+      "advancedGroups": [
+        "placement",
+        "motion",
+        "visibility",
+        "conditions",
+        "attributes",
+        "permissions",
+        "developer"
+      ],
+      "states": []
+    },
+    "content/gallery": {
+      "version": 1,
+      "rendererFamily": "container",
+      "allowedTags": [
+        "div",
+        "figure"
+      ],
+      "props": [
+        "items",
+        "captions",
+        "linkMode",
+        "columns"
+      ],
+      "targets": [
+        "root",
+        "grid",
+        "item",
+        "media",
+        "caption",
+        "overlay"
+      ],
+      "targetSelectors": {
+        "root": "&",
+        "grid": "[data-ctb-part=\"grid\"]",
+        "item": "[data-ctb-part=\"item\"]",
+        "media": "[data-ctb-part=\"media\"]",
+        "caption": "[data-ctb-part=\"caption\"]",
+        "overlay": "[data-ctb-part=\"overlay\"]"
+      },
+      "styleGroups": [
+        "flex",
+        "grid",
+        "sizing",
+        "spacing",
+        "background",
+        "border",
+        "shadow",
+        "filters",
+        "childPlacement"
+      ],
+      "advancedGroups": [
+        "placement",
+        "motion",
+        "visibility",
+        "conditions",
+        "attributes",
+        "permissions",
+        "developer",
+        "performance"
+      ],
+      "states": [
+        "hover",
+        "focusVisible",
+        "active"
+      ]
+    },
+    "content/slider": {
+      "version": 1,
+      "rendererFamily": "container",
+      "allowedTags": [
+        "div",
+        "section"
+      ],
+      "props": [
+        "slides",
+        "autoplay",
+        "interval",
+        "loop",
+        "pauseOnHover",
+        "arrows",
+        "dots"
+      ],
+      "targets": [
+        "root",
+        "track",
+        "slide",
+        "media",
+        "caption",
+        "arrows",
+        "dots"
+      ],
+      "targetSelectors": {
+        "root": "&",
+        "track": "[data-ctb-part=\"track\"]",
+        "slide": "[data-ctb-part=\"slide\"]",
+        "media": "[data-ctb-part=\"media\"]",
+        "caption": "[data-ctb-part=\"caption\"]",
+        "arrows": "[data-ctb-part=\"arrows\"]",
+        "dots": "[data-ctb-part=\"dots\"]"
+      },
+      "styleGroups": [
+        "flex",
+        "grid",
+        "sizing",
+        "spacing",
+        "background",
+        "border",
+        "shadow",
+        "filters",
+        "childPlacement"
+      ],
+      "advancedGroups": [
+        "placement",
+        "motion",
+        "visibility",
+        "conditions",
+        "attributes",
+        "permissions",
+        "developer",
+        "performance"
+      ],
+      "states": [
+        "hover",
+        "focusVisible",
+        "disabled",
+        "selected"
+      ]
+    },
+    "content/carousel": {
+      "version": 1,
+      "rendererFamily": "container",
+      "allowedTags": [
+        "div",
+        "section"
+      ],
+      "props": [
+        "items",
+        "visibleCount",
+        "scrollCount",
+        "autoplay",
+        "loop",
+        "snap"
+      ],
+      "targets": [
+        "root",
+        "track",
+        "item",
+        "arrows",
+        "dots"
+      ],
+      "targetSelectors": {
+        "root": "&",
+        "track": "[data-ctb-part=\"track\"]",
+        "item": "[data-ctb-part=\"item\"]",
+        "arrows": "[data-ctb-part=\"arrows\"]",
+        "dots": "[data-ctb-part=\"dots\"]"
+      },
+      "styleGroups": [
+        "flex",
+        "grid",
+        "sizing",
+        "spacing",
+        "background",
+        "border",
+        "shadow",
+        "filters",
+        "childPlacement"
+      ],
+      "advancedGroups": [
+        "placement",
+        "motion",
+        "visibility",
+        "conditions",
+        "attributes",
+        "permissions",
+        "developer",
+        "performance"
+      ],
+      "states": [
+        "hover",
+        "focusVisible",
+        "disabled",
+        "selected"
+      ]
+    },
+    "content/social-icons": {
+      "version": 1,
+      "rendererFamily": "container",
+      "allowedTags": [
+        "nav",
+        "div"
+      ],
+      "props": [
+        "networks",
+        "showLabels",
+        "newTab"
+      ],
+      "targets": [
+        "root",
+        "item",
+        "icon",
+        "label"
+      ],
+      "targetSelectors": {
+        "root": "&",
+        "item": "[data-ctb-part=\"item\"]",
+        "icon": "[data-ctb-part=\"icon\"]",
+        "label": "[data-ctb-part=\"label\"]"
+      },
+      "styleGroups": [
+        "flex",
+        "grid",
+        "sizing",
+        "spacing",
+        "background",
+        "border",
+        "shadow",
+        "filters",
+        "childPlacement"
+      ],
+      "advancedGroups": [
+        "placement",
+        "motion",
+        "visibility",
+        "conditions",
+        "attributes",
+        "permissions",
+        "developer"
+      ],
+      "states": [
+        "hover",
+        "focusVisible",
+        "active",
+        "visited"
+      ]
+    },
+    "content/breadcrumbs": {
+      "version": 1,
+      "rendererFamily": "container",
+      "allowedTags": [
+        "nav"
+      ],
+      "props": [
+        "source",
+        "homeLabel",
+        "separator",
+        "showCurrent"
+      ],
+      "targets": [
+        "root",
+        "item",
+        "link",
+        "separator",
+        "current"
+      ],
+      "targetSelectors": {
+        "root": "&",
+        "item": "[data-ctb-part=\"item\"]",
+        "link": "[data-ctb-part=\"link\"]",
+        "separator": "[data-ctb-part=\"separator\"]",
+        "current": "[data-ctb-part=\"current\"]"
+      },
+      "styleGroups": [
+        "flex",
+        "grid",
+        "sizing",
+        "spacing",
+        "background",
+        "border",
+        "shadow",
+        "filters",
+        "childPlacement"
+      ],
+      "advancedGroups": [
+        "placement",
+        "motion",
+        "visibility",
+        "conditions",
+        "attributes",
+        "permissions",
+        "developer"
+      ],
+      "states": [
+        "hover",
+        "focusVisible",
+        "visited",
+        "current"
+      ]
+    },
+    "content/search": {
+      "version": 1,
+      "rendererFamily": "form",
+      "allowedTags": [
+        "form"
+      ],
+      "props": [
+        "source",
+        "placeholder",
+        "buttonLabel",
+        "resultsMode",
+        "emptyText"
+      ],
+      "targets": [
+        "root",
+        "input",
+        "button",
+        "icon",
+        "results",
+        "result",
+        "empty",
+        "loading"
+      ],
+      "targetSelectors": {
+        "root": "&",
+        "input": "[data-ctb-part=\"input\"]",
+        "button": "[data-ctb-part=\"button\"]",
+        "icon": "[data-ctb-part=\"icon\"]",
+        "results": "[data-ctb-part=\"results\"]",
+        "result": "[data-ctb-part=\"result\"]",
+        "empty": "[data-ctb-part=\"empty\"]",
+        "loading": "[data-ctb-part=\"loading\"]"
+      },
+      "styleGroups": [
+        "flex",
+        "grid",
+        "sizing",
+        "spacing",
+        "background",
+        "border",
+        "shadow",
+        "typography",
+        "text",
+        "childPlacement"
+      ],
+      "advancedGroups": [
+        "placement",
+        "motion",
+        "visibility",
+        "conditions",
+        "attributes",
+        "permissions",
+        "developer"
+      ],
+      "states": [
+        "focusVisible",
+        "hover",
+        "active",
+        "disabled",
+        "expanded"
+      ]
+    },
+    "content/quote": {
+      "version": 1,
+      "rendererFamily": "text",
+      "allowedTags": [
+        "q"
+      ],
+      "props": [
+        "citation",
+        "sourceUrl"
+      ],
+      "targets": [
+        "root",
+        "quote",
+        "citation",
+        "mark"
+      ],
+      "targetSelectors": {
+        "root": "&",
+        "quote": "[data-ctb-part=\"quote\"]",
+        "citation": "[data-ctb-part=\"citation\"]",
+        "mark": "[data-ctb-part=\"mark\"]"
+      },
+      "styleGroups": [
+        "typography",
+        "text",
+        "sizing",
+        "spacing",
+        "background",
+        "border",
+        "shadow",
+        "childPlacement"
+      ],
+      "advancedGroups": [
+        "placement",
+        "motion",
+        "visibility",
+        "conditions",
+        "attributes",
+        "permissions",
+        "developer"
+      ],
+      "states": [
+        "hover",
+        "focusVisible",
+        "visited"
+      ]
+    },
+    "content/blockquote": {
+      "version": 1,
+      "rendererFamily": "text",
+      "allowedTags": [
+        "blockquote"
+      ],
+      "props": [
+        "attribution"
+      ],
+      "targets": [
+        "root",
+        "quote",
+        "citation"
+      ],
+      "targetSelectors": {
+        "root": "&",
+        "quote": "[data-ctb-part=\"quote\"]",
+        "citation": "[data-ctb-part=\"citation\"]"
+      },
+      "styleGroups": [
+        "typography",
+        "text",
+        "sizing",
+        "spacing",
+        "background",
+        "border",
+        "shadow",
+        "childPlacement"
+      ],
+      "advancedGroups": [
+        "placement",
+        "motion",
+        "visibility",
+        "conditions",
+        "attributes",
+        "permissions",
+        "developer"
+      ],
+      "states": [
+        "hover",
+        "focusVisible",
+        "visited"
+      ]
+    },
+    "composite/pricing-table": {
+      "version": 1,
+      "rendererFamily": "container",
+      "allowedTags": [
+        "article",
+        "div"
+      ],
+      "props": [
+        "plan",
+        "price",
+        "period",
+        "features",
+        "ctaLabel",
+        "ctaUrl",
+        "badge",
+        "featured"
+      ],
+      "targets": [
+        "root",
+        "header",
+        "price",
+        "period",
+        "features",
+        "feature",
+        "cta",
+        "badge"
+      ],
+      "targetSelectors": {
+        "root": "&",
+        "header": "[data-ctb-part=\"header\"]",
+        "price": "[data-ctb-part=\"price\"]",
+        "period": "[data-ctb-part=\"period\"]",
+        "features": "[data-ctb-part=\"features\"]",
+        "feature": "[data-ctb-part=\"feature\"]",
+        "cta": "[data-ctb-part=\"cta\"]",
+        "badge": "[data-ctb-part=\"badge\"]"
+      },
+      "styleGroups": [
+        "flex",
+        "grid",
+        "sizing",
+        "spacing",
+        "background",
+        "border",
+        "shadow",
+        "filters",
+        "childPlacement"
+      ],
+      "advancedGroups": [
+        "placement",
+        "motion",
+        "visibility",
+        "conditions",
+        "attributes",
+        "permissions",
+        "developer"
+      ],
+      "states": [
+        "hover",
+        "focusVisible",
+        "active",
+        "disabled"
+      ]
+    },
+    "composite/icon-box": {
+      "version": 1,
+      "rendererFamily": "container",
+      "allowedTags": [
+        "article",
+        "div",
+        "a"
+      ],
+      "props": [
+        "icon",
+        "title",
+        "description",
+        "url",
+        "headingLevel"
+      ],
+      "targets": [
+        "root",
+        "icon",
+        "title",
+        "description"
+      ],
+      "targetSelectors": {
+        "root": "&",
+        "icon": "[data-ctb-part=\"icon\"]",
+        "title": "[data-ctb-part=\"title\"]",
+        "description": "[data-ctb-part=\"description\"]"
+      },
+      "styleGroups": [
+        "flex",
+        "grid",
+        "sizing",
+        "spacing",
+        "background",
+        "border",
+        "shadow",
+        "filters",
+        "childPlacement"
+      ],
+      "advancedGroups": [
+        "placement",
+        "motion",
+        "visibility",
+        "conditions",
+        "attributes",
+        "permissions",
+        "developer"
+      ],
+      "states": [
+        "hover",
+        "focusVisible",
+        "visited"
+      ]
+    },
+    "composite/countdown": {
+      "version": 1,
+      "rendererFamily": "container",
+      "allowedTags": [
+        "div",
+        "time"
+      ],
+      "props": [
+        "end",
+        "timezone",
+        "mode",
+        "segments",
+        "expiryAction",
+        "expiryMessage"
+      ],
+      "targets": [
+        "root",
+        "segment",
+        "value",
+        "label",
+        "separator",
+        "expired"
+      ],
+      "targetSelectors": {
+        "root": "&",
+        "segment": "[data-ctb-part=\"segment\"]",
+        "value": "[data-ctb-part=\"value\"]",
+        "label": "[data-ctb-part=\"label\"]",
+        "separator": "[data-ctb-part=\"separator\"]",
+        "expired": "[data-ctb-part=\"expired\"]"
+      },
+      "styleGroups": [
+        "flex",
+        "grid",
+        "sizing",
+        "spacing",
+        "background",
+        "border",
+        "shadow",
+        "filters",
+        "childPlacement"
+      ],
+      "advancedGroups": [
+        "placement",
+        "motion",
+        "visibility",
+        "conditions",
+        "attributes",
+        "permissions",
+        "developer"
+      ],
+      "states": [
+        "expired"
+      ]
+    },
+    "composite/team-member": {
+      "version": 1,
+      "rendererFamily": "container",
+      "allowedTags": [
+        "article",
+        "div"
+      ],
+      "props": [
+        "photo",
+        "name",
+        "role",
+        "bio",
+        "social"
+      ],
+      "targets": [
+        "root",
+        "photo",
+        "name",
+        "role",
+        "bio",
+        "social",
+        "icon"
+      ],
+      "targetSelectors": {
+        "root": "&",
+        "photo": "[data-ctb-part=\"photo\"]",
+        "name": "[data-ctb-part=\"name\"]",
+        "role": "[data-ctb-part=\"role\"]",
+        "bio": "[data-ctb-part=\"bio\"]",
+        "social": "[data-ctb-part=\"social\"]",
+        "icon": "[data-ctb-part=\"icon\"]"
+      },
+      "styleGroups": [
+        "flex",
+        "grid",
+        "sizing",
+        "spacing",
+        "background",
+        "border",
+        "shadow",
+        "filters",
+        "childPlacement"
+      ],
+      "advancedGroups": [
+        "placement",
+        "motion",
+        "visibility",
+        "conditions",
+        "attributes",
+        "permissions",
+        "developer"
+      ],
+      "states": [
+        "hover",
+        "focusVisible",
+        "visited"
+      ]
+    },
+    "woocommerce/product": {
+      "version": 1,
+      "rendererFamily": "woocommerce_product",
+      "allowedTags": [
+        "article",
+        "div"
+      ],
+      "props": [
+        "source",
+        "showQuantity",
+        "parts"
+      ],
+      "targets": [
+        "root",
+        "image",
+        "title",
+        "price",
+        "stock",
+        "description",
+        "variations",
+        "button"
+      ],
+      "targetSelectors": {
+        "root": "&",
+        "image": "[data-ctb-part=\"image\"]",
+        "title": "[data-ctb-part=\"title\"]",
+        "price": "[data-ctb-part=\"price\"]",
+        "stock": "[data-ctb-part=\"stock\"]",
+        "description": "[data-ctb-part=\"description\"]",
+        "variations": "[data-ctb-part=\"variations\"]",
+        "button": "[data-ctb-part=\"button\"]"
+      },
+      "styleGroups": [
+        "flex",
+        "grid",
+        "sizing",
+        "spacing",
+        "background",
+        "border",
+        "shadow",
+        "filters",
+        "childPlacement"
+      ],
+      "advancedGroups": [
+        "placement",
+        "motion",
+        "visibility",
+        "conditions",
+        "attributes",
+        "permissions",
+        "developer"
+      ],
+      "states": [
+        "hover",
+        "focusVisible",
+        "active",
+        "disabled",
+        "invalid"
+      ]
+    },
+    "woocommerce/product-grid": {
+      "version": 1,
+      "rendererFamily": "woocommerce_product_grid",
+      "allowedTags": [
+        "section",
+        "div"
+      ],
+      "props": [
+        "category",
+        "orderBy",
+        "order",
+        "columns",
+        "pagination"
+      ],
+      "targets": [
+        "root",
+        "grid",
+        "item",
+        "image",
+        "title",
+        "price",
+        "button"
+      ],
+      "targetSelectors": {
+        "root": "&",
+        "grid": "[data-ctb-part=\"grid\"]",
+        "item": "[data-ctb-part=\"item\"]",
+        "image": "[data-ctb-part=\"image\"]",
+        "title": "[data-ctb-part=\"title\"]",
+        "price": "[data-ctb-part=\"price\"]",
+        "button": "[data-ctb-part=\"button\"]"
+      },
+      "styleGroups": [
+        "flex",
+        "grid",
+        "sizing",
+        "spacing",
+        "background",
+        "border",
+        "shadow",
+        "filters",
+        "childPlacement"
+      ],
+      "advancedGroups": [
+        "placement",
+        "motion",
+        "visibility",
+        "conditions",
+        "attributes",
+        "permissions",
+        "developer"
+      ],
+      "states": [
+        "hover",
+        "focusVisible",
+        "active",
+        "disabled"
+      ]
+    },
+    "woocommerce/cart": {
+      "version": 1,
+      "rendererFamily": "woocommerce_cart",
+      "allowedTags": [
+        "section",
+        "div"
+      ],
+      "props": [
+        "showCoupon",
+        "showShipping",
+        "showCrossSells",
+        "emptyMessage",
+        "returnLabel"
+      ],
+      "targets": [
+        "root",
+        "item",
+        "image",
+        "name",
+        "quantity",
+        "price",
+        "remove",
+        "totals",
+        "coupon",
+        "actions",
+        "empty"
+      ],
+      "targetSelectors": {
+        "root": "&",
+        "item": "[data-ctb-part=\"item\"]",
+        "image": "[data-ctb-part=\"image\"]",
+        "name": "[data-ctb-part=\"name\"]",
+        "quantity": "[data-ctb-part=\"quantity\"]",
+        "price": "[data-ctb-part=\"price\"]",
+        "remove": "[data-ctb-part=\"remove\"]",
+        "totals": "[data-ctb-part=\"totals\"]",
+        "coupon": "[data-ctb-part=\"coupon\"]",
+        "actions": "[data-ctb-part=\"actions\"]",
+        "empty": "[data-ctb-part=\"empty\"]"
+      },
+      "styleGroups": [
+        "flex",
+        "grid",
+        "sizing",
+        "spacing",
+        "background",
+        "border",
+        "shadow",
+        "filters",
+        "childPlacement"
+      ],
+      "advancedGroups": [
+        "placement",
+        "motion",
+        "visibility",
+        "conditions",
+        "attributes",
+        "permissions",
+        "developer"
+      ],
+      "states": [
+        "hover",
+        "focusVisible",
+        "active",
+        "disabled",
+        "invalid"
+      ]
+    },
+    "woocommerce/checkout": {
+      "version": 1,
+      "rendererFamily": "woocommerce_checkout",
+      "allowedTags": [
+        "section",
+        "div"
+      ],
+      "props": [
+        "showLogin",
+        "showCoupon",
+        "showOrderNotes",
+        "submitLabel",
+        "sectionOrder"
+      ],
+      "targets": [
+        "root",
+        "form",
+        "section",
+        "heading",
+        "label",
+        "field",
+        "error",
+        "summary",
+        "payment",
+        "submit"
+      ],
+      "targetSelectors": {
+        "root": "&",
+        "form": "[data-ctb-part=\"form\"]",
+        "section": "[data-ctb-part=\"section\"]",
+        "heading": "[data-ctb-part=\"heading\"]",
+        "label": "[data-ctb-part=\"label\"]",
+        "field": "[data-ctb-part=\"field\"]",
+        "error": "[data-ctb-part=\"error\"]",
+        "summary": "[data-ctb-part=\"summary\"]",
+        "payment": "[data-ctb-part=\"payment\"]",
+        "submit": "[data-ctb-part=\"submit\"]"
+      },
+      "styleGroups": [
+        "flex",
+        "grid",
+        "sizing",
+        "spacing",
+        "background",
+        "border",
+        "shadow",
+        "typography",
+        "text",
+        "childPlacement"
+      ],
+      "advancedGroups": [
+        "placement",
+        "motion",
+        "visibility",
+        "conditions",
+        "attributes",
+        "permissions",
+        "developer"
+      ],
+      "states": [
+        "hover",
+        "focusVisible",
+        "active",
+        "disabled",
+        "invalid"
+      ]
+    },
+    "data/loop": {
+      "version": 1,
+      "rendererFamily": "container",
+      "allowedTags": [
+        "div",
+        "section",
+        "ul",
+        "ol"
+      ],
+      "props": [
+        "source",
+        "filters",
+        "orderBy",
+        "order",
+        "limit",
+        "pagination",
+        "emptyContent",
+        "errorContent",
+        "loadingContent"
+      ],
+      "targets": [
+        "root",
+        "list",
+        "item",
+        "empty",
+        "error",
+        "loading"
+      ],
+      "targetSelectors": {
+        "root": "&",
+        "list": "[data-ctb-part=\"list\"]",
+        "item": "[data-ctb-part=\"item\"]",
+        "empty": "[data-ctb-part=\"empty\"]",
+        "error": "[data-ctb-part=\"error\"]",
+        "loading": "[data-ctb-part=\"loading\"]"
+      },
+      "styleGroups": [
+        "flex",
+        "grid",
+        "sizing",
+        "spacing",
+        "background",
+        "border",
+        "shadow",
+        "filters",
+        "childPlacement"
+      ],
+      "advancedGroups": [
+        "placement",
+        "visibility",
+        "conditions",
+        "performance",
+        "attributes",
+        "permissions",
+        "developer"
+      ],
+      "states": []
+    },
+    "legacy/html-node": {
+      "version": 1,
+      "rendererFamily": "container",
+      "allowedTags": [
+        "*"
+      ],
+      "props": [],
+      "targets": [
+        "root"
+      ],
+      "targetSelectors": {
+        "root": "&"
+      },
+      "styleGroups": [
+        "sizing",
+        "spacing",
+        "background",
+        "border"
+      ],
+      "advancedGroups": [
+        "visibility",
+        "attributes",
+        "developer"
+      ],
+      "states": []
+    }
+  }
+}

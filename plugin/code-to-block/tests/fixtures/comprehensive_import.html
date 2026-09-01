@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Comprehensive Import Test Fixtures</title>
+<style>
+	/* 1. Base styles */
+	.card {
+		background-color: #ffffff;
+		border-radius: 8px;
+		padding: 24px;
+		box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+		margin-bottom: 32px;
+	}
+
+	.title {
+		font-size: 24px;
+		font-weight: 700;
+		color: #333333;
+		margin-bottom: 16px;
+	}
+
+	.btn {
+		display: inline-block;
+		padding: 12px 24px;
+		background-color: #007bff;
+		color: #ffffff;
+		border-radius: 4px;
+		text-decoration: none;
+		transition: background-color 0.2s;
+	}
+
+	/* 2. Pseudo-states (Hover, Focus) */
+	.btn:hover {
+		background-color: #0056b3;
+	}
+	
+	.btn:focus {
+		outline: 2px solid #0056b3;
+		outline-offset: 2px;
+	}
+
+	/* 3. Responsive Overrides (Tablet, Mobile) */
+	@media (max-width: 1024px) {
+		.card {
+			padding: 20px;
+		}
+	}
+
+	@media (max-width: 767px) {
+		.card {
+			padding: 16px;
+			border-radius: 4px;
+		}
+		
+		.title {
+			font-size: 20px;
+		}
+		
+		.btn {
+			display: block;
+			text-align: center;
+			width: 100%;
+		}
+		
+		/* Overlap of breakpoint and pseudo-state */
+		.btn:hover {
+			background-color: #004085;
+		}
+	}
+
+	/* 4. Invalid/Malformed selectors (Should be warned/skipped) */
+	.card >> .title {
+		color: red;
+	}
+	
+	:unknown-pseudo {
+		display: none;
+	}
+
+	/* 5. Custom breakpoints (Should remain as deferred custom CSS) */
+	@media (max-width: 500px) {
+		.card {
+			box-shadow: none;
+			border: 1px solid #e0e0e0;
+		}
+	}
+</style>
+</head>
+<body>
+
+	<!-- 6. Inline styles intersecting with stylesheet classes -->
+	<div class="card" style="background-color: #f8f9fa; border: 2px solid #007bff;">
+		<h2 class="title">Standard Card</h2>
+		<p style="color: #666; margin-bottom: 24px;">This card tests the intersection of inline styles and stylesheet classes. The background should be f8f9fa.</p>
+		<a href="#" class="btn" role="button">Click Me</a>
+	</div>
+
+	<!-- 7. Nested Custom HTML Elements (Unsupported, scoped fallbacks) -->
+	<div class="card">
+		<h2 class="title">Custom Elements</h2>
+		<p>The following elements should be wrapped in scoped fallback blocks:</p>
+		<my-custom-slider autoplay="true" interval="5000">
+			<my-slide>
+				<img src="https://via.placeholder.com/400x200" alt="Slide 1" />
+			</my-slide>
+			<my-slide>
+				<img src="https://via.placeholder.com/400x200" alt="Slide 2" />
+			</my-slide>
+		</my-custom-slider>
+		
+		<marquee direction="left">This is an unsupported tag</marquee>
+	</div>
+	
+	<!-- 8. Scripts (Should be stripped/disabled in editor) -->
+	<div class="card">
+		<h2 class="title">Script Test</h2>
+		<p>This script should be extracted and preserved for publish.</p>
+		<script>
+			console.log('Script imported successfully');
+		</script>
+		<script src="https://cdn.example.com/library.js"></script>
+	</div>
+
+</body>
+</html>

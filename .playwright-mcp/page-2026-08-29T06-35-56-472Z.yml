@@ -1,0 +1,140 @@
+- generic [active] [ref=f4e1]:
+  - text: "Deprecated: Function print_emoji_styles is"
+  - strong [ref=f4e2]: deprecated
+  - text: "since version 6.4.0! Use wp_enqueue_emoji_styles instead. in /var/www/html/wp-includes/functions.php on line 6260 Deprecated: Function wp_admin_bar_header is"
+  - strong [ref=f4e3]: deprecated
+  - text: since version 6.4.0! Use wp_enqueue_admin_bar_header_styles instead. in /var/www/html/wp-includes/functions.php on line 6260
+  - generic [ref=f4e4]:
+    - generic [ref=f4e5]:
+      - strong [ref=f4e6]: Auto Draft
+      - text: Dedicated editor — no admin chrome
+    - generic [ref=f4e7]:
+      - link "Back to WordPress editor" [ref=f4e8] [cursor=pointer]:
+        - /url: http://localhost:8888/wp-admin/post.php?post=7&action=edit
+      - text: "|"
+      - link "View live page" [ref=f4e9] [cursor=pointer]:
+        - /url: http://localhost:8888/?post_type=ctb_page&p=7
+  - region "Code to Block visual editor" [ref=f4e11]:
+    - generic [ref=f4e12]:
+      - button "Pricing card" [ref=f4e19] [cursor=pointer]:
+        - generic [ref=f4e21]: 
+      - group "Style breakpoint" [ref=f4e23]:
+        - button "Desktop" [pressed] [ref=f4e24] [cursor=pointer]:
+          - generic [ref=f4e25]: 
+        - button "Tablet" [ref=f4e27] [cursor=pointer]:
+          - generic [ref=f4e28]: 
+        - button "Mobile" [ref=f4e30] [cursor=pointer]:
+          - generic [ref=f4e31]: 
+      - generic [ref=f4e33]:
+        - generic [ref=f4e34]: Loading...
+        - button "Undo" [disabled] [ref=f4e35]:
+          - generic [ref=f4e36]: 
+        - button "Redo" [disabled] [ref=f4e38]:
+          - generic [ref=f4e39]: 
+        - button "Preview" [ref=f4e41] [cursor=pointer]
+        - button "Publish" [ref=f4e42] [cursor=pointer]
+    - generic [ref=f4e43]:
+      - complementary "Add elements" [ref=f4e44]:
+        - generic [ref=f4e45]:
+          - generic [ref=f4e46]:
+            - heading "Add Elements" [level=2] [ref=f4e47]
+            - generic [ref=f4e48]: Drag or click
+          - generic [ref=f4e49]:
+            - generic [ref=f4e50]: Search elements
+            - generic: 
+            - searchbox "Search elements Ctrl K" [ref=f4e51]
+            - generic: Ctrl K
+        - generic [ref=f4e52]:
+          - generic [ref=f4e53]:
+            - button "Basic" [expanded] [ref=f4e54] [cursor=pointer]:
+              - generic [ref=f4e56]: 
+            - generic [ref=f4e57]:
+              - button "Heading" [ref=f4e58]:
+                - generic [ref=f4e59]: 
+              - button "Text" [ref=f4e61]:
+                - generic [ref=f4e62]: 
+              - button "Button" [ref=f4e64]:
+                - generic [ref=f4e65]: 
+          - generic [ref=f4e67]:
+            - button "Layout" [expanded] [ref=f4e68] [cursor=pointer]:
+              - generic [ref=f4e70]: 
+            - generic [ref=f4e71]:
+              - button "Section" [ref=f4e72]:
+                - generic [ref=f4e73]: 
+              - button "Container" [ref=f4e75]:
+                - generic [ref=f4e76]: 
+          - generic [ref=f4e78]:
+            - button "Media" [expanded] [ref=f4e79] [cursor=pointer]:
+              - generic [ref=f4e81]: 
+            - button "Image" [ref=f4e83]:
+              - generic [ref=f4e84]: 
+      - main [ref=f4e86]:
+        - navigation "Selected element path" [ref=f4e88]:
+          - button "article" [ref=f4e90] [cursor=pointer]
+        - status [ref=f4e100]
+      - complementary [ref=f4e101]:
+        - generic [ref=f4e103]:
+          - generic [ref=f4e104]:
+            - heading "article" [level=2] [ref=f4e105]
+            - paragraph [ref=f4e106]: "#pricing-card"
+          - generic [ref=f4e107]:
+            - button "Duplicate element" [disabled] [ref=f4e108]:
+              - generic [ref=f4e109]: 
+            - button "Delete element" [disabled] [ref=f4e110]:
+              - generic [ref=f4e111]: 
+        - tablist "Element settings" [ref=f4e112]:
+          - tab "content" [selected] [ref=f4e113] [cursor=pointer]
+          - tab "style" [ref=f4e114] [cursor=pointer]
+          - tab "advanced" [ref=f4e115] [cursor=pointer]
+        - group [ref=f4e118]:
+          - generic [ref=f4e119]:
+            - generic [ref=f4e120]: Content Source
+            - combobox "Content Source" [ref=f4e121]:
+              - option "HTML" [selected]
+              - option "Dynamic data"
+          - generic [ref=f4e122]:
+            - generic [ref=f4e123]:
+              - generic [ref=f4e124]: Title
+              - generic [ref=f4e125]:
+                - text: Dynamic
+                - switch "Use dynamic title" [ref=f4e126] [cursor=pointer]
+            - textbox "Title" [ref=f4e128]
+          - generic [ref=f4e129]:
+            - generic [ref=f4e130]: HTML Tag
+            - combobox "HTML Tag" [ref=f4e131]:
+              - option "ARTICLE" [selected]
+              - option "H1"
+              - option "H2"
+              - option "H3"
+              - option "P"
+              - option "DIV"
+              - option "SPAN"
+          - generic [ref=f4e132]:
+            - generic [ref=f4e133]: Alignment
+            - generic [ref=f4e134]:
+              - button "left" [pressed] [ref=f4e135] [cursor=pointer]:
+                - generic [ref=f4e136]: 
+              - button "center" [ref=f4e138] [cursor=pointer]:
+                - generic [ref=f4e139]: 
+              - button "right" [ref=f4e141] [cursor=pointer]:
+                - generic [ref=f4e142]: 
+          - generic [ref=f4e144]:
+            - generic [ref=f4e145]: Visibility
+            - generic [ref=f4e146]:
+              - generic [ref=f4e147]:
+                - generic [ref=f4e148]:
+                  - generic [ref=f4e149]: 
+                  - text: desktop
+                - switch "Show on desktop" [checked] [ref=f4e150] [cursor=pointer]
+              - generic [ref=f4e152]:
+                - generic [ref=f4e153]:
+                  - generic [ref=f4e154]: 
+                  - text: tablet
+                - switch "Show on tablet" [checked] [ref=f4e155] [cursor=pointer]
+              - generic [ref=f4e157]:
+                - generic [ref=f4e158]:
+                  - generic [ref=f4e159]: 
+                  - text: mobile
+                - switch "Show on mobile" [checked] [ref=f4e160] [cursor=pointer]
+          - group [ref=f4e162]:
+            - generic "Dynamic and reusable content" [ref=f4e163] [cursor=pointer]

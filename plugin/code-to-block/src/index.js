@@ -1,12 +1,20 @@
 import TopHeader from './components/TopHeader.js';
+import LeftRail from './components/LeftRail.js';
 import RightInspector from './components/RightInspector.js';
 import CenterCanvas from './components/CenterCanvas.js';
 import NavigatorTree from './components/NavigatorTree.js';
+import RevisionHistory from './components/RevisionHistory.js';
+import {
+	GuidedRolePanel,
+	GuidedRolesManager,
+	RoleEditDecisionDialog,
+} from './components/GuidedRoleControls.js';
 import {
 	Component,
 	createElement,
 	createRoot,
 	useEffect,
+	useRef,
 	useState,
 } from '@wordpress/element';
 import {
@@ -23,6 +31,14 @@ import {
 } from '@dnd-kit/core';
 import apiFetch from '@wordpress/api-fetch';
 import { create } from 'zustand';
+
+import {
+	contentHash,
+	freshPreviewUrl,
+	installNavigationGuard,
+	publishSavedDocument,
+	autosaveDocument,
+} from './editor-persistence.mjs';
 
 import './editor.css';
 import {
@@ -56,6 +72,7 @@ import {
 	syncSavedDocument,
 	undoDocument,
 } from './history.mjs';
+import { rankDropCandidates, resolveDropIntent } from './drop-intent.mjs';
 import { parseBlockDocument } from './parser';
 import { materializeCommerce } from './commerce-preview.mjs';
 import {
@@ -63,6 +80,7 @@ import {
 	createProductDraft,
 } from './commerce-product-editor';
 import { sanitizeRichTextHtml } from './rich-text.mjs';
+import { normalizeReactAttributes } from './react-attributes.mjs';
 import {
 	BREAKPOINTS,
 	breakpointCascade,
@@ -83,132 +101,166 @@ import {
 	materializeComponents,
 } from './reusable-components.mjs';
 import {
-	STARTER_TEMPLATES,
 	insertStarter as insertStarterTemplate,
 	prepareStarterDocument,
 } from './starter-templates.mjs';
 import { runAccessibilityChecks } from './accessibility.mjs';
 import { WIDGET_LIBRARY } from './widget-library.mjs';
+import {
+	adjustRoleInStyleSet,
+	applyRoleToStyleSet,
+	countRoleUsage,
+	ensureGuidedRoleDesignSystem,
+	guidedRolesEnabled,
+	migrateGuidedRolesDocument,
+	normalizeImportedStyles,
+	recommendStyleRoles,
+	rejoinRoleProperty,
+	resolveImportReviewFlag,
+	restoreBalancedRole,
+	roleBindingForProperty,
+	roleCatalog,
+	rolePreviewStyles,
+	sanitizeGuidedRoleTelemetry,
+	semanticDetentFromPointerDelta,
+	setRolePropertyOverride,
+	updateRolePropertyGlobally,
+} from './semantic-roles.mjs';
+import { canInsertElement, createElementBlock } from './elements/registry.mjs';
+import { allowedTagForBlock, resolveInspector } from './elements/resolver.mjs';
 
-const VOID_TAGS = new Set( [ 'br', 'col', 'hr', 'img', 'source', 'wbr' ] );
+const VOID_TAGS = new Set( [
+	'br',
+	'col',
+	'hr',
+	'img',
+	'input',
+	'source',
+	'track',
+	'wbr',
+] );
+const IMPORT_SCOPE_CLASS = 'ctb-import-scope';
 
-const EXAMPLE_DOCUMENT = {
-	schema_version: 1,
-	name: 'Pricing card',
-	root: {
-		id: 'pricing-card',
-		type: 'container',
-		tag: 'article',
-		attributes: { class: 'pricing-card' },
-		children: [
-			{
-				id: 'pricing-plan-name',
-				type: 'text',
-				tag: 'h2',
-				attributes: {},
-				children: [ { kind: 'text', value: 'Professional' } ],
-				styles: {
-					mapped: {
-						color: '#27314d',
-						'font-size': '22px',
-						margin: '0 0 12px',
-					},
-					custom_css_fallback: '',
-				},
-				meta: { source: 'phase-3-example' },
-			},
-			{
-				id: 'pricing-price',
-				type: 'text',
-				tag: 'p',
-				attributes: {},
-				children: [
-					{
-						id: 'pricing-price-value',
-						type: 'text',
-						tag: 'span',
-						attributes: {},
-						children: [ { kind: 'text', value: '$29' } ],
-						styles: {
-							mapped: {
-								color: '#121936',
-								'font-size': '44px',
-								'font-weight': '750',
-							},
-							custom_css_fallback: '',
+const EXAMPLE_DOCUMENT = ensureGuidedRoleDesignSystem(
+	{
+		schema_version: 1,
+		name: 'Pricing card',
+		root: {
+			id: 'pricing-card',
+			type: 'container',
+			tag: 'article',
+			attributes: { class: 'pricing-card' },
+			children: [
+				{
+					id: 'pricing-plan-name',
+					type: 'text',
+					tag: 'h2',
+					attributes: {},
+					children: [ { kind: 'text', value: 'Professional' } ],
+					styles: {
+						mapped: {
+							color: '#27314d',
+							'font-size': '22px',
+							margin: '0 0 12px',
 						},
-						meta: { source: 'phase-3-example' },
+						custom_css_fallback: '',
 					},
-					{ kind: 'text', value: '/month' },
-				],
-				styles: {
-					mapped: { color: '#69708a', margin: '0 0 24px' },
-					custom_css_fallback: '',
+					meta: { source: 'phase-3-example' },
 				},
-				meta: { source: 'phase-3-example' },
-			},
-			{
-				id: 'pricing-features',
-				type: 'container',
-				tag: 'ul',
-				attributes: {},
-				children: [
-					createTextBlock(
-						'pricing-feature-projects',
-						'Unlimited projects'
-					),
-					createTextBlock(
-						'pricing-feature-support',
-						'Priority support'
-					),
-				],
-				styles: {
-					mapped: {
-						color: '#3e4662',
-						'line-height': '1.9',
-						margin: '0 0 28px',
-						'padding-left': '20px',
+				{
+					id: 'pricing-price',
+					type: 'text',
+					tag: 'p',
+					attributes: {},
+					children: [
+						{
+							id: 'pricing-price-value',
+							type: 'text',
+							tag: 'span',
+							attributes: {},
+							children: [ { kind: 'text', value: '$29' } ],
+							styles: {
+								mapped: {
+									color: '#121936',
+									'font-size': '44px',
+									'font-weight': '750',
+								},
+								custom_css_fallback: '',
+							},
+							meta: { source: 'phase-3-example' },
+						},
+						{ kind: 'text', value: '/month' },
+					],
+					styles: {
+						mapped: { color: '#69708a', margin: '0 0 24px' },
+						custom_css_fallback: '',
 					},
-					custom_css_fallback: '',
+					meta: { source: 'phase-3-example' },
 				},
-				meta: { source: 'phase-3-example' },
-			},
-			{
-				id: 'pricing-cta',
-				type: 'button',
-				tag: 'a',
-				attributes: { href: '#signup' },
-				children: [ { kind: 'text', value: 'Start free trial' } ],
-				styles: {
-					mapped: {
-						background: '#6558d3',
-						'border-radius': '9px',
-						color: '#ffffff',
-						display: 'block',
-						padding: '13px 18px',
-						'text-align': 'center',
-						'text-decoration': 'none',
+				{
+					id: 'pricing-features',
+					type: 'container',
+					tag: 'ul',
+					attributes: {},
+					children: [
+						createTextBlock(
+							'pricing-feature-projects',
+							'Unlimited projects'
+						),
+						createTextBlock(
+							'pricing-feature-support',
+							'Priority support'
+						),
+					],
+					styles: {
+						mapped: {
+							color: '#3e4662',
+							'line-height': '1.9',
+							margin: '0 0 28px',
+							'padding-left': '20px',
+						},
+						custom_css_fallback: '',
 					},
-					custom_css_fallback: '',
+					meta: { source: 'phase-3-example' },
 				},
-				meta: { source: 'phase-3-example' },
+				{
+					id: 'pricing-cta',
+					type: 'button',
+					tag: 'a',
+					attributes: { href: '#signup' },
+					children: [ { kind: 'text', value: 'Start free trial' } ],
+					styles: {
+						mapped: {
+							background: '#6558d3',
+							'border-radius': '9px',
+							color: '#ffffff',
+							display: 'block',
+							padding: '13px 18px',
+							'text-align': 'center',
+							'text-decoration': 'none',
+						},
+						custom_css_fallback: '',
+					},
+					meta: { source: 'phase-3-example' },
+				},
+			],
+			styles: {
+				mapped: {
+					background: '#ffffff',
+					border: '1px solid #c8cee0',
+					'border-radius': '18px',
+					'box-shadow': '0 22px 55px rgba(25, 33, 61, 0.16)',
+					'font-family': 'Arial, sans-serif',
+					'max-width': '360px',
+					padding: '34px',
+				},
+				custom_css_fallback: '',
 			},
-		],
-		styles: {
-			mapped: {
-				background: '#ffffff',
-				border: '1px solid #c8cee0',
-				'border-radius': '18px',
-				'box-shadow': '0 22px 55px rgba(25, 33, 61, 0.16)',
-				'font-family': 'Arial, sans-serif',
-				'max-width': '360px',
-				padding: '34px',
-			},
-			custom_css_fallback: '',
+			meta: { source: 'phase-3-example' },
 		},
-		meta: { source: 'phase-3-example' },
 	},
-};
+	{ newDocument: true }
+);
 
 function createTextBlock( id, value ) {
 	return {
@@ -232,6 +284,7 @@ function updateBlockStyleSet( state, id, breakpoint, update ) {
 	}
 	const currentStyleSet = ownStyleSet( currentBlock, breakpoint );
 	const editableStyleSet = {
+		...currentStyleSet,
 		mapped: { ...currentStyleSet.mapped },
 		custom_css_fallback: currentStyleSet.custom_css_fallback || '',
 	};
@@ -239,6 +292,16 @@ function updateBlockStyleSet( state, id, breakpoint, update ) {
 		editableStyleSet.token_bindings = {
 			...currentStyleSet.token_bindings,
 		};
+	}
+	if ( currentStyleSet.role_bindings ) {
+		editableStyleSet.role_bindings = JSON.parse(
+			JSON.stringify( currentStyleSet.role_bindings )
+		);
+	}
+	if ( currentStyleSet.import_review_flags ) {
+		editableStyleSet.import_review_flags = JSON.parse(
+			JSON.stringify( currentStyleSet.import_review_flags )
+		);
 	}
 	const nextStyleSet = update( editableStyleSet );
 	if (
@@ -264,96 +327,7 @@ function updateEditableBlock( state, id, mutate, allowLocked = false ) {
 }
 
 function createPrimitiveBlock( primitive ) {
-	const suffix = `${ Date.now().toString( 36 ) }-${ Math.random()
-		.toString( 36 )
-		.slice( 2, 6 ) }`;
-	const common = {
-		attributes: {},
-		styles: { mapped: {}, custom_css_fallback: '' },
-		meta: { source: 'editor-element-palette' },
-	};
-	const definitions = {
-		section: {
-			id: `section-${ suffix }`,
-			type: 'container',
-			tag: 'section',
-			children: [],
-			styles: {
-				mapped: { padding: '64px 32px', 'min-height': '120px' },
-				custom_css_fallback: '',
-			},
-		},
-		container: {
-			id: `container-${ suffix }`,
-			type: 'container',
-			tag: 'div',
-			children: [],
-			styles: {
-				mapped: { 'max-width': '1200px', margin: '0 auto', padding: '24px' },
-				custom_css_fallback: '',
-			},
-		},
-		heading: {
-			id: `heading-${ suffix }`,
-			type: 'text',
-			tag: 'h2',
-			children: [ { kind: 'text', value: 'Your heading' } ],
-			styles: {
-				mapped: { 'font-size': '42px', 'font-weight': '700', margin: '0 0 16px' },
-				custom_css_fallback: '',
-			},
-		},
-		text: {
-			id: `text-${ suffix }`,
-			type: 'text',
-			tag: 'p',
-			children: [ { kind: 'text', value: 'Add your text here.' } ],
-			styles: { mapped: { 'line-height': '1.6' }, custom_css_fallback: '' },
-		},
-		button: {
-			id: `button-${ suffix }`,
-			type: 'button',
-			tag: 'a',
-			attributes: { href: '#' },
-			children: [ { kind: 'text', value: 'Button' } ],
-			styles: {
-				mapped: {
-					background: '#5147ff',
-					color: '#ffffff',
-					padding: '12px 18px',
-					'border-radius': '7px',
-					display: 'inline-block',
-				},
-				custom_css_fallback: '',
-			},
-		},
-		image: {
-			id: `image-${ suffix }`,
-			type: 'image',
-			tag: 'img',
-			attributes: { src: 'https://picsum.photos/seed/ctb-builder/1200/800', alt: 'Editable placeholder' },
-			children: [],
-			styles: { mapped: { width: '100%', height: 'auto' }, custom_css_fallback: '' },
-		},
-		divider: {
-			id: `divider-${ suffix }`,
-			type: 'container',
-			tag: 'hr',
-			children: [],
-			styles: { mapped: { border: '1px solid #e5e7ef', margin: '24px 0' }, custom_css_fallback: '' },
-		},
-		iframe: {
-			id: `iframe-${ suffix }`,
-			type: 'container',
-			tag: 'iframe',
-			attributes: { src: 'https://example.com', title: 'Embedded content' },
-			children: [],
-			styles: { mapped: { width: '100%', height: '420px', border: '0' }, custom_css_fallback: '' },
-		},
-	};
-	return definitions[ primitive ]
-		? { ...common, ...definitions[ primitive ], meta: common.meta }
-		: null;
+	return createElementBlock( primitive );
 }
 
 function setStyleSetBindings( styleSet, bindings ) {
@@ -365,17 +339,16 @@ function setStyleSetBindings( styleSet, bindings ) {
 	return styleSet;
 }
 
-function setHiddenInFallback( fallback, hidden ) {
+function setHiddenInFallback( fallback, hidden, visibleDisplay = '' ) {
 	const declarations = String( fallback || '' )
 		.split( ';' )
 		.map( ( part ) => part.trim() )
 		.filter( Boolean )
-		.filter(
-			( part ) =>
-				! /^display\s*:\s*none\s*(?:!important)?\s*$/i.test( part )
-		);
+		.filter( ( part ) => ! /^display\s*:/i.test( part ) );
 	if ( hidden ) {
 		declarations.push( 'display: none !important' );
+	} else if ( visibleDisplay ) {
+		declarations.push( `display: ${ visibleDisplay } !important` );
 	}
 	return declarations.length ? declarations.join( '; ' ) + ';' : '';
 }
@@ -386,6 +359,10 @@ const useEditorStore = create( ( set ) => ( {
 	future: [],
 	savedDocument: null,
 	selectedBlockId: EXAMPLE_DOCUMENT.root.id,
+	activeBreakpoint: 'desktop',
+	panelMode: 'simple',
+	setEditorContext: ( activeBreakpoint, panelMode ) =>
+		set( { activeBreakpoint, panelMode } ),
 	setDocument: ( document ) =>
 		set( ( state ) => commitDocument( state, document, document.root.id ) ),
 	resetDocument: ( document ) => set( resetDocumentHistory( document ) ),
@@ -432,16 +409,36 @@ const useEditorStore = create( ( set ) => ( {
 				return setStyleSetBindings( styleSet, bindings );
 			} )
 		),
-	setBlockHidden: ( id, breakpoint, hidden ) =>
+	replaceBlockStyleSet: ( id, replacement, breakpoint = 'desktop' ) =>
 		set( ( state ) =>
-			updateBlockStyleSet( state, id, breakpoint, ( styleSet ) => ( {
-				...styleSet,
-				custom_css_fallback: setHiddenInFallback(
-					styleSet.custom_css_fallback,
-					hidden
-				),
-			} ) )
+			updateBlockStyleSet( state, id, breakpoint, () =>
+				JSON.parse( JSON.stringify( replacement ) )
+			)
 		),
+	setBlockHidden: ( id, breakpoint, hidden ) =>
+		set( ( state ) => {
+			const block = findBlock( state.document.root, id );
+			const mappedDisplay = block
+				? effectiveMappedStyles( block, breakpoint ).display
+				: '';
+			const visibleDisplay =
+				mappedDisplay && mappedDisplay !== 'none'
+					? mappedDisplay
+					: 'block';
+			return updateBlockStyleSet(
+				state,
+				id,
+				breakpoint,
+				( styleSet ) => ( {
+					...styleSet,
+					custom_css_fallback: setHiddenInFallback(
+						styleSet.custom_css_fallback,
+						hidden,
+						visibleDisplay
+					),
+				} )
+			);
+		} ),
 	updateBlockContent: ( id, value ) =>
 		set( ( state ) =>
 			updateEditableBlock( state, id, ( block ) => {
@@ -457,14 +454,18 @@ const useEditorStore = create( ( set ) => ( {
 						),
 					];
 				} else if ( ! VOID_TAGS.has( block.tag ) ) {
-					block.children = [ { kind: 'text', value: String( value ) } ];
+					block.children = [
+						{ kind: 'text', value: String( value ) },
+					];
 				}
 			} )
 		),
 	updateBlockAttribute: ( id, name, value ) =>
 		set( ( state ) =>
 			updateEditableBlock( state, id, ( block ) => {
-				const normalized = String( name || '' ).trim().toLowerCase();
+				const normalized = String( name || '' )
+					.trim()
+					.toLowerCase();
 				if (
 					! /^(?:[a-z][a-z0-9_.:-]*|aria-[a-z0-9_.:-]+|data-[a-z0-9_.:-]+)$/.test(
 						normalized
@@ -480,6 +481,34 @@ const useEditorStore = create( ( set ) => ( {
 				} else {
 					block.attributes[ normalized ] = value;
 				}
+			} )
+		),
+	updateBlockProp: ( id, name, value ) =>
+		set( ( state ) =>
+			updateEditableBlock( state, id, ( block ) => {
+				const normalized = String( name || '' ).trim();
+				if ( ! /^[a-z][A-Za-z0-9_-]{0,63}$/.test( normalized ) ) {
+					return;
+				}
+				block.props = { ...( block.props || {} ) };
+				if ( value === '' || value === null || value === undefined ) {
+					delete block.props[ normalized ];
+				} else {
+					block.props[ normalized ] = value;
+				}
+			} )
+		),
+	updateBlockTag: ( id, tag ) =>
+		set( ( state ) =>
+			updateEditableBlock( state, id, ( block ) => {
+				const normalized = String( tag || '' ).toLowerCase();
+				if (
+					! allowedTagForBlock( block, normalized ) ||
+					( VOID_TAGS.has( normalized ) && block.children?.length )
+				) {
+					return;
+				}
+				block.tag = normalized;
 			} )
 		),
 	setBlockVisibilityConditions: ( id, conditions ) =>
@@ -522,15 +551,22 @@ const useEditorStore = create( ( set ) => ( {
 				};
 				const next = {
 					...current,
-					mapped: mergeMappedStyleUpdates( current.mapped || {}, updates ),
+					mapped: mergeMappedStyleUpdates(
+						current.mapped || {},
+						updates
+					),
 				};
-				block.states = { ...( block.states || {} ), [ stateName ]: next };
+				block.states = {
+					...( block.states || {} ),
+					[ stateName ]: next,
+				};
 				if (
 					Object.keys( next.mapped || {} ).length === 0 &&
 					! next.custom_css_fallback
 				) {
 					delete block.states[ stateName ];
-					if ( Object.keys( block.states ).length === 0 ) delete block.states;
+					if ( Object.keys( block.states ).length === 0 )
+						delete block.states;
 				}
 			} )
 		),
@@ -541,10 +577,18 @@ const useEditorStore = create( ( set ) => ( {
 				id,
 				( block ) => {
 					const next = {
-						...( permissions?.role ? { role: permissions.role } : {} ),
-						...( permissions?.can_edit === false ? { can_edit: false } : {} ),
-						...( permissions?.can_delete === false ? { can_delete: false } : {} ),
-						...( permissions?.can_publish === false ? { can_publish: false } : {} ),
+						...( permissions?.role
+							? { role: permissions.role }
+							: {} ),
+						...( permissions?.can_edit === false
+							? { can_edit: false }
+							: {} ),
+						...( permissions?.can_delete === false
+							? { can_delete: false }
+							: {} ),
+						...( permissions?.can_publish === false
+							? { can_publish: false }
+							: {} ),
 						...( permissions?.locked ? { locked: true } : {} ),
 					};
 					if ( Object.keys( next ).length ) block.permissions = next;
@@ -566,19 +610,76 @@ const useEditorStore = create( ( set ) => ( {
 				else delete block.performance;
 			} )
 		),
-	insertPrimitive: ( targetId, primitive ) =>
+	insertPrimitive: ( targetId, primitive, position = 'auto' ) =>
 		set( ( state ) => {
 			const newBlock = createPrimitiveBlock( primitive );
 			const target = findBlock( state.document.root, targetId );
-			if ( ! newBlock || ! target || target.permissions?.locked ) return state;
+			if ( ! newBlock || ! target || target.permissions?.locked )
+				return state;
+			const canInsertInside = canInsertElement( target, newBlock );
+			if (
+				( position === 'inside' && ! canInsertInside ) ||
+				( [ 'before', 'after' ].includes( position ) &&
+					targetId === state.document.root.id )
+			) {
+				return state;
+			}
 			const document = JSON.parse( JSON.stringify( state.document ) );
-			const inserted =
-				target.type === 'container' && ! VOID_TAGS.has( target.tag )
-					? insertInside( document.root, targetId, newBlock )
-					: insertAfter( document.root, targetId, newBlock );
-			return inserted
-				? commitDocument( state, document, newBlock.id )
-				: state;
+			const inserted = insertAtDropPosition(
+				document.root,
+				targetId,
+				newBlock,
+				position,
+				canInsertInside
+			);
+			if ( ! inserted ) {
+				return state;
+			}
+			if ( guidedRolesEnabled( document ) ) {
+				const insertedBlock = findBlock( document.root, newBlock.id );
+				const roles = roleCatalog( document );
+				if (
+					insertedBlock &&
+					[ 'heading', 'text', 'button' ].includes( primitive )
+				) {
+					const recommendation = recommendStyleRoles(
+						document,
+						newBlock.id,
+						{
+							property: 'font-size',
+						}
+					)[ 0 ];
+					if ( recommendation ) {
+						insertedBlock.styles = applyRoleToStyleSet(
+							insertedBlock.styles,
+							recommendation.roleId,
+							'typography',
+							roles
+						);
+					}
+				}
+				if (
+					insertedBlock &&
+					[ 'section', 'container' ].includes( primitive )
+				) {
+					const recommendation = recommendStyleRoles(
+						document,
+						newBlock.id,
+						{
+							property: 'padding',
+						}
+					)[ 0 ];
+					if ( recommendation ) {
+						insertedBlock.styles = applyRoleToStyleSet(
+							insertedBlock.styles,
+							recommendation.roleId,
+							'padding',
+							roles
+						);
+					}
+				}
+			}
+			return commitDocument( state, document, newBlock.id );
 		} ),
 	setBlockSlotProperties: ( id, isSlot, label, type ) =>
 		set( ( state ) => {
@@ -725,6 +826,158 @@ const useEditorStore = create( ( set ) => ( {
 				return setStyleSetBindings( styleSet, bindings );
 			} );
 		} ),
+	setBlockStyleRole: (
+		id,
+		roleId,
+		scope,
+		breakpoint = 'desktop',
+		source = 'built-in'
+	) =>
+		set( ( state ) =>
+			updateBlockStyleSet( state, id, breakpoint, ( styleSet ) =>
+				applyRoleToStyleSet(
+					styleSet,
+					roleId,
+					scope,
+					roleCatalog( state.document ),
+					{ source }
+				)
+			)
+		),
+	adjustBlockStyleRole: ( id, scope, adjustment, breakpoint = 'desktop' ) =>
+		set( ( state ) =>
+			updateBlockStyleSet( state, id, breakpoint, ( styleSet ) =>
+				adjustRoleInStyleSet(
+					styleSet,
+					scope,
+					{ ...adjustment, breakpoint },
+					roleCatalog( state.document )
+				)
+			)
+		),
+	setBlockRolePropertyOverride: (
+		id,
+		scope,
+		property,
+		value,
+		breakpoint = 'desktop',
+		stateName = ''
+	) =>
+		set( ( state ) =>
+			updateBlockStyleSet( state, id, breakpoint, ( styleSet ) =>
+				setRolePropertyOverride(
+					styleSet,
+					scope,
+					property,
+					value,
+					{
+						...( breakpoint !== 'desktop' ? { breakpoint } : {} ),
+						...( stateName ? { state: stateName } : {} ),
+					},
+					roleCatalog( state.document )
+				)
+			)
+		),
+	rejoinBlockRoleProperty: (
+		id,
+		scope,
+		property,
+		breakpoint = 'desktop',
+		stateName = ''
+	) =>
+		set( ( state ) =>
+			updateBlockStyleSet( state, id, breakpoint, ( styleSet ) =>
+				rejoinRoleProperty(
+					styleSet,
+					scope,
+					property,
+					{
+						...( breakpoint !== 'desktop' ? { breakpoint } : {} ),
+						...( stateName ? { state: stateName } : {} ),
+					},
+					roleCatalog( state.document )
+				)
+			)
+		),
+	resolveBlockImportReview: ( id, flagId, useRole, breakpoint = 'desktop' ) =>
+		set( ( state ) =>
+			updateBlockStyleSet( state, id, breakpoint, ( styleSet ) =>
+				resolveImportReviewFlag(
+					styleSet,
+					flagId,
+					{ useRole },
+					roleCatalog( state.document )
+				)
+			)
+		),
+	rejoinGuidedRoleOverride: (
+		id,
+		scope,
+		property,
+		breakpoint = 'desktop',
+		stateName = ''
+	) =>
+		set( ( state ) => {
+			const currentBlock = findBlock( state.document.root, id );
+			if ( ! currentBlock || currentBlock.permissions?.locked ) {
+				return state;
+			}
+			const currentStyleSet = stateName
+				? currentBlock.states?.[ stateName ]
+				: ownStyleSet( currentBlock, breakpoint );
+			if ( ! currentStyleSet ) {
+				return state;
+			}
+			const nextStyleSet = rejoinRoleProperty(
+				currentStyleSet,
+				scope,
+				property,
+				{
+					...( breakpoint !== 'desktop' ? { breakpoint } : {} ),
+					...( stateName ? { state: stateName } : {} ),
+				},
+				roleCatalog( state.document )
+			);
+			if (
+				JSON.stringify( currentStyleSet ) ===
+				JSON.stringify( nextStyleSet )
+			) {
+				return state;
+			}
+			const document = JSON.parse( JSON.stringify( state.document ) );
+			const block = findBlock( document.root, id );
+			if ( stateName ) {
+				block.states = {
+					...( block.states || {} ),
+					[ stateName ]: nextStyleSet,
+				};
+			} else {
+				setOwnStyleSet( block, breakpoint, nextStyleSet );
+			}
+			return commitDocument( state, document, id );
+		} ),
+	updateGuidedRoleProperty: ( roleId, property, value, scope, binding ) =>
+		set( ( state ) => {
+			const document = updateRolePropertyGlobally(
+				state.document,
+				roleId,
+				property,
+				value,
+				{ scope, binding }
+			);
+			return JSON.stringify( document ) ===
+				JSON.stringify( state.document )
+				? state
+				: commitDocument( state, document, state.selectedBlockId );
+		} ),
+	restoreGuidedRole: ( roleId ) =>
+		set( ( state ) => {
+			const document = restoreBalancedRole( state.document, roleId );
+			return JSON.stringify( document ) ===
+				JSON.stringify( state.document )
+				? state
+				: commitDocument( state, document, state.selectedBlockId );
+		} ),
 	setSeoField: ( key, value ) =>
 		set( ( state ) => {
 			const document = JSON.parse( JSON.stringify( state.document ) );
@@ -795,7 +1048,7 @@ const useEditorStore = create( ( set ) => ( {
 			}
 			return commitDocument( state, document, id );
 		} ),
-	moveBlock: ( activeId, targetId ) =>
+	moveBlock: ( activeId, targetId, position = 'auto' ) =>
 		set( ( state ) => {
 			if (
 				activeId === state.document.root.id ||
@@ -815,6 +1068,15 @@ const useEditorStore = create( ( set ) => ( {
 			) {
 				return state;
 			}
+			const canContain =
+				target.type === 'container' && ! VOID_TAGS.has( target.tag );
+			if (
+				( position === 'inside' && ! canContain ) ||
+				( [ 'before', 'after' ].includes( position ) &&
+					targetId === state.document.root.id )
+			) {
+				return state;
+			}
 
 			const document = JSON.parse( JSON.stringify( state.document ) );
 			const movedBlock = removeBlock( document.root, activeId );
@@ -822,10 +1084,13 @@ const useEditorStore = create( ( set ) => ( {
 				return state;
 			}
 
-			const inserted =
-				target.type === 'container'
-					? insertInside( document.root, targetId, movedBlock )
-					: insertAfter( document.root, targetId, movedBlock );
+			const inserted = insertAtDropPosition(
+				document.root,
+				targetId,
+				movedBlock,
+				position,
+				canContain
+			);
 
 			return inserted ? commitDocument( state, document ) : state;
 		} ),
@@ -850,7 +1115,10 @@ const useEditorStore = create( ( set ) => ( {
 		} ),
 	replaceWithStarter: ( templateId ) =>
 		set( () => {
-			const document = prepareStarterDocument( templateId );
+			const document = migrateGuidedRolesDocument(
+				prepareStarterDocument( templateId ),
+				{ newDocument: true }
+			);
 			return resetDocumentHistory( document );
 		} ),
 	insertStarter: ( targetId, templateId ) =>
@@ -1179,7 +1447,11 @@ const useEditorStore = create( ( set ) => ( {
 		set( ( state ) => {
 			const document = JSON.parse( JSON.stringify( state.document ) );
 			const block = findBlock( document.root, id );
-			if ( ! block || id === document.root.id || block.permissions?.locked ) {
+			if (
+				! block ||
+				id === document.root.id ||
+				block.permissions?.locked
+			) {
 				return state;
 			}
 			const parent = ( () => {
@@ -1717,6 +1989,111 @@ function findBlock( block, id ) {
 	return null;
 }
 
+function findBlockLocation(
+	block,
+	id,
+	parentId = null,
+	index = 0,
+	depth = 0,
+	ancestorIds = []
+) {
+	if ( block.id === id ) {
+		return { block, parentId, index, depth, ancestorIds };
+	}
+
+	let blockIndex = 0;
+	for ( const child of block.children || [] ) {
+		if ( child.kind === 'text' ) {
+			continue;
+		}
+		const match = findBlockLocation(
+			child,
+			id,
+			block.id,
+			blockIndex,
+			depth + 1,
+			[ ...ancestorIds, block.id ]
+		);
+		if ( match ) {
+			return match;
+		}
+		blockIndex += 1;
+	}
+
+	return null;
+}
+
+function resolveDocumentDropIntent( {
+	root,
+	targetId,
+	activeId = null,
+	point,
+	rect,
+} ) {
+	const targetLocation = findBlockLocation( root, targetId );
+	const source = activeId ? findBlock( root, activeId ) : null;
+	if ( ! targetLocation || ( activeId && ! source ) ) {
+		return null;
+	}
+
+	const target = targetLocation.block;
+	const canContain =
+		target.type === 'container' && ! VOID_TAGS.has( target.tag );
+	let reason = '';
+	if ( activeId === root.id ) {
+		reason = 'The document root cannot be moved.';
+	} else if ( source?.permissions?.locked ) {
+		reason = 'This block is locked.';
+	} else if ( target.permissions?.locked ) {
+		reason = 'The target block is locked.';
+	} else if ( activeId === target.id ) {
+		reason = 'A block cannot be dropped onto itself.';
+	} else if ( activeId && targetLocation.ancestorIds.includes( activeId ) ) {
+		reason = 'A block cannot be moved into one of its descendants.';
+	}
+
+	return resolveDropIntent( {
+		point,
+		candidates: [
+			{
+				id: target.id,
+				rect,
+				depth: targetLocation.depth,
+				parentId: targetLocation.parentId,
+				index: targetLocation.index,
+				childCount: ( target.children || [] ).filter(
+					( child ) => child.kind !== 'text'
+				).length,
+				canContain,
+				allowSibling: target.id !== root.id,
+				valid: ! reason,
+				reason,
+			},
+		],
+	} );
+}
+
+function dragEventPoint( event ) {
+	const activatorEvent = event.activatorEvent;
+	if (
+		Number.isFinite( activatorEvent?.clientX ) &&
+		Number.isFinite( activatorEvent?.clientY )
+	) {
+		return {
+			x: activatorEvent.clientX + ( event.delta?.x || 0 ),
+			y: activatorEvent.clientY + ( event.delta?.y || 0 ),
+		};
+	}
+
+	const translated = event.active.rect.current.translated;
+	return translated
+		? {
+				x: translated.left + translated.width / 2,
+				y: translated.top + translated.height / 2,
+		  }
+		: null;
+}
+
 function removeBlock( block, id ) {
 	for ( let index = 0; index < block.children.length; index++ ) {
 		const child = block.children[ index ];
@@ -1747,6 +2124,26 @@ function insertInside( block, targetId, movedBlock ) {
 	return true;
 }
 
+function insertBefore( block, targetId, movedBlock ) {
+	for ( let index = 0; index < block.children.length; index++ ) {
+		const child = block.children[ index ];
+		if ( child.kind === 'text' ) {
+			continue;
+		}
+
+		if ( child.id === targetId ) {
+			block.children.splice( index, 0, movedBlock );
+			return true;
+		}
+
+		if ( insertBefore( child, targetId, movedBlock ) ) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
 function insertAfter( block, targetId, movedBlock ) {
 	for ( let index = 0; index < block.children.length; index++ ) {
 		const child = block.children[ index ];
@@ -1767,7 +2164,28 @@ function insertAfter( block, targetId, movedBlock ) {
 	return false;
 }
 
-function toReactStyles( styles ) {
+function insertAtDropPosition(
+	root,
+	targetId,
+	movedBlock,
+	position,
+	canContain
+) {
+	if ( position === 'before' ) {
+		return insertBefore( root, targetId, movedBlock );
+	}
+	if ( position === 'after' ) {
+		return insertAfter( root, targetId, movedBlock );
+	}
+	if ( position === 'inside' ) {
+		return canContain && insertInside( root, targetId, movedBlock );
+	}
+	return canContain
+		? insertInside( root, targetId, movedBlock )
+		: insertAfter( root, targetId, movedBlock );
+}
+
+function toReactStyles( styles, resourceBase = '' ) {
 	return Object.fromEntries(
 		Object.entries( styles ).map( ( [ property, value ] ) => [
 			property.startsWith( '--' )
@@ -1775,31 +2193,40 @@ function toReactStyles( styles ) {
 				: property.replace( /-([a-z])/g, ( match, letter ) =>
 						letter.toUpperCase()
 				  ),
-			normalizeCssUrls( value ),
+			normalizeCssUrls( value, resourceBase ),
 		] )
 	);
 }
 
-function normalizeResourceUrl( value ) {
+function normalizeResourceUrl( value, resourceBase = '' ) {
 	if ( /^(?:[a-z][a-z0-9+.-]*:|\/\/|\/|#)/i.test( value ) ) {
 		return value;
 	}
 
-	return new URL(
-		value,
-		window.codeToBlockEditorSettings?.siteUrl || window.location.origin
-	).href;
+	const siteUrl =
+		window.codeToBlockEditorSettings?.siteUrl || window.location.origin;
+	try {
+		const baseUrl = resourceBase
+			? new URL( resourceBase, siteUrl ).href
+			: siteUrl;
+		return new URL( value, baseUrl ).href;
+	} catch {
+		return new URL( value, siteUrl ).href;
+	}
 }
 
-function normalizeCssUrls( value ) {
+function normalizeCssUrls( value, resourceBase = '' ) {
 	return String( value ).replace(
 		/url\(\s*(["']?)([^"')]+)\1\s*\)/gi,
 		( match, quote, url ) =>
-			`url(${ quote }${ normalizeResourceUrl( url ) }${ quote })`
+			`url(${ quote }${ normalizeResourceUrl(
+				url,
+				resourceBase
+			) }${ quote })`
 	);
 }
 
-function previewDeclarations( styleSet, important = false ) {
+function previewDeclarations( styleSet, important = false, resourceBase = '' ) {
 	if ( ! styleSet ) {
 		return '';
 	}
@@ -1808,10 +2235,10 @@ function previewDeclarations( styleSet, important = false ) {
 	const mapped = Object.entries( styleSet.mapped || {} )
 		.map(
 			( [ property, value ] ) =>
-				`${ property }:${ normalizeCssUrls( value ).replace(
-					/\s*!important\s*$/i,
-					''
-				) }${ suffix };`
+				`${ property }:${ normalizeCssUrls(
+					value,
+					resourceBase
+				).replace( /\s*!important\s*$/i, '' ) }${ suffix };`
 		)
 		.join( '' );
 	const fallback = previewCustomCssFallback(
@@ -1825,9 +2252,34 @@ function buildPreviewStyles( document, activeBreakpoint ) {
 	const base = [];
 	const responsive = [];
 	let index = 0;
+	const resourceBase = document.imported_assets?.page_meta?.base_href || '';
 	const tokenDeclarations = designTokenDeclarations( document.design_tokens );
 	if ( tokenDeclarations ) {
 		base.push( `.ctb-canvas-stage{${ tokenDeclarations }}` );
+	}
+	for ( const stylesheet of document.imported_assets?.stylesheets || [] ) {
+		if ( stylesheet.scoped_source ) {
+			base.push(
+				normalizeCssUrls( stylesheet.scoped_source, resourceBase )
+			);
+		}
+	}
+	const importedTokenDeclarations = Object.entries(
+		document.imported_assets?.token_bindings || {}
+	)
+		.map( ( [ cssName, reference ] ) => {
+			const token = getDesignToken( document.design_tokens, reference );
+			return token
+				? `${ cssName }:${ normalizeCssUrls(
+						token.value,
+						resourceBase
+				  ) };`
+				: '';
+		} )
+		.filter( Boolean )
+		.join( '' );
+	if ( importedTokenDeclarations ) {
+		base.push( `.${ IMPORT_SCOPE_CLASS }{${ importedTokenDeclarations }}` );
 	}
 
 	function visit( block ) {
@@ -1844,7 +2296,8 @@ function buildPreviewStyles( document, activeBreakpoint ) {
 		for ( const state of [ 'hover', 'focus', 'active' ] ) {
 			const declarations = previewDeclarations(
 				block.states?.[ state ],
-				true
+				true,
+				resourceBase
 			);
 			if ( declarations ) {
 				base.push( `${ selector }:${ state }{${ declarations }}` );
@@ -1854,7 +2307,8 @@ function buildPreviewStyles( document, activeBreakpoint ) {
 		for ( const viewport of breakpointCascade( activeBreakpoint ) ) {
 			const declarations = previewDeclarations(
 				block.responsive_overrides?.[ viewport ],
-				true
+				true,
+				resourceBase
 			);
 			if ( declarations ) {
 				responsive.push( `${ selector }{${ declarations }}` );
@@ -1915,9 +2369,57 @@ function countBlocks( block ) {
 
 function collisionStrategy( args ) {
 	const pointerCollisions = pointerWithin( args );
-	return pointerCollisions.length > 0
-		? pointerCollisions
-		: closestCenter( args );
+	if ( ! pointerCollisions.length ) {
+		return closestCenter( args );
+	}
+
+	const activeId = String( args.active.id );
+	const activeData = args.active.data.current || {};
+	const ranked = rankDropCandidates(
+		pointerCollisions.map( ( collision, order ) => {
+			const container = collision.data?.droppableContainer;
+			const data = container?.data.current || {};
+			const invalid =
+				activeData.locked ||
+				data.locked ||
+				String( collision.id ) === activeId ||
+				( data.ancestorIds || [] ).includes( activeId );
+			return {
+				id: collision.id,
+				depth: data.depth,
+				order,
+				valid: ! invalid,
+				rect: args.droppableRects.get( collision.id ),
+			};
+		} )
+	);
+	const rank = new Map(
+		ranked.map( ( candidate, index ) => [ candidate.id, index ] )
+	);
+	return pointerCollisions.sort(
+		( left, right ) => rank.get( left.id ) - rank.get( right.id )
+	);
+}
+
+function cursorOffsetModifier( {
+	activatorEvent,
+	draggingNodeRect,
+	transform,
+} ) {
+	if (
+		! activatorEvent ||
+		! draggingNodeRect ||
+		! Number.isFinite( activatorEvent.clientX ) ||
+		! Number.isFinite( activatorEvent.clientY )
+	) {
+		return transform;
+	}
+
+	return {
+		...transform,
+		x: transform.x + activatorEvent.clientX - draggingNodeRect.left + 14,
+		y: transform.y + activatorEvent.clientY - draggingNodeRect.top + 14,
+	};
 }
 
 function SkeletonLoader( { type, block } ) {
@@ -1930,8 +2432,7 @@ function SkeletonLoader( { type, block } ) {
 			layoutStyle.display = display;
 			layoutStyle.flexDirection = mapped[ 'flex-direction' ];
 			layoutStyle.gap = mapped.gap;
-			layoutStyle.gridTemplateColumns =
-				mapped[ 'grid-template-columns' ];
+			layoutStyle.gridTemplateColumns = mapped[ 'grid-template-columns' ];
 		}
 
 		return (
@@ -1939,16 +2440,16 @@ function SkeletonLoader( { type, block } ) {
 				{ block.children
 					.filter( ( child ) => child.kind !== 'text' )
 					.map( ( child ) => (
-					<SkeletonLoader
-						key={ child.id }
-						type={
-							child.is_content_slot
-								? child.slot_content_type
-								: 'container'
-						}
-						block={ child }
-					/>
-				) ) }
+						<SkeletonLoader
+							key={ child.id }
+							type={
+								child.is_content_slot
+									? child.slot_content_type
+									: 'container'
+							}
+							block={ child }
+						/>
+					) ) }
 			</div>
 		);
 	}
@@ -2033,17 +2534,20 @@ function Block( props ) {
 	return <BlockContent { ...props } />;
 }
 
-
-
 function CanvasDragHandles( { blockId } ) {
-	const activeBreakpoint = useEditorStore( ( state ) => state.activeBreakpoint );
-	const updateEditableBlock = ( mutate ) => {
-		useEditorStore.getState().updateBlock( blockId, mutate );
-	};
+	const activeBreakpoint = useEditorStore(
+		( state ) => state.activeBreakpoint
+	);
+	const panelMode = useEditorStore( ( state ) => state.panelMode );
 
 	const parseShorthand = ( val ) => {
-		const parts = String( val || '' ).split( /\s+/ ).filter( Boolean );
-		let top = '0px', right = '0px', bottom = '0px', left = '0px';
+		const parts = String( val || '' )
+			.split( /\s+/ )
+			.filter( Boolean );
+		let top = '0px',
+			right = '0px',
+			bottom = '0px',
+			left = '0px';
 		if ( parts.length === 1 ) {
 			top = right = bottom = left = parts[ 0 ];
 		} else if ( parts.length === 2 ) {
@@ -2065,64 +2569,152 @@ function CanvasDragHandles( { blockId } ) {
 	const parsePart = ( val ) => {
 		const match = String( val || '' ).match( /^(-?\d*\.?\d+)(.*)$/ );
 		if ( match ) {
-			return { num: parseFloat( match[ 1 ] ), strUnit: match[ 2 ] || 'px' };
+			return {
+				num: parseFloat( match[ 1 ] ),
+				strUnit: match[ 2 ] || 'px',
+			};
 		}
 		return { num: 0, strUnit: 'px' };
 	};
 
-	const createHandle = ( property, edge, cursor ) => {
+	const createHandle = ( property, edge ) => {
 		const handleMouseDown = ( e ) => {
 			e.preventDefault();
 			e.stopPropagation();
+			const ownerWindow =
+				e.currentTarget.ownerDocument.defaultView || window;
 			const startX = e.clientX;
 			const startY = e.clientY;
 
-			// get current value from state directly
 			const state = useEditorStore.getState();
 			const block = findBlock( state.document.root, blockId );
-			if ( ! block ) return;
+			if ( ! block ) {
+				return;
+			}
 
-			const currentMapped = block.styles?.mapped || {};
+			const styleSet = ownStyleSet(
+				block,
+				activeBreakpoint || 'desktop'
+			);
+			const currentMapped = styleSet.mapped || {};
 			const currentVal = currentMapped[ property ] || '';
-
-			const parsedVals = parseShorthand( currentVal );
-			const startPart = parsePart( parsedVals[ edge ] );
+			const initialParts = parseShorthand( currentVal );
+			const startPart = parsePart( initialParts[ edge ] );
+			const roleSource = roleBindingForProperty( styleSet, property );
+			const guided = panelMode === 'simple' && Boolean( roleSource );
+			const rendered = e.currentTarget.closest( '[data-block-id]' );
+			const originalInline =
+				rendered?.style.getPropertyValue( property ) || '';
+			let previewValue = currentVal;
+			let detent = roleSource?.binding.spacingAdjustment?.distance || 0;
 
 			const handleMouseMove = ( moveEvent ) => {
 				const deltaX = moveEvent.clientX - startX;
 				const deltaY = moveEvent.clientY - startY;
 				let delta = 0;
-				if ( edge === 'top' ) delta = deltaY;
-				else if ( edge === 'bottom' ) delta = -deltaY;
-				else if ( edge === 'left' ) delta = deltaX;
-				else if ( edge === 'right' ) delta = -deltaX;
+				if ( edge === 'top' ) {
+					delta = deltaY;
+				} else if ( edge === 'bottom' ) {
+					delta = -deltaY;
+				} else if ( edge === 'left' ) {
+					delta = deltaX;
+				} else if ( edge === 'right' ) {
+					delta = -deltaX;
+				}
 
 				let multiplier = 1;
-				if ( moveEvent.shiftKey ) multiplier = 10;
-				else if ( moveEvent.altKey || moveEvent.metaKey ) multiplier = 0.1;
+				if ( moveEvent.shiftKey ) {
+					multiplier = 10;
+				} else if ( moveEvent.altKey || moveEvent.metaKey ) {
+					multiplier = 0.1;
+				}
 
-				const newNum = startPart.num + ( delta * multiplier * 0.5 );
-				const formattedValue = newNum.toFixed( 1 ).replace( /\.0$/, '' ) + startPart.strUnit;
+				if ( guided ) {
+					detent = semanticDetentFromPointerDelta( delta );
+					const styles = rolePreviewStyles(
+						state.document,
+						roleSource.binding.roleId,
+						roleSource.scope,
+						{ distance: detent }
+					);
+					previewValue = styles[ property ] || currentVal;
+					if ( rendered ) {
+						rendered.style.setProperty( property, previewValue );
+						let detentLabel = 'Default';
+						if ( detent < 0 ) {
+							detentLabel = 'Closer';
+						} else if ( detent > 0 ) {
+							detentLabel = 'Farther';
+						}
+						rendered.dataset.guidedDetent = detentLabel;
+					}
+					return;
+				}
 
-				parsedVals[ edge ] = formattedValue;
-
-				const newValue = `${ parsedVals.top } ${ parsedVals.right } ${ parsedVals.bottom } ${ parsedVals.left }`;
-
-				updateEditableBlock( ( draft ) => {
-					if ( ! draft.styles ) draft.styles = { mapped: {}, custom_css_fallback: '' };
-					if ( ! draft.styles.mapped ) draft.styles.mapped = {};
-					draft.styles.mapped[ property ] = newValue;
-				} );
+				const newNum = startPart.num + delta * multiplier * 0.5;
+				const formattedValue =
+					newNum.toFixed( 1 ).replace( /\.0$/, '' ) +
+					startPart.strUnit;
+				const parts = { ...initialParts, [ edge ]: formattedValue };
+				previewValue = `${ parts.top } ${ parts.right } ${ parts.bottom } ${ parts.left }`;
+				if ( rendered ) {
+					rendered.style.setProperty( property, previewValue );
+				}
 			};
 
 			const handleMouseUp = () => {
-				window.removeEventListener( 'mousemove', handleMouseMove );
-				window.removeEventListener( 'mouseup', handleMouseUp );
-				useEditorStore.getState().addPast( useEditorStore.getState().document );
+				cleanup();
+				if ( rendered ) {
+					if ( originalInline ) {
+						rendered.style.setProperty( property, originalInline );
+					} else {
+						rendered.style.removeProperty( property );
+					}
+					delete rendered.dataset.guidedDetent;
+				}
+				if ( guided ) {
+					useEditorStore
+						.getState()
+						.adjustBlockStyleRole(
+							blockId,
+							roleSource.scope,
+							{ distance: detent },
+							activeBreakpoint || 'desktop'
+						);
+				} else if ( previewValue !== currentVal ) {
+					useEditorStore
+						.getState()
+						.updateBlockMappedStyles(
+							blockId,
+							{ [ property ]: previewValue },
+							activeBreakpoint || 'desktop'
+						);
+				}
+			};
+			const handleKeyDown = ( keyEvent ) => {
+				if ( keyEvent.key !== 'Escape' ) {
+					return;
+				}
+				keyEvent.preventDefault();
+				cleanup();
+				if ( rendered ) {
+					if ( originalInline ) {
+						rendered.style.setProperty( property, originalInline );
+					} else {
+						rendered.style.removeProperty( property );
+					}
+					delete rendered.dataset.guidedDetent;
+				}
+			};
+			const cleanup = () => {
+				ownerWindow.removeEventListener( 'mousemove', handleMouseMove );
+				ownerWindow.removeEventListener( 'mouseup', handleMouseUp );
+				ownerWindow.removeEventListener( 'keydown', handleKeyDown );
 			};
 
-			window.addEventListener( 'mousemove', handleMouseMove );
-			window.addEventListener( 'mouseup', handleMouseUp );
+			ownerWindow.addEventListener( 'mousemove', handleMouseMove );
+			ownerWindow.addEventListener( 'mouseup', handleMouseUp );
+			ownerWindow.addEventListener( 'keydown', handleKeyDown );
 		};
 
 		const positionStyles = {
@@ -2156,19 +2748,39 @@ function CanvasDragHandles( { blockId } ) {
 		}
 
 		return (
-			<div
+			<button
 				key={ edge }
+				type="button"
 				className={ `ctb-canvas-drag-handle is-${ property }-${ edge }` }
 				style={ positionStyles }
 				onMouseDown={ handleMouseDown }
+				aria-label={ `Drag to adjust ${ property } ${ edge }` }
 				title={ `Drag to adjust ${ property } ${ edge }` }
 			/>
 		);
 	};
 
 	return (
-		<div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, pointerEvents: 'none' }}>
-			<div style={{ pointerEvents: 'auto', position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}>
+		<div
+			style={ {
+				position: 'absolute',
+				top: 0,
+				left: 0,
+				right: 0,
+				bottom: 0,
+				pointerEvents: 'none',
+			} }
+		>
+			<div
+				style={ {
+					pointerEvents: 'auto',
+					position: 'absolute',
+					top: 0,
+					left: 0,
+					right: 0,
+					bottom: 0,
+				} }
+			>
 				{ createHandle( 'padding', 'top' ) }
 				{ createHandle( 'padding', 'right' ) }
 				{ createHandle( 'padding', 'bottom' ) }
@@ -2178,13 +2790,16 @@ function CanvasDragHandles( { blockId } ) {
 	);
 }
 
-
 function BlockContent( {
 	block,
 	styleIndexes,
 	isRoot = false,
 	componentOwnerId = null,
 	onContextMenu,
+	dropIntent = null,
+	ancestorIds = [],
+	depth = 0,
+	siblingIndex = 0,
 } ) {
 	const selectedBlockId = useEditorStore(
 		( state ) => state.selectedBlockId
@@ -2192,6 +2807,9 @@ function BlockContent( {
 	const selectBlock = useEditorStore( ( state ) => state.selectBlock );
 	const commercePreviewSourceId = block.meta?.commerce_preview_source_id;
 	const commercePreview = Boolean( block.meta?.commerce_preview_owner_id );
+	const resourceBase = useEditorStore(
+		( state ) => state.document.imported_assets?.page_meta?.base_href || ''
+	);
 	const {
 		attributes: dragAttributes,
 		isDragging,
@@ -2200,24 +2818,36 @@ function BlockContent( {
 	} = useDraggable( {
 		id: block.id,
 		disabled: isRoot || Boolean( componentOwnerId ) || commercePreview,
-		data: { label: block.id },
+		data: { label: block.id, locked: Boolean( block.permissions?.locked ) },
 	} );
+	const canContain =
+		block.type === 'container' && ! VOID_TAGS.has( block.tag );
 	const { isOver, setNodeRef: setDroppableNodeRef } = useDroppable( {
 		id: block.id,
 		disabled: Boolean( componentOwnerId ) || commercePreview,
-		data: { type: block.type },
+		data: {
+			type: block.type,
+			parentId: ancestorIds.at( -1 ) || null,
+			index: siblingIndex,
+			depth,
+			childCount: ( block.children || [] ).filter(
+				( child ) => child.kind !== 'text'
+			).length,
+			canContain,
+			allowSibling: ! isRoot,
+			locked: Boolean( block.permissions?.locked ),
+			ancestorIds,
+		},
 	} );
-	const attributes = { ...block.attributes };
+	const attributes = normalizeReactAttributes( block.attributes );
 	for ( const name of [ 'href', 'src', 'cite' ] ) {
 		if ( typeof attributes[ name ] === 'string' ) {
-			attributes[ name ] = normalizeResourceUrl( attributes[ name ] );
+			attributes[ name ] = normalizeResourceUrl(
+				attributes[ name ],
+				resourceBase
+			);
 		}
 	}
-	if ( attributes.class ) {
-		attributes.className = attributes.class;
-		delete attributes.class;
-	}
-
 	if ( block.type === 'skeleton' ) {
 		return (
 			<SkeletonLoader
@@ -2230,12 +2860,19 @@ function BlockContent( {
 	const hasTokenOverride = blockHasTokenOverride( block );
 	const savedComponent = isSavedComponentBlock( block );
 	const selectionId = componentOwnerId || commercePreviewSourceId || block.id;
+	const isIntentTarget = dropIntent?.targetId === block.id;
+	const dropIntentClass = isIntentTarget
+		? dropIntent.valid
+			? `is-drop-${ dropIntent.position }`
+			: 'is-drop-invalid'
+		: '';
 	attributes.className = [
 		'ctb-rendered-block',
 		`ctb-preview-block-${ styleIndexes[ block.id ] }`,
 		isRoot ? 'is-root' : 'is-draggable',
 		isDragging ? 'is-dragging' : '',
-		isOver ? 'is-drop-target' : '',
+		isOver && ! isIntentTarget ? 'is-drop-target' : '',
+		dropIntentClass,
 		selectedBlockId === selectionId ? 'is-selected' : '',
 		savedComponent ? 'is-saved-component' : '',
 		hasTokenOverride ? 'has-token-override' : '',
@@ -2244,9 +2881,14 @@ function BlockContent( {
 	]
 		.filter( Boolean )
 		.join( ' ' );
-	attributes.style = toReactStyles( block.styles.mapped );
+	attributes.style = toReactStyles( block.styles.mapped, resourceBase );
 	attributes[ 'data-block-id' ] = selectionId;
 	attributes[ 'data-block-type' ] = block.type;
+	if ( isIntentTarget ) {
+		attributes[ 'data-drop-position' ] = dropIntent.valid
+			? dropIntent.position
+			: 'invalid';
+	}
 	let blockLabel = `${ savedComponent ? 'saved component' : block.tag } · ${
 		block.id
 	}${ hasTokenOverride ? ' · token override' : '' }`;
@@ -2305,9 +2947,15 @@ function BlockContent( {
 		return createElement( block.tag, attributes );
 	}
 
-	const isForm = block.type === 'form';
-	const isFormField = block.type === 'form_field';
+	const isNativeImportedForm = Boolean( block.meta?.imported_native_html );
+	const isForm = block.type === 'form' && ! isNativeImportedForm;
+	const isFormField = block.type === 'form_field' && ! isNativeImportedForm;
 
+	const childBlockIndexes = new Map(
+		block.children
+			.filter( ( child ) => child.kind !== 'text' )
+			.map( ( child, index ) => [ child.id, index ] )
+	);
 	const childrenNodes = block.children.map( ( child, index ) =>
 		child.kind === 'text' ? (
 			child.value
@@ -2320,12 +2968,17 @@ function BlockContent( {
 					componentOwnerId || ( savedComponent ? block.id : null )
 				}
 				onContextMenu={ onContextMenu }
+				dropIntent={ dropIntent }
+				ancestorIds={ [ ...ancestorIds, block.id ] }
+				depth={ depth + 1 }
+				siblingIndex={ childBlockIndexes.get( child.id ) }
 			/>
 		)
 	);
 
 	if ( isFormField ) {
 		const fieldType = attributes[ 'data-field-type' ] || 'text';
+		const fieldLabel = attributes[ 'data-field-label' ] || '';
 		const placeholder = attributes[ 'data-field-placeholder' ] || '';
 		let inputNode = null;
 		if ( fieldType === 'textarea' ) {
@@ -2375,6 +3028,19 @@ function BlockContent( {
 		}
 		childrenNodes.push(
 			<div key="input-mock" style={ { marginTop: '4px' } }>
+				{ fieldLabel ? (
+					<span
+						style={ {
+							display: 'block',
+							fontSize: '12px',
+							fontWeight: 600,
+							marginBottom: '6px',
+						} }
+					>
+						{ fieldLabel }
+						{ attributes[ 'data-field-required' ] ? ' *' : '' }
+					</span>
+				) : null }
 				{ inputNode }
 			</div>
 		);
@@ -2393,136 +3059,32 @@ function BlockContent( {
 						cursor: 'not-allowed',
 					} }
 				>
-					Submit
+					{ attributes[ 'data-submit-label' ] || 'Submit' }
 				</button>
 			</div>
 		);
 	}
-	if ( selectedBlockId === selectionId && !VOID_TAGS.has( block.tag ) ) {
-		// Only render drag handles if element is relative/absolute/fixed/sticky OR if we enforce relative position for handles
-		if ( !attributes.style.position || attributes.style.position === 'static' ) {
-			attributes.style.position = 'relative';
-		}
-		childrenNodes.push( <CanvasDragHandles key="canvas-drag-handles" blockId={ selectionId } /> );
+	if (
+		selectedBlockId === selectionId &&
+		! VOID_TAGS.has( block.tag ) &&
+		[ 'relative', 'absolute', 'fixed', 'sticky' ].includes(
+			attributes.style.position
+		)
+	) {
+		childrenNodes.push(
+			<CanvasDragHandles
+				key="canvas-drag-handles"
+				blockId={ selectionId }
+			/>
+		);
 	}
 
 	return createElement( block.tag, attributes, childrenNodes );
 }
 
-function SavedComponentPanel( {
-	components,
-	loading,
-	onSave,
-	onInsert,
-	onReplace,
-} ) {
-	const [ name, setName ] = useState( '' );
-	const [ busy, setBusy ] = useState( false );
-	const [ message, setMessage ] = useState( '' );
-
-	async function run( action ) {
-		setBusy( true );
-		setMessage( '' );
-		try {
-			const result = await action();
-			setMessage( result || '' );
-		} catch ( error ) {
-			setMessage( error.message || 'Saved component operation failed.' );
-		} finally {
-			setBusy( false );
-		}
-	}
-
-	return (
-		<details className="ctb-saved-component-panel" open>
-			<summary>
-				<span>Saved components</span>
-				<small>{ components.length } saved</small>
-			</summary>
-			<p className="ctb-component-help">
-				Save the selected subtree, then insert a linked instance here or
-				on another page.
-			</p>
-			<div className="ctb-component-create">
-				<label htmlFor="ctb-component-name">
-					<span>Name</span>
-					<input
-						id="ctb-component-name"
-						type="text"
-						placeholder="Feature card"
-						value={ name }
-						onChange={ ( event ) => setName( event.target.value ) }
-					/>
-				</label>
-				<button
-					type="button"
-					disabled={ busy || ! name.trim() }
-					onClick={ () =>
-						run( async () => {
-							const result = await onSave( name );
-							setName( '' );
-							return result;
-						} )
-					}
-				>
-					Save selection
-				</button>
-			</div>
-			{ loading ? (
-				<p className="ctb-component-help">Loading library...</p>
-			) : null }
-			<div className="ctb-component-list">
-				{ components.map( ( component ) => (
-					<div
-						key={ component.id }
-						className={ `ctb-component-row is-${ component.status }` }
-					>
-						<div>
-							<strong>{ component.name }</strong>
-							<small>
-								{ component.status === 'ready'
-									? `#${ component.id } · linked`
-									: COMPONENT_FAILURE_MESSAGE }
-							</small>
-						</div>
-						<div className="ctb-component-row-actions">
-							<button
-								type="button"
-								disabled={
-									busy || component.status !== 'ready'
-								}
-								onClick={ () =>
-									run( () => onInsert( component ) )
-								}
-							>
-								Insert
-							</button>
-							<button
-								type="button"
-								disabled={
-									busy || component.status !== 'ready'
-								}
-								onClick={ () =>
-									run( () => onReplace( component ) )
-								}
-							>
-								Replace from selection
-							</button>
-						</div>
-					</div>
-				) ) }
-			</div>
-			{ message ? (
-				<p className="ctb-component-message" role="status">
-					{ message }
-				</p>
-			) : null }
-		</details>
-	);
-}
-
 function ExplainPanel( { block } ) {
 	const declarations = block.meta?.css_mapping?.declarations;
+	const importedRules = block.meta?.imported_css_rules || [];
 	const mapped = Array.isArray( declarations )
 		? declarations.filter(
 				( declaration ) => declaration.destination === 'style-control'
@@ -2538,8 +3100,8 @@ function ExplainPanel( { block } ) {
 	function MappingRows( { items, destination } ) {
 		return (
 			<ul className="ctb-explain-list">
-				{ items.map( ( declaration ) => (
-					<li key={ declaration.property }>
+				{ items.map( ( declaration, index ) => (
+					<li key={ `${ declaration.property }-${ index }` }>
 						<div className="ctb-explain-route">
 							<code>{ declaration.property }</code>
 							<span aria-hidden="true">→</span>
@@ -2561,79 +3123,80 @@ function ExplainPanel( { block } ) {
 	}
 
 	return (
-		<details className="ctb-explain-panel" open={ count > 0 }>
-			<summary>
-				<span>Explain CSS</span>
-				<small>
-					{ count ? `${ count } resolved` : 'no import data' }
-				</small>
-			</summary>
-			<p className="ctb-explain-help">
-				This is the resolved CSS captured at import. Later style edits
-				do not rewrite this record.
-			</p>
-			{ isSavedComponentBlock( block ) ? (
-				<p className="ctb-explain-empty">
-					Mapping is stored inside the linked component, not on this
-					instance.
+		<>
+			<details className="ctb-explain-panel" open={ count > 0 }>
+				<summary>
+					<span>Explain CSS</span>
+					<small>
+						{ count ? `${ count } resolved` : 'no import data' }
+					</small>
+				</summary>
+				<p className="ctb-explain-help">
+					This is the resolved CSS captured at import. Later style
+					edits do not rewrite this record.
 				</p>
-			) : null }
-			{ ! isSavedComponentBlock( block ) && ! count ? (
-				<p className="ctb-explain-empty">
-					No CSS mapping was recorded for this block.
-				</p>
-			) : null }
-			{ mapped.length ? (
-				<section className="ctb-explain-group">
-					<h4>Mapped to controls</h4>
-					<MappingRows items={ mapped } destination="style-control" />
-				</section>
-			) : null }
-			{ fallback.length ? (
-				<section className="ctb-explain-group">
-					<h4>Preserved as raw CSS</h4>
-					<MappingRows items={ fallback } destination="raw-css" />
-				</section>
-			) : null }
-		</details>
-	);
-}
-
-function StarterTemplatesPanel( { onReplace, onInsert } ) {
-	return (
-		<details className="ctb-starter-templates-panel" open>
-			<summary>
-				<span>Starter templates</span>
-				<small>{ STARTER_TEMPLATES.length } ready</small>
-			</summary>
-			<p className="ctb-starter-help">
-				Replace the canvas or insert a starter after the selected block.
-			</p>
-			<div className="ctb-starter-grid">
-				{ STARTER_TEMPLATES.map( ( template ) => (
-					<div key={ template.id } className="ctb-starter-row">
-						<div>
-							<strong>{ template.label }</strong>
-							<small>{ template.description }</small>
-						</div>
-						<div className="ctb-starter-row-actions">
-							<button
-								type="button"
-								onClick={ () => onReplace( template.id ) }
+				{ isSavedComponentBlock( block ) ? (
+					<p className="ctb-explain-empty">
+						Mapping is stored inside the linked component, not on
+						this instance.
+					</p>
+				) : null }
+				{ ! isSavedComponentBlock( block ) && ! count ? (
+					<p className="ctb-explain-empty">
+						No CSS mapping was recorded for this block.
+					</p>
+				) : null }
+				{ mapped.length ? (
+					<section className="ctb-explain-group">
+						<h4>Mapped to controls</h4>
+						<MappingRows
+							items={ mapped }
+							destination="style-control"
+						/>
+					</section>
+				) : null }
+				{ fallback.length ? (
+					<section className="ctb-explain-group">
+						<h4>Preserved as raw CSS</h4>
+						<MappingRows items={ fallback } destination="raw-css" />
+					</section>
+				) : null }
+			</details>
+			{ importedRules.length ? (
+				<details className="ctb-explain-panel" open>
+					<summary>
+						<span>Styles from imported CSS</span>
+						<small>{ importedRules.length } matched</small>
+					</summary>
+					<ul className="ctb-explain-list">
+						{ importedRules.map( ( rule, index ) => (
+							<li
+								key={ `${ rule.stylesheet_id }-${ rule.order }-${ index }` }
 							>
-								Replace canvas
-							</button>
-							<button
-								type="button"
-								onClick={ () => onInsert( template.id ) }
-							>
-								Insert after selection
-							</button>
-						</div>
-					</div>
-				) ) }
-			</div>
-		</details>
+								<div className="ctb-explain-route">
+									<code>{ rule.selector }</code>
+									<strong>{ rule.condition }</strong>
+								</div>
+								<code className="ctb-explain-value">
+									{ rule.declarations
+										.map(
+											( declaration ) =>
+												`${ declaration.property }: ${
+													declaration.value
+												}${
+													declaration.important
+														? ' !important'
+														: ''
+												};`
+										)
+										.join( ' ' ) }
+								</code>
+							</li>
+						) ) }
+					</ul>
+				</details>
+			) : null }
+		</>
 	);
 }
 
@@ -4318,10 +4881,16 @@ function BlockVisibilityControl( { block, breakpoint, onToggle } ) {
 }
 
 function BreakpointSwitcher( { value, onChange, compact = false } ) {
+	const deviceIcons = {
+		desktop: 'fa-display',
+		tablet: 'fa-tablet-screen-button',
+		mobile: 'fa-mobile-screen-button',
+	};
+
 	return (
 		<div
-			className={ `ctb-breakpoint-switcher${
-				compact ? ' is-compact' : ''
+			className={ `flex items-center gap-1 rounded-lg bg-gray-100 p-1 ${
+				compact ? '' : 'w-full'
 			}` }
 			role="group"
 			aria-label={ compact ? 'Style breakpoint' : 'Canvas breakpoint' }
@@ -4330,12 +4899,24 @@ function BreakpointSwitcher( { value, onChange, compact = false } ) {
 				<button
 					key={ breakpoint.id }
 					type="button"
-					className={ value === breakpoint.id ? 'is-active' : '' }
+					className={ `flex h-8 items-center justify-center gap-2 rounded-md border-0 px-2.5 text-[11px] font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${
+						value === breakpoint.id
+							? 'bg-white text-indigo-600 shadow-sm'
+							: 'bg-transparent text-gray-500 hover:bg-white/70 hover:text-gray-800'
+					}` }
 					aria-pressed={ value === breakpoint.id }
+					title={ `${ breakpoint.label } · ${ breakpoint.width }` }
 					onClick={ () => onChange( breakpoint.id ) }
 				>
-					<span>{ breakpoint.label }</span>
-					<small>{ breakpoint.width }</small>
+					<i
+						className={ `fa-solid ${
+							deviceIcons[ breakpoint.id ]
+						} text-xs` }
+						aria-hidden="true"
+					></i>
+					<span className={ compact ? 'sr-only' : '' }>
+						{ breakpoint.label }
+					</span>
 				</button>
 			) ) }
 		</div>
@@ -4726,7 +5307,6 @@ function RawCssControl( { styleSet, breakpoint, onApply } ) {
 	);
 }
 
-
 function ScrubbableInput( { id, value, placeholder, disabled, onChange } ) {
 	const [ isDragging, setIsDragging ] = useState( false );
 	const [ startX, setStartX ] = useState( 0 );
@@ -4736,7 +5316,10 @@ function ScrubbableInput( { id, value, placeholder, disabled, onChange } ) {
 	const parseValue = ( val ) => {
 		const match = String( val || '' ).match( /^(-?\d*\.?\d+)(.*)$/ );
 		if ( match ) {
-			return { num: parseFloat( match[ 1 ] ), strUnit: match[ 2 ] || 'px' };
+			return {
+				num: parseFloat( match[ 1 ] ),
+				strUnit: match[ 2 ] || 'px',
+			};
 		}
 		return { num: 0, strUnit: 'px' };
 	};
@@ -4767,7 +5350,7 @@ function ScrubbableInput( { id, value, placeholder, disabled, onChange } ) {
 				multiplier = 0.1;
 			}
 
-			const newValue = startValue + ( deltaX * multiplier * 0.5 ); // 0.5 sensitivity factor
+			const newValue = startValue + deltaX * multiplier * 0.5; // 0.5 sensitivity factor
 			// format to 1 decimal place to avoid floating point issues, then remove trailing .0
 			const formattedValue = newValue.toFixed( 1 ).replace( /\.0$/, '' );
 			onChange( { target: { value: `${ formattedValue }${ unit }` } } );
@@ -4799,9 +5382,11 @@ function ScrubbableInput( { id, value, placeholder, disabled, onChange } ) {
 			multiplier = 0.1;
 		}
 		const delta = e.deltaY < 0 ? 1 : -1;
-		const newValue = parsed.num + ( delta * multiplier );
+		const newValue = parsed.num + delta * multiplier;
 		const formattedValue = newValue.toFixed( 1 ).replace( /\.0$/, '' );
-		onChange( { target: { value: `${ formattedValue }${ parsed.strUnit }` } } );
+		onChange( {
+			target: { value: `${ formattedValue }${ parsed.strUnit }` },
+		} );
 	};
 
 	return (
@@ -4833,7 +5418,9 @@ function MappedStyleControls( {
 	onLinkToken,
 	onRemoveToken,
 	onOverrideToken,
+	allowedProperties,
 } ) {
+	const allowedPropertySet = new Set( allowedProperties || [] );
 	const currentValues = Object.fromEntries(
 		STYLE_CONTROL_FIELDS.map( ( field ) => [
 			field.property,
@@ -4958,7 +5545,12 @@ function MappedStyleControls( {
 				.map( ( fp ) =>
 					STYLE_CONTROL_FIELDS.find( ( f ) => f.property === fp )
 				)
-				.filter( Boolean ),
+				.filter(
+					( field ) =>
+						Boolean( field ) &&
+						( ! allowedProperties ||
+							allowedPropertySet.has( field.property ) )
+				),
 		};
 	} );
 
@@ -4974,6 +5566,10 @@ function MappedStyleControls( {
 					.map( ( field ) => {
 						const reference =
 							effectiveBindings[ field.property ] || '';
+						const roleSource = roleBindingForProperty(
+							styleSet,
+							field.property
+						);
 						const linked = Boolean(
 							reference &&
 								effectiveMapped[ field.property ] ===
@@ -5057,22 +5653,36 @@ function MappedStyleControls( {
 									{ field.options ? (
 										<select
 											id={ `ctb-${ breakpoint }-${ field.property }` }
-											disabled={ linked }
-											value={ values[ field.property ] || '' }
+											disabled={ linked && ! roleSource }
+											value={
+												values[ field.property ] || ''
+											}
 											onChange={ ( event ) =>
 												setValues( {
 													...values,
-													[ field.property ]: event.target.value,
+													[ field.property ]:
+														event.target.value,
 												} )
 											}
 										>
 											<option value="">
-												{ breakpoint !== 'desktop' && inheritedMapped[ field.property ]
-													? `Inherits ${ inheritedMapped[ field.property ] }`
-													: field.placeholder || 'Default' }
+												{ breakpoint !== 'desktop' &&
+												inheritedMapped[
+													field.property
+												]
+													? `Inherits ${
+															inheritedMapped[
+																field.property
+															]
+													  }`
+													: field.placeholder ||
+													  'Default' }
 											</option>
 											{ field.options.map( ( opt ) => (
-												<option key={ opt } value={ opt }>
+												<option
+													key={ opt }
+													value={ opt }
+												>
 													{ opt }
 												</option>
 											) ) }
@@ -5080,10 +5690,12 @@ function MappedStyleControls( {
 									) : (
 										<ScrubbableInput
 											id={ `ctb-${ breakpoint }-${ field.property }` }
-											disabled={ linked }
+											disabled={ linked && ! roleSource }
 											placeholder={
 												breakpoint !== 'desktop' &&
-												inheritedMapped[ field.property ]
+												inheritedMapped[
+													field.property
+												]
 													? `Inherits ${
 															inheritedMapped[
 																field.property
@@ -5181,6 +5793,40 @@ function ScriptDetections( { detections, onMap } ) {
 		recognized: 'Recognized / confirmation required',
 		mapped: 'Mapped action',
 		unverified: 'Unverified / not executable',
+		preserved: 'Preserved / Preview and Publish only',
+		blocked: 'Preserved / disabled by permission',
+	};
+	const contextFor = ( detection ) => {
+		if ( detection.status === 'unverified' ) {
+			return (
+				<p>
+					Attached to <code>{ detection.attachedBlockId }</code> for
+					manual review only.
+				</p>
+			);
+		}
+		if ( [ 'recognized', 'mapped' ].includes( detection.status ) ) {
+			return (
+				<p>
+					Source <code>{ detection.sourceBlockId }</code>
+					{ ' -> ' }target <code>{ detection.targetBlockId }</code>
+				</p>
+			);
+		}
+		if ( detection.status === 'blocked' ) {
+			return (
+				<p>
+					Preserved for review, but execution requires the WordPress
+					<code>unfiltered_html</code> capability.
+				</p>
+			);
+		}
+		return (
+			<p>
+				Disabled in the editor iframe. Execution is limited to the
+				separate opener-detached WordPress page.
+			</p>
+		);
 	};
 
 	return (
@@ -5205,19 +5851,7 @@ function ScriptDetections( { detections, onMap } ) {
 							{ labels[ detection.status ] }
 						</span>
 						<p>{ detection.description }</p>
-						{ detection.status === 'unverified' ? (
-							<p>
-								Attached to{ ' ' }
-								<code>{ detection.attachedBlockId }</code> for
-								manual review only.
-							</p>
-						) : (
-							<p>
-								Source <code>{ detection.sourceBlockId }</code>
-								{ ' -> ' }target{ ' ' }
-								<code>{ detection.targetBlockId }</code>
-							</p>
-						) }
+						{ contextFor( detection ) }
 					</div>
 					<pre>{ detection.code }</pre>
 					{ detection.status === 'recognized' ? (
@@ -5877,6 +6511,7 @@ function BlockActions( { block } ) {
 }
 
 function Editor() {
+	const editorSettings = window.codeToBlockEditorSettings || {};
 	const document = useEditorStore( ( state ) => state.document );
 	const setDocument = useEditorStore( ( state ) => state.setDocument );
 	const resetDocument = useEditorStore( ( state ) => state.resetDocument );
@@ -5894,13 +6529,6 @@ function Editor() {
 	const moveSelectedBlock = useEditorStore(
 		( state ) => state.moveBlockSibling
 	);
-	const insertSavedComponent = useEditorStore(
-		( state ) => state.insertSavedComponent
-	);
-	const replaceWithStarter = useEditorStore(
-		( state ) => state.replaceWithStarter
-	);
-	const insertStarter = useEditorStore( ( state ) => state.insertStarter );
 	const insertWooCommerceBlock = useEditorStore(
 		( state ) => state.insertWooCommerceBlock
 	);
@@ -5912,6 +6540,10 @@ function Editor() {
 	const updateBlockAttribute = useEditorStore(
 		( state ) => state.updateBlockAttribute
 	);
+	const updateBlockProp = useEditorStore(
+		( state ) => state.updateBlockProp
+	);
+	const updateBlockTag = useEditorStore( ( state ) => state.updateBlockTag );
 	const setBlockVisibilityConditions = useEditorStore(
 		( state ) => state.setBlockVisibilityConditions
 	);
@@ -5939,6 +6571,9 @@ function Editor() {
 	const updateBlockMappedStyles = useEditorStore(
 		( state ) => state.updateBlockMappedStyles
 	);
+	const replaceBlockStyleSet = useEditorStore(
+		( state ) => state.replaceBlockStyleSet
+	);
 	const upsertDesignToken = useEditorStore(
 		( state ) => state.upsertDesignToken
 	);
@@ -5950,6 +6585,33 @@ function Editor() {
 	);
 	const removeBlockTokenBinding = useEditorStore(
 		( state ) => state.removeBlockTokenBinding
+	);
+	const setBlockStyleRole = useEditorStore(
+		( state ) => state.setBlockStyleRole
+	);
+	const adjustBlockStyleRole = useEditorStore(
+		( state ) => state.adjustBlockStyleRole
+	);
+	const setBlockRolePropertyOverride = useEditorStore(
+		( state ) => state.setBlockRolePropertyOverride
+	);
+	const rejoinBlockRoleProperty = useEditorStore(
+		( state ) => state.rejoinBlockRoleProperty
+	);
+	const resolveBlockImportReview = useEditorStore(
+		( state ) => state.resolveBlockImportReview
+	);
+	const rejoinGuidedRoleOverride = useEditorStore(
+		( state ) => state.rejoinGuidedRoleOverride
+	);
+	const updateGuidedRoleProperty = useEditorStore(
+		( state ) => state.updateGuidedRoleProperty
+	);
+	const restoreGuidedRole = useEditorStore(
+		( state ) => state.restoreGuidedRole
+	);
+	const setEditorContext = useEditorStore(
+		( state ) => state.setEditorContext
 	);
 	const setBlockSlotProperties = useEditorStore(
 		( state ) => state.setBlockSlotProperties
@@ -5978,21 +6640,37 @@ function Editor() {
 	);
 	const insertWidget = useEditorStore( ( state ) => state.insertWidget );
 	const [ activeId, setActiveId ] = useState( null );
+	const [ dropIntent, setDropIntent ] = useState( null );
+	const dropIntentRef = useRef( null );
 	const [ activeState, setActiveState ] = useState( 'default' );
 	const [ isImporterOpen, setIsImporterOpen ] = useState( false );
+	const [ isRevisionsOpen, setIsRevisionsOpen ] = useState( false );
 	const [ paletteDragging, setPaletteDragging ] = useState( null );
+	useEffect( () => {
+		if ( ! paletteDragging && ! activeId && dropIntentRef.current ) {
+			clearDropIntent();
+		}
+	}, [ activeId, paletteDragging ] );
 	const [ customAttributeName, setCustomAttributeName ] = useState( '' );
 	const [ customAttributeValue, setCustomAttributeValue ] = useState( '' );
 	const [ unifiedInput, setUnifiedInput ] = useState( '' );
 	const [ parseError, setParseError ] = useState( '' );
+	const [ importActivity, setImportActivity ] = useState(
+		'Paste code, then choose Display in Builder.'
+	);
+	const liveImportStartedRef = useRef( false );
+	const liveImportTimerRef = useRef( null );
+	const lastImportedInputRef = useRef( '' );
+	const applyImportedCodeRef = useRef( null );
 	const [ documentLoading, setDocumentLoading ] = useState( true );
 	const [ parseWarnings, setParseWarnings ] = useState( [] );
+	const [ importReview, setImportReview ] = useState( null );
 	const [ scriptDetections, setScriptDetections ] = useState( [] );
 	const [ phpDetections, setPhpDetections ] = useState( [] );
 	const [ persistenceStatus, setPersistenceStatus ] = useState( '' );
 	const [ previewBreakpoint, setPreviewBreakpoint ] = useState( 'desktop' );
 	const [ components, setComponents ] = useState( [] );
-	const [ componentsLoading, setComponentsLoading ] = useState( false );
+	const [ , setComponentsLoading ] = useState( false );
 	const updateWooSettings = useEditorStore(
 		( state ) => state.updateWooSettings
 	);
@@ -6003,10 +6681,107 @@ function Editor() {
 	const [ commerceLoading, setCommerceLoading ] = useState( false );
 	const [ parityWarnings, setParityWarnings ] = useState( [] );
 	const [ a11yIssues, setA11yIssues ] = useState( [] );
+	const [ editorAction, setEditorAction ] = useState( '' );
+	const [ postStatus, setPostStatus ] = useState(
+		editorSettings.postStatus || 'draft'
+	);
+	const [ serverVersion, setServerVersion ] = useState(
+		editorSettings.serverVersion || ''
+	);
+	const [ lastSavedContentHash, setLastSavedContentHash ] = useState( '' );
+	const [ hasNewerAutosave, setHasNewerAutosave ] = useState( false );
+	const postId = Number( editorSettings.postId || 0 );
+
+	async function recoverAutosave() {
+		try {
+			setPersistenceStatus( 'Recovering autosave...' );
+			const revisionsResponse = await apiFetch( {
+				path: `/code-to-block/v1/pages/${ postId }/revisions`,
+			} );
+			const autosaveRev = revisionsResponse.revisions.find(
+				( r ) => r.is_autosave
+			);
+			if ( autosaveRev ) {
+				const restoreResponse = await apiFetch( {
+					path: `/code-to-block/v1/pages/${ postId }/revisions/${ autosaveRev.id }/restore`,
+					method: 'POST',
+				} );
+				resetDocument( restoreResponse.document );
+				setHasNewerAutosave( false );
+				setPersistenceStatus(
+					'Autosave recovered. Save to keep these changes.'
+				);
+			} else {
+				setPersistenceStatus( 'No autosave found to recover.' );
+				setHasNewerAutosave( false );
+			}
+		} catch ( e ) {
+			setPersistenceStatus( 'Failed to recover autosave.' );
+		}
+	}
+
+	const isDirty =
+		lastSavedContentHash !== '' &&
+		contentHash( document ) !== lastSavedContentHash;
+
+	useEffect( () => {
+		const checkDirty = () => isDirty;
+		return installNavigationGuard( checkDirty );
+	}, [ isDirty ] );
+
+	const documentRef = useRef( document );
+	const isDirtyRef = useRef( isDirty );
+	useEffect( () => {
+		documentRef.current = document;
+		isDirtyRef.current = isDirty;
+	}, [ document, isDirty ] );
+
+	useEffect( () => {
+		if ( ! postId ) return;
+		const interval = setInterval( async () => {
+			if ( isDirtyRef.current ) {
+				const response = await autosaveDocument( {
+					apiFetch,
+					postId,
+					document: documentRef.current,
+				} );
+				if ( response && response.success ) {
+					const time = new Date().toLocaleTimeString( [], {
+						hour: '2-digit',
+						minute: '2-digit',
+					} );
+					setPersistenceStatus( `Autosaved at ${ time }` );
+				}
+			}
+		}, 60000 );
+		return () => clearInterval( interval );
+	}, [ postId ] );
+
 	const [ contextMenu, setContextMenu ] = useState( null );
 	const [ clipboardBlock, setClipboardBlock ] = useState( null );
 	const [ clipboardStyles, setClipboardStyles ] = useState( null );
-	const postId = Number( window.codeToBlockEditorSettings?.postId || 0 );
+	const [ pendingRoleEdit, setPendingRoleEdit ] = useState( null );
+	const previewSnapshot = useRef( null );
+	const [ activeTab, setActiveTab ] = useState( 'content' );
+	useEffect( () => {
+		if ( ! isImporterOpen ) {
+			liveImportStartedRef.current = false;
+			return undefined;
+		}
+		function closeImporter( event ) {
+			if ( event.key === 'Escape' ) {
+				setIsImporterOpen( false );
+			}
+		}
+		window.addEventListener( 'keydown', closeImporter );
+		return () => window.removeEventListener( 'keydown', closeImporter );
+	}, [ isImporterOpen ] );
+	useEffect( () => {
+		setEditorContext(
+			previewBreakpoint,
+			activeTab === 'advanced' ? 'advanced' : 'simple'
+		);
+	}, [ activeTab, previewBreakpoint, setEditorContext ] );
 	const sensors = useSensors(
 		useSensor( PointerSensor, { activationConstraint: { distance: 3 } } ),
 		useSensor( KeyboardSensor )
@@ -6055,6 +6830,11 @@ function Editor() {
 		? effectiveMappedStyles( selectedParentBlock, previewBreakpoint )
 				.display || 'block'
 		: 'block';
+	const selectedInspector = resolveInspector( selectedBlock, {
+		breakpoint: previewBreakpoint,
+		state: activeState,
+		parentDisplay: selectedParentDisplay,
+	} );
 	const selectedStyleSet = ownStyleSet( selectedBlock, previewBreakpoint );
 	const selectedInheritedMapped = inheritedMappedStyles(
 		selectedBlock,
@@ -6079,9 +6859,13 @@ function Editor() {
 		selectedColorReference &&
 			selectedColor === tokenCssValue( selectedColorReference )
 	);
-	const selectedMappedStyleKey = STYLE_CONTROL_FIELDS.map(
-		( field ) => selectedStyleSet.mapped[ field.property ] || ''
-	).join( '|' );
+	const selectedMappedStyleKey =
+		STYLE_CONTROL_FIELDS.map(
+			( field ) => selectedStyleSet.mapped[ field.property ] || ''
+		).join( '|' ) + JSON.stringify( selectedStyleSet.role_bindings || {} );
+	useEffect( () => {
+		cancelGuidedRolePreview();
+	}, [ selectedBlockId, activeTab, previewBreakpoint ] );
 	const selectedOverrideCount = countStyleOverrides( selectedStyleSet );
 	const activeBreakpoint = BREAKPOINTS.find(
 		( breakpoint ) => breakpoint.id === previewBreakpoint
@@ -6290,19 +7074,11 @@ function Editor() {
 			}
 			case 'pasteStyles': {
 				if ( targetBlock && clipboardStyles ) {
-					const updates = clipboardStyles.mapped || {};
-					updateBlockMappedStyles(
+					replaceBlockStyleSet(
 						targetId,
-						updates,
+						clipboardStyles,
 						previewBreakpoint
 					);
-					if ( clipboardStyles.custom_css_fallback ) {
-						updateBlockCustomCss(
-							targetId,
-							clipboardStyles.custom_css_fallback,
-							previewBreakpoint
-						);
-					}
 					setPersistenceStatus( 'Styles pasted. Unsaved changes.' );
 				}
 				break;
@@ -6457,11 +7233,13 @@ function Editor() {
 		} )
 			.then( ( savedDocument ) => {
 				if ( active ) {
-					resetDocument( savedDocument );
+					const migratedDocument =
+						migrateGuidedRolesDocument( savedDocument );
+					resetDocument( migratedDocument );
 					setScriptDetections( [] );
 					setPhpDetections( [] );
 					setParityWarnings( [] );
-					setA11yIssues( runAccessibilityChecks( savedDocument ) );
+					setA11yIssues( runAccessibilityChecks( migratedDocument ) );
 					setPersistenceStatus( 'Loaded.' );
 					setDocumentLoading( false );
 				}
@@ -6588,6 +7366,28 @@ function Editor() {
 	}
 
 	function applyMappedStyles( styles ) {
+		const changedRoleProperty = Object.entries( styles ).find(
+			( [ property, value ] ) =>
+				value !== ( selectedStyleSet.mapped?.[ property ] || '' ) &&
+				roleBindingForProperty( selectedStyleSet, property )
+		);
+		if ( changedRoleProperty ) {
+			const [ property, value ] = changedRoleProperty;
+			const source = roleBindingForProperty( selectedStyleSet, property );
+			setPendingRoleEdit( {
+				property,
+				value,
+				scope: source.scope,
+				binding: source.binding,
+			} );
+			recordGuidedRoleEvent( 'guided_advanced_exact_edit_started', {
+				role_id: source.binding.roleId,
+				context_category: source.scope,
+				breakpoint_category: previewBreakpoint,
+				action_result: 'decision_required',
+			} );
+			return;
+		}
 		const documentBeforeEdit = useEditorStore.getState().document;
 		updateBlockMappedStyles( selectedBlock.id, styles, previewBreakpoint );
 		if ( useEditorStore.getState().document !== documentBeforeEdit ) {
@@ -6595,6 +7395,207 @@ function Editor() {
 				`${ activeBreakpoint.label } styles changed. Unsaved changes.`
 			);
 		}
+	}
+
+	function recordGuidedRoleEvent( eventName, payload ) {
+		const event = sanitizeGuidedRoleTelemetry( eventName, payload );
+		if ( ! event ) {
+			return;
+		}
+		window.dispatchEvent(
+			new window.CustomEvent( 'ctb-guided-role-event', { detail: event } )
+		);
+	}
+
+	function cancelGuidedRolePreview() {
+		const snapshot = previewSnapshot.current;
+		if ( ! snapshot ) {
+			return;
+		}
+		for ( const [ property, value ] of Object.entries( snapshot.values ) ) {
+			if ( value ) {
+				snapshot.element.style.setProperty( property, value );
+			} else {
+				snapshot.element.style.removeProperty( property );
+			}
+		}
+		snapshot.element.classList.remove( 'is-guided-role-preview' );
+		delete snapshot.element.dataset.guidedPreviewScope;
+		previewSnapshot.current = null;
+	}
+
+	function previewGuidedRole( roleId, scope ) {
+		cancelGuidedRolePreview();
+		const escapedId = window.CSS.escape( selectedBlock.id );
+		const element = window.document.querySelector(
+			`[data-block-id="${ escapedId }"]`
+		);
+		if ( ! element ) {
+			return;
+		}
+		const styles = rolePreviewStyles( document, roleId, scope );
+		const values = Object.fromEntries(
+			Object.keys( styles ).map( ( property ) => [
+				property,
+				element.style.getPropertyValue( property ),
+			] )
+		);
+		previewSnapshot.current = { element, values };
+		for ( const [ property, value ] of Object.entries( styles ) ) {
+			element.style.setProperty( property, value );
+		}
+		element.classList.add( 'is-guided-role-preview' );
+		element.dataset.guidedPreviewScope = scope;
+	}
+
+	function selectGuidedRole( roleId, scope ) {
+		cancelGuidedRolePreview();
+		const before = useEditorStore.getState().document;
+		setBlockStyleRole(
+			selectedBlock.id,
+			roleId,
+			scope,
+			previewBreakpoint,
+			roleCatalog( document )[ roleId ]?.builtIn ? 'built-in' : 'user'
+		);
+		if ( useEditorStore.getState().document !== before ) {
+			setPersistenceStatus(
+				`${
+					roleCatalog( document )[ roleId ]?.labelKey || roleId
+				} selected. Unsaved changes.`
+			);
+			recordGuidedRoleEvent( 'guided_role_selected', {
+				role_id: roleId,
+				context_category: scope,
+				breakpoint_category: previewBreakpoint,
+				action_result: 'committed',
+			} );
+		}
+	}
+
+	function adjustGuidedRole( scope, adjustment ) {
+		adjustBlockStyleRole(
+			selectedBlock.id,
+			scope,
+			adjustment,
+			previewBreakpoint
+		);
+		setPersistenceStatus( 'Guided adjustment applied. Unsaved changes.' );
+		const binding = selectedStyleSet.role_bindings?.[ scope ];
+		recordGuidedRoleEvent( 'guided_relative_adjustment_used', {
+			role_id: binding?.roleId || '',
+			context_category: scope,
+			breakpoint_category: previewBreakpoint,
+			action_result: 'committed',
+		} );
+	}
+
+	function rejoinGuidedRole( scope, property ) {
+		rejoinBlockRoleProperty(
+			selectedBlock.id,
+			scope,
+			property,
+			previewBreakpoint
+		);
+		setPersistenceStatus( 'Local override removed. Unsaved changes.' );
+		const binding = selectedStyleSet.role_bindings?.[ scope ];
+		recordGuidedRoleEvent( 'guided_override_rejoined', {
+			role_id: binding?.roleId || '',
+			context_category: scope,
+			breakpoint_category: previewBreakpoint,
+			action_result: 'committed',
+		} );
+	}
+
+	function resolveGuidedImportReview( flagId, useRole ) {
+		resolveBlockImportReview(
+			selectedBlock.id,
+			flagId,
+			useRole,
+			previewBreakpoint
+		);
+		setPersistenceStatus(
+			useRole
+				? 'Imported difference rejoined to the site role. Unsaved changes.'
+				: 'Imported difference kept as a local override. Unsaved changes.'
+		);
+	}
+
+	function rejoinOverrideFromManager( element, override ) {
+		rejoinGuidedRoleOverride(
+			element.blockId,
+			element.scope,
+			override.property,
+			element.breakpoint || 'desktop',
+			element.state || ''
+		);
+		selectBlock( element.blockId );
+		setPersistenceStatus( 'Role override rejoined. Unsaved changes.' );
+		recordGuidedRoleEvent( 'guided_override_rejoined', {
+			role_id: element.roleId,
+			context_category: element.scope,
+			breakpoint_category: element.breakpoint || 'desktop',
+			action_result: 'committed',
+		} );
+	}
+
+	function applyPendingRoleEditGlobally() {
+		if ( ! pendingRoleEdit ) {
+			return;
+		}
+		updateGuidedRoleProperty(
+			pendingRoleEdit.binding.roleId,
+			pendingRoleEdit.property,
+			pendingRoleEdit.value,
+			pendingRoleEdit.scope,
+			pendingRoleEdit.binding
+		);
+		recordGuidedRoleEvent( 'guided_global_role_updated', {
+			role_id: pendingRoleEdit.binding.roleId,
+			context_category: pendingRoleEdit.scope,
+			breakpoint_category: previewBreakpoint,
+			action_result: 'committed',
+		} );
+		setPendingRoleEdit( null );
+		setPersistenceStatus(
+			'Guided role updated everywhere. Unsaved changes.'
+		);
+	}
+
+	function applyPendingRoleEditLocally() {
+		if ( ! pendingRoleEdit ) {
+			return;
+		}
+		setBlockRolePropertyOverride(
+			selectedBlock.id,
+			pendingRoleEdit.scope,
+			pendingRoleEdit.property,
+			pendingRoleEdit.value,
+			previewBreakpoint
+		);
+		recordGuidedRoleEvent( 'guided_local_override_created', {
+			role_id: pendingRoleEdit.binding.roleId,
+			context_category: pendingRoleEdit.scope,
+			breakpoint_category: previewBreakpoint,
+			action_result: 'committed',
+		} );
+		setPendingRoleEdit( null );
+		setPersistenceStatus(
+			'Local style override created. Unsaved changes.'
+		);
+	}
+
+	function restoreGuidedRoleDefaults( roleId ) {
+		// eslint-disable-next-line no-alert -- destructive role reset requires explicit confirmation.
+		if (
+			! window.confirm( `Restore ${ roleId } to the Balanced defaults?` )
+		) {
+			return;
+		}
+		restoreGuidedRole( roleId );
+		setPersistenceStatus(
+			'Guided role defaults restored. Unsaved changes.'
+		);
 	}
 
 	function clearColorOverride() {
@@ -6696,49 +7697,6 @@ function Editor() {
 		return `${ component.name } saved to the component library.`;
 	}
 
-	async function replaceSavedComponent( component ) {
-		const componentDocument = createComponentDocument(
-			useEditorStore.getState().document,
-			selectedBlock,
-			component.name
-		);
-		await apiFetch( {
-			path: `/code-to-block/v1/pages/${ postId }/components/${ component.id }`,
-			method: 'PUT',
-			data: componentDocument,
-		} );
-		await refreshComponents();
-		return `${ component.name } updated. Linked instances now use the new version.`;
-	}
-
-	async function insertSavedComponentAtSelection( component ) {
-		const documentBeforeInsert = useEditorStore.getState().document;
-		insertSavedComponent( selectedBlock.id, component.id );
-		if ( useEditorStore.getState().document === documentBeforeInsert ) {
-			throw new Error(
-				'The saved component could not be inserted here.'
-			);
-		}
-		setPersistenceStatus( 'Saved component inserted. Unsaved changes.' );
-		return `${ component.name } inserted as a linked instance.`;
-	}
-
-	function replaceWithStarterTemplate( templateId ) {
-		replaceWithStarter( templateId );
-		setPersistenceStatus( 'Starter template loaded. Unsaved changes.' );
-	}
-
-	function insertStarterTemplateAtSelection( templateId ) {
-		const documentBeforeInsert = useEditorStore.getState().document;
-		insertStarter( selectedBlock.id, templateId );
-		if ( useEditorStore.getState().document === documentBeforeInsert ) {
-			throw new Error(
-				'The starter template could not be inserted here.'
-			);
-		}
-		setPersistenceStatus( 'Starter template inserted. Unsaved changes.' );
-	}
-
 	function insertWooCommerceBlockAtSelection( wooType, options ) {
 		const documentBeforeInsert = useEditorStore.getState().document;
 		insertWooCommerceBlock( selectedBlock.id, wooType, options );
@@ -6819,16 +7777,119 @@ function Editor() {
 		}
 	}
 
+	function storeDropIntent( nextIntent ) {
+		dropIntentRef.current = nextIntent;
+		setDropIntent( ( current ) =>
+			JSON.stringify( current ) === JSON.stringify( nextIntent )
+				? current
+				: nextIntent
+		);
+	}
+
+	function clearDropIntent() {
+		storeDropIntent( null );
+	}
+
+	function resolveDndEventIntent( event ) {
+		if ( ! event.over ) {
+			return null;
+		}
+		const root = useEditorStore.getState().document.root;
+		const targetId = String( event.over.id );
+		const activeBlockId = String( event.active.id );
+		const point = dragEventPoint( event );
+		let intent = resolveDocumentDropIntent( {
+			root,
+			targetId,
+			activeId: activeBlockId,
+			point,
+			rect: event.over.rect,
+		} );
+
+		if ( ! intent && event.over.rect ) {
+			intent = resolveDocumentDropIntent( {
+				root,
+				targetId,
+				activeId: activeBlockId,
+				point: {
+					x: event.over.rect.left + event.over.rect.width / 2,
+					y: event.over.rect.top + event.over.rect.height / 2,
+				},
+				rect: event.over.rect,
+			} );
+		}
+		return intent;
+	}
+
+	function updateDragIntent( event ) {
+		storeDropIntent( resolveDndEventIntent( event ) );
+	}
+
+	function startDrag( event ) {
+		setActiveId( event.active.id );
+		clearDropIntent();
+	}
+
 	function finishDrag( event ) {
 		const currentState = useEditorStore.getState();
-		if ( event.over && event.active.id !== currentState.document.root.id ) {
+		const intent = resolveDndEventIntent( event ) || dropIntentRef.current;
+		if (
+			intent?.valid &&
+			event.active.id !== currentState.document.root.id
+		) {
 			const documentBeforeMove = currentState.document;
-			moveBlock( event.active.id, event.over.id );
+			moveBlock( event.active.id, intent.targetId, intent.position );
 			if ( useEditorStore.getState().document !== documentBeforeMove ) {
 				setPersistenceStatus( 'Unsaved changes.' );
 			}
 		}
 		setActiveId( null );
+		clearDropIntent();
+	}
+
+	function cancelDrag() {
+		setActiveId( null );
+		clearDropIntent();
+	}
+
+	function resolvePaletteEventIntent( event ) {
+		const eventTarget =
+			event.target?.nodeType === 1
+				? event.target
+				: event.target?.parentElement;
+		const targetNode = eventTarget?.closest?.( '[data-block-id]' );
+		const root = useEditorStore.getState().document.root;
+		const targetId = targetNode?.dataset.blockId || root.id;
+		const rect = (
+			targetNode || event.currentTarget
+		)?.getBoundingClientRect?.();
+		if ( ! rect ) {
+			return null;
+		}
+		return resolveDocumentDropIntent( {
+			root,
+			targetId,
+			point: { x: event.clientX, y: event.clientY },
+			rect,
+		} );
+	}
+
+	function updatePaletteDropIntent( event ) {
+		storeDropIntent( resolvePaletteEventIntent( event ) );
+	}
+
+	function addPrimitiveAtDrop( primitive, event ) {
+		const intent =
+			resolvePaletteEventIntent( event ) || dropIntentRef.current;
+		const before = useEditorStore.getState().document;
+		if ( intent?.valid ) {
+			insertPrimitive( intent.targetId, primitive, intent.position );
+		}
+		if ( useEditorStore.getState().document !== before ) {
+			setPersistenceStatus( 'Element added. Unsaved changes.' );
+		}
+		setPaletteDragging( null );
+		clearDropIntent();
 	}
 
 	async function reviewPhpDetections( detections ) {
@@ -6935,18 +7996,47 @@ function Editor() {
 		return response;
 	}
 
-	function importCode( event ) {
-		event.preventDefault();
+	function prepareImportedCode( source ) {
+		if ( ! source.trim() ) {
+			setParseError(
+				'Paste HTML, CSS, JavaScript, PHP, or text before importing.'
+			);
+			setImportActivity( 'Waiting for code.' );
+			setImportReview( null );
+			return null;
+		}
+		setImportActivity( 'Parsing code...' );
 		try {
 			const shortcodePrefix = `ctb_php_${ postId || 'draft' }`;
 
-			const result = parseBlockDocument(
-				unifiedInput,
-				'',
-				shortcodePrefix
+			const result = parseBlockDocument( source, '', shortcodePrefix );
+			if (
+				editorSettings.canUnfilteredHtml === false &&
+				result.session.scripts.length
+			) {
+				for ( const script of result.session.scripts ) {
+					script.enabled_in_editor = false;
+					script.enabled_in_preview = false;
+					script.enabled_on_publish = false;
+				}
+				result.scriptDetections = result.scriptDetections.map(
+					( detection ) => ( {
+						...detection,
+						status: 'blocked',
+						description:
+							'Preserved as a disabled page script because this account cannot publish unfiltered HTML.',
+					} )
+				);
+				result.session.scriptDetections = result.scriptDetections;
+				result.warnings.push(
+					'Imported scripts were preserved but disabled because this account lacks unfiltered_html.'
+				);
+			}
+			setImportReview( { source, result } );
+			lastImportedInputRef.current = source;
+			setImportActivity(
+				`Ready: ${ result.session.review.builder_nodes } builder nodes parsed. Choose Display in Builder to apply them.`
 			);
-			setDocument( result.document );
-			setPersistenceStatus( 'Unsaved changes.' );
 			setParseWarnings( result.warnings );
 			setScriptDetections( result.scriptDetections );
 			setPhpDetections(
@@ -6957,13 +8047,89 @@ function Editor() {
 			);
 			setParseError( '' );
 			void reviewPhpDetections( result.phpDetections );
+			return result;
 		} catch ( error ) {
 			setParseError( error.message );
+			setImportActivity( 'Fix the code below to continue.' );
+			setImportReview( null );
 			setParseWarnings( [] );
 			setScriptDetections( [] );
 			setPhpDetections( [] );
+			return null;
 		}
 	}
+	applyImportedCodeRef.current = prepareImportedCode;
+
+	function commitImportedCode( result ) {
+		if ( ! result ) {
+			return false;
+		}
+		const normalized = normalizeImportedStyles(
+			result.document,
+			useEditorStore.getState().document
+		);
+		setDocument( normalized.document );
+		liveImportStartedRef.current = true;
+		setPersistenceStatus(
+			`Imported ${ countBlocks(
+				normalized.document.root
+			) } blocks. Unsaved changes.`
+		);
+		setImportActivity(
+			'Displayed in the builder. One Undo restores the previous page.'
+		);
+		setParseWarnings( [
+			...result.warnings,
+			`${ normalized.summary.mappedElements } elements mapped to existing roles.`,
+			...normalized.summary.normalizedGroups.map(
+				( group ) =>
+					`${ group.count } ${ group.label } normalized to ${ group.roleId }.`
+			),
+			`${ normalized.summary.retainedOverrides } deliberate differences kept as local overrides.`,
+		] );
+		recordGuidedRoleEvent( 'guided_import_normalized', {
+			role_id: 'multiple',
+			context_category: 'import',
+			breakpoint_category: 'desktop',
+			action_result: 'committed',
+		} );
+		setIsImporterOpen( false );
+		return true;
+	}
+
+	function applyImportNow() {
+		window.clearTimeout( liveImportTimerRef.current );
+		const result =
+			importReview?.source === unifiedInput
+				? importReview.result
+				: applyImportedCodeRef.current( unifiedInput );
+		commitImportedCode( result );
+	}
+
+	function importCode( event ) {
+		event.preventDefault();
+		applyImportNow();
+	}
+
+	useEffect( () => {
+		window.clearTimeout( liveImportTimerRef.current );
+		if (
+			! isImporterOpen ||
+			! unifiedInput.trim() ||
+			unifiedInput === lastImportedInputRef.current
+		) {
+			return undefined;
+		}
+
+		setImportActivity( 'Waiting for you to finish typing...' );
+		const source = unifiedInput;
+		liveImportTimerRef.current = window.setTimeout( () => {
+			if ( source !== lastImportedInputRef.current ) {
+				applyImportedCodeRef.current( source );
+			}
+		}, 700 );
+		return () => window.clearTimeout( liveImportTimerRef.current );
+	}, [ isImporterOpen, unifiedInput ] );
 
 	async function checkParity() {
 		if ( ! postId ) {
@@ -6980,15 +8146,15 @@ function Editor() {
 		}
 	}
 
-	async function saveDocument() {
+	async function saveDocument( statusMessage = 'Saving...' ) {
 		if ( ! postId ) {
 			setPersistenceStatus(
 				'Save the WordPress post once before saving its block tree.'
 			);
-			return;
+			return null;
 		}
 
-		setPersistenceStatus( 'Saving...' );
+		setPersistenceStatus( statusMessage );
 		try {
 			const documentToSave = useEditorStore.getState().document;
 
@@ -7001,6 +8167,7 @@ function Editor() {
 				method: 'POST',
 				data: {
 					document: documentToSave,
+					base_server_version: serverVersion,
 					editor_styles: buildEditorStyleSnapshot(
 						materializeComponents( documentToSave, components )
 					),
@@ -7008,15 +8175,114 @@ function Editor() {
 			} );
 			const savedDocument = response.document || response;
 			setParityWarnings( response.parity_warnings || [] );
-			if ( useEditorStore.getState().document === documentToSave ) {
+
+			if ( response.server_version ) {
+				setServerVersion( response.server_version );
+			}
+
+			const savedHash =
+				response.content_hash || contentHash( savedDocument );
+			setLastSavedContentHash( savedHash );
+
+			const currentHash = contentHash(
+				useEditorStore.getState().document
+			);
+			const hasUnsavedChanges = currentHash !== savedHash;
+
+			if ( ! hasUnsavedChanges ) {
 				syncSavedTree( savedDocument );
 				setPersistenceStatus( 'Saved.' );
 			} else {
 				markSavedTree( documentToSave, savedDocument );
 				setPersistenceStatus( 'Unsaved changes.' );
 			}
+			return { hasUnsavedChanges };
 		} catch ( error ) {
 			setPersistenceStatus( error.message || 'Save failed.' );
+			return null;
+		}
+	}
+
+	async function previewDocument() {
+		if ( editorAction || ! editorSettings.previewUrl ) {
+			return;
+		}
+		const previewWindow = window.open( 'about:blank', '_blank' );
+		if ( ! previewWindow ) {
+			setPersistenceStatus(
+				'Preview was blocked. Allow pop-ups and try again.'
+			);
+			return;
+		}
+
+		previewWindow.opener = null;
+		previewWindow.document.title = 'Preparing preview...';
+		previewWindow.document.body.textContent = 'Preparing preview...';
+		setEditorAction( 'preview' );
+		try {
+			const saveResult = await saveDocument( 'Saving before preview...' );
+			if ( ! saveResult ) {
+				previewWindow.close();
+				return;
+			}
+			previewWindow.location.replace(
+				freshPreviewUrl(
+					editorSettings.previewUrl,
+					window.location.href
+				)
+			);
+		} catch ( error ) {
+			previewWindow.close();
+			setPersistenceStatus( error.message || 'Preview failed.' );
+		} finally {
+			setEditorAction( '' );
+		}
+	}
+
+	async function publishDocument( targetStatus = 'publish' ) {
+		if ( editorAction ) {
+			return;
+		}
+		setEditorAction( 'publish' );
+		try {
+			if ( ! editorSettings.canPublish && targetStatus !== 'draft' ) {
+				await saveDocument();
+				return;
+			}
+			const result = await publishSavedDocument( {
+				apiFetch,
+				postRestPath: editorSettings.postRestPath,
+				postStatus,
+				targetStatus,
+				saveDocument,
+			} );
+			if ( ! result ) {
+				return;
+			}
+			const nextStatus = result.post.status || targetStatus;
+
+			let completedAction = 'Saved';
+			if ( nextStatus === 'publish' ) {
+				completedAction =
+					postStatus === 'publish' ? 'Updated' : 'Published';
+			} else if ( nextStatus === 'pending' ) {
+				completedAction = 'Submitted for review';
+			} else if ( nextStatus === 'private' ) {
+				completedAction = 'Made private';
+			} else if ( nextStatus === 'draft' && postStatus !== 'draft' ) {
+				completedAction = 'Unpublished to draft';
+			}
+
+			setPostStatus( nextStatus );
+			setPersistenceStatus(
+				result.saveResult.hasUnsavedChanges
+					? `${ completedAction }. Unsaved changes.`
+					: `${ completedAction }.`
+			);
+		} catch ( error ) {
+			setPersistenceStatus( error.message || 'Status change failed.' );
+		} finally {
+			setEditorAction( '' );
 		}
 	}
 
@@ -7030,30 +8296,38 @@ function Editor() {
 
 		setPersistenceStatus( 'Loading...' );
 		try {
-			const savedDocument = await apiFetch( {
+			const savedResponse = await apiFetch( {
 				path: `/code-to-block/v1/pages/${ postId }/block-tree`,
 			} );
-			resetDocument( savedDocument );
+			const savedDocument = savedResponse.document || savedResponse;
+			const migratedDocument =
+				migrateGuidedRolesDocument( savedDocument );
+			resetDocument( migratedDocument );
+
+			if ( savedResponse.server_version ) {
+				setServerVersion( savedResponse.server_version );
+			}
+			if ( savedResponse.post_status ) {
+				setPostStatus( savedResponse.post_status );
+			}
+			setLastSavedContentHash( contentHash( migratedDocument ) );
+
 			setScriptDetections( [] );
 			setPhpDetections( [] );
 			setParityWarnings( [] );
-			setA11yIssues( runAccessibilityChecks( savedDocument ) );
+			setA11yIssues( runAccessibilityChecks( migratedDocument ) );
+
+			if ( savedResponse.has_newer_autosave ) {
+				setHasNewerAutosave( true );
+			}
+
 			setPersistenceStatus( 'Loaded.' );
 		} catch ( error ) {
 			setPersistenceStatus( error.message || 'Load failed.' );
 		}
 	}
 
-	const [ activeTab, setActiveTab ] = useState( 'content' );
-	const [ isNavigatorOpen, setIsNavigatorOpen ] = useState( false );
 	const historyLog = document.history || [];
-
-	// Open navigator when dragging starts
-	useEffect( () => {
-		if ( activeId ) {
-			setIsNavigatorOpen( true );
-		}
-	}, [ activeId ] );
 
 	// Breadcrumb path computation
 	const breadcrumbPath = [];
@@ -7121,24 +8395,29 @@ function Editor() {
 
 	return (
 		<section
-			className={ `ctb-editor-shell${
-				activeId ? ' has-active-drag' : ''
+			className={ `h-screen w-screen flex flex-col overflow-hidden bg-white text-gray-800 font-poppins${
+				activeId ? ' cursor-grabbing' : ''
 			}` }
 			aria-label="Code to Block visual editor"
 		>
 			<TopHeader
-				documentName={document.name}
-				previewBreakpoint={previewBreakpoint}
-				setPreviewBreakpoint={setPreviewBreakpoint}
-				canUndo={canUndo}
-				canRedo={canRedo}
-				undoChange={undoChange}
-				redoChange={redoChange}
-				persistenceStatus={persistenceStatus}
-				previewUrl={window.codeToBlockEditorSettings?.previewUrl}
-				isImporterOpen={isImporterOpen}
-				setIsImporterOpen={setIsImporterOpen}
-				saveDocument={saveDocument}
+				documentName={ document.name }
+				previewBreakpoint={ previewBreakpoint }
+				setPreviewBreakpoint={ setPreviewBreakpoint }
+				canUndo={ canUndo }
+				canRedo={ canRedo }
+				undoChange={ undoChange }
+				redoChange={ redoChange }
+				persistenceStatus={ persistenceStatus }
+				canPreview={ Boolean( editorSettings.previewUrl ) }
+				canPublish={ Boolean( editorSettings.canPublish ) }
+				postStatus={ postStatus }
+				editorAction={ editorAction }
+				previewDocument={ previewDocument }
+				publishDocument={ publishDocument }
+				setIsImporterOpen={ setIsImporterOpen }
+				setIsRevisionsOpen={ setIsRevisionsOpen }
+				isDirty={ isDirty }
 			>
 				<BreakpointSwitcher
 					value={ previewBreakpoint }
@@ -7146,502 +8425,790 @@ function Editor() {
 					compact
 				/>
 			</TopHeader>
-			{ isImporterOpen && ( () => {
-				const detectedHtml = unifiedInput.trim() ? [ unifiedInput ] : [];
-				const detectedCss =
-					unifiedInput.match(
-						/<style\b[^>]*>([\s\S]*?)<\/style>/gi
-					) || [];
-				const detectedJs =
-					unifiedInput.match(
-						/<script\b[^>]*>([\s\S]*?)<\/script>/gi
-					) || [];
-				const detectedPhp =
-					unifiedInput.match( /<\?php[\s\S]*?\?>/gi ) || [];
-				const hasDetected =
-					detectedHtml.length > 0 ||
-					detectedCss.length > 0 ||
-					detectedJs.length > 0 ||
-					detectedPhp.length > 0;
-				return (
-					<form className="ctb-import-panel" onSubmit={ importCode }>
-						<div className="ctb-import-heading">
-							<div>
-								<p className="ctb-kicker">Unified Importer</p>
-								<h3>Paste your code</h3>
-								<p className="ctb-import-description">
-									Paste HTML, CSS, JavaScript, and PHP together. The
-									editor previews what it found before parsing.
-								</p>
-							</div>
-							<button type="submit">Parse onto canvas</button>
+
+			{ hasNewerAutosave && (
+				<div className="ctb-autosave-notice p-4 bg-yellow-50 border-b border-yellow-200 flex justify-between items-center text-sm text-yellow-800">
+					<p>
+						An autosave of this page is newer than the saved
+						version.
+					</p>
+					<div className="flex gap-2">
+						<button
+							onClick={ recoverAutosave }
+							className="px-3 py-1 bg-yellow-100 hover:bg-yellow-200 border border-yellow-300 rounded text-yellow-900 transition-colors"
+						>
+							Recover Autosave
+						</button>
+						<button
+							onClick={ () => setHasNewerAutosave( false ) }
+							className="px-3 py-1 hover:bg-yellow-100 rounded text-yellow-800 transition-colors"
+						>
+							Dismiss
+						</button>
+					</div>
+				</div>
+			) }
+
+			{ isRevisionsOpen && (
+				<div
+					className="ctb-import-panel"
+					role="dialog"
+					aria-labelledby="ctb-revisions-title"
+				>
+					<div className="ctb-import-heading">
+						<div>
+							<h3 id="ctb-revisions-title">Revision History</h3>
 						</div>
-						<div className="ctb-import-fields">
-							<label htmlFor="ctb-import-unified">
-								<span className="screen-reader-text">
-									Combined HTML, CSS, JS, PHP
-								</span>
-								<textarea
-									id="ctb-import-unified"
-									aria-label="Code to import"
-									placeholder="Paste your combined code here..."
-									value={ unifiedInput }
-									onChange={ ( event ) =>
-										setUnifiedInput( event.target.value )
-									}
-									style={ { minHeight: '250px' } }
-								/>
-							</label>
-							{ hasDetected && (
-								<div
-									className="ctb-import-detection"
-									style={ {
-										marginTop: '12px',
-										padding: '12px',
-										background: '#f8f9fa',
-										borderRadius: '4px',
-										fontSize: '13px',
-									} }
+						<div className="ctb-import-actions">
+							<button
+								type="button"
+								className="ctb-import-close"
+								onClick={ () => setIsRevisionsOpen( false ) }
+							>
+								Close
+							</button>
+						</div>
+					</div>
+					<RevisionHistory
+						postId={ postId }
+						apiFetch={ apiFetch }
+						onRestore={ ( restoredDoc ) => {
+							resetDocument( restoredDoc );
+							setIsRevisionsOpen( false );
+							setPersistenceStatus(
+								'Revision loaded. Save to keep these changes.'
+							);
+						} }
+					/>
+				</div>
+			) }
+
+			{ isImporterOpen &&
+				( () => {
+					const detectedHtml = unifiedInput.trim()
+						? [ unifiedInput ]
+						: [];
+					const detectedCss =
+						unifiedInput.match(
+							/<style\b[^>]*>([\s\S]*?)<\/style>/gi
+						) || [];
+					const detectedJs =
+						unifiedInput.match(
+							/<script\b[^>]*>([\s\S]*?)<\/script>/gi
+						) || [];
+					const detectedPhp =
+						unifiedInput.match( /<\?php[\s\S]*?\?>/gi ) || [];
+					const hasDetected =
+						detectedHtml.length > 0 ||
+						detectedCss.length > 0 ||
+						detectedJs.length > 0 ||
+						detectedPhp.length > 0;
+					return (
+						<form
+							className="ctb-import-panel"
+							onSubmit={ importCode }
+							role="dialog"
+							aria-labelledby="ctb-import-title"
+						>
+							<div className="ctb-import-heading">
+								<div>
+									<p className="ctb-kicker">
+										Unified Importer
+									</p>
+									<h3 id="ctb-import-title">
+										Paste your code
+									</h3>
+									<p className="ctb-import-description">
+										Paste a complete HTML document, an HTML
+										fragment, CSS, JavaScript, or PHP. The
+										latest source is parsed and displayed in
+										the isolated builder canvas in one step.
+										Scripts remain disabled while editing.
+									</p>
+									<p
+										className="ctb-import-live-status"
+										aria-live="polite"
+									>
+										{ importActivity }
+									</p>
+								</div>
+								<div className="ctb-import-actions">
+									<button
+										type="button"
+										className="ctb-import-close"
+										onClick={ () =>
+											setIsImporterOpen( false )
+										}
+									>
+										Close
+									</button>
+								</div>
+							</div>
+							<div className="ctb-import-commit-bar">
+								<p id="ctb-import-commit-help">
+									{ importReview?.source === unifiedInput
+										? `${ importReview.result.session.review.builder_nodes } builder nodes are ready to display.`
+										: 'The latest HTML will be parsed before it is displayed.' }
+								</p>
+								<button
+									type="submit"
+									disabled={ ! unifiedInput.trim() }
+									aria-describedby="ctb-import-commit-help"
 								>
-									<strong>Detected blocks:</strong>
-									<ul
+									Apply HTML &amp; Display Full Screen
+								</button>
+							</div>
+							<div className="ctb-import-fields">
+								<label htmlFor="ctb-import-unified">
+									<span className="screen-reader-text">
+										Combined HTML, CSS, JS, PHP
+									</span>
+									<textarea
+										id="ctb-import-unified"
+										aria-label="Code to import"
+										placeholder="Paste your combined code here..."
+										value={ unifiedInput }
+										onChange={ ( event ) => {
+											setUnifiedInput(
+												event.target.value
+											);
+											setParseError( '' );
+											setParseWarnings( [] );
+											setImportReview( null );
+											setScriptDetections( [] );
+										} }
+										autoFocus
+										style={ { minHeight: '250px' } }
+									/>
+								</label>
+								{ importReview?.source === unifiedInput ? (
+									<section
+										className="ctb-import-review"
+										aria-label="Import review"
+									>
+										<div className="ctb-import-review-grid">
+											<span>
+												Document
+												<strong>
+													{ importReview.result
+														.session.review
+														.document_type ===
+													'full-document'
+														? 'Full HTML document'
+														: 'Fragment / generated root' }
+												</strong>
+											</span>
+											<span>
+												Detected
+												<strong>
+													{
+														importReview.result
+															.session.review
+															.source_type
+													}{ ' ' }
+													·{ ' ' }
+													{ importReview.result.session.review.detected_languages.join(
+														', '
+													) || 'plain text' }
+												</strong>
+											</span>
+											<span>
+												Builder nodes
+												<strong>
+													{
+														importReview.result
+															.session.review
+															.builder_nodes
+													}
+												</strong>
+											</span>
+											<span>
+												Stylesheets
+												<strong>
+													{
+														importReview.result
+															.session.review
+															.stylesheets
+													}
+												</strong>
+											</span>
+											<span>
+												CSS variables
+												<strong>
+													{
+														importReview.result
+															.session.review
+															.css_variables
+													}
+												</strong>
+											</span>
+											<span>
+												Mapped responsive rules
+												<strong>
+													{
+														importReview.result
+															.session.review
+															.mapped_responsive
+													}
+												</strong>
+											</span>
+											<span>
+												Mapped state rules
+												<strong>
+													{
+														importReview.result
+															.session.review
+															.mapped_states
+													}
+												</strong>
+											</span>
+											<span>
+												Deferred custom CSS
+												<strong>
+													{
+														importReview.result
+															.session.review
+															.custom_css
+													}
+												</strong>
+											</span>
+											<span>
+												Unsupported elements
+												<strong>
+													{
+														importReview.result
+															.session.review
+															.unsupported_elements
+													}
+												</strong>
+											</span>
+											<span>
+												Media conditions
+												<strong>
+													{
+														importReview.result
+															.session.review
+															.media_conditions
+															.length
+													}
+												</strong>
+											</span>
+											<span>
+												Keyframes
+												<strong>
+													{
+														importReview.result
+															.session.review
+															.keyframes.length
+													}
+												</strong>
+											</span>
+											<span>
+												Scripts
+												<strong>
+													{
+														importReview.result
+															.session.review
+															.scripts
+													}{ ' ' }
+													(Preview/Publish only)
+												</strong>
+											</span>
+											<span>
+												External assets
+												<strong>
+													{
+														importReview.result
+															.session.review
+															.external_assets
+													}
+												</strong>
+											</span>
+										</div>
+										{ importReview.result.session.pageMeta
+											.title ? (
+											<p>
+												<strong>Page title:</strong>{ ' ' }
+												{
+													importReview.result.session
+														.pageMeta.title
+												}
+											</p>
+										) : null }
+										<details>
+											<summary>Normalized source</summary>
+											<pre>
+												{
+													importReview.result.session
+														.normalizedSource
+												}
+											</pre>
+										</details>
+										<details>
+											<summary>
+												Structure, styles, and
+												diagnostics
+											</summary>
+											<p>
+												Roots:{ ' ' }
+												{ importReview.result.document.root.children
+													?.filter(
+														( child ) =>
+															child.kind !==
+															'text'
+													)
+													.map(
+														( child ) => child.tag
+													)
+													.join( ', ' ) ||
+													importReview.result.document
+														.root.tag }
+											</p>
+											<p>
+												Media:{ ' ' }
+												{ importReview.result.session.review.media_conditions.join(
+													', '
+												) || 'None' }
+											</p>
+											<p>
+												Keyframes:{ ' ' }
+												{ importReview.result.session.review.keyframes.join(
+													', '
+												) || 'None' }
+											</p>
+										</details>
+									</section>
+								) : null }
+								{ hasDetected && (
+									<div
+										className="ctb-import-detection"
 										style={ {
-											margin: '8px 0 0',
-											paddingLeft: '20px',
+											marginTop: '12px',
+											padding: '12px',
+											background: '#f8f9fa',
+											borderRadius: '4px',
+											fontSize: '13px',
 										} }
 									>
-										{ detectedHtml.map( ( source ) => (
-											<li key="html-structure">
-												<details>
-													<summary>HTML structure</summary>
-													<pre>{ source }</pre>
-												</details>
-											</li>
-										) ) }
-										{ detectedCss.map( ( source, index ) => (
-											<li key={ `css-${ index }` }>
-												<details>
-													<summary>Stylesheet { index + 1 }</summary>
-													<pre>{ source }</pre>
-												</details>
-											</li>
-										) ) }
-										{ detectedJs.map( ( source, index ) => (
-											<li key={ `js-${ index }` }>
-												<details>
-													<summary>Script block { index + 1 }</summary>
-													<pre>{ source }</pre>
-												</details>
-											</li>
-										) ) }
-										{ detectedPhp.map( ( source, index ) => (
-											<li key={ `php-${ index }` }>
-												<details>
-													<summary>PHP snippet { index + 1 }</summary>
-													<pre>{ source }</pre>
-												</details>
-											</li>
-										) ) }
-									</ul>
-									{ detectedPhp.length > 0 && (
-										<p
+										<strong>Detected blocks:</strong>
+										<ul
 											style={ {
-												marginTop: '8px',
-												color: '#8a3b16',
-												background:
-													'rgba(255, 241, 223, 0.9)',
-												padding: '8px',
-												borderRadius: '4px',
+												margin: '8px 0 0',
+												paddingLeft: '20px',
 											} }
 										>
-											PHP code requires your explicit
-											confirmation before it's registered.
-										</p>
-									) }
+											{ detectedHtml.map( ( source ) => (
+												<li key="html-structure">
+													<details>
+														<summary>
+															HTML structure
+														</summary>
+														<pre>{ source }</pre>
+													</details>
+												</li>
+											) ) }
+											{ detectedCss.map(
+												( source, index ) => (
+													<li
+														key={ `css-${ index }` }
+													>
+														<details>
+															<summary>
+																Stylesheet{ ' ' }
+																{ index + 1 }
+															</summary>
+															<pre>
+																{ source }
+															</pre>
+														</details>
+													</li>
+												)
+											) }
+											{ detectedJs.map(
+												( source, index ) => (
+													<li key={ `js-${ index }` }>
+														<details>
+															<summary>
+																Script block{ ' ' }
+																{ index + 1 }
+															</summary>
+															<pre>
+																{ source }
+															</pre>
+														</details>
+													</li>
+												)
+											) }
+											{ detectedPhp.map(
+												( source, index ) => (
+													<li
+														key={ `php-${ index }` }
+													>
+														<details>
+															<summary>
+																PHP snippet{ ' ' }
+																{ index + 1 }
+															</summary>
+															<pre>
+																{ source }
+															</pre>
+														</details>
+													</li>
+												)
+											) }
+										</ul>
+										{ detectedPhp.length > 0 && (
+											<p
+												style={ {
+													marginTop: '8px',
+													color: '#8a3b16',
+													background:
+														'rgba(255, 241, 223, 0.9)',
+													padding: '8px',
+													borderRadius: '4px',
+												} }
+											>
+												PHP code requires your explicit
+												confirmation before it's
+												registered.
+											</p>
+										) }
+									</div>
+								) }
+							</div>
+							{ parseError ? (
+								<p
+									className="ctb-import-message is-error"
+									role="alert"
+								>
+									{ parseError }
+								</p>
+							) : null }
+							{ parseWarnings.length > 0 ? (
+								<div
+									className="ctb-import-message is-warning"
+									role="status"
+								>
+									<strong>Imported with warnings:</strong>
+									<ul>
+										{ parseWarnings.map( ( warning ) => (
+											<li key={ warning }>{ warning }</li>
+										) ) }
+									</ul>
 								</div>
-							) }
-						</div>
-						{ parseError ? (
-							<p
-								className="ctb-import-message is-error"
-								role="alert"
-							>
-								{ parseError }
-							</p>
-						) : null }
-						{ parseWarnings.length > 0 ? (
-							<div
-								className="ctb-import-message is-warning"
-								role="status"
-							>
-								<strong>Imported with warnings:</strong>
-								<ul>
-									{ parseWarnings.map( ( warning ) => (
-										<li key={ warning }>{ warning }</li>
-									) ) }
-								</ul>
-							</div>
-						) : null }
-						<ScriptDetections
-							detections={ scriptDetections }
-							onMap={ mapDetectedAction }
-						/>
-						<PhpDetections
-							detections={ phpDetections }
-							onRegister={ registerPhpShortcode }
-						/>
-					</form>
-				);
-			} )() }
-
-			<div className="ctb-editor-workspace ctb-layout-redesign">
-				{ /* LEFT RAIL - Add Elements */ }
-				<aside className="ctb-document-rail" aria-label="Add Elements">
-					<div className="ctb-document-inspector">
-						<div className="ctb-rail-heading" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px', borderBottom: '1px solid #f1f5f9' }}>
-							<h2 style={{ fontSize: '14px', fontWeight: '600', margin: 0 }}>Add Elements</h2>
-							<button style={{ background: 'transparent', border: 'none', color: '#94a3b8', cursor: 'pointer' }}><i className="fa-solid fa-xmark"></i></button>
-						</div>
-						<div className="ctb-element-search" style={{ padding: '16px', borderBottom: '1px solid #f1f5f9' }}>
-							<div style={{ position: 'relative' }}>
-								<i className="fa-solid fa-magnifying-glass" style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8', fontSize: '14px' }}></i>
-								<input type="search" placeholder="Search elements..." style={{ width: '100%', padding: '8px 32px', backgroundColor: '#f1f5f9', border: 'none', borderRadius: '6px', fontSize: '14px', outline: 'none' }} />
-								<span style={{ position: 'absolute', right: '8px', top: '50%', transform: 'translateY(-50%)', fontSize: '12px', color: '#94a3b8', border: '1px solid #e2e8f0', borderRadius: '4px', padding: '2px 4px' }}>⌘K</span>
-							</div>
-						</div>
-						<p className="ctb-element-group-label">Basic</p>
-						<div className="ctb-element-grid">
-							{ [
-								[ 'section', 'fa-regular fa-square', 'Section' ],
-								[ 'container', 'fa-regular fa-object-group', 'Container' ],
-								[ 'heading', 'fa-solid fa-heading', 'Heading' ],
-								[ 'text', 'fa-solid fa-font', 'Text' ],
-								[ 'button', 'fa-solid fa-stop', 'Button' ],
-								[ 'image', 'fa-regular fa-image', 'Image' ],
-								[ 'icon', 'fa-regular fa-star', 'Icon' ],
-								[ 'divider', 'fa-solid fa-minus', 'Divider' ],
-							].map( ( [ type, icon, label ] ) => (
-								<button
-									key={ type }
-									type="button"
-									draggable
-									className={ paletteDragging === type ? 'is-dragging' : '' }
-									onClick={ () => addPrimitiveAtSelection( type ) }
-									onDragStart={ ( event ) => {
-										event.dataTransfer.setData( 'application/x-ctb-element', type );
-										event.dataTransfer.effectAllowed = 'copy';
-										setPaletteDragging( type );
-										setIsNavigatorOpen( true );
-									} }
-									onDragEnd={ () => setPaletteDragging( null ) }
-								>
-									<i className={ `${icon} ctb-element-icon` } aria-hidden="true"></i>
-									<span>{ label }</span>
-								</button>
-							) ) }
-						</div>
-						<p className="ctb-element-group-label">Layout</p>
-						<div className="ctb-element-grid">
-							{ [
-								[ 'columns', 'fa-solid fa-columns', 'Columns' ],
-								[ 'grid', 'fa-solid fa-border-all', 'Grid' ],
-								[ 'stack', 'fa-solid fa-bars', 'Stack' ],
-								[ 'spacer', 'fa-solid fa-arrows-up-down', 'Spacer' ],
-							].map( ( [ type, icon, label ] ) => (
-								<button
-									key={ type }
-									type="button"
-									draggable
-									className={ paletteDragging === type ? 'is-dragging' : '' }
-									onClick={ () => addPrimitiveAtSelection( type ) }
-									onDragStart={ ( event ) => {
-										event.dataTransfer.setData( 'application/x-ctb-element', type );
-										event.dataTransfer.effectAllowed = 'copy';
-										setPaletteDragging( type );
-										setIsNavigatorOpen( true );
-									} }
-									onDragEnd={ () => setPaletteDragging( null ) }
-								>
-									<i className={ `${icon} ctb-element-icon` } aria-hidden="true"></i>
-									<span>{ label }</span>
-								</button>
-							) ) }
-						</div>
-						<p className="ctb-element-group-label">Content</p>
-						<div className="ctb-element-grid">
-							{ [
-								[ 'card', 'fa-regular fa-id-card', 'Card' ],
-								[ 'tabs', 'fa-regular fa-folder', 'Tabs' ],
-							].map( ( [ type, icon, label ] ) => (
-								<button
-									key={ type }
-									type="button"
-									draggable
-									className={ paletteDragging === type ? 'is-dragging' : '' }
-									onClick={ () => addPrimitiveAtSelection( type ) }
-									onDragStart={ ( event ) => {
-										event.dataTransfer.setData( 'application/x-ctb-element', type );
-										event.dataTransfer.effectAllowed = 'copy';
-										setPaletteDragging( type );
-										setIsNavigatorOpen( true );
-									} }
-									onDragEnd={ () => setPaletteDragging( null ) }
-								>
-									<i className={ `${icon} ctb-element-icon` } aria-hidden="true"></i>
-									<span>{ label }</span>
-								</button>
-							) ) }
-						</div>
-						<details className="ctb-library-drawer">
-							<summary>Components and integrations</summary>
-						<StarterTemplatesPanel
-							onReplace={ replaceWithStarterTemplate }
-							onInsert={ insertStarterTemplateAtSelection }
-						/>
-						<SavedComponentPanel
-							components={ components }
-							loading={ componentsLoading }
-							onSave={ saveSelectedAsComponent }
-							onInsert={ insertSavedComponentAtSelection }
-							onReplace={ replaceSavedComponent }
-						/>
-						<WooCommercePanel
-							selectedBlock={ selectedBlock }
-							onUpdateSettings={ ( id, updates ) => {
-								updateWooSettings( id, updates );
-								localUpdateHistoryStatus(
-									'WooCommerce settings updated. Unsaved changes.'
-								);
-							} }
-							onInsert={ insertWooCommerceBlockAtSelection }
-							onUpdateProduct={ updateProductData }
-							onCreateProduct={ createProductData }
-							productSaving={ commerceLoading }
-							products={ commerceProducts }
-							available={ commerceAvailable }
-						/>
-						<FormsPanel
-							selectedBlock={ selectedBlock }
-							onInsertForm={ () =>
-								insertForm( selectedBlock?.id )
-							}
-							onInsertField={ ( formId, type ) =>
-								insertFormField( formId, type )
-							}
-							onUpdateField={ ( id, updates ) =>
-								updateFormField( id, updates )
-							}
-							onUpdateFormSettings={ ( id, updates ) =>
-								updateFormSettings( id, updates )
-							}
-						/>
-						<WidgetLibraryPanel
-							onInsert={ ( block ) =>
-								insertWidget( selectedBlock?.id, block )
-							}
-						/>
-						</details>
-					</div>
-				</aside>
+							) : null }
+							<ScriptDetections
+								detections={ scriptDetections }
+								onMap={ mapDetectedAction }
+							/>
+							<PhpDetections
+								detections={ phpDetections }
+								onRegister={ registerPhpShortcode }
+							/>
+						</form>
+					);
+				} )() }
+			<div className="flex-1 flex min-h-0 overflow-hidden">
+				<LeftRail
+					paletteDragging={ paletteDragging }
+					addPrimitiveAtSelection={ addPrimitiveAtSelection }
+					setPaletteDragging={ setPaletteDragging }
+				/>
 
 				{ /* CANVAS WITH BREADCRUMBS */ }
 				<CenterCanvas
-					previewStyles={previewStyles}
-					breadcrumbPath={breadcrumbPath}
-					selectBlock={selectBlock}
-					DndContext={DndContext}
-					sensors={sensors}
-					closestCenter={closestCenter}
-					setActiveId={setActiveId}
-					finishDrag={finishDrag}
-					paletteDragging={paletteDragging}
-					previewBreakpoint={previewBreakpoint}
-					documentLoading={documentLoading}
-					SkeletonLoader={SkeletonLoader}
-					DragOverlay={DragOverlay}
-					activeBlock={activeBlock}
-					addPrimitiveAtSelection={addPrimitiveAtSelection}
-					setPaletteDragging={setPaletteDragging}
+					previewStyles={ previewStyles }
+					breadcrumbPath={ breadcrumbPath }
+					selectBlock={ selectBlock }
+					DndContext={ DndContext }
+					sensors={ sensors }
+					collisionStrategy={ collisionStrategy }
+					startDrag={ startDrag }
+					updateDragIntent={ updateDragIntent }
+					finishDrag={ finishDrag }
+					cancelDrag={ cancelDrag }
+					paletteDragging={ paletteDragging }
+					previewBreakpoint={ previewBreakpoint }
+					documentLoading={ documentLoading }
+					SkeletonLoader={ SkeletonLoader }
+					DragOverlay={ DragOverlay }
+					activeBlock={ activeBlock }
+					dropIntent={ dropIntent }
+					updatePaletteDropIntent={ updatePaletteDropIntent }
+					addPrimitiveAtDrop={ addPrimitiveAtDrop }
+					clearDropIntent={ clearDropIntent }
+					overlayModifiers={ [ cursorOffsetModifier ] }
 				>
-
-								{ documentLoading ? (
-									<div className="ctb-editor-skeleton-layout">
-										<SkeletonLoader type="image" />
-										<SkeletonLoader type="rich_text" />
-										<br />
-										<SkeletonLoader type="text" />
-										<SkeletonLoader type="link" />
-										<br />
-										<div
-											style={ {
-												display: 'flex',
-												gap: '20px',
-											} }
-										>
-											<div style={ { flex: 1 } }>
-												<SkeletonLoader type="rich_text" />
-											</div>
-											<div style={ { flex: 1 } }>
-												<SkeletonLoader type="rich_text" />
-											</div>
-										</div>
-									</div>
-								) : (
-									<Block
-										block={ viewDocument.root }
-										styleIndexes={ previewStyles.indexes }
-										isRoot
-										onContextMenu={ handleBlockContextMenu }
-									/>
-								) }
-							</CenterCanvas>
+					{ documentLoading ? (
+						<div className="ctb-editor-skeleton-layout">
+							<SkeletonLoader type="image" />
+							<SkeletonLoader type="rich_text" />
+							<br />
+							<SkeletonLoader type="text" />
+							<SkeletonLoader type="link" />
+							<br />
+							<div
+								style={ {
+									display: 'flex',
+									gap: '20px',
+								} }
+							>
+								<div style={ { flex: 1 } }>
+									<SkeletonLoader type="rich_text" />
+								</div>
+								<div style={ { flex: 1 } }>
+									<SkeletonLoader type="rich_text" />
+								</div>
+							</div>
+						</div>
+					) : (
+						<Block
+							block={ viewDocument.root }
+							styleIndexes={ previewStyles.indexes }
+							isRoot
+							onContextMenu={ handleBlockContextMenu }
+							dropIntent={ dropIntent }
+						/>
+					) }
+				</CenterCanvas>
 
 				{ /* RIGHT PANEL - Inspector Tabs */ }
 				<RightInspector
-                    BlockDynamicControl={BlockDynamicControl}
-                    BlockSlotControl={BlockSlotControl}
+					BlockDynamicControl={ BlockDynamicControl }
+					BlockSlotControl={ BlockSlotControl }
 					navigatorDock={
 						<NavigatorTree>
 							{ renderNavigatorNode( document.root ) }
 						</NavigatorTree>
 					}
-					selectedBlock={selectedBlock}
-					activeTab={activeTab}
-					setActiveTab={setActiveTab}
-					duplicateBlock={duplicateBlock}
-					deleteBlock={deleteBlock}
-					documentRootId={document.root.id}
-					updateBlockContent={updateBlockContent}
-					updateBlockAttribute={updateBlockAttribute}
-					setBlockDynamicProperties={setBlockDynamicProperties}
-					setBlockSlotProperties={setBlockSlotProperties}
-					localUpdateHistoryStatus={localUpdateHistoryStatus}
-					VOID_TAGS={VOID_TAGS}
+					selectedBlock={ selectedBlock }
+					inspectorModel={ selectedInspector }
+					activeTab={ activeTab }
+					setActiveTab={ setActiveTab }
+					duplicateBlock={ duplicateBlock }
+					deleteBlock={ deleteBlock }
+					documentRootId={ document.root.id }
+					updateBlockContent={ updateBlockContent }
+					updateBlockAttribute={ updateBlockAttribute }
+					updateBlockProp={ updateBlockProp }
+					updateBlockTag={ updateBlockTag }
+					updateBlockMappedStyles={ updateBlockMappedStyles }
+					setBlockHidden={ setBlockHidden }
+					previewBreakpoint={ previewBreakpoint }
+					setBlockDynamicProperties={ setBlockDynamicProperties }
+					setBlockSlotProperties={ setBlockSlotProperties }
+					localUpdateHistoryStatus={ localUpdateHistoryStatus }
+					VOID_TAGS={ VOID_TAGS }
 					styleTabContent={
-						<div className="ctb-tab-pane" style={{ padding: '16px' }}>
-
-										<h4>Design Tokens</h4>
-										<DesignTokenPanel
-											document={ document }
-											onSave={ saveDesignToken }
-											onDelete={ removeDesignToken }
-										/>
-										<h4>Styles</h4>
-										<p>
-											Selected:{ ' ' }
-											<strong>
-												{ selectedBlock.id }
-											</strong>
-										</p>
-										<ExplainPanel block={ selectedBlock } />
-										<BreakpointSwitcher
-											value={ previewBreakpoint }
-											onChange={ setPreviewBreakpoint }
-											compact
-										/>
-										<p>{ selectedBreakpointSummary }</p>
-										<ResponsiveColorOverride
-											breakpoint={ previewBreakpoint }
-											color={ selectedColor }
-											ownColor={ selectedOwnColor }
-											onClear={ clearColorOverride }
-										/>
-										<MappedStyleControls
-											key={ `${ selectedBlock.id }:${ previewBreakpoint }:${ selectedMappedStyleKey }` }
-											styleSet={ selectedStyleSet }
-											inheritedMapped={ selectedInheritedMapped }
-											effectiveMapped={ selectedEffectiveMapped }
-											effectiveBindings={ selectedEffectiveBindings }
-											designTokens={ document.design_tokens }
-											breakpoint={ previewBreakpoint }
-											panelMode="advanced"
-											searchQuery=""
-											parentDisplayValue={ selectedParentDisplay }
-											onApply={ applyMappedStyles }
-											onLinkToken={ linkSelectedToken }
-											onRemoveToken={ unlinkSelectedToken }
-											onOverrideToken={ overrideSelectedToken }
-										/>
-
+						<div
+							className="ctb-tab-pane"
+							style={ { padding: '16px' } }
+						>
+							<h4>Style context</h4>
+							<p className="ctb-muted">
+								Target:{ ' ' }
+								<strong>
+									{
+										selectedInspector.tabs.style
+											.activeTarget
+									}
+								</strong>
+							</p>
+							<ExplainPanel block={ selectedBlock } />
+							<BreakpointSwitcher
+								value={ previewBreakpoint }
+								onChange={ setPreviewBreakpoint }
+								compact
+							/>
+							<p>{ selectedBreakpointSummary }</p>
+							{ selectedInspector.tabs.style.properties.includes(
+								'color'
+							) ? (
+								<ResponsiveColorOverride
+									breakpoint={ previewBreakpoint }
+									color={ selectedColor }
+									ownColor={ selectedOwnColor }
+									onClear={ clearColorOverride }
+								/>
+							) : null }
+							{ guidedRolesEnabled( document ) ? (
+								<GuidedRolePanel
+									document={ document }
+									block={ selectedBlock }
+									styleSet={ selectedStyleSet }
+									effectiveMapped={ selectedEffectiveMapped }
+									onSelectRole={ selectGuidedRole }
+									onAdjustRole={ adjustGuidedRole }
+									onPreviewRole={ previewGuidedRole }
+									onCancelPreview={ cancelGuidedRolePreview }
+									onRejoin={ rejoinGuidedRole }
+									onResolveImportReview={
+										resolveGuidedImportReview
+									}
+								/>
+							) : null }
+							<h4>Element styles</h4>
+							<MappedStyleControls
+								key={ `${ selectedBlock.id }:${ previewBreakpoint }:${ selectedMappedStyleKey }` }
+								styleSet={ selectedStyleSet }
+								inheritedMapped={ selectedInheritedMapped }
+								effectiveMapped={ selectedEffectiveMapped }
+								effectiveBindings={ selectedEffectiveBindings }
+								designTokens={ document.design_tokens }
+								breakpoint={ previewBreakpoint }
+								panelMode="advanced"
+								searchQuery=""
+								allowedProperties={
+									selectedInspector.tabs.style.properties
+								}
+								parentDisplayValue={ selectedParentDisplay }
+								onApply={ applyMappedStyles }
+								onLinkToken={ linkSelectedToken }
+								onRemoveToken={ unlinkSelectedToken }
+								onOverrideToken={ overrideSelectedToken }
+							/>
+							<details className="ctb-document-design-system">
+								<summary>Document design system</summary>
+								<div className="ctb-document-design-system-content">
+									<GuidedRolesManager
+										document={ document }
+										onRestoreRole={
+											restoreGuidedRoleDefaults
+										}
+										onSelectElement={ selectBlock }
+										onRejoinOverride={
+											rejoinOverrideFromManager
+										}
+									/>
+									<DesignTokenPanel
+										document={ document }
+										onSave={ saveDesignToken }
+										onDelete={ removeDesignToken }
+									/>
+								</div>
+							</details>
 						</div>
 					}
 					advancedTabContent={
-						<div className="ctb-tab-pane" style={{ padding: '16px' }}>
-
-										<h4>Responsive</h4>
-										<BreakpointSwitcher
-											value={ previewBreakpoint }
-											onChange={ setPreviewBreakpoint }
-											compact
+						<div
+							className="ctb-tab-pane"
+							style={ { padding: '16px' } }
+						>
+							<h4>Responsive</h4>
+							<BreakpointSwitcher
+								value={ previewBreakpoint }
+								onChange={ setPreviewBreakpoint }
+								compact
+							/>
+							<p className="ctb-muted">
+								{ selectedBreakpointSummary }
+							</p>
+							<h4>Attributes & accessibility</h4>
+							<fieldset
+								disabled={ selectedBlock.permissions?.locked }
+								className="ctb-inspector-fields ctb-attribute-fields"
+							>
+								{ [
+									[ 'id', 'ID' ],
+									[ 'class', 'CSS classes' ],
+									[ 'title', 'Title' ],
+									[ 'role', 'ARIA role' ],
+									[ 'aria-label', 'ARIA label' ],
+									[ 'tabindex', 'Tab index' ],
+								].map( ( [ attribute, label ] ) => (
+									<label key={ attribute }>
+										<span>{ label }</span>
+										<input
+											key={ `${ selectedBlock.id }:${ attribute }` }
+											defaultValue={
+												selectedBlock.attributes?.[
+													attribute
+												] || ''
+											}
+											onBlur={ ( event ) =>
+												updateBlockAttribute(
+													selectedBlock.id,
+													attribute,
+													event.target.value
+												)
+											}
 										/>
-										<p className="ctb-muted">{ selectedBreakpointSummary }</p>
-										<h4>Attributes & accessibility</h4>
-										<fieldset disabled={ selectedBlock.permissions?.locked } className="ctb-inspector-fields ctb-attribute-fields">
-											{ [
-												[ 'id', 'ID' ],
-												[ 'class', 'CSS classes' ],
-												[ 'title', 'Title' ],
-												[ 'role', 'ARIA role' ],
-												[ 'aria-label', 'ARIA label' ],
-												[ 'tabindex', 'Tab index' ],
-											].map( ( [ attribute, label ] ) => (
-												<label key={ attribute }>
-													<span>{ label }</span>
-													<input
-														key={ `${ selectedBlock.id }:${ attribute }` }
-														defaultValue={ selectedBlock.attributes?.[ attribute ] || '' }
-														onBlur={ ( event ) => updateBlockAttribute( selectedBlock.id, attribute, event.target.value ) }
-													/>
-												</label>
-											) ) }
-											<div className="ctb-custom-attribute-row">
-												<input
-													aria-label="Custom attribute name"
-													placeholder="data-name"
-													value={ customAttributeName }
-													onChange={ ( event ) => setCustomAttributeName( event.target.value ) }
-												/>
-												<input
-													aria-label="Custom attribute value"
-													placeholder="Value"
-													value={ customAttributeValue }
-													onChange={ ( event ) => setCustomAttributeValue( event.target.value ) }
-												/>
-												<button
-													type="button"
-													onClick={ () => {
-														updateBlockAttribute( selectedBlock.id, customAttributeName, customAttributeValue );
-														setCustomAttributeName( '' );
-														setCustomAttributeValue( '' );
-													} }
-												>Add</button>
-											</div>
-										</fieldset>
-										<h4>Custom CSS & behavior</h4>
-										<RawCssControl
-											key={ `${ selectedBlock.id }:${ previewBreakpoint }:raw` }
-											styleSet={ selectedStyleSet }
-											breakpoint={ previewBreakpoint }
-											onApply={ applyCustomCss }
-										/>
-										<BlockAnimationControl block={ selectedBlock } />
-										<BlockActions block={ selectedBlock } />
-										<DiagnosticsPanel postId={ postId } />
-										<ParityWarningsPanel
-											warnings={ parityWarnings }
-											onSelect={ selectBlock }
-										/>
-										<AccessibilityPanel
-											issues={ a11yIssues }
-											onSelect={ selectBlock }
-										/>
-
+									</label>
+								) ) }
+								<div className="ctb-custom-attribute-row">
+									<input
+										aria-label="Custom attribute name"
+										placeholder="data-name"
+										value={ customAttributeName }
+										onChange={ ( event ) =>
+											setCustomAttributeName(
+												event.target.value
+											)
+										}
+									/>
+									<input
+										aria-label="Custom attribute value"
+										placeholder="Value"
+										value={ customAttributeValue }
+										onChange={ ( event ) =>
+											setCustomAttributeValue(
+												event.target.value
+											)
+										}
+									/>
+									<button
+										type="button"
+										onClick={ () => {
+											updateBlockAttribute(
+												selectedBlock.id,
+												customAttributeName,
+												customAttributeValue
+											);
+											setCustomAttributeName( '' );
+											setCustomAttributeValue( '' );
+										} }
+									>
+										Add
+									</button>
+								</div>
+							</fieldset>
+							<h4>Custom CSS & behavior</h4>
+							<RawCssControl
+								key={ `${ selectedBlock.id }:${ previewBreakpoint }:raw` }
+								styleSet={ selectedStyleSet }
+								breakpoint={ previewBreakpoint }
+								onApply={ applyCustomCss }
+							/>
+							<BlockAnimationControl block={ selectedBlock } />
+							<BlockActions block={ selectedBlock } />
+							<DiagnosticsPanel postId={ postId } />
+							<ParityWarningsPanel
+								warnings={ parityWarnings }
+								onSelect={ selectBlock }
+							/>
+							<AccessibilityPanel
+								issues={ a11yIssues }
+								onSelect={ selectBlock }
+							/>
 						</div>
 					}
 				/>
+				<RoleEditDecisionDialog
+					pending={ pendingRoleEdit }
+					affectedCount={
+						pendingRoleEdit
+							? countRoleUsage(
+									document,
+									pendingRoleEdit.binding.roleId
+							  ).uses
+							: 0
+					}
+					onGlobal={ applyPendingRoleEditGlobally }
+					onLocal={ applyPendingRoleEditLocally }
+					onCancel={ () => setPendingRoleEdit( null ) }
+				/>
 
 				{ /* FAR-RIGHT PANEL - Settings & Data */ }
-
 
 				<ContextMenu
 					menu={ contextMenu }

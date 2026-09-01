@@ -2,9 +2,15 @@
  * Maps source elements to editor behavior without discarding their HTML tag.
  *
  * @param {Element} element Source DOM element.
- * @return {'container'|'text'|'image'|'button'} Block type.
+ * @return {'container'|'text'|'image'|'button'|'form'|'form_field'} Block type.
  */
 export function blockTypeFor( element ) {
+	if ( element.tagName === 'FORM' ) {
+		return 'form';
+	}
+	if ( [ 'INPUT', 'SELECT', 'TEXTAREA' ].includes( element.tagName ) ) {
+		return 'form_field';
+	}
 	if ( element.tagName === 'IMG' ) {
 		return 'image';
 	}

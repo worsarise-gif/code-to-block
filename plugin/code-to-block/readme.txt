@@ -12,7 +12,7 @@ Turns pasted HTML and CSS into draggable, editable block trees with responsive c
 
 == Description ==
 
-The Code to Block page editor resolves pasted HTML and CSS into the version 1 block schema, renders each element on a visual canvas, supports block reordering and re-nesting via drag-and-drop (dnd-kit), provides 40+ style controls with Simple/Advanced modes, and persists the full tree through authenticated REST endpoints.
+The Code to Block page editor detects complete HTML documents, HTML fragments, CSS, JavaScript, PHP, and mixed source; normalizes them into the version 2 block schema and document assets; and renders the editable tree in a script-disabled isolated iframe. It supports block reordering and re-nesting via drag-and-drop (dnd-kit), provides 40+ style controls with Simple/Advanced modes, and persists the full tree through authenticated REST endpoints.
 
 Saved trees render on the custom post type's public URL. Their scoped CSS is generated once during save as a content-hash versioned file (`ctb-page-{id}-{hash}.css`) and served from the WordPress uploads directory with long immutable caching.
 
@@ -42,9 +42,9 @@ From the plugin directory, run `npm install` and `npm run build`. Generated edit
 
 == Frequently Asked Questions ==
 
-= Does this execute my JavaScript? =
+= Does this execute imported JavaScript? =
 
-Only narrow click patterns after explicit confirmation: `document.getElementById('id')` or `document.querySelector('#id')` with `.addEventListener('click', …)` and one of `classList.toggle/add/remove`, `toggleAttribute('hidden')`, `hidden = true/false`. Nothing executable is added until you click **Confirm and map action**. Everything else is preserved as `manual-review / unverified-script` metadata, shown as `Unverified script / never executed`, never rendered or executed server or client. The saved `animation_type` (`css_native` vs `js_library`) controls whether GSAP loads.
+Not in the editor. Imported scripts are document assets and the editor canvas is an iframe with no script sandbox permission plus a blocking CSP. Accounts also need WordPress's `unfiltered_html` capability; otherwise every script is preserved but its Preview/Publish execution flags are forced off on both client and server. Preview opens the owning WordPress page in a separate opener-detached document; publish emits enabled imported scripts only on that singular page, retaining safe type/order/integrity attributes. Inline HTML event handlers are removed. Structured builder actions remain available for constrained click/show/hide behavior, and the saved `animation_type` (`css_native` vs `js_library`) controls whether GSAP loads.
 
 = Does this run my PHP? =
 

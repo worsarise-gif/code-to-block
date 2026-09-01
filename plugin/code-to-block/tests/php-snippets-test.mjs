@@ -10,11 +10,7 @@ function check( actual, expected, message ) {
 	assertions += 1;
 }
 
-const none = extractPhpSnippets(
-	'<p>No PHP</p>',
-	'ctb_php_20',
-	orderedSuffix
-);
+const none = extractPhpSnippets( '<p>No PHP</p>', 'ctb_php_20', orderedSuffix );
 check( none.html, '<p>No PHP</p>', 'HTML without PHP must remain unchanged.' );
 check( none.phpDetections, [], 'HTML without PHP must produce no detections.' );
 
@@ -30,16 +26,32 @@ check(
 	'PHP content must become an inert shortcode placeholder.'
 );
 check( one.phpDetections.length, 1, 'One PHP block must produce one review.' );
-check( one.phpDetections[ 0 ].code, safeSource, 'The complete source must remain visible.' );
-check( one.phpDetections[ 0 ].tag, 'ctb_php_20_1', 'The proposed tag must be deterministic for the page.' );
-check( one.phpDetections[ 0 ].status, 'pending', 'Extracted source must begin unreviewed.' );
+check(
+	one.phpDetections[ 0 ].code,
+	safeSource,
+	'The complete source must remain visible.'
+);
+check(
+	one.phpDetections[ 0 ].tag,
+	'ctb_php_20_1',
+	'The proposed tag must be deterministic for the page.'
+);
+check(
+	one.phpDetections[ 0 ].status,
+	'pending',
+	'Extracted source must begin unreviewed.'
+);
 
 const multiple = extractPhpSnippets(
 	'<main><?php echo "one"; ?><p>Middle</p><?php return "two"; ?></main>',
 	'ctb_php_9',
 	orderedSuffix
 );
-check( multiple.phpDetections.length, 2, 'Every PHP block must be reviewed separately.' );
+check(
+	multiple.phpDetections.length,
+	2,
+	'Every PHP block must be reviewed separately.'
+);
 check(
 	multiple.html,
 	'<main>[ctb_php_9_1]<p>Middle</p>[ctb_php_9_2]</main>',
@@ -57,13 +69,33 @@ check(
 	'A closing-tag sequence inside a quoted string must not truncate the source.'
 );
 
+const shortEcho = extractPhpSnippets(
+	'<p><?= esc_html( $title ) ?></p>',
+	'ctb_php_6',
+	orderedSuffix
+);
+check(
+	shortEcho.html,
+	'<p>[ctb_php_6_1]</p>',
+	'PHP short echo syntax must become an inert placeholder.'
+);
+check(
+	shortEcho.phpDetections[ 0 ].code,
+	'<?php echo esc_html( $title ); ?>',
+	'PHP short echo syntax must normalize to reviewable standard PHP.'
+);
+
 const xml = extractPhpSnippets(
 	'<?xml version="1.0"?><article>Content</article>',
 	'ctb_php_1',
 	orderedSuffix
 );
 check( xml.phpDetections.length, 0, 'XML declarations are not PHP blocks.' );
-check( xml.html, '<?xml version="1.0"?><article>Content</article>', 'XML source must remain unchanged.' );
+check(
+	xml.html,
+	'<?xml version="1.0"?><article>Content</article>',
+	'XML source must remain unchanged.'
+);
 
 assert.throws(
 	() =>

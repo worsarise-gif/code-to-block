@@ -6,6 +6,8 @@ import {
 	countStyleOverrides,
 	effectiveMappedStyles,
 	inheritedMappedStyles,
+	isBlockHidden,
+	isHiddenOverridden,
 	ownStyleSet,
 	setOwnStyleSet,
 	styleSetIsEmpty,
@@ -56,6 +58,28 @@ equal( styleSetIsEmpty( { mapped: {}, custom_css_fallback: '' } ), true, 'An emp
 equal( styleSetIsEmpty( { mapped: { color: 'red' }, custom_css_fallback: '' } ), false, 'Mapped values make an override non-empty.' );
 equal( styleSetIsEmpty( { mapped: {}, token_bindings: { color: 'colors.brand' }, custom_css_fallback: '' } ), false, 'Token metadata must keep its responsive branch.' );
 equal( countStyleOverrides( block.responsive_overrides.tablet ), 3, 'Mapped declarations and raw CSS must be counted.' );
+
+const visibilityBlock = {
+	styles: {
+		mapped: { display: 'flex' },
+		custom_css_fallback: 'display: none !important;',
+	},
+	responsive_overrides: {
+		tablet: {
+			mapped: {},
+			custom_css_fallback: 'display: flex !important;',
+		},
+		mobile: {
+			mapped: {},
+			custom_css_fallback: 'display: none !important;',
+		},
+	},
+};
+equal( isBlockHidden( visibilityBlock, 'desktop' ), true, 'Desktop visibility controls must override a mapped display value.' );
+equal( isBlockHidden( visibilityBlock, 'tablet' ), false, 'A tablet show override must restore the element after a desktop hide.' );
+equal( isBlockHidden( visibilityBlock, 'mobile' ), true, 'A mobile hide override must win after the tablet restore.' );
+equal( isHiddenOverridden( visibilityBlock, 'tablet' ), false, 'An explicit tablet display value is not a hide override.' );
+equal( isHiddenOverridden( visibilityBlock, 'mobile' ), true, 'The current breakpoint must report its own hide override.' );
 
 const created = { styles: block.styles };
 setOwnStyleSet( created, 'tablet', { mapped: { margin: '20px' }, custom_css_fallback: '' } );

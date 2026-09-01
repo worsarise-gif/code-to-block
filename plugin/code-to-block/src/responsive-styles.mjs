@@ -88,65 +88,50 @@ export function countStyleOverrides( styleSet ) {
 	);
 }
 
-function fallbackContainsDisplayNone( fallback ) {
-	return String( fallback || '' )
-		.split( ';' )
-		.some( ( part ) =>
-			/^display\s*:\s*none\s*(?:!important)?\s*$/i.test( part.trim() )
+function fallbackDisplay( fallback ) {
+	let display = null;
+	for ( const part of String( fallback || '' ).split( ';' ) ) {
+		const match = /^display\s*:\s*([^;!]+?)\s*(!important)?\s*$/i.exec(
+			part.trim()
 		);
+		if ( match ) {
+			display = {
+				value: match[ 1 ].trim().toLowerCase(),
+				important: Boolean( match[ 2 ] ),
+			};
+		}
+	}
+	return display;
+}
+
+function styleSetDisplay( styleSet ) {
+	const mapped = String( styleSet?.mapped?.display || '' )
+		.replace( /\s*!important\s*$/i, '' )
+		.trim()
+		.toLowerCase();
+	const fallback = fallbackDisplay( styleSet?.custom_css_fallback );
+	if ( fallback && ( fallback.important || ! mapped ) ) {
+		return fallback.value;
+	}
+	return mapped || null;
 }
 
 export function isBlockHidden( block, breakpoint ) {
-	const own = ownStyleSet( block, breakpoint );
-	if ( fallbackContainsDisplayNone( own.custom_css_fallback ) ) {
-		return true;
-	}
-	if ( breakpoint === 'tablet' ) {
-		const baseHidden = fallbackContainsDisplayNone(
-			block.styles.custom_css_fallback
-		);
-		if ( baseHidden ) {
-			const tabletHasDisplayBlock = String(
-				own.custom_css_fallback || ''
-			)
-				.split( ';' )
-				.some( ( part ) =>
-					/^display\s*:\s*block\s*(?:!important)?\s*$/i.test(
-						part.trim()
-					)
-				);
-			if ( ! tabletHasDisplayBlock ) {
-				return true;
-			}
+	let hidden = false;
+	for ( const styleSet of [
+		block.styles,
+		...breakpointCascade( breakpoint ).map(
+			( viewport ) => block.responsive_overrides?.[ viewport ]
+		),
+	] ) {
+		const display = styleSetDisplay( styleSet );
+		if ( display ) {
+			hidden = display === 'none';
 		}
 	}
-	if ( breakpoint === 'mobile' ) {
-		const baseHidden = fallbackContainsDisplayNone(
-			block.styles.custom_css_fallback
-		);
-		const tabletHidden = fallbackContainsDisplayNone(
-			block.responsive_overrides?.tablet?.custom_css_fallback
-		);
-		if ( baseHidden || tabletHidden ) {
-			const mobileHasDisplayBlock = String(
-				own.custom_css_fallback || ''
-			)
-				.split( ';' )
-				.some( ( part ) =>
-					/^display\s*:\s*block\s*(?:!important)?\s*$/i.test(
-						part.trim()
-					)
-				);
-			if ( ! mobileHasDisplayBlock ) {
-				return true;
-			}
-		}
-	}
-	return false;
+	return hidden;
 }
 
 export function isHiddenOverridden( block, breakpoint ) {
-	return fallbackContainsDisplayNone(
-		ownStyleSet( block, breakpoint ).custom_css_fallback
-	);
+	return styleSetDisplay( ownStyleSet( block, breakpoint ) ) === 'none';
 }

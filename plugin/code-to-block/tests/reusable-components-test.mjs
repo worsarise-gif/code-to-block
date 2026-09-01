@@ -6,6 +6,11 @@ import {
 	insertComponent,
 	materializeComponents,
 } from '../src/reusable-components.mjs';
+import {
+	applyRoleToStyleSet,
+	ensureGuidedRoleDesignSystem,
+	roleCatalog,
+} from '../src/semantic-roles.mjs';
 
 let assertions = 0;
 function check( actual, expected, message ) {
@@ -225,6 +230,73 @@ try {
 	nestedError = error.message;
 }
 check( nestedError, '', 'Client extraction remains lossless; the server owns canonical rejection.' );
+
+const guidedHeading = block( 'guided-heading', [
+	{ kind: 'text', value: 'Portable guided heading' },
+] );
+guidedHeading.type = 'text';
+guidedHeading.tag = 'h2';
+const guidedPage = ensureGuidedRoleDesignSystem(
+	{
+		schema_version: 2,
+		name: 'Guided component page',
+		root: block( 'guided-root', [ guidedHeading, block( 'guided-target' ) ] ),
+	},
+	{ newDocument: true }
+);
+guidedHeading.styles = applyRoleToStyleSet(
+	guidedHeading.styles,
+	'type.section-heading',
+	'typography',
+	roleCatalog( guidedPage ),
+	{ size: 1 }
+);
+const guidedSaved = createComponentDocument(
+	guidedPage,
+	guidedHeading,
+	'Guided heading'
+);
+check( guidedSaved.schema_version, 2, 'Guided components use schema version 2.' );
+check(
+	Boolean( guidedSaved.style_roles[ 'type.section-heading' ] ),
+	true,
+	'Guided role recipes travel with a reusable component.'
+);
+check(
+	Boolean( guidedSaved.design_tokens.typography[ 'size-page-title' ] ),
+	true,
+	'Every token used by role variants travels with the component.'
+);
+const guidedInserted = insertComponent(
+	guidedPage,
+	'guided-target',
+	9,
+	'guided-instance'
+);
+const guidedResolved = materializeComponents( guidedInserted, [
+	{
+		id: 9,
+		name: 'Guided heading',
+		status: 'ready',
+		document: guidedSaved,
+	},
+] );
+const resolvedGuidedHeading =
+	guidedResolved.root.children[ 1 ].children[ 0 ].children[ 0 ];
+check(
+	resolvedGuidedHeading.styles.role_bindings.typography.roleId.startsWith(
+		'type.section-heading'
+	),
+	true,
+	'Role bindings are retained or conflict-remapped during materialization.'
+);
+check(
+	resolvedGuidedHeading.styles.mapped[ 'font-size' ].startsWith(
+		'var(--ctb-token-typography-saved-9-'
+	),
+	true,
+	'Role-bound CSS follows the materialized component token namespace.'
+);
 
 console.log( `PASS: ${ assertions } reusable-component assertions.` );
 

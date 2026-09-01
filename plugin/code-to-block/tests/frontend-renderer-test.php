@@ -2,6 +2,7 @@
 
 define( 'ABSPATH', __DIR__ . '/' );
 define( 'CODE_TO_BLOCK_POST_TYPE', 'ctb_page' );
+define( 'CODE_TO_BLOCK_PATH', dirname( __DIR__ ) . '/' );
 
 final class WP_Error {
 	public function __construct( $code, $message, $data = null ) {
@@ -214,6 +215,7 @@ function wp_upload_dir() {
 function do_action() {
 }
 
+require_once dirname( __DIR__ ) . '/includes/class-code-to-block-registry.php';
 require_once dirname( __DIR__ ) . '/includes/class-code-to-block-schema.php';
 require_once dirname( __DIR__ ) . '/includes/class-code-to-block-php-scanner.php';
 require_once dirname( __DIR__ ) . '/includes/class-code-to-block-shortcodes.php';
@@ -444,6 +446,7 @@ $form_fixture->root->children = array(
 		'attributes' => (object) array(
 			'data-submission' => 'native',
 			'data-email-to'   => 'private@example.test',
+			'data-submit-label' => 'Send message',
 		),
 		'children'   => array(),
 		'styles'     => (object) array( 'mapped' => new stdClass(), 'custom_css_fallback' => '' ),
@@ -457,6 +460,7 @@ assert_renderer( false !== strpos( $form_html, 'class="ctb-block ctb-block-1 ctb
 assert_renderer( false !== strpos( $form_html, 'method="post"' ), 'Native forms need a POST method.' );
 assert_renderer( false !== strpos( $form_html, 'action="https://example.test/wp-json/code-to-block/v1/forms/99/submit"' ), 'Native forms need the REST action.' );
 assert_renderer( false !== strpos( $form_html, 'name="_ctb_submission_token"' ), 'Native forms need a signed timing token.' );
+assert_renderer( false !== strpos( $form_html, '>Send message</button>' ), 'Native forms must preserve their configured submit label.' );
 assert_renderer( false === strpos( $form_html, 'private@example.test' ), 'Notification email addresses must not be exposed in public markup.' );
 
 $php_source = '<?php return "<b class=\"confirmed-php\">Confirmed PHP</b>"; ?>';
@@ -477,5 +481,133 @@ $php_html = Code_To_Block_Renderer::render_document( $php_document, 99 );
 assert_renderer( 1 === substr_count( $php_html, 'Confirmed PHP' ), 'A confirmed tag must execute exactly once from its text-node placeholder.' );
 assert_renderer( false !== strpos( $php_html, 'title="[ctb_php_99_renderer]"' ), 'A shortcode-looking attribute must remain inert text.' );
 assert_renderer( $php_html === do_shortcode( $php_html ), 'The page tag must be unregistered before WordPress globally scans rendered HTML attributes.' );
+
+$script_document = array(
+	'imported_assets' => array(
+		'scripts' => array(
+			array(
+				'id' => 'import-script-test-1',
+				'placement' => 'head',
+				'type' => 'module',
+				'source' => '',
+				'src' => 'https://cdn.example.test/app.js',
+				'attributes' => array(
+					'id' => 'page-module',
+					'defer' => '',
+					'crossorigin' => 'anonymous',
+					'integrity' => 'sha384-YWJj',
+					'referrerpolicy' => 'no-referrer',
+					'data-version' => '1',
+					'data-ctb-imported-script' => 'spoofed',
+					'onload' => 'blocked()',
+				),
+				'enabled_in_preview' => true,
+				'enabled_on_publish' => false,
+			),
+		),
+	),
+);
+$preview_script = Code_To_Block_Renderer::render_imported_scripts( $script_document, true, 'head' );
+assert_renderer( false !== strpos( $preview_script, 'type="module"' ), 'Imported module type must be preserved.' );
+assert_renderer( false !== strpos( $preview_script, ' defer' ), 'Safe execution-order attributes must be preserved.' );
+assert_renderer( false !== strpos( $preview_script, 'integrity="sha384-YWJj"' ), 'Safe integrity metadata must be preserved.' );
+assert_renderer( false !== strpos( $preview_script, 'data-version="1"' ), 'Imported script data attributes must be preserved.' );
+assert_renderer( 1 === substr_count( $preview_script, 'data-ctb-imported-script=' ), 'The renderer must own its execution marker.' );
+assert_renderer( false === strpos( $preview_script, 'onload=' ), 'Executable event attributes must never render.' );
+assert_renderer( '' === Code_To_Block_Renderer::render_imported_scripts( $script_document, false, 'head' ), 'Preview-only scripts must stay disabled after publish.' );
+
+$base_fixture = json_decode( json_encode( $fixtures[2] ) );
+$base_fixture->imported_assets = (object) array(
+	'origin' => (object) array(
+		'type' => 'code-import',
+		'import_session_id' => 'code-import-baseurl',
+		'source_hash' => 'baseurl',
+	),
+	'page_meta' => (object) array(
+		'base_href' => 'https://assets.example.test/theme/pages/',
+		'metas' => array(),
+		'links' => array(),
+	),
+	'stylesheets' => array(
+		(object) array(
+			'id' => 'import-style-base',
+			'source_text' => '.hero{background:url(../images/hero.jpg)}',
+			'scoped_source' => '.ctb-import-scope .hero{background:url(../images/hero.jpg)}',
+			'selectors' => array( '.hero' ),
+			'media_conditions' => array(),
+			'keyframes' => array(),
+			'custom_properties' => array(),
+		),
+	),
+	'token_bindings' => new stdClass(),
+	'scripts' => array(
+		(object) array(
+			'id' => 'import-script-base',
+			'placement' => 'body-end',
+			'type' => 'text/javascript',
+			'source' => '',
+			'src' => 'scripts/app.js',
+			'attributes' => new stdClass(),
+			'enabled_in_editor' => false,
+			'enabled_in_preview' => true,
+			'enabled_on_publish' => true,
+			'origin' => 'imported',
+		),
+	),
+	'references' => array(),
+	'diagnostics' => array(),
+);
+$base_fixture->root->children[0]->attributes->src = 'images/card.jpg';
+$base_document = Code_To_Block_Schema::sanitize_document( $base_fixture );
+assert_renderer( ! is_wp_error( $base_document ), 'Imported base URL fixture must validate.' );
+$base_html = Code_To_Block_Renderer::render_document( $base_document, 99 );
+$base_css = Code_To_Block_Renderer::generate_css( $base_document, 99 );
+$base_script = Code_To_Block_Renderer::render_imported_scripts( $base_document, true, 'body-end' );
+assert_renderer( false !== strpos( $base_html, 'src="https://assets.example.test/theme/pages/images/card.jpg"' ), 'Relative element resources must resolve against the imported document base URL.' );
+assert_renderer( false !== strpos( $base_css, 'url(https://assets.example.test/theme/images/hero.jpg)' ), 'Relative stylesheet resources must resolve against the imported document base URL.' );
+assert_renderer( false !== strpos( $base_script, 'src="https://assets.example.test/theme/pages/scripts/app.js"' ), 'Relative script resources must resolve against the imported document base URL.' );
+
+$v3_fixture = (object) array(
+	'schema_version'   => 3,
+	'registry_version' => 1,
+	'name'             => 'Stable selector renderer',
+	'root'             => (object) array(
+		'id'                 => 'stable-button',
+		'element'            => 'core/button',
+		'definition_version' => 1,
+		'type'               => 'button',
+		'tag'                => 'a',
+		'props'              => (object) array( 'mode' => 'link' ),
+		'attributes'         => (object) array( 'href' => '#next' ),
+		'children'           => array( (object) array( 'kind' => 'text', 'value' => 'Next' ) ),
+		'style'              => (object) array(
+			'targets' => (object) array(
+				'root' => (object) array(
+					'contexts' => (object) array(
+						'base'                    => (object) array( 'declarations' => (object) array( 'color' => '#112233' ) ),
+						'bp:tablet'               => (object) array( 'declarations' => (object) array( 'padding' => '12px' ) ),
+						'bp:mobile|state:hover' => (object) array( 'declarations' => (object) array( 'transform' => 'translateY(-2px)' ) ),
+					),
+				),
+			),
+		),
+		'advanced'           => (object) array( 'visibility' => (object) array( 'mobile' => false ) ),
+		'meta'               => (object) array( 'source' => 'renderer-v3-test' ),
+	),
+);
+$v3_document = Code_To_Block_Schema::sanitize_document( $v3_fixture );
+assert_renderer( ! is_wp_error( $v3_document ), 'Schema v3 renderer fixture must validate.' );
+$v3_html = Code_To_Block_Renderer::render_document( $v3_document, 39 );
+$v3_css  = Code_To_Block_Renderer::generate_css( $v3_document, 39 );
+$v3_class = 'ctb-e-' . hash( 'fnv1a32', 'stable-button' );
+assert_renderer( false !== strpos( $v3_html, $v3_class ), 'V3 markup must include the stable element class.' );
+assert_renderer( false !== strpos( $v3_html, 'data-ctb-element="core/button"' ), 'V3 markup must expose definition identity.' );
+assert_renderer( false !== strpos( $v3_html, 'data-ctb-part="root"' ), 'V3 markup must expose its root target marker.' );
+assert_renderer( false !== strpos( $v3_css, ':where(#ctb-page-39) .' . $v3_class . '{color:#112233;}' ), 'V3 CSS must use a stable scoped selector.' );
+assert_renderer( false !== strpos( $v3_css, '@media (max-width:768px)' ), 'V3 CSS must use the registered tablet breakpoint.' );
+assert_renderer( false !== strpos( $v3_css, '@media (max-width:390px)' ), 'V3 CSS must use the registered mobile breakpoint.' );
+assert_renderer( false !== strpos( $v3_css, ':hover{transform:translateY(-2px);}' ), 'V3 CSS must compile breakpoint-state intersections.' );
+assert_renderer( false === strpos( $v3_css, 'color:#112233!important' ), 'V3 mapped declarations must not receive important.' );
+assert_renderer( false !== strpos( $v3_css, 'display:none!important' ), 'V3 visibility remains an explicit final utility.' );
 
 fwrite( STDOUT, "PASS: {$assertions} frontend renderer assertions.\n" );

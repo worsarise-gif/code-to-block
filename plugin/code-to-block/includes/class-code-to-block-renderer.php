@@ -11,6 +11,13 @@ final class Code_To_Block_Renderer {
 	const ASSET_DIRECTORY = 'code-to-block';
 
 	/**
+	 * Base URL used while rendering one imported document.
+	 *
+	 * @var string
+	 */
+	private static $resource_base = '';
+
+	/**
 	 * Produces the public markup for a block document.
 	 *
 	 * @param array $document Sanitized block document.
@@ -22,7 +29,9 @@ final class Code_To_Block_Renderer {
 			return '';
 		}
 
-		$index = 0;
+		$index                  = 0;
+		$previous_resource_base = self::$resource_base;
+		self::$resource_base    = self::imported_resource_base( $document );
 		Code_To_Block_Shortcodes::register_for_post( (int) $post_id );
 		try {
 			$markup = sprintf(
@@ -32,6 +41,7 @@ final class Code_To_Block_Renderer {
 			);
 		} finally {
 			Code_To_Block_Shortcodes::unregister_for_post( (int) $post_id );
+			self::$resource_base = $previous_resource_base;
 		}
 		return $markup;
 	}
@@ -48,10 +58,14 @@ final class Code_To_Block_Renderer {
 			return '';
 		}
 
-		$rules = array(
-			'base'   => array(),
-			'tablet' => array(),
-			'mobile' => array(),
+		$previous_resource_base = self::$resource_base;
+		self::$resource_base    = self::imported_resource_base( $document );
+		$rules                  = array(
+			'base'       => array(),
+			'tablet'     => array(),
+			'mobile'     => array(),
+			'v3_tablet'  => array(),
+			'v3_mobile'  => array(),
 		);
 		$index = 0;
 		self::collect_css_rules( $document['root'], (int) $post_id, $index, $rules );
@@ -69,6 +83,11 @@ final class Code_To_Block_Renderer {
 		if ( '' !== $token_declarations ) {
 			$css .= '#ctb-page-' . (int) $post_id . '{' . $token_declarations . "}\n";
 		}
+		$css .= self::imported_stylesheet_css( $document );
+		$imported_token_declarations = self::imported_token_declarations( $document );
+		if ( '' !== $imported_token_declarations ) {
+			$css .= '.ctb-import-scope{' . $imported_token_declarations . "}\n";
+		}
 		$css .= implode( "\n", $rules['base'] );
 		if ( ! empty( $rules['tablet'] ) ) {
 			$css .= "\n@media (max-width:1024px){\n" . implode( "\n", $rules['tablet'] ) . "\n}";
@@ -76,7 +95,14 @@ final class Code_To_Block_Renderer {
 		if ( ! empty( $rules['mobile'] ) ) {
 			$css .= "\n@media (max-width:767px){\n" . implode( "\n", $rules['mobile'] ) . "\n}";
 		}
+		if ( ! empty( $rules['v3_tablet'] ) ) {
+			$css .= "\n@media (max-width:768px){\n" . implode( "\n", $rules['v3_tablet'] ) . "\n}";
+		}
+		if ( ! empty( $rules['v3_mobile'] ) ) {
+			$css .= "\n@media (max-width:390px){\n" . implode( "\n", $rules['v3_mobile'] ) . "\n}";
+		}
 
+		self::$resource_base = $previous_resource_base;
 		return $css . "\n";
 	}
 
@@ -220,7 +246,7 @@ final class Code_To_Block_Renderer {
 
 		$current_index = $index++;
 		$tag           = strtolower( $block['tag'] );
-		if ( ! in_array( $tag, Code_To_Block_Schema::HTML_TAGS, true ) ) {
+		if ( ! Code_To_Block_Schema::html_tag_is_allowed( $tag ) ) {
 			return '';
 		}
 		if ( ! self::block_is_visible( $block ) ) {
@@ -231,6 +257,10 @@ final class Code_To_Block_Renderer {
 		$attributes          = self::object_to_array( $block['attributes'] );
 		$attributes          = is_array( $attributes ) ? $attributes : array();
 		$attributes['data-ctb-block-id'] = $block['id'];
+		if ( ! empty( $block['element'] ) && is_string( $block['element'] ) ) {
+			$attributes['data-ctb-element'] = $block['element'];
+			$attributes['data-ctb-part']    = 'root';
+		}
 		$runtime_actions = self::runtime_actions_for_block( $block );
 		if ( ! empty( $runtime_actions ) ) {
 			$encoded_actions = wp_json_encode( $runtime_actions, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE );
@@ -282,7 +312,8 @@ final class Code_To_Block_Renderer {
 		// Functional icon-only buttons (button tag with no text, only image) should have aria-label via checker, not auto-guessed here.
 		$existing_class      = isset( $attributes['class'] ) && is_string( $attributes['class'] ) ? $attributes['class'] : '';
 		$existing_class      = preg_replace( '/(?:^|\s)ctb-block(?:-\d+)?(?=\s|$)/', '', $existing_class );
-		$attributes['class'] = trim( $existing_class . ' ctb-block ctb-block-' . $current_index );
+		$stable_class = ! empty( $block['element'] ) ? ' ' . self::stable_element_class( $block['id'] ) : '';
+		$attributes['class'] = trim( $existing_class . ' ctb-block ctb-block-' . $current_index . $stable_class );
 		$children = '';
 		$is_saved_component = isset( $block['meta']['saved_component_id'] );
 		$is_dynamic = ! empty( $block['is_dynamic'] ) && ! empty( $block['dynamic_source'] );
@@ -389,8 +420,15 @@ final class Code_To_Block_Renderer {
 					$children = '<ul class="products columns-' . $columns . ' ctb-product-grid">' . $grid_items . '</ul>';
 				}
 				$index = $template_start_index + $template_block_count;
-			} elseif ( 'form' === $block['type'] ) {
+			} elseif ( 'form' === $block['type'] && empty( $block['meta']['imported_native_html'] ) ) {
 				$submission = isset( $attributes['data-submission'] ) ? $attributes['data-submission'] : 'native';
+				$submit_label = isset( $attributes['data-submit-label'] ) && is_string( $attributes['data-submit-label'] )
+					? trim( $attributes['data-submit-label'] )
+					: 'Submit';
+				if ( '' === $submit_label ) {
+					$submit_label = 'Submit';
+				}
+				unset( $attributes['data-submit-label'] );
 				if ( 'external' === $submission && ! empty( $attributes['data-external-shortcode'] ) ) {
 					$shortcode = trim( $attributes['data-external-shortcode'] );
 					$allowed_shortcodes = array( 'contact-form-7', 'wpforms', 'formidable', 'gravityform', 'ninja_form' );
@@ -425,7 +463,7 @@ final class Code_To_Block_Renderer {
 						. '<input type="hidden" name="_ctb_timestamp" value="' . esc_attr( $timestamp ) . '">'
 						. '<input type="hidden" name="_ctb_submission_token" value="' . esc_attr( $submission_token ) . '">'
 						. '<input type="hidden" name="_ctb_honeypot_name" value="' . esc_attr( $honeypot_name ) . '">'
-						. '<div class="ctb-form-actions"><button type="submit" class="ctb-form-submit">Submit</button></div>'
+						. '<div class="ctb-form-actions"><button type="submit" class="ctb-form-submit">' . esc_html( $submit_label ) . '</button></div>'
 						. '<div class="ctb-form-message" role="status" aria-live="polite" style="margin-top:12px;"></div>';
 					// Wrap with form tag attributes
 					$attributes['method'] = 'post';
@@ -438,7 +476,7 @@ final class Code_To_Block_Renderer {
 					$attributes['data-form-id'] = $block['id'];
 				}
 				unset( $attributes['data-email-to'] );
-			} elseif ( 'form_field' === $block['type'] ) {
+			} elseif ( 'form_field' === $block['type'] && empty( $block['meta']['imported_native_html'] ) ) {
 				$field_type = isset( $attributes['data-field-type'] ) ? $attributes['data-field-type'] : 'text';
 				$field_label = isset( $attributes['data-field-label'] ) ? $attributes['data-field-label'] : '';
 				$field_name = isset( $attributes['data-field-name'] ) ? $attributes['data-field-name'] : $block['id'];
@@ -655,6 +693,10 @@ final class Code_To_Block_Renderer {
 	 * @param array  $attributes Attribute map.
 	 * @return string
 	 */
+	private static function stable_element_class( $block_id ) {
+		return 'ctb-e-' . hash( 'fnv1a32', (string) $block_id );
+	}
+
 	private static function render_attributes( $tag, $attributes ) {
 		$rendered = '';
 
@@ -695,6 +737,122 @@ final class Code_To_Block_Renderer {
 	}
 
 	/**
+	 * @param mixed $declarations Sanitized v3 declaration object.
+	 * @return string
+	 */
+	private static function v3_declarations( $declarations ) {
+		$declarations = self::object_to_array( $declarations );
+		if ( ! is_array( $declarations ) ) {
+			return '';
+		}
+		ksort( $declarations, SORT_STRING );
+		$result = '';
+		foreach ( $declarations as $property => $value ) {
+			if ( ! is_string( $property ) || ! is_string( $value ) || ! Code_To_Block_Schema::css_property_value_is_safe( $property, $value ) ) {
+				continue;
+			}
+			$value   = preg_replace( '/\s*!important\s*$/i', '', trim( $value ) );
+			$result .= $property . ':' . self::normalize_css_urls( $value ) . ';';
+		}
+		return $result;
+	}
+
+	/**
+	 * @param string $context_key Context key.
+	 * @return array|null
+	 */
+	private static function parse_v3_context( $context_key ) {
+		if ( 'base' === $context_key ) {
+			return array( 'breakpoint' => 'desktop', 'state' => 'default' );
+		}
+		if ( ! preg_match( '/^(?:bp:(tablet|mobile)(?:\|state:([A-Za-z][A-Za-z0-9]*))?|state:([A-Za-z][A-Za-z0-9]*))$/', $context_key, $matches ) ) {
+			return null;
+		}
+		return array(
+			'breakpoint' => ! empty( $matches[1] ) ? $matches[1] : 'desktop',
+			'state'      => ! empty( $matches[2] ) ? $matches[2] : ( ! empty( $matches[3] ) ? $matches[3] : 'default' ),
+		);
+	}
+
+	/**
+	 * @param string $selector Root or target selector.
+	 * @param string $state State identifier.
+	 * @return string
+	 */
+	private static function v3_state_selector( $selector, $state ) {
+		$states = array(
+			'hover'        => ':hover',
+			'focusVisible' => ':focus-visible',
+			'focus'        => ':focus',
+			'active'       => ':active',
+			'visited'      => ':visited',
+			'disabled'     => ':disabled',
+			'checked'      => ':checked',
+			'expanded'     => '[aria-expanded="true"]',
+			'selected'     => '[aria-selected="true"]',
+			'invalid'      => ':invalid',
+			'readOnly'     => ':read-only',
+			'loading'      => '[aria-busy="true"]',
+			'current'      => '[aria-current="page"]',
+			'expired'      => '[data-ctb-expired="true"]',
+		);
+		return isset( $states[ $state ] ) ? $selector . $states[ $state ] : $selector;
+	}
+
+	/**
+	 * @param array  $block Sanitized v3 block.
+	 * @param int    $post_id Page ID.
+	 * @param array  $rules CSS rule buckets.
+	 */
+	private static function collect_v3_css_rules( $block, $post_id, &$rules ) {
+		$element_id = $block['element'];
+		$root       = ':where(#ctb-page-' . (int) $post_id . ') .' . self::stable_element_class( $block['id'] );
+		$targets    = self::object_to_array( $block['style']['targets'] );
+		ksort( $targets, SORT_STRING );
+		foreach ( $targets as $target_id => $target_value ) {
+			$target_selector = Code_To_Block_Registry::target_selector( $element_id, $target_id );
+			if ( '' === $target_selector ) {
+				continue;
+			}
+			$selector = '&' === $target_selector ? $root : $root . ' > ' . $target_selector;
+			$target_value = self::object_to_array( $target_value );
+			$contexts = isset( $target_value['contexts'] ) ? self::object_to_array( $target_value['contexts'] ) : array();
+			uksort(
+				$contexts,
+				function ( $left, $right ) {
+					$order = array( 'base' => 0, 'bp:tablet' => 10, 'bp:mobile' => 20 );
+					$left_weight  = isset( $order[ $left ] ) ? $order[ $left ] : ( false !== strpos( $left, 'state:' ) ? 100 : 999 );
+					$right_weight = isset( $order[ $right ] ) ? $order[ $right ] : ( false !== strpos( $right, 'state:' ) ? 100 : 999 );
+					return $left_weight === $right_weight ? strcmp( $left, $right ) : $left_weight - $right_weight;
+				}
+			);
+			foreach ( $contexts as $context_key => $style_set ) {
+				$context = self::parse_v3_context( $context_key );
+				if ( null === $context ) {
+					continue;
+				}
+				$style_set    = self::object_to_array( $style_set );
+				$declarations = self::v3_declarations( isset( $style_set['declarations'] ) ? $style_set['declarations'] : array() );
+				$custom       = isset( $style_set['custom_declarations'] ) && is_string( $style_set['custom_declarations'] ) ? trim( $style_set['custom_declarations'] ) : '';
+				if ( '' !== $custom && Code_To_Block_Schema::css_declaration_list_is_safe( $custom ) ) {
+					$declarations .= rtrim( $custom, ';' ) . ';';
+				}
+				if ( '' !== $declarations ) {
+					$bucket = 'desktop' === $context['breakpoint'] ? 'base' : 'v3_' . $context['breakpoint'];
+					$rules[ $bucket ][] = self::v3_state_selector( $selector, $context['state'] ) . '{' . $declarations . '}';
+				}
+			}
+		}
+		$visibility = isset( $block['advanced']['visibility'] ) ? self::object_to_array( $block['advanced']['visibility'] ) : array();
+		foreach ( array( 'desktop', 'tablet', 'mobile' ) as $breakpoint ) {
+			if ( array_key_exists( $breakpoint, $visibility ) && false === $visibility[ $breakpoint ] ) {
+				$bucket = 'desktop' === $breakpoint ? 'base' : 'v3_' . $breakpoint;
+				$rules[ $bucket ][] = $root . '{display:none!important;}';
+			}
+		}
+	}
+
+	/**
 	 * @param array $block   Sanitized block.
 	 * @param int   $post_id Owning post ID.
 	 * @param int   $index   Traversal index.
@@ -702,6 +860,16 @@ final class Code_To_Block_Renderer {
 	 */
 	private static function collect_css_rules( $block, $post_id, &$index, &$rules ) {
 		$current_index = $index++;
+		if ( ! empty( $block['element'] ) && isset( $block['style']['targets'] ) ) {
+			self::collect_v3_css_rules( $block, $post_id, $rules );
+			foreach ( isset( $block['children'] ) ? $block['children'] : array() as $child ) {
+				$child = self::object_to_array( $child );
+				if ( ! isset( $child['kind'] ) ) {
+					self::collect_css_rules( $child, $post_id, $index, $rules );
+				}
+			}
+			return;
+		}
 		$selector      = '#ctb-page-' . $post_id . ' .ctb-block-' . $current_index;
 		self::append_rule( $rules['base'], $selector, $block['styles'] );
 		$css_animations = self::css_animation_actions_for_block( $block );
@@ -846,18 +1014,211 @@ final class Code_To_Block_Renderer {
 	}
 
 	/**
+	 * Returns imported styles after the parser has scoped every selector to the
+	 * imported page root. Original unscoped source is never emitted.
+	 */
+	private static function imported_stylesheet_css( $document ) {
+		$assets = isset( $document['imported_assets'] ) ? self::object_to_array( $document['imported_assets'] ) : array();
+		$stylesheets = isset( $assets['stylesheets'] ) && is_array( $assets['stylesheets'] ) ? $assets['stylesheets'] : array();
+		$css = '';
+		foreach ( $stylesheets as $stylesheet_value ) {
+			$stylesheet = self::object_to_array( $stylesheet_value );
+			$source = isset( $stylesheet['scoped_source'] ) && is_string( $stylesheet['scoped_source'] ) ? $stylesheet['scoped_source'] : '';
+			if ( '' === $source || preg_match( '/(?:expression\s*\(|javascript\s*:|<\s*\/\s*style)/i', $source ) ) {
+				continue;
+			}
+			$css .= "\n/* Imported stylesheet */\n" . self::normalize_stylesheet_urls( $source ) . "\n";
+		}
+		return $css;
+	}
+
+	private static function imported_token_declarations( $document ) {
+		$assets = isset( $document['imported_assets'] ) ? self::object_to_array( $document['imported_assets'] ) : array();
+		$bindings = isset( $assets['token_bindings'] ) ? self::object_to_array( $assets['token_bindings'] ) : array();
+		$tokens = isset( $document['design_tokens'] ) ? self::object_to_array( $document['design_tokens'] ) : array();
+		$declarations = '';
+		foreach ( $bindings as $css_name => $reference ) {
+			if ( ! is_string( $css_name ) || ! preg_match( '/^--[a-z0-9_-]+$/i', $css_name ) || ! is_string( $reference ) ) {
+				continue;
+			}
+			$parts = explode( '.', $reference, 2 );
+			if ( 2 !== count( $parts ) ) continue;
+			$category_tokens = isset( $tokens[ $parts[0] ] ) ? self::object_to_array( $tokens[ $parts[0] ] ) : array();
+			$token = isset( $category_tokens[ $parts[1] ] ) ? self::object_to_array( $category_tokens[ $parts[1] ] ) : array();
+			$value = isset( $token['value'] ) && is_string( $token['value'] ) ? $token['value'] : '';
+			if ( '' !== $value && Code_To_Block_Schema::css_property_value_is_safe( $css_name, $value ) ) {
+				$declarations .= $css_name . ':' . self::normalize_css_urls( $value ) . ';';
+			}
+		}
+		return $declarations;
+	}
+
+	private static function normalize_stylesheet_urls( $css ) {
+		return preg_replace_callback(
+			'/url\(\s*(["\']?)([^"\')]+)\1\s*\)/i',
+			function ( $matches ) {
+				return 'url(' . $matches[1] . self::normalize_resource_url( $matches[2] ) . $matches[1] . ')';
+			},
+			$css
+		);
+	}
+
+	/**
+	 * Produces imported page scripts for the isolated frontend Preview/Publish
+	 * document. This method is never called by the visual editor canvas.
+	 */
+	public static function render_imported_scripts( $document, $preview, $placement ) {
+		$assets = isset( $document['imported_assets'] ) ? self::object_to_array( $document['imported_assets'] ) : array();
+		$scripts = isset( $assets['scripts'] ) && is_array( $assets['scripts'] ) ? $assets['scripts'] : array();
+		$html = '';
+		foreach ( $scripts as $script_value ) {
+			$script = self::object_to_array( $script_value );
+			$script_placement = isset( $script['placement'] ) ? $script['placement'] : 'body-end';
+			if ( $script_placement !== $placement ) continue;
+			$enabled = $preview ? ! empty( $script['enabled_in_preview'] ) : ! empty( $script['enabled_on_publish'] );
+			if ( ! $enabled ) continue;
+			$type = isset( $script['type'] ) && is_string( $script['type'] ) ? $script['type'] : 'text/javascript';
+			$attributes = ' type="' . esc_attr( $type ) . '" data-ctb-imported-script="1"';
+			$source_attributes = isset( $script['attributes'] ) ? self::object_to_array( $script['attributes'] ) : array();
+			foreach ( array( 'async', 'defer', 'nomodule' ) as $boolean_attribute ) {
+				if ( array_key_exists( $boolean_attribute, $source_attributes ) ) {
+					$attributes .= ' ' . $boolean_attribute;
+				}
+			}
+			if ( isset( $source_attributes['id'] ) && is_string( $source_attributes['id'] ) && preg_match( '/^[A-Za-z][A-Za-z0-9:._-]{0,99}$/', $source_attributes['id'] ) ) {
+				$attributes .= ' id="' . esc_attr( $source_attributes['id'] ) . '"';
+			}
+			if ( isset( $source_attributes['crossorigin'] ) && in_array( $source_attributes['crossorigin'], array( 'anonymous', 'use-credentials' ), true ) ) {
+				$attributes .= ' crossorigin="' . esc_attr( $source_attributes['crossorigin'] ) . '"';
+			}
+			if ( isset( $source_attributes['referrerpolicy'] ) && in_array( $source_attributes['referrerpolicy'], array( 'no-referrer', 'no-referrer-when-downgrade', 'origin', 'origin-when-cross-origin', 'same-origin', 'strict-origin', 'strict-origin-when-cross-origin', 'unsafe-url' ), true ) ) {
+				$attributes .= ' referrerpolicy="' . esc_attr( $source_attributes['referrerpolicy'] ) . '"';
+			}
+			if ( isset( $source_attributes['integrity'] ) && is_string( $source_attributes['integrity'] ) && preg_match( '/^sha(?:256|384|512)-[A-Za-z0-9+\/=]+(?:\s+sha(?:256|384|512)-[A-Za-z0-9+\/=]+)*$/', $source_attributes['integrity'] ) ) {
+				$attributes .= ' integrity="' . esc_attr( $source_attributes['integrity'] ) . '"';
+			}
+			foreach ( $source_attributes as $name => $value ) {
+				if ( is_string( $name ) && 'data-ctb-imported-script' !== $name && preg_match( '/^data-[a-z0-9_.:-]+$/', $name ) && is_string( $value ) && strlen( $value ) <= 1000 ) {
+					$attributes .= ' ' . $name . '="' . esc_attr( $value ) . '"';
+				}
+			}
+			if ( isset( $script['src'] ) && is_string( $script['src'] ) ) {
+				$src = esc_url( self::normalize_resource_url( $script['src'], self::imported_resource_base( $document ) ) );
+				if ( '' !== $src ) $html .= '<script' . $attributes . ' src="' . $src . '"></script>' . "\n";
+				continue;
+			}
+			$source = isset( $script['source'] ) && is_string( $script['source'] ) ? $script['source'] : '';
+			if ( '' !== $source && ! preg_match( '/<\s*\/\s*script/i', $source ) ) {
+				$html .= '<script' . $attributes . '>' . $source . '</script>' . "\n";
+			}
+		}
+		return $html;
+	}
+
+	/**
 	 * Resolves relative imported resources consistently in admin and frontend.
 	 *
-	 * @param string $url Resource URL.
+	 * @param string      $url           Resource URL.
+	 * @param string|null $resource_base Optional imported document base URL.
 	 * @return string
 	 */
-	private static function normalize_resource_url( $url ) {
+	private static function normalize_resource_url( $url, $resource_base = null ) {
 		$url = trim( $url );
 		if ( '' === $url || preg_match( '#^(?:[a-z][a-z0-9+.-]*:|//|/|\#)#i', $url ) ) {
 			return $url;
 		}
 
+		$base = null === $resource_base ? self::$resource_base : $resource_base;
+		if ( '' !== $base ) {
+			$resolved = self::resolve_relative_resource_url( $url, $base );
+			if ( '' !== $resolved ) {
+				return $resolved;
+			}
+		}
+
 		return trailingslashit( home_url() ) . ltrim( $url, '/' );
+	}
+
+	/**
+	 * Returns a safe base URL recorded from an imported HTML document.
+	 *
+	 * @param array $document Sanitized document.
+	 * @return string
+	 */
+	private static function imported_resource_base( $document ) {
+		$assets    = isset( $document['imported_assets'] ) ? self::object_to_array( $document['imported_assets'] ) : array();
+		$page_meta = isset( $assets['page_meta'] ) ? self::object_to_array( $assets['page_meta'] ) : array();
+		$base      = isset( $page_meta['base_href'] ) && is_string( $page_meta['base_href'] ) ? trim( $page_meta['base_href'] ) : '';
+		if ( '' === $base || preg_match( '#^(?:javascript|data|vbscript):#i', $base ) ) {
+			return '';
+		}
+		if ( preg_match( '#^[a-z][a-z0-9+.-]*:#i', $base ) && ! preg_match( '#^https?://#i', $base ) ) {
+			return '';
+		}
+		return $base;
+	}
+
+	/**
+	 * Resolves a relative resource using HTML <base href> semantics.
+	 *
+	 * @param string $url  Relative resource URL.
+	 * @param string $base Imported base URL.
+	 * @return string
+	 */
+	private static function resolve_relative_resource_url( $url, $base ) {
+		$site       = rtrim( home_url(), '/' );
+		$site_parts = parse_url( $site );
+		$scheme     = isset( $site_parts['scheme'] ) ? $site_parts['scheme'] : 'https';
+
+		if ( 0 === strpos( $base, '//' ) ) {
+			$base = $scheme . ':' . $base;
+		} elseif ( 0 === strpos( $base, '/' ) ) {
+			$origin = isset( $site_parts['scheme'], $site_parts['host'] ) ? $site_parts['scheme'] . '://' . $site_parts['host'] : $site;
+			if ( isset( $site_parts['port'] ) ) {
+				$origin .= ':' . $site_parts['port'];
+			}
+			$base = $origin . $base;
+		} elseif ( ! preg_match( '#^https?://#i', $base ) ) {
+			$base = trailingslashit( $site ) . ltrim( $base, '/' );
+		}
+
+		$base_parts = parse_url( $base );
+		$url_parts  = parse_url( $url );
+		if ( false === $base_parts || false === $url_parts || empty( $base_parts['scheme'] ) || empty( $base_parts['host'] ) || ! in_array( strtolower( $base_parts['scheme'] ), array( 'http', 'https' ), true ) ) {
+			return '';
+		}
+
+		$base_path = isset( $base_parts['path'] ) ? $base_parts['path'] : '/';
+		$directory = '/' === substr( $base_path, -1 ) ? $base_path : dirname( $base_path ) . '/';
+		$url_path  = isset( $url_parts['path'] ) ? $url_parts['path'] : '';
+		$segments  = explode( '/', $directory . $url_path );
+		$normalized_segments = array();
+		foreach ( $segments as $segment ) {
+			if ( '' === $segment || '.' === $segment ) {
+				continue;
+			}
+			if ( '..' === $segment ) {
+				array_pop( $normalized_segments );
+				continue;
+			}
+			$normalized_segments[] = $segment;
+		}
+
+		$resolved = strtolower( $base_parts['scheme'] ) . '://' . $base_parts['host'];
+		if ( isset( $base_parts['port'] ) ) {
+			$resolved .= ':' . $base_parts['port'];
+		}
+		$resolved .= '/' . implode( '/', $normalized_segments );
+		if ( '' !== $url_path && '/' === substr( $url_path, -1 ) ) {
+			$resolved .= '/';
+		}
+		if ( isset( $url_parts['query'] ) ) {
+			$resolved .= '?' . $url_parts['query'];
+		}
+		if ( isset( $url_parts['fragment'] ) ) {
+			$resolved .= '#' . $url_parts['fragment'];
+		}
+		return $resolved;
 	}
 
 	/**

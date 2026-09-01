@@ -1,112 +1,208 @@
-import { createElement, useState } from '@wordpress/element';
+import { useState } from '@wordpress/element';
+import { statusLabel } from '../editor-persistence.mjs';
 
-export default function TopHeader({
+export default function TopHeader( {
 	documentName,
-	previewBreakpoint,
-	setPreviewBreakpoint,
 	canUndo,
 	canRedo,
 	undoChange,
 	redoChange,
 	persistenceStatus,
-	previewUrl,
-	isImporterOpen,
+	canPreview,
+	canPublish,
+	postStatus,
+	editorAction,
+	previewDocument,
+	publishDocument,
 	setIsImporterOpen,
-	saveDocument,
-    children // children is the BreakpointSwitcher passed from index.js
-}) {
-    const [isMyWebsiteOpen, setIsMyWebsiteOpen] = useState(false);
-    const [isZoomOpen, setIsZoomOpen] = useState(false);
+	setIsRevisionsOpen,
+	isDirty,
+	children,
+} ) {
+	const [ isProjectMenuOpen, setIsProjectMenuOpen ] = useState( false );
+	const isBusy = Boolean( editorAction );
+	const isPublished = postStatus === 'publish';
+
+	const publishLabel = isPublished
+		? 'Update'
+		: canPublish
+		? 'Publish'
+		: 'Save draft';
+
+	const activePublishLabel = canPublish
+		? isPublished
+			? 'Updating...'
+			: 'Publishing...'
+		: 'Saving...';
+
+	const statusBadge = `${ statusLabel( postStatus ) } ${ isDirty ? '· Unsaved changes' : '· Saved' }`;
+	const canSave = isDirty || ! isPublished;
 
 	return (
-		<header className="h-14 bg-white border-b border-slate-200 flex items-center justify-between px-4 shrink-0 z-10" data-purpose="top-nav">
-			{/* Left: Logo and Project Name */}
-            <div className="flex items-center gap-4">
-				<div className="w-8 h-8 flex items-center justify-center text-indigo-600 bg-indigo-50 rounded-md">
-					<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+		<header
+			className="relative z-20 flex h-14 w-full shrink-0 items-center justify-between border-b border-gray-200 bg-white px-2 sm:px-4"
+			data-purpose="top-nav"
+		>
+			<div className="relative flex min-w-0 items-center gap-3">
+				<div
+					className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600"
+					aria-hidden="true"
+				>
+					<svg
+						width="20"
+						height="20"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						strokeWidth="1.8"
+						strokeLinecap="round"
+						strokeLinejoin="round"
+					>
+						<path d="m12 3 8 4.5-8 4.5-8-4.5L12 3Z"></path>
+						<path d="m4 12 8 4.5 8-4.5"></path>
+						<path d="m4 16.5 8 4.5 8-4.5"></path>
+					</svg>
 				</div>
-				<button
-                    className="flex items-center gap-2 hover:bg-slate-100 px-2 py-1 rounded text-sm font-medium border-none bg-transparent cursor-pointer"
-                    onClick={() => setIsMyWebsiteOpen(!isMyWebsiteOpen)}
-                >
-					{ documentName || 'My Website' } <i className="fa-solid fa-chevron-down text-[10px] text-slate-500"></i>
-				</button>
-			</div>
 
-            {/* Center: Viewport, History, Zoom */}
-			<div className="flex items-center gap-2">
-				<div className="flex bg-slate-100 rounded-md p-0.5 border-none">
-                    { children }
-				</div>
-				<div className="h-4 w-px bg-slate-200 mx-2"></div>
 				<button
 					type="button"
-					className="w-8 h-8 rounded flex items-center justify-center text-slate-400 hover:text-slate-800 hover:bg-slate-100 transition-colors border-none bg-transparent cursor-pointer"
+					className="flex min-w-0 items-center gap-2 rounded-md border-0 bg-transparent px-2 py-1.5 text-sm font-medium text-gray-800 transition-colors hover:bg-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+					aria-expanded={ isProjectMenuOpen }
+					onClick={ () => setIsProjectMenuOpen( ( open ) => ! open ) }
+				>
+					<span className="hidden max-w-48 truncate sm:inline">
+						{ documentName || 'My Website' }
+					</span>
+					<i
+						className="fa-solid fa-chevron-down text-[9px] text-gray-400"
+						aria-hidden="true"
+					></i>
+				</button>
+
+				{ isProjectMenuOpen ? (
+					<div className="absolute left-10 top-10 w-44 rounded-lg border border-gray-200 bg-white p-1.5 shadow-lg">
+						<button
+							type="button"
+							className="flex w-full items-center gap-2 rounded-md border-0 bg-white px-3 py-2 text-left text-xs text-gray-700 transition-colors hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+							onClick={ () => {
+								setIsImporterOpen( true );
+								setIsProjectMenuOpen( false );
+							} }
+						>
+							<i
+								className="fa-solid fa-code text-gray-400"
+								aria-hidden="true"
+							></i>
+							Import code
+						</button>
+					</div>
+				) : null }
+			</div>
+
+			<div className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 sm:block">
+				{ children }
+			</div>
+
+			<div className="flex items-center gap-1.5">
+				<span className="mr-1 hidden max-w-40 truncate text-[10px] text-gray-400 2xl:inline" title={ persistenceStatus }>
+					{ statusBadge }
+				</span>
+				<button
+					type="button"
+					className="flex h-8 w-8 items-center justify-center rounded-md border-0 bg-transparent text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 disabled:cursor-not-allowed disabled:opacity-30"
 					disabled={ ! canUndo }
 					title="Undo"
 					onClick={ undoChange }
 				>
-					<i className="fa-solid fa-rotate-left text-sm"></i>
+					<i
+						className="fa-solid fa-rotate-left text-xs"
+						aria-hidden="true"
+					></i>
+					<span className="sr-only">Undo</span>
 				</button>
 				<button
 					type="button"
-					className="w-8 h-8 rounded flex items-center justify-center text-slate-400 hover:text-slate-800 hover:bg-slate-100 transition-colors border-none bg-transparent cursor-pointer"
+					className="flex h-8 w-8 items-center justify-center rounded-md border-0 bg-transparent text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 disabled:cursor-not-allowed disabled:opacity-30"
 					disabled={ ! canRedo }
 					title="Redo"
 					onClick={ redoChange }
 				>
-					<i className="fa-solid fa-rotate-right text-sm"></i>
+					<i
+						className="fa-solid fa-rotate-right text-xs"
+						aria-hidden="true"
+					></i>
+					<span className="sr-only">Redo</span>
 				</button>
-				<button
-                    className="flex items-center gap-2 hover:bg-slate-100 px-2 py-1 rounded text-sm font-medium ml-2 border-none bg-transparent cursor-pointer text-slate-600"
-                    onClick={() => setIsZoomOpen(!isZoomOpen)}
-                >
-					100% <i className="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
-				</button>
-			</div>
 
-            {/* Right: Actions, Help, Profile */}
-			<div className="flex items-center gap-3">
-				<span className="text-xs text-slate-500 mr-2">{ persistenceStatus || 'Ready' }</span>
-				{ previewUrl && (
-					<a
-						className="px-4 py-1.5 text-sm font-medium text-slate-700 bg-white border border-slate-200 rounded-md hover:bg-slate-50 transition-colors no-underline cursor-pointer shadow-sm"
-						href={ previewUrl }
-						target="_blank"
-						rel="noreferrer"
-					>
-						Preview
-					</a>
-				) }
-                <button type="button" className="px-4 py-1.5 text-sm font-medium text-slate-700 bg-white border border-slate-300 rounded-md hover:bg-slate-50 transition-colors cursor-pointer" onClick={ () => setIsImporterOpen( ! isImporterOpen ) }>
-                    Import
-                </button>
-				<div className="flex rounded-md shadow-sm">
+				<button
+					type="button"
+					className="ml-2 hidden h-8 items-center justify-center rounded-md border border-gray-300 bg-white px-3 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 sm:inline-flex"
+					onClick={ () => setIsRevisionsOpen( true ) }
+				>
+					Revisions
+				</button>
+
+				<button
+					type="button"
+					className="ml-1 hidden h-8 items-center justify-center rounded-md border border-gray-300 bg-white px-3 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 disabled:cursor-not-allowed disabled:border-gray-200 disabled:bg-gray-50 disabled:text-gray-400 sm:inline-flex"
+					disabled={ ! canPreview || isBusy }
+					title={
+						canPreview
+							? 'Save changes and open a fresh preview'
+							: 'Preview is unavailable for this page'
+					}
+					onClick={ previewDocument }
+				>
+					{ editorAction === 'preview' ? 'Preparing...' : 'Preview' }
+				</button>
+
+				{ canPublish ? (
+					<div className="ml-1 relative flex items-center h-8 rounded-md border border-indigo-600 bg-indigo-600 text-white transition-colors hover:border-indigo-700 hover:bg-indigo-700 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2">
+						<button
+							type="button"
+							className="px-4 text-xs font-semibold focus:outline-none disabled:cursor-not-allowed disabled:opacity-60"
+							disabled={ isBusy || ! canSave }
+							onClick={ () => publishDocument( 'publish' ) }
+						>
+							{ editorAction === 'publish'
+								? activePublishLabel
+								: publishLabel }
+						</button>
+						<select
+							className="bg-indigo-700 text-white text-xs border-0 outline-none rounded-r-md cursor-pointer hover:bg-indigo-800 px-1 py-1 h-full appearance-none disabled:cursor-not-allowed disabled:opacity-60"
+							disabled={ isBusy }
+							title="More status options"
+							value=""
+							onChange={ ( e ) => {
+								if ( e.target.value ) {
+									if ( e.target.value === 'draft' ) {
+										if ( ! window.confirm( 'Are you sure you want to unpublish this page and revert it to a draft?' ) ) {
+											return;
+										}
+									}
+									publishDocument( e.target.value );
+									e.target.value = '';
+								}
+							} }
+						>
+							<option value="" disabled>▼</option>
+							<option value="pending">Submit for Review</option>
+							<option value="private">Make Private</option>
+							<option value="draft">Switch to Draft</option>
+						</select>
+					</div>
+				) : (
 					<button
 						type="button"
-						className="px-4 py-1.5 text-sm font-medium text-white bg-[#4f46e5] rounded-l-md hover:bg-indigo-700 transition-colors border-none cursor-pointer"
-						onClick={ saveDocument }
+						className="ml-1 h-8 rounded-md border border-indigo-600 bg-indigo-600 px-4 text-xs font-semibold text-white transition-colors hover:border-indigo-700 hover:bg-indigo-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
+						disabled={ isBusy || ! canSave }
+						onClick={ () => publishDocument( 'draft' ) }
 					>
-						Publish
+						{ editorAction === 'publish'
+							? activePublishLabel
+							: publishLabel }
 					</button>
-					<button type="button" className="px-2 py-1.5 bg-[#4f46e5] text-white rounded-r-md border-l border-white/20 hover:bg-indigo-700 cursor-pointer">
-						<i className="fa-solid fa-chevron-down text-xs"></i>
-					</button>
-				</div>
-				<button
-					type="button"
-					className="w-8 h-8 ml-2 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-100 transition-colors border-none bg-transparent cursor-pointer"
-				>
-					<i className="fa-regular fa-circle-question text-lg"></i>
-				</button>
-				<button
-					type="button"
-					className="w-8 h-8 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-100 transition-colors border-none bg-transparent cursor-pointer relative"
-				>
-					<i className="fa-regular fa-bell text-lg"></i>
-					<span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
-				</button>
-				<img alt="User Avatar" className="w-8 h-8 rounded-full border border-slate-200 ml-1" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7Ex9EHSWAM5mShH9TFzMycnSxvOCa7WvAJhwzXy9AFJlawMVJ8Onae1kmGSI5eoTqNcUeXmNgMDZ1JLW8GUmxogD1T7OQMbkmC1WGEKx9iyxcVqCGHe7-N1domsimVwxfi_JFCki3DT4MgtSM39-N93rZXoLsUru1chHyrT_kECCI3BX-q796CHMRxDIWUIetzebpPiZNbqORFwpHkYf3X3SVMqvzN9G7HrD39iJ0zzHmBdbTnL4x"/>
+				) }
 			</div>
 		</header>
 	);

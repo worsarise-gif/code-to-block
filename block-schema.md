@@ -6,13 +6,15 @@ Phase 1 decision for the HTML/CSS-to-block converter.
 
 ```text
 BlockDocument = {
-  schema_version: 1,
+  schema_version: 1 | 2,
   name: string,
+  feature_flags?: { guided_roles?: boolean },
   design_tokens?: {
     colors?: { [tokenId: string]: DesignToken },
     typography?: { [tokenId: string]: DesignToken },
     spacing?: { [tokenId: string]: DesignToken }
   },
+  style_roles?: { [roleId: string]: StyleRoleRecipe },
   seo?: {
     title?: string,
     description?: string,
@@ -21,12 +23,72 @@ BlockDocument = {
     og_description?: string,
     og_image?: string
   },
+  imported_assets?: ImportedAssets,
   root: Block
+}
+
+ImportedAssets = {
+  origin: {
+    type: "code-import",
+    import_session_id: string,
+    source_hash: string
+  },
+  page_meta: {
+    document_type?: "full-document" | "fragment",
+    source_type?: "full-document" | "mixed" | "html-fragment" |
+      "stylesheet" | "javascript" | "php" | "plain-text",
+    detected_languages: Array<"html" | "css" | "javascript" | "php">,
+    doctype?: string,
+    title?: string,
+    base_href?: string,
+    html_attributes: object,
+    body_attributes: object,
+    metas: object[],
+    links: object[]
+  },
+  stylesheets: Array<{
+    id: string,
+    source_text: string,
+    scoped_source: string,
+    selectors: string[],
+    media_conditions: string[],
+    keyframes: string[],
+    custom_properties: string[]
+  }>,
+  token_bindings: { [cssVariable: string]: string },
+  scripts: Array<{
+    id: string,
+    placement: "head" | "body" | "body-end",
+    type: string,
+    source: string,
+    src?: string,
+    attributes: object,
+    enabled_in_editor: false,
+    enabled_in_preview: boolean,
+    enabled_on_publish: boolean,
+    origin: "imported"
+  }>,
+  references: object[],
+  diagnostics: object[]
 }
 
 DesignToken = {
   label: string,
-  value: string
+  value: string,
+  built_in?: boolean
+}
+
+StyleRoleRecipe = {
+  id: string,
+  kind: "typography" | "spacing",
+  labelKey: string,
+  descriptionKey: string,
+  propertyTokenRefs: { [cssProperty: string]: string },
+  variants: { [variant: string]: { [cssProperty: string]: string } },
+  densityVariants?: { [variant: string]: { [cssProperty: string]: string } },
+  supportedContexts: string[],
+  builtIn: boolean,
+  version: number
 }
 
 Block = {
@@ -91,6 +153,27 @@ TextNode = {
 StyleSet = {
   mapped: { [cssProperty: string]: string },
   token_bindings?: { [cssProperty: string]: string },
+  role_bindings?: {
+    [scope: string]: {
+      roleId: string,
+      kind: "typography" | "spacing",
+      typographyAdjustment?: { size: -1 | 0 | 1, density: -1 | 0 | 1 },
+      spacingAdjustment?: { distance: -1 | 0 | 1 },
+      overrides: Array<{
+        property: string,
+        value: string,
+        breakpoint?: "desktop" | "tablet" | "mobile",
+        state?: "hover" | "focus" | "active"
+      }>,
+      source: "built-in" | "user" | "legacy" | "imported"
+    }
+  },
+  import_review_flags?: Array<{
+    id: string,
+    property: string,
+    roleId: string,
+    message: string
+  }>,
   custom_css_fallback: string
 }
 ```
@@ -127,6 +210,14 @@ StyleSet = {
 - A per-block token override keeps its `token_bindings` entry but stores a raw
   mapped value instead of the generated `var(...)` value. This makes divergence
   explicit and reversible without changing other consumers.
+- Version 2 adds document-scoped semantic style roles without replacing tokens.
+  A role recipe points to existing typography or spacing tokens, while a block
+  stores only its role ID, bounded `-1/0/1` adjustment, and explicit local
+  property overrides. Visual roles never change the block's HTML `tag`.
+- Guided roles are release-gated by `feature_flags.guided_roles`. New documents
+  seed the idempotent Balanced role/token library. Version-1 documents keep their
+  raw styles unchanged during migration; approximate snapping is limited to the
+  explicit import-normalization flow.
 - A reusable component instance is a normal empty `container`/`div` block whose
   `meta.source` is `saved-component` and whose `saved_component_id` references a
   private component record. Component content is resolved only for rendering;
@@ -134,10 +225,11 @@ StyleSet = {
   must not be persisted under a component placeholder.
 - Linked component placeholders cannot carry `css_mapping`; provenance remains
   on the canonical blocks inside the saved component.
-- Saved component records use the same version-1 document envelope and canonical
+- Saved component records use the same document envelope and canonical
   validator. They cannot contain nested saved-component links or page-bound PHP
   shortcode placeholders. Required design tokens travel with the component and
-  are namespaced when linked instances are resolved.
+  are namespaced when linked instances are resolved; version-2 role recipes and
+  bindings travel with them and are remapped on conflicts.
 - Starter templates are static version-1 documents with `meta.source:
   "starter-template"` and no required server state. Replace resets history;
   insert clones the starter root with regenerated IDs and respects the same
@@ -146,12 +238,22 @@ StyleSet = {
   action targets per instance. Aggregate resolved output retains the document's
   1,000-block, 50-level, and 2 MB limits; an instance that would exceed a limit
   fails locally instead of expanding the whole page.
-- Source HTML event-handler attributes are not actions. They must be rejected
-  during sanitization. Builder actions are explicit structured data. The public
-  runtime executes only validated click actions for class changes and
-  show/hide behavior. Unrecognized source scripts may be preserved only as
-  `manual-review / unverified-script` metadata and are never rendered or
-  executed.
+- Source HTML event-handler attributes are not actions and are rejected during
+  sanitization. Builder actions are explicit structured data. Imported raw
+  scripts live separately in `imported_assets.scripts`: the server forces
+  `enabled_in_editor` off, the editor iframe blocks script execution, and users
+  without WordPress's `unfiltered_html` capability have both Preview/Publish
+  flags forced off at every write boundary. Only the owning singular document
+  may emit a script enabled for that mode. Safe script attributes are allowlisted;
+  event attributes are never emitted.
+- Imported stylesheets retain their original source for review and a separately
+  sanitized, `.ctb-import-scope`-rewritten source for rendering. The scoped
+  stylesheet is authoritative for its original cascade; per-block inline and
+  builder styles remain overrides. `@import` is inventoried and quarantined.
+- The visual editor uses a script-disabled iframe rather than Shadow DOM.
+  Shadow DOM isolates selector matching but not viewport/fixed-position layout;
+  the iframe makes document roots, viewport units, and fixed/absolute layout
+  relative to the canvas while containing global CSS.
 - Runtime IDs should be generated stable unique IDs. The readable IDs in the
   examples are fixture IDs only.
 - `schema_version` is stored once on the document envelope so future migrations

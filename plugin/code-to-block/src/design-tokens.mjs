@@ -6,8 +6,29 @@ export const TOKEN_CATEGORIES = [
 
 export const TOKEN_PROPERTIES = {
 	colors: [ 'color' ],
-	typography: [ 'font-size', 'font-weight' ],
-	spacing: [ 'padding', 'margin', 'border-radius' ],
+	typography: [
+		'font-family',
+		'font-size',
+		'font-weight',
+		'line-height',
+		'letter-spacing',
+	],
+	spacing: [
+		'padding',
+		'padding-top',
+		'padding-right',
+		'padding-bottom',
+		'padding-left',
+		'margin',
+		'margin-top',
+		'margin-right',
+		'margin-bottom',
+		'margin-left',
+		'gap',
+		'row-gap',
+		'column-gap',
+		'border-radius',
+	],
 };
 
 const TOKEN_ID_PATTERN = /^[a-z][a-z0-9-]{0,39}$/;

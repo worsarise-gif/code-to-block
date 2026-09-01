@@ -1,115 +1,217 @@
-import { createElement, useRef, useEffect, useState } from '@wordpress/element';
-import { createPortal } from '@wordpress/element';
+import { createPortal, useRef, useState } from '@wordpress/element';
 
-function ShadowWrapper({ children, previewStyles }) {
-    const hostRef = useRef(null);
-    const [shadowRoot, setShadowRoot] = useState(null);
+import {
+	createEditorCanvasDocument,
+	EDITOR_CANVAS_SANDBOX,
+} from '../canvas-isolation.mjs';
 
-    useEffect(() => {
-        if (hostRef.current && !hostRef.current.shadowRoot) {
-            setShadowRoot(hostRef.current.attachShadow({ mode: 'open' }));
-        }
-    }, []);
+const EDITOR_CANVAS_DOCUMENT = createEditorCanvasDocument();
 
-    return (
-        <div ref={hostRef} style={{ width: '100%', height: '100%' }}>
-            {shadowRoot && createPortal(
-                <>
-                    <style>{previewStyles}</style>
-                    {children}
-                </>,
-                shadowRoot
-            )}
-        </div>
-    );
+function IsolatedCanvasFrame( {
+	children,
+	previewStyles,
+	onDragOver,
+	onDragLeave,
+	onDrop,
+} ) {
+	const frameRef = useRef( null );
+	const [ mountNode, setMountNode ] = useState( null );
+
+	function connectFrame() {
+		setMountNode(
+			frameRef.current?.contentDocument?.getElementById(
+				'ctb-canvas-root'
+			) || null
+		);
+	}
+
+	return (
+		<>
+			<iframe
+				ref={ frameRef }
+				className="block h-[720px] min-h-[720px] w-full border-0 bg-white"
+				title="Isolated builder canvas"
+				sandbox={ EDITOR_CANVAS_SANDBOX }
+				referrerPolicy="no-referrer"
+				srcDoc={ EDITOR_CANVAS_DOCUMENT }
+				onLoad={ connectFrame }
+			/>
+			{ mountNode
+				? createPortal(
+						<>
+							<style data-ctb-preview-styles="1">
+								{ previewStyles }
+							</style>
+							<div
+								className="ctb-canvas-document"
+								onDragOver={ onDragOver }
+								onDragLeave={ onDragLeave }
+								onDrop={ onDrop }
+							>
+								{ children }
+							</div>
+						</>,
+						mountNode
+				  )
+				: null }
+		</>
+	);
 }
 
-export default function CenterCanvas({
-    previewStyles,
-    breadcrumbPath,
-    selectBlock,
-    DndContext,
-    sensors,
-    closestCenter,
-    setActiveId,
-    finishDrag,
-    paletteDragging,
-    previewBreakpoint,
-    documentLoading,
-    SkeletonLoader,
-    DragOverlay,
-    activeBlock,
-    addPrimitiveAtSelection,
-    setPaletteDragging,
-    children // inner elements mapping
-}) {
-    return (
-        <main
-            className="ctb-canvas-stage flex-1 flex flex-col overflow-auto relative p-8 items-center"
-            style={{ backgroundColor: '#E5E7EB', display: 'flex', flexDirection: 'column', height: '100%', overflowY: 'auto' }}
-        >
-            <div className="absolute top-4 left-4 z-20 flex items-center bg-indigo-600 text-white text-[10px] font-medium px-2 py-1 rounded shadow-sm">
-                { breadcrumbPath && breadcrumbPath.map( ( block, idx ) => (
-                    <span key={ block.id } style={{ display: 'flex', alignItems: 'center' }}>
-                        <span style={{ cursor: 'pointer' }} onClick={ () => selectBlock( block.id ) }>
-                            { block.tag }
-                        </span>
-                        { idx < breadcrumbPath.length - 1 && <i className="fa-solid fa-chevron-right text-[8px] mx-1"></i> }
-                    </span>
-                ) ) }
-                { (!breadcrumbPath || breadcrumbPath.length === 0) && <span>Select an element</span> }
-            </div>
+export default function CenterCanvas( {
+	previewStyles,
+	breadcrumbPath,
+	selectBlock,
+	DndContext,
+	sensors,
+	collisionStrategy,
+	startDrag,
+	updateDragIntent,
+	finishDrag,
+	cancelDrag,
+	paletteDragging,
+	previewBreakpoint,
+	documentLoading,
+	SkeletonLoader,
+	DragOverlay,
+	activeBlock,
+	dropIntent,
+	updatePaletteDropIntent,
+	addPrimitiveAtDrop,
+	clearDropIntent,
+	overlayModifiers,
+	children,
+} ) {
+	let viewportWidth = '100%';
+	if ( previewBreakpoint === 'tablet' ) {
+		viewportWidth = '768px';
+	} else if ( previewBreakpoint === 'mobile' ) {
+		viewportWidth = '390px';
+	}
 
-            <DndContext sensors={ sensors } collisionDetection={ closestCenter } onDragStart={ ( e ) => setActiveId( e.active.id ) } onDragEnd={ finishDrag }>
-                <div
-                    className={ `ctb-canvas-wrapper w-full bg-white shadow-xl rounded-lg border border-slate-200 overflow-hidden relative ${ paletteDragging ? ' is-palette-target' : '' }` }
-                    style={{
-                        maxWidth: previewBreakpoint === 'desktop' ? '100%' : previewBreakpoint === 'tablet' ? '768px' : '375px',
-                        transition: 'max-width 0.3s ease-in-out',
-                        minHeight: '800px',
-                        margin: '0 auto',
-                        height: '100%'
-                    }}
-                    onDragOver={ ( event ) => {
-                        if ( event.dataTransfer.types.includes( 'application/x-ctb-element' ) ) {
-                            event.preventDefault();
-                            event.dataTransfer.dropEffect = 'copy';
-                        }
-                    } }
-                    onDrop={ ( event ) => {
-                        const primitive = event.dataTransfer.getData( 'application/x-ctb-element' );
-                        if ( primitive ) {
-                            event.preventDefault();
-                            addPrimitiveAtSelection( primitive );
-                            setPaletteDragging( null );
-                        }
-                    } }
-                >
-                    <div className={ `ctb-canvas-viewport is-${ previewBreakpoint }` } style={{ height: '100%', width: '100%' }}>
-                        { documentLoading && SkeletonLoader ? (
-                            <div className="ctb-editor-skeleton-layout p-8">
-                                <SkeletonLoader type="image" />
-                                <SkeletonLoader type="rich_text" />
-                                <br />
-                                <SkeletonLoader type="text" />
-                                <SkeletonLoader type="link" />
-                            </div>
-                        ) : (
-                            <ShadowWrapper previewStyles={previewStyles?.css || ''}>
-                                {children}
-                            </ShadowWrapper>
-                        ) }
-                    </div>
-                </div>
+	function handleCanvasDragOver( event ) {
+		if (
+			event.dataTransfer.types.includes( 'application/x-ctb-element' )
+		) {
+			event.preventDefault();
+			event.dataTransfer.dropEffect = 'copy';
+			updatePaletteDropIntent( event );
+		}
+	}
 
-                { DragOverlay && activeBlock ? (
-                    <DragOverlay>
-                        <div className="ctb-drag-overlay" style={{ padding: '8px', background: '#4f46e5', color: 'white', borderRadius: '4px', fontSize: '12px' }}>
-                            Moving { activeBlock.id }
-                        </div>
-                    </DragOverlay>
-                ) : null }
-            </DndContext>
-        </main>
-    );
+	function handleCanvasDragLeave( event ) {
+		if ( ! event.currentTarget.contains( event.relatedTarget ) ) {
+			clearDropIntent();
+		}
+	}
+
+	function handleCanvasDrop( event ) {
+		const primitive = event.dataTransfer.getData(
+			'application/x-ctb-element'
+		);
+		if ( primitive ) {
+			event.preventDefault();
+			addPrimitiveAtDrop( primitive, event );
+		}
+	}
+
+	return (
+		<main className="flex-1 min-w-0 bg-gray-50 flex items-center justify-center p-8 overflow-auto relative">
+			<DndContext
+				sensors={ sensors }
+				collisionDetection={ collisionStrategy }
+				onDragStart={ startDrag }
+				onDragMove={ updateDragIntent }
+				onDragOver={ updateDragIntent }
+				onDragEnd={ finishDrag }
+				onDragCancel={ cancelDrag }
+			>
+				<div
+					className={ `relative my-auto w-full shrink-0 overflow-hidden rounded-lg border bg-white shadow-sm transition-[max-width,border-color,box-shadow] duration-300 ${
+						paletteDragging
+							? 'border-indigo-400 ring-4 ring-indigo-100'
+							: 'border-gray-200'
+					}` }
+					style={ {
+						maxWidth: viewportWidth,
+						minHeight: '720px',
+					} }
+					onDragOver={ handleCanvasDragOver }
+					onDragLeave={ handleCanvasDragLeave }
+					onDrop={ handleCanvasDrop }
+				>
+					{ breadcrumbPath?.length ? (
+						<nav
+							className="absolute left-3 top-3 z-10 flex max-w-[calc(100%-1.5rem)] items-center overflow-hidden rounded-md bg-indigo-600 px-2 py-1 text-[10px] font-medium text-white shadow-sm"
+							aria-label="Selected element path"
+						>
+							{ breadcrumbPath.map( ( block, index ) => (
+								<span
+									key={ block.id }
+									className="flex min-w-0 items-center"
+								>
+									<button
+										type="button"
+										className="truncate rounded border-0 bg-transparent px-1 py-0.5 text-[10px] text-white hover:bg-white/15 focus:outline-none focus-visible:ring-1 focus-visible:ring-white"
+										onClick={ () =>
+											selectBlock( block.id )
+										}
+									>
+										{ block.tag }
+									</button>
+									{ index < breadcrumbPath.length - 1 ? (
+										<i
+											className="fa-solid fa-chevron-right mx-0.5 text-[7px] text-indigo-200"
+											aria-hidden="true"
+										></i>
+									) : null }
+								</span>
+							) ) }
+						</nav>
+					) : null }
+
+					<div
+						className={ `h-full min-h-[720px] w-full overflow-auto is-${ previewBreakpoint }` }
+					>
+						{ documentLoading && SkeletonLoader ? (
+							<div className="p-8">
+								<SkeletonLoader type="image" />
+								<SkeletonLoader type="rich_text" />
+								<br />
+								<SkeletonLoader type="text" />
+								<SkeletonLoader type="link" />
+							</div>
+						) : (
+							<IsolatedCanvasFrame
+								previewStyles={ previewStyles?.css || '' }
+								onDragOver={ handleCanvasDragOver }
+								onDragLeave={ handleCanvasDragLeave }
+								onDrop={ handleCanvasDrop }
+							>
+								{ children }
+							</IsolatedCanvasFrame>
+						) }
+					</div>
+				</div>
+
+				{ DragOverlay && activeBlock ? (
+					<DragOverlay modifiers={ overlayModifiers }>
+						<div
+							className={ `rounded-md px-3 py-2 text-xs font-medium text-white shadow-lg ${
+								dropIntent && ! dropIntent.valid
+									? 'bg-red-600'
+									: 'bg-indigo-600'
+							}` }
+						>
+							{ dropIntent
+								? dropIntent.valid
+									? `Move ${ dropIntent.position } ${ dropIntent.targetId }`
+									: dropIntent.reason
+								: `Moving ${ activeBlock.id }` }
+						</div>
+					</DragOverlay>
+				) : null }
+			</DndContext>
+		</main>
+	);
 }

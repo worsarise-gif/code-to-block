@@ -1,0 +1,84 @@
+[    7914ms] [LOG] JQMIGRATE: Migrate is installed with logging active, version 3.4.1 @ http://localhost:8888/wp-includes/js/jquery/jquery-migrate.js?ver=3.4.1:103
+[   56227ms] [LOG] JQMIGRATE: Migrate is installed with logging active, version 3.4.1 @ http://localhost:8888/wp-includes/js/jquery/jquery-migrate.js?ver=3.4.1:103
+[   58404ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:29904
+[   59823ms] ReferenceError: Cannot access 'on' before initialization
+    at Jm (http://localhost:8888/wp-content/plugins/code-to-block/build/index.js?ver=5803ad89b895fa9c3072:1:534080)
+    at renderWithHooks (http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:15496:20)
+    at mountIndeterminateComponent (http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:20113:15)
+    at beginWork (http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:21636:18)
+    at HTMLUnknownElement.callCallback (http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:4151:16)
+    at Object.invokeGuardedCallbackDev (http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:4200:18)
+    at invokeGuardedCallback (http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:4264:33)
+    at beginWork$1 (http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:27500:9)
+    at performUnitOfWork (http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:26606:14)
+    at workLoopSync (http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:26515:7)
+[   59826ms] ReferenceError: Cannot access 'on' before initialization
+    at Jm (http://localhost:8888/wp-content/plugins/code-to-block/build/index.js?ver=5803ad89b895fa9c3072:1:534080)
+    at renderWithHooks (http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:15496:20)
+    at mountIndeterminateComponent (http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:20113:15)
+    at beginWork (http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:21636:18)
+    at HTMLUnknownElement.callCallback (http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:4151:16)
+    at Object.invokeGuardedCallbackDev (http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:4200:18)
+    at invokeGuardedCallback (http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:4264:33)
+    at beginWork$1 (http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:27500:9)
+    at performUnitOfWork (http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:26606:14)
+    at workLoopSync (http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:26515:7)
+[   59827ms] [ERROR] The above error occurred in the <Jm> component:
+
+    at Jm (http://localhost:8888/wp-content/plugins/code-to-block/build/index.js?ver=5803ad89b895fa9c3072:1:530748)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries. @ http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:18713
+[   59828ms] ReferenceError: Cannot access 'on' before initialization
+    at Jm (http://localhost:8888/wp-content/plugins/code-to-block/build/index.js?ver=5803ad89b895fa9c3072:1:534080)
+    at renderWithHooks (http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:15496:20)
+    at mountIndeterminateComponent (http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:20113:15)
+    at beginWork (http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:21636:18)
+    at beginWork$1 (http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:27475:16)
+    at performUnitOfWork (http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:26606:14)
+    at workLoopSync (http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:26515:7)
+    at renderRootSync (http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:26483:9)
+    at recoverFromConcurrentError (http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:25899:22)
+    at performConcurrentWorkOnRoot (http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:25799:24)
+[   89971ms] [WARNING] cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation @ https://cdn.tailwindcss.com/?plugins=forms,container-queries:63
+[   90392ms] Transition was skipped
+[   90418ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:29904
+[   90445ms] ReferenceError: Cannot access 'on' before initialization
+    at Jm (http://localhost:8888/wp-content/plugins/code-to-block/build/index.js?ver=5803ad89b895fa9c3072:1:534080)
+    at renderWithHooks (http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:15496:20)
+    at mountIndeterminateComponent (http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:20113:15)
+    at beginWork (http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:21636:18)
+    at HTMLUnknownElement.callCallback (http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:4151:16)
+    at Object.invokeGuardedCallbackDev (http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:4200:18)
+    at invokeGuardedCallback (http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:4264:33)
+    at beginWork$1 (http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:27500:9)
+    at performUnitOfWork (http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:26606:14)
+    at workLoopSync (http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:26515:7)
+[   90446ms] ReferenceError: Cannot access 'on' before initialization
+    at Jm (http://localhost:8888/wp-content/plugins/code-to-block/build/index.js?ver=5803ad89b895fa9c3072:1:534080)
+    at renderWithHooks (http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:15496:20)
+    at mountIndeterminateComponent (http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:20113:15)
+    at beginWork (http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:21636:18)
+    at HTMLUnknownElement.callCallback (http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:4151:16)
+    at Object.invokeGuardedCallbackDev (http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:4200:18)
+    at invokeGuardedCallback (http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:4264:33)
+    at beginWork$1 (http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:27500:9)
+    at performUnitOfWork (http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:26606:14)
+    at workLoopSync (http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:26515:7)
+[   90446ms] [ERROR] The above error occurred in the <Jm> component:
+
+    at Jm (http://localhost:8888/wp-content/plugins/code-to-block/build/index.js?ver=5803ad89b895fa9c3072:1:530748)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries. @ http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:18713
+[   90449ms] ReferenceError: Cannot access 'on' before initialization
+    at Jm (http://localhost:8888/wp-content/plugins/code-to-block/build/index.js?ver=5803ad89b895fa9c3072:1:534080)
+    at renderWithHooks (http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:15496:20)
+    at mountIndeterminateComponent (http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:20113:15)
+    at beginWork (http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:21636:18)
+    at beginWork$1 (http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:27475:16)
+    at performUnitOfWork (http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:26606:14)
+    at workLoopSync (http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:26515:7)
+    at renderRootSync (http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:26483:9)
+    at recoverFromConcurrentError (http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:25899:22)
+    at performConcurrentWorkOnRoot (http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:25799:24)

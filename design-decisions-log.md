@@ -641,3 +641,11 @@ Full report in `upgrade/file2-part1-perf-report.md`.
 **Decision**: Added shape-aware skeleton loaders derived from `slot_content_type` ('text', 'rich_text', 'image', 'link') during async loading states (initial editor load and WooCommerce async data fetch). The shimmer animation is CSS-native without triggering JS loads. Placed intentionally in the Free tier.
 
 **Why**: A loading-state polish detail builds user trust. Restricting it to a premium tier undermines the trust-building purpose of the Free tier. Deriving shapes from existing schema (File 4 slots) is highly efficient and provides recognizable placeholder shapes (e.g. pricing card vs plain box) without layout shifts.
+
+## Upgrade 18 — Deterministic Block Drop Intent
+
+**Phase**: Drag-and-drop reliability follow-up
+
+**Decision**: Canvas reordering and palette insertion resolve the pointer against one shared, pure drop-intent model. Every drop produces a target, `before` / `inside` / `after` position, destination parent/index, and validity before mutating the document. Nested targets are ordered deterministically by depth, validity, geometry, and document order. The existing clone-before-commit history path and root/self/lock/descendant guards remain authoritative.
+
+**Why**: Collision proximity alone cannot express placement intent and previously made containers always append while leaves always inserted after. A single tested resolver keeps pointer feedback, block moves, and palette insertion synchronized and prevents visual indicators from promising a destination different from the committed tree.

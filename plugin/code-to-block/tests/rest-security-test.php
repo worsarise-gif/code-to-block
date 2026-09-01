@@ -102,7 +102,7 @@ require_once dirname( __DIR__ ) . '/includes/class-code-to-block-rest-controller
 
 $controller = new Code_To_Block_REST_Controller();
 $controller->register_routes();
-assert_security( 9 === count( $registered_routes ), 'Exactly nine custom route patterns must be registered.' );
+assert_security( 12 === count( $registered_routes ), 'Exactly twelve custom route patterns must be registered.' );
 assert_security( 2 === count( $registered_routes[0]['definitions'] ), 'The block-tree route must expose only GET and POST definitions.' );
 foreach ( $registered_routes[0]['definitions'] as $definition ) {
 	assert_security( array( $controller, 'permissions_check' ) === $definition['permission_callback'], 'Every custom method must use the object-specific permission callback.' );
@@ -120,14 +120,20 @@ assert_security( 2 === count( $registered_routes[5]['definitions'] ), 'Content M
 foreach ( $registered_routes[5]['definitions'] as $definition ) {
 	assert_security( array( $controller, 'permissions_check' ) === $definition['permission_callback'], 'Content reads and patches must use the standard page permission check.' );
 }
-assert_security( 3 === count( $registered_routes[6]['definitions'] ), 'A component item must expose GET, PUT, and DELETE.' );
-assert_security( array( $controller, 'component_permissions_check' ) === $registered_routes[6]['definitions'][1]['permission_callback'], 'Component updates must use object-specific component permissions.' );
-assert_security( array( $controller, 'component_delete_permissions_check' ) === $registered_routes[6]['definitions'][2]['permission_callback'], 'Component deletion must require object-specific delete permission.' );
-assert_security( '/pages/(?P<post_id>\d+)/products' === $registered_routes[7]['route'], 'Product previews must use a page-scoped route.' );
-assert_security( array( $controller, 'permissions_check' ) === $registered_routes[7]['definitions'][0]['permission_callback'], 'Product previews must require permission to edit the owning page.' );
-assert_security( '/pages/(?P<post_id>\d+)/products/(?P<product_id>\d+)' === $registered_routes[8]['route'], 'Product updates must use a page-scoped item route.' );
-assert_security( 1 === count( $registered_routes[8]['definitions'] ), 'The product item route must expose only PUT.' );
-assert_security( array( $controller, 'product_permissions_check' ) === $registered_routes[8]['definitions'][0]['permission_callback'], 'Product updates must use object-specific product permissions.' );
+assert_security( '/pages/(?P<post_id>\d+)/autosave' === $registered_routes[6]['route'], 'Autosave must use a page-scoped route.' );
+assert_security( array( $controller, 'permissions_check' ) === $registered_routes[6]['definitions'][0]['permission_callback'], 'Autosave must require permission to edit the owning page.' );
+assert_security( '/pages/(?P<post_id>\d+)/revisions' === $registered_routes[7]['route'], 'Revision history must use a page-scoped route.' );
+assert_security( array( $controller, 'permissions_check' ) === $registered_routes[7]['definitions'][0]['permission_callback'], 'Revision history must require permission to edit the owning page.' );
+assert_security( '/pages/(?P<post_id>\d+)/revisions/(?P<revision_id>\d+)/restore' === $registered_routes[8]['route'], 'Revision restoration must use a page-scoped item route.' );
+assert_security( array( $controller, 'permissions_check' ) === $registered_routes[8]['definitions'][0]['permission_callback'], 'Revision restoration must require permission to edit the owning page.' );
+assert_security( 3 === count( $registered_routes[9]['definitions'] ), 'A component item must expose GET, PUT, and DELETE.' );
+assert_security( array( $controller, 'component_permissions_check' ) === $registered_routes[9]['definitions'][1]['permission_callback'], 'Component updates must use object-specific component permissions.' );
+assert_security( array( $controller, 'component_delete_permissions_check' ) === $registered_routes[9]['definitions'][2]['permission_callback'], 'Component deletion must require object-specific delete permission.' );
+assert_security( '/pages/(?P<post_id>\d+)/products' === $registered_routes[10]['route'], 'Product previews must use a page-scoped route.' );
+assert_security( array( $controller, 'permissions_check' ) === $registered_routes[10]['definitions'][0]['permission_callback'], 'Product previews must require permission to edit the owning page.' );
+assert_security( '/pages/(?P<post_id>\d+)/products/(?P<product_id>\d+)' === $registered_routes[11]['route'], 'Product updates must use a page-scoped item route.' );
+assert_security( 1 === count( $registered_routes[11]['definitions'] ), 'The product item route must expose only PUT.' );
+assert_security( array( $controller, 'product_permissions_check' ) === $registered_routes[11]['definitions'][0]['permission_callback'], 'Product updates must use object-specific product permissions.' );
 
 $missing = $controller->permissions_check( new Security_Test_Request( 999 ) );
 assert_security( is_wp_error( $missing ) && 404 === $missing->get_error_data()['status'], 'Missing objects must return 404.' );

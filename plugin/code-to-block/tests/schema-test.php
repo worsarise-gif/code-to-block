@@ -211,7 +211,7 @@ assert_true(
 	json_value( $optional ) == json_value( $optional_sanitized ),
 	'Responsive overrides, states, and action params must round-trip unchanged.'
 );
-assert_true( isset( $optional_sanitized['root']['states']['active'] ), 'Active state styles must survive validation.' );
+assert_true( isset( $optional_sanitized['root']['states']->active ), 'Active state styles must survive validation.' );
 assert_true( true === $optional_sanitized['root']['permissions']['locked'], 'Element locks must survive validation.' );
 assert_true( 'logged_in' === $optional_sanitized['root']['visibility_conditions']['login'], 'Login conditions must survive validation.' );
 assert_true( 1 === count( $optional_sanitized['history'] ), 'Persistent history must survive validation.' );
@@ -242,6 +242,69 @@ $explained_sanitized = Code_To_Block_Schema::sanitize_document( $explained );
 assert_true( ! is_wp_error( $explained_sanitized ), 'CSS mapping provenance must validate.' );
 assert_true( 2 === count( $explained_sanitized['root']['meta']['css_mapping']['declarations'] ), 'Every resolved declaration must round-trip.' );
 assert_true( ! isset( $explained_sanitized['root']['meta']['css_mapping']['declarations'][0]['unknown'] ), 'Unknown CSS mapping fields must be stripped.' );
+
+$imported = json_value( $fixtures[0] );
+$imported->schema_version = 2;
+$imported->root->tag = 'div';
+$imported->root->attributes->{'data-ctb-original-tag'} = 'my-widget';
+$imported->root->meta->imported_original_tag = 'my-widget';
+$imported->imported_assets = (object) array(
+	'origin' => (object) array(
+		'type' => 'code-import',
+		'import_session_id' => 'code-import-abc123',
+		'source_hash' => 'abc123',
+	),
+	'page_meta' => (object) array(
+		'document_type' => 'full-document',
+		'source_type' => 'full-document',
+		'detected_languages' => array( 'html', 'css', 'javascript', 'php' ),
+		'doctype' => 'html',
+		'title' => 'Imported page',
+		'base_href' => 'https://example.test/assets/',
+		'html_attributes' => (object) array( 'lang' => 'en' ),
+		'body_attributes' => (object) array( 'class' => 'imported-body' ),
+		'metas' => array( (object) array( 'name' => 'viewport', 'content' => 'width=device-width' ) ),
+		'links' => array( (object) array( 'rel' => 'stylesheet', 'href' => 'https://cdn.example.test/page.css' ) ),
+	),
+	'stylesheets' => array(
+		(object) array(
+			'id' => 'import-style-abc123-1',
+			'source_text' => 'body{margin:0}',
+			'scoped_source' => '.ctb-import-scope{margin:0}',
+			'selectors' => array( 'body' ),
+			'media_conditions' => array(),
+			'keyframes' => array(),
+			'custom_properties' => array(),
+		),
+	),
+	'token_bindings' => new stdClass(),
+	'scripts' => array(
+		(object) array(
+			'id' => 'import-script-abc123-1',
+			'placement' => 'body-end',
+			'type' => 'module',
+			'source' => '',
+			'src' => 'https://cdn.example.test/app.js',
+			'attributes' => (object) array( 'defer' => '', 'integrity' => 'sha384-YWJj', 'onclick' => 'blocked()' ),
+			'enabled_in_editor' => true,
+			'enabled_in_preview' => true,
+			'enabled_on_publish' => false,
+			'origin' => 'imported',
+		),
+	),
+	'references' => array( (object) array( 'type' => 'css.import', 'value' => 'https://cdn.example.test/page.css', 'external' => true, 'blocked' => true ) ),
+	'diagnostics' => array( (object) array( 'severity' => 'warning', 'code' => 'PHP_REVIEW_REQUIRED', 'message' => 'PHP requires review.', 'source' => 'php' ) ),
+);
+$imported_sanitized = Code_To_Block_Schema::sanitize_document( $imported );
+assert_true( ! is_wp_error( $imported_sanitized ), 'Context-aware imported page packages must survive schema validation.' );
+assert_true( 'full-document' === $imported_sanitized['imported_assets']['page_meta']['source_type'], 'Detected source type must round-trip.' );
+assert_true( array( 'html', 'css', 'javascript', 'php' ) === $imported_sanitized['imported_assets']['page_meta']['detected_languages'], 'Detected languages must round-trip.' );
+assert_true( false === $imported_sanitized['imported_assets']['scripts'][0]['enabled_in_editor'], 'The server must force imported scripts off in editor mode.' );
+assert_true( ! isset( $imported_sanitized['imported_assets']['scripts'][0]['attributes']->onclick ), 'Event-handler script attributes must be removed.' );
+assert_true( 'my-widget' === $imported_sanitized['root']['meta']['imported_original_tag'], 'Normalized custom-element provenance must round-trip.' );
+$disabled_imported = Code_To_Block_Schema::disable_imported_script_execution( $imported_sanitized );
+assert_true( false === $disabled_imported['imported_assets']['scripts'][0]['enabled_in_preview'], 'Accounts without unfiltered_html must not execute imported scripts in Preview.' );
+assert_true( false === $disabled_imported['imported_assets']['scripts'][0]['enabled_on_publish'], 'Accounts without unfiltered_html must not execute imported scripts after publish.' );
 
 $unsafe_explanation = json_value( $explained );
 $unsafe_explanation->root->meta->css_mapping->declarations[0]->value = 'red}body{display:none';
@@ -296,6 +359,73 @@ assert_true( is_wp_error( Code_To_Block_Schema::sanitize_document( $missing_toke
 $invalid_token_id = json_value( $token_document );
 $invalid_token_id->design_tokens->colors->{'9-brand'} = $invalid_token_id->design_tokens->colors->brand;
 assert_true( is_wp_error( Code_To_Block_Schema::sanitize_document( $invalid_token_id ) ), 'Token IDs must be safe stable slugs.' );
+
+$guided_document = json_value( $fixtures[0] );
+$guided_document->schema_version = 2;
+$guided_document->feature_flags = (object) array( 'guided_roles' => true );
+$guided_document->design_tokens = (object) array(
+	'typography' => (object) array(
+		'font-body' => (object) array( 'label' => 'Body font', 'value' => 'system-ui, sans-serif', 'built_in' => true ),
+		'size-body' => (object) array( 'label' => 'Body size', 'value' => '1rem', 'built_in' => true ),
+		'weight-regular' => (object) array( 'label' => 'Regular', 'value' => '400', 'built_in' => true ),
+		'leading-body' => (object) array( 'label' => 'Body leading', 'value' => '1.6', 'built_in' => true ),
+		'tracking-normal' => (object) array( 'label' => 'Normal tracking', 'value' => '0', 'built_in' => true ),
+	),
+);
+$guided_document->style_roles = (object) array(
+	'type.body' => (object) array(
+		'id' => 'type.body',
+		'kind' => 'typography',
+		'labelKey' => 'type.body',
+		'descriptionKey' => 'type.body',
+		'propertyTokenRefs' => (object) array(
+			'font-family' => 'typography.font-body',
+			'font-size' => 'typography.size-body',
+			'font-weight' => 'typography.weight-regular',
+			'line-height' => 'typography.leading-body',
+			'letter-spacing' => 'typography.tracking-normal',
+		),
+		'variants' => (object) array(
+			'default' => (object) array( 'font-size' => 'typography.size-body' ),
+		),
+		'densityVariants' => (object) array(
+			'default' => (object) array( 'line-height' => 'typography.leading-body' ),
+		),
+		'supportedContexts' => array( 'paragraph' ),
+		'builtIn' => true,
+		'version' => 1,
+	),
+);
+$guided_target = $guided_document->root->children[0];
+$guided_target->styles->mapped = (object) array(
+	'font-family' => 'var(--ctb-token-typography-font-body)',
+	'font-size' => 'var(--ctb-token-typography-size-body)',
+	'font-weight' => 'var(--ctb-token-typography-weight-regular)',
+	'line-height' => 'var(--ctb-token-typography-leading-body)',
+	'letter-spacing' => 'var(--ctb-token-typography-tracking-normal)',
+);
+$guided_target->styles->token_bindings = (object) array(
+	'font-family' => 'typography.font-body',
+	'font-size' => 'typography.size-body',
+	'font-weight' => 'typography.weight-regular',
+	'line-height' => 'typography.leading-body',
+	'letter-spacing' => 'typography.tracking-normal',
+);
+$guided_target->styles->role_bindings = (object) array(
+	'typography' => (object) array(
+		'roleId' => 'type.body',
+		'kind' => 'typography',
+		'typographyAdjustment' => (object) array( 'size' => 0, 'density' => 0 ),
+		'overrides' => array(),
+		'source' => 'built-in',
+	),
+);
+$guided_sanitized = Code_To_Block_Schema::sanitize_document( $guided_document );
+assert_true( ! is_wp_error( $guided_sanitized ), 'Version 2 guided-role documents must validate.' );
+assert_true( json_value( $guided_document ) == json_value( $guided_sanitized ), 'Guided role recipes, bindings, tokens, and feature flags must round-trip unchanged.' );
+$missing_guided_role = json_value( $guided_document );
+$missing_guided_role->root->children[0]->styles->role_bindings->typography->roleId = 'type.missing';
+assert_true( is_wp_error( Code_To_Block_Schema::sanitize_document( $missing_guided_role ) ), 'Role bindings must reference a role in the same document.' );
 $slot_value_document = json_value( $fixtures[0] );
 $slot_value_document->slot_values = (object) array( 'instance-slot-id' => 'Page-local component content' );
 $slot_value_sanitized = Code_To_Block_Schema::sanitize_document( $slot_value_document );

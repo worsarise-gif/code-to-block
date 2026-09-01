@@ -106,6 +106,51 @@ final class Code_To_Block_REST_Controller {
 		);
 		register_rest_route(
 			self::NAMESPACE,
+			'/pages/(?P<post_id>\d+)/autosave',
+			array(
+				array(
+					'methods'             => WP_REST_Server::CREATABLE,
+					'callback'            => array( $this, 'autosave' ),
+					'permission_callback' => array( $this, 'permissions_check' ),
+					'args'                => $this->post_id_args(),
+				),
+			)
+		);
+		register_rest_route(
+			self::NAMESPACE,
+			'/pages/(?P<post_id>\d+)/revisions',
+			array(
+				array(
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'get_revisions' ),
+					'permission_callback' => array( $this, 'permissions_check' ),
+					'args'                => $this->post_id_args(),
+				),
+			)
+		);
+		register_rest_route(
+			self::NAMESPACE,
+			'/pages/(?P<post_id>\d+)/revisions/(?P<revision_id>\d+)/restore',
+			array(
+				array(
+					'methods'             => WP_REST_Server::CREATABLE,
+					'callback'            => array( $this, 'restore_revision' ),
+					'permission_callback' => array( $this, 'permissions_check' ),
+					'args'                => array_merge(
+						$this->post_id_args(),
+						array(
+							'revision_id' => array(
+								'required'          => true,
+								'type'              => 'integer',
+								'validate_callback' => 'rest_validate_request_arg',
+							),
+						)
+					),
+				),
+			)
+		);
+		register_rest_route(
+			self::NAMESPACE,
 			'/pages/(?P<post_id>\d+)/components/(?P<component_id>\d+)',
 			array(
 				array(
@@ -766,9 +811,10 @@ final class Code_To_Block_REST_Controller {
 			);
 		}
 
-		$document_payload = $payload;
-		$editor_snapshot  = null;
-		$has_snapshot     = false;
+		$document_payload    = $payload;
+		$editor_snapshot     = null;
+		$has_snapshot        = false;
+		$base_server_version = null;
 		if ( is_object( $payload ) && isset( $payload->document ) ) {
 			$document_payload = $payload->document;
 			$has_snapshot     = property_exists( $payload, 'editor_styles' );
@@ -780,6 +826,9 @@ final class Code_To_Block_REST_Controller {
 					array( 'status' => 400 )
 				);
 			}
+			if ( property_exists( $payload, 'base_server_version' ) ) {
+				$base_server_version = sanitize_text_field( $payload->base_server_version );
+			}
 		}
 
 		$document = Code_To_Block_Schema::sanitize_document( $document_payload );
@@ -788,6 +837,32 @@ final class Code_To_Block_REST_Controller {
 		}
 
 		$post_id = (int) $request['post_id'];
+
+		if ( ! function_exists( 'wp_check_post_lock' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/post.php';
+		}
+		$lock_user_id = wp_check_post_lock( $post_id );
+		if ( $lock_user_id && $lock_user_id !== get_current_user_id() ) {
+			$lock_user = get_userdata( $lock_user_id );
+			return new WP_Error(
+				'post_locked',
+				sprintf( __( 'This page is currently being edited by %s.', 'code-to-block' ), $lock_user ? $lock_user->display_name : __( 'another user', 'code-to-block' ) ),
+				array( 'status' => 409 )
+			);
+		}
+
+		// Optimistic concurrency: reject stale saves.
+		if ( null !== $base_server_version && '' !== $base_server_version ) {
+			$current_version = get_post_meta( $post_id, '_ctb_server_version', true );
+			if ( '' !== $current_version && $current_version !== $base_server_version ) {
+				return new WP_Error(
+					'stale_document',
+					__( 'A newer version of this page was saved elsewhere. Your changes have not been overwritten.', 'code-to-block' ),
+					array( 'status' => 409 )
+				);
+			}
+		}
+
 		$stored_json = get_post_meta( $post_id, CODE_TO_BLOCK_META_KEY, true );
 		if ( is_string( $stored_json ) && '' !== $stored_json ) {
 			$existing = $this->load_saved_document( $post_id );
@@ -807,7 +882,8 @@ final class Code_To_Block_REST_Controller {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function load( $request ) {
-		$json = get_post_meta( (int) $request['post_id'], CODE_TO_BLOCK_META_KEY, true );
+		$post_id = (int) $request['post_id'];
+		$json = get_post_meta( $post_id, CODE_TO_BLOCK_META_KEY, true );
 		if ( ! is_string( $json ) || '' === $json ) {
 			return new WP_Error(
 				'code_to_block_tree_not_found',
@@ -834,7 +910,126 @@ final class Code_To_Block_REST_Controller {
 			);
 		}
 
-		return new WP_REST_Response( $document, 200 );
+		$post = get_post( $post_id );
+		
+		$autosave = wp_get_post_autosave( $post_id );
+		$has_newer_autosave = false;
+		if ( $autosave && $post ) {
+			if ( mysql2date( 'U', $autosave->post_modified_gmt, false ) > mysql2date( 'U', $post->post_modified_gmt, false ) ) {
+				$has_newer_autosave = true;
+			}
+		}
+
+		return new WP_REST_Response(
+			array(
+				'document'           => $document,
+				'server_version'     => get_post_meta( $post_id, '_ctb_server_version', true ),
+				'post_status'        => $post ? $post->post_status : 'draft',
+				'permalink'          => $post ? get_permalink( $post_id ) : '',
+				'has_newer_autosave' => $has_newer_autosave,
+			),
+			200
+		);
+	}
+
+	public function autosave( $request ) {
+		$post_id = (int) $request['post_id'];
+		$post = get_post( $post_id );
+		if ( ! $post ) {
+			return new WP_Error( 'post_not_found', __( 'Post not found.', 'code-to-block' ), array( 'status' => 404 ) );
+		}
+		
+		if ( ! function_exists( 'wp_check_post_lock' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/post.php';
+		}
+		$lock_user_id = wp_check_post_lock( $post_id );
+		if ( $lock_user_id && $lock_user_id !== get_current_user_id() ) {
+			$lock_user = get_userdata( $lock_user_id );
+			return new WP_Error(
+				'post_locked',
+				sprintf( __( 'This page is currently being edited by %s.', 'code-to-block' ), $lock_user ? $lock_user->display_name : __( 'another user', 'code-to-block' ) ),
+				array( 'status' => 409 )
+			);
+		}
+		
+		$document = $request->get_param( 'document' );
+		if ( ! $document ) {
+			return new WP_Error( 'missing_document', __( 'Document is required.', 'code-to-block' ), array( 'status' => 400 ) );
+		}
+		$document = Code_To_Block_Schema::sanitize_document( $document );
+		if ( is_wp_error( $document ) ) {
+			return $document;
+		}
+		if ( ! current_user_can( 'unfiltered_html' ) ) {
+			$document = Code_To_Block_Schema::disable_imported_script_execution( $document );
+		}
+		
+		if ( ! defined( 'DOING_AUTOSAVE' ) ) {
+			define( 'DOING_AUTOSAVE', true );
+		}
+		
+		$autosave_id = wp_create_post_autosave( array(
+			'post_ID'      => $post_id,
+			'post_content' => $post->post_content,
+			'post_title'   => $post->post_title,
+			'post_excerpt' => $post->post_excerpt,
+		) );
+		
+		if ( is_wp_error( $autosave_id ) ) {
+			return $autosave_id;
+		}
+		
+		update_metadata( 'post', $autosave_id, CODE_TO_BLOCK_META_KEY, wp_json_encode( $document ) );
+		
+		return new WP_REST_Response( array( 'success' => true, 'autosave_id' => $autosave_id ), 200 );
+	}
+	
+	public function get_revisions( $request ) {
+		$post_id = (int) $request['post_id'];
+		$revisions = wp_get_post_revisions( $post_id, array( 'check_enabled' => false ) );
+		
+		$data = array();
+		foreach ( $revisions as $revision ) {
+			$author = get_userdata( $revision->post_author );
+			$is_autosave = wp_is_post_autosave( $revision ) !== false;
+			$data[] = array(
+				'id'          => $revision->ID,
+				'date'        => get_date_from_gmt( $revision->post_modified_gmt ),
+				'author'      => $author ? $author->display_name : 'Unknown',
+				'is_autosave' => $is_autosave,
+			);
+		}
+		
+		return new WP_REST_Response( array( 'revisions' => array_values( $data ) ), 200 );
+	}
+	
+	public function restore_revision( $request ) {
+		$post_id = (int) $request['post_id'];
+		$revision_id = (int) $request['revision_id'];
+		
+		$revision = wp_get_post_revision( $revision_id );
+		if ( ! $revision || $revision->post_parent !== $post_id ) {
+			return new WP_Error( 'invalid_revision', __( 'Invalid revision.', 'code-to-block' ), array( 'status' => 404 ) );
+		}
+		
+		$json = get_metadata( 'post', $revision_id, CODE_TO_BLOCK_META_KEY, true );
+		if ( ! $json ) {
+			return new WP_Error( 'no_block_tree', __( 'Revision has no block tree.', 'code-to-block' ), array( 'status' => 404 ) );
+		}
+		
+		$document = json_decode( $json );
+		if ( JSON_ERROR_NONE !== json_last_error() ) {
+			return new WP_Error( 'corrupt_tree', __( 'The saved block tree is not valid JSON.', 'code-to-block' ), array( 'status' => 500 ) );
+		}
+		$document = Code_To_Block_Schema::sanitize_document( $document );
+		if ( is_wp_error( $document ) ) {
+			return $document;
+		}
+		if ( ! current_user_can( 'unfiltered_html' ) ) {
+			$document = Code_To_Block_Schema::disable_imported_script_execution( $document );
+		}
+		
+		return new WP_REST_Response( array( 'document' => $document ), 200 );
 	}
 
 	/**
@@ -973,6 +1168,9 @@ final class Code_To_Block_REST_Controller {
 	}
 
 	private function persist_document( $document, $post_id, $editor_snapshot, $update_snapshot, $resolved_response = false ) {
+		if ( ! current_user_can( 'unfiltered_html' ) ) {
+			$document = Code_To_Block_Schema::disable_imported_script_execution( $document );
+		}
 		$json = wp_json_encode( $document, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE );
 		if ( false === $json ) {
 			return new WP_Error( 'code_to_block_encode_failed', __( 'The block tree could not be encoded.', 'code-to-block' ), array( 'status' => 500 ) );
@@ -997,12 +1195,41 @@ final class Code_To_Block_REST_Controller {
 		} elseif ( false === $update_snapshot ) {
 			delete_post_meta( $post_id, Code_To_Block_Parity::EDITOR_SNAPSHOT_META_KEY );
 		}
+
+		// Compute and store a server version for optimistic concurrency.
+		$post = get_post( $post_id );
+		$server_version = $this->compute_server_version( $json, $post );
+		update_post_meta( $post_id, '_ctb_server_version', $server_version );
+
+		$content_hash = hash( 'sha256', $json );
+		$post_status  = $post ? $post->post_status : 'draft';
+		$permalink    = $post ? get_permalink( $post_id ) : '';
+		$preview_url  = $post ? get_preview_post_link( $post ) : '';
+
 		return new WP_REST_Response(
 			array(
 				'document'        => $resolved_response ? $resolved : $document,
+				'server_version'  => $server_version,
+				'content_hash'    => $content_hash,
+				'post_status'     => $post_status,
+				'permalink'       => $permalink,
+				'preview_url'     => $preview_url,
+				'modified_gmt'    => $post ? $post->post_modified_gmt : '',
 				'parity_warnings' => Code_To_Block_Parity::check( $document, $post_id, $editor_snapshot ),
 			),
 			200
 		);
+	}
+
+	/**
+	 * Computes a stable server version hash from the canonical document and post timestamp.
+	 *
+	 * @param string  $json Canonical JSON.
+	 * @param WP_Post $post Post object.
+	 * @return string
+	 */
+	private function compute_server_version( $json, $post ) {
+		$seed = $json . '|' . ( $post ? $post->post_modified_gmt : '' );
+		return substr( hash( 'sha256', $seed ), 0, 16 );
 	}
 }

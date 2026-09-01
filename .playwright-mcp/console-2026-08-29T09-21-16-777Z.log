@@ -1,0 +1,2 @@
+[    2613ms] [WARNING] cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation @ https://cdn.tailwindcss.com/?plugins=forms,container-queries:63
+[    2729ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:8888/wp-includes/js/dist/vendor/react-dom.js?ver=18.3.1.1:29904

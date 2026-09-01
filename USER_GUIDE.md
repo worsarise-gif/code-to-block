@@ -2,29 +2,46 @@
 
 This is plain-language documentation for what Code to Block does well, what it does by preserving your original code, and what it intentionally does not do yet.
 
-## 1. What happens when you paste HTML and CSS
+## 1. What happens when you paste code
 
-You paste one root HTML element and its CSS. The importer:
+You can paste a complete HTML document, an HTML fragment, a stylesheet, JavaScript, PHP, or a mixed document. The canvas updates automatically after you pause typing; **Apply now** remains available to force an immediate retry. The importer detects the source type before it builds anything:
 
-* Parses your HTML with an inert DOM parser. It removes `<script>` elements before any block is created.
-* Parses your CSS with PostCSS, calculates specificity, and resolves which declaration wins for each element. It then splits the result per block into two places.
+* Complete documents are normalized into page metadata (`doctype`, title, meta/link/base records), a body block tree, scoped stylesheets, preserved scripts, and PHP review placeholders. Fragments keep working; multiple top-level elements are grouped in one editable layout container. CSS-, JavaScript-, PHP-, and plain-text-only inputs receive a safe generated root instead of producing an invalid empty tree.
+* HTML is parsed with an inert DOM parser. `<style>` and `<script>` elements are extracted before the editable block tree is created, inline `on*` handlers are removed, dangerous URLs are quarantined, and unsupported custom elements become editable `div` blocks carrying their original tag name.
+* CSS is parsed with PostCSS. Selectors such as `html`, `body`, `:root`, `header`, and `*` are rewritten under the imported page scope. The scoped stylesheet remains authoritative for its cascade; inline styles and later builder edits remain block-level overrides. `@import` is recorded but not fetched or rendered.
+
+### Canvas and script isolation
+
+The editable page is mounted inside a same-origin iframe with its own document and viewport. The frame has a restrictive Content Security Policy and no `allow-scripts` sandbox permission. Imported global selectors cannot style WordPress or the builder shell, builder CSS does not leak into the page, and `position: fixed`, viewport units, `html`, and `body` stay relative to the imported canvas. The iframe itself is centered inside the desktop/tablet/mobile editor width.
+
+Imported JavaScript is never run in this editor iframe. Preview opens the WordPress-rendered page as a separate, opener-detached document; publish uses the same singular-page rendering path. This makes script timing predictable without giving imported code a reference to the builder window.
 
 ### Well-supported in the style panel (v0.22.0 — 40+ controls, Simple/Advanced)
 
 These properties have a dedicated control. When your CSS wins for a block, the value appears in the control and you can edit it without touching raw CSS. The panel has two modes that reuse the same underlying system:
 
-* **Simple** (default, 10 controls for business owners): `color`, `padding`, `margin`, `font-size`, `font-weight`, `border`, `border-radius`, `background-color`, `width`, `max-width`. Simple is the default on first open and is remembered per browser (`localStorage`); content-mode is Simple by construction (no toggle).
-* **Advanced** (all controls): Simple plus layout (`display`, `flex-direction`, `flex-wrap`, `justify-content`, `align-items`, `gap`, `grid-template-columns/rows`, `flex-grow/shrink/basis`, `align-self`, `order`, `grid-column/row`), sizing (`height`, `min-height`), positioning (`position`, `top/right/bottom/left`, `z-index`), visual (`background`, `background-image/size/position`, `box-shadow`, `opacity`, `filter`, `backdrop-filter`, `transform`, `text-shadow`, `overflow`). Switching modes never loses values — an Advanced value like `box-shadow` stays while hidden in Simple and returns unchanged.
+* **Simple** (default): essential visual controls plus guided typography and spacing choices. Raw font size, line height, letter spacing, margin, padding, and gap numbers are not presented as peers to semantic choices. Simple is remembered per browser (`localStorage`); content-mode is Simple by construction (no toggle).
+* **Advanced** (all controls): exact typography/spacing plus layout (`display`, `flex-direction`, `flex-wrap`, `justify-content`, `align-items`, `gap`, `grid-template-columns/rows`, `flex-grow/shrink/basis`, `align-self`, `order`, `grid-column/row`), sizing, positioning, and visual controls. Switching modes never loses values.
 
 A **search field** at the top of the panel filters controls by name — searching `shadow` while in Simple surfaces Box Shadow even though it's normally hidden. The search override is temporary; clearing the search returns to the current mode's filter.
 
 You can link `color`, `font-size`, `font-weight`, `padding`, `margin`, and `border-radius` to global design tokens (colors, typography, spacing). Changing the token updates every block that references it; per-block Override keeps the binding but replaces that one value with raw CSS and shows `token override` with Restore.
 
+### Guided typography and spacing
+
+New documents include a token-backed Balanced role library. Selecting an element in Simple mode shows one explained recommendation and at most two alternatives, using the element's real text for typography previews. Typography roles include Page title, Section heading, Card heading, Intro, Body text, Supporting text, Action, and Label. Spacing roles cover related/separate groups, inline clusters, cards, sections, and heroes.
+
+After selecting a role, use Smaller/Default/Larger, Tighter/Default/Looser, or Closer/Default/Farther. These are approved neighboring tokens, not arbitrary generated numbers. Guided canvas dragging lands on the same three detents. Desktop/tablet/mobile preview is transient and does not create history until a choice is committed.
+
+Exact values remain in Advanced. The first exact edit to a role-bound property asks whether to update the role everywhere or create a property-level local override. The role manager lists backing tokens, linked elements, and overrides; Rejoin restores a property to its shared role. Visual roles and HTML heading levels remain independent, and unusual combinations produce non-blocking notices rather than automatic tag changes.
+
+Imported repeated cards and headings are normalized to shared roles when the match is unambiguous. Deliberate differences remain local overrides with a review choice: use the site role or keep the imported difference. Existing version-1 documents migrate conservatively—their current styles are not silently restyled.
+
 **Layout conditional visibility:** `display` governs which controls appear. Flex controls show only when Display is `flex`/`inline-flex`; Grid controls only when `grid`/`inline-grid`. When hidden, the panel shows a disabled input with reason “Flex controls apply when Display is flex” rather than silently absent — and the value is preserved so switching back restores it. This is one centralized rule, not per-widget logic, so it never silently breaks.
 
 ### Everything else goes to Raw Custom CSS
 
-If a winning declaration is not one of the mapped controls above, it is preserved as a normalized declaration list for that block (`custom_css_fallback`). Common examples that stay in raw CSS now are the remaining honest gaps: `text-stroke`, `object-fit` (Image Size), `line-height`, `letter-spacing`, `text-transform` are still fallback — they are filtered as safe or rejected as unsafe (`behavior`, `expression()`, `@import`, `</style>`, unbalanced brackets, unsafe `url()`). `display` and layout properties that are now mapped no longer stay in fallback — they appear in controls. Raw CSS is an Advanced control — in Simple mode it is hidden behind “Raw Custom CSS is an Advanced control — switch to Advanced or search ‘raw’ to edit.”
+If a winning declaration is not one of the mapped controls above, it is preserved as a normalized declaration list for that block (`custom_css_fallback`). Common examples that stay in raw CSS now are the remaining honest gaps: `text-stroke`, `object-fit` (Image Size), and `text-transform` are still fallback — they are filtered as safe or rejected as unsafe (`behavior`, `expression()`, `@import`, `</style>`, unbalanced brackets, unsafe `url()`). `display`, layout, line-height, and letter-spacing values that are now mapped no longer stay in fallback — they appear in Advanced controls. Raw CSS is an Advanced control — in Simple mode it is hidden behind “Raw Custom CSS is an Advanced control — switch to Advanced or search ‘raw’ to edit.”
 
 Each block can have base styles plus optional `tablet` and `mobile` overrides. Tablet inherits from desktop. Mobile inherits from tablet then desktop. Empty breakpoint branches are not saved. `Raw CSS` also supports per-breakpoint overrides.
 
@@ -41,14 +58,14 @@ Each block can have base styles plus optional `tablet` and `mobile` overrides. T
 
 ### What is intentionally not a full cascade debugger
 
-* At-rules (`@media`, `@keyframes`, etc.) are skipped with “Unsupported rule skipped”.
-* Pseudo-elements (`::before`) and dynamic pseudos (`:hover`, `:focus`, `:active`) are skipped with a warning.
+* Safe `@media` and `@keyframes` rules are preserved in the scoped stylesheet. `@import` is quarantined because the importer does not fetch remote CSS.
+* Pseudo-elements and dynamic pseudos can render from the scoped stylesheet, but they are omitted from static per-block Explain CSS matching.
 * Expensive `:has()` selectors are skipped.
 * Invalid selectors are skipped.
 * `var()` usage is preserved but you get the warning “Custom-property substitution was not computed”.
 * Selector text and losing candidates are not stored. Use Explain CSS for mapped-vs-fallback transparency, not browser DevTools-level debugging.
 
-## 2. JavaScript: what is supported vs what is kept as-is
+## 2. JavaScript: isolated page scripts and structured builder actions
 
 ### Supported and mappable (narrow and explicit)
 
@@ -73,17 +90,13 @@ When both IDs resolve to exactly one converted block, the editor shows the full 
 
 The public page then runs only that structured behavior via `assets/runtime.js`, which is also keyboard-operable by default: `Enter`/`Space` act as click, `Escape` closes an open `toggle-visibility` and returns focus to the trigger, `ArrowDown`/`ArrowUp` cycle focus within an open menu, focus moves into the opened target's first focusable and returns on close. Blocks with actions get `tabindex="0"`+`role="button"` if not natively focusable plus `aria-expanded`/`aria-haspopup` for toggles.
 
-### Attached as-is (never executed)
+### Imported page scripts
 
-Anything that does not match the pattern above is attached to the imported root as unverified metadata:
+Every `<script>` block and supported `src` reference is stored as a document-level imported asset with its original head/body placement, type, safe loading attributes, and source. It is removed from the editable HTML tree, so it cannot execute while you select, drag, or style blocks.
 
-```
-trigger: "manual-review"
-behavior: "unverified-script"
-params: { code: "<your original script here>", description: "Unverified script preserved for manual review. It is never executed by Code to Block." }
-```
+The editor displays imported scripts as **Preserved / Preview and Publish only** for accounts with WordPress's `unfiltered_html` capability. Without that capability, scripts remain reviewable but both execution flags are forced off at the client and every server write boundary. Preview and publish emit enabled scripts only on the owning singular Code to Block page. Preview opens in an opener-detached WordPress page; the editor iframe also blocks scripts at the sandbox and CSP layers. A script error is therefore contained to that page and cannot crash the builder shell. External scripts are recorded but are not fetched during import, and event-handler HTML attributes are never restored.
 
-The editor shows it under **Unverified script / never executed** with the full code. It is preserved through save/load for your review, but it produces no `data-ctb-actions`, no inline script, and no network request on the public page. The public runtime never `eval`s it. The editor and server reject any attempt to promote unverified metadata to an executable trigger.
+Structured builder actions remain the safer option for supported click/show/hide behavior. They use validated data and the shared runtime; raw page scripts are not guessed into structured actions. Neither path uses `eval`.
 
 ## 3. PHP: detection and opt-in registration (from your perspective)
 
@@ -91,7 +104,7 @@ This is an explicit, administrator-only code-execution feature. It never runs au
 
 **Step by step:**
 
-1. You paste HTML that contains one or more `<?php ... ?>` blocks. Before the HTML is converted to blocks, the importer extracts each complete PHP block and replaces it in the content with inert text like `[ctb_php_32_a1b2c3d4e5f6...]`. The canvas shows that placeholder, not executed output.
+1. You paste HTML that contains one or more `<?php ... ?>` or `<?= ... ?>` blocks, or paste a PHP-only code fence. Before HTML is converted to blocks, the importer extracts each complete PHP block and replaces it in the content with inert text like `[ctb_php_32_a1b2c3d4e5f6...]`. The canvas shows that placeholder, not executed output.
 2. Inside the editor, under **Detected PHP**, you see each block with its full source and a plain-language description (what it appears to output, what attributes it reads, what functions it calls). PHP inside an HTML tag or attribute is rejected outright.
 3. The server then does a static review with PHP’s tokenizer and a syntax check. It blocks dynamic calls, shell/process execution, includes, filesystem and network access, persistent WordPress mutations, superglobals, database globals, loops, declarations, and related side effects. Examples that are blocked: `eval`, `exec`, `system`, `shell_exec`, `base64_decode` combined with eval-like patterns, `curl_exec`, `file_get_contents`, `file_put_contents`, `add_action`, `update_option`, `wp_insert_post`, etc. Unknown calls and obfuscation helpers get a strong warning but no registration control.
 4. If the code passes, the editor shows a **Confirm and register shortcode** control that is disabled until you type an exact phrase. The phrase includes the page-scoped tag and 12 characters of the server’s review hash, for example `REGISTER ctb_php_32_a126e306689b3d3f a635c8151868`.
@@ -106,6 +119,8 @@ This is an explicit, administrator-only code-execution feature. It never runs au
 ## 4. Forms — one visual builder, two destinations (freely choose)
 
 A form is a `form` container block that holds `form_field` sub-blocks (text, email, tel, url, number, textarea, select, checkbox, radio, file). Field styling uses the same style panel as every other block — no second styling system. Each field has label, name (field key), placeholder, required toggle, and for select/checkbox/radio a comma-separated options list. File fields are placeholder (no `move_uploaded_file` yet).
+
+Pasted `<form>` markup is accepted by Import Code. Standard `<input>`, `<textarea>`, and `<select>` controls are converted to editable `form_field` blocks, including associated labels, names, placeholders, required state, select options, and the submit-button caption. Imported `action` URLs are not executed or retained as submission destinations; imported forms use the same secured native submission endpoint described below.
 
 * **Building:** `Forms — native or external` panel → `Insert Contact Form after selection` creates a form with Name/Email/Message fields. When a `form` is selected, the panel shows Submission Handling (`native` vs `external`), Email To (for native, blank = `admin_email`), External Shortcode (for external), and Add Field buttons (7 types). When a `form_field` is selected, edit its type/label/name/placeholder/required/options. Drag, responsive overrides, and content slots work the same as other blocks.
 

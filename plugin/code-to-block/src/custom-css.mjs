@@ -1,39 +1,60 @@
 import postcss from 'postcss';
 
 import { sanitizeResourceUrl } from './html-policy.mjs';
+import { STYLE_CONTROLS } from './controls/catalog.mjs';
 
-export const STYLE_CONTROL_FIELDS = [
+const LEGACY_STYLE_CONTROL_FIELDS = [
 	{
 		property: 'padding',
 		label: 'Padding',
 		placeholder: '24px 32px',
-		tier: 'simple',
+		tier: 'advanced',
 	},
 	{
 		property: 'margin',
 		label: 'Margin',
 		placeholder: '0 auto',
-		tier: 'simple',
+		tier: 'advanced',
 	},
 	// Typography
 	{
 		property: 'font-family',
 		label: 'Font family',
 		placeholder: 'Inter, sans-serif',
-		options: [ "Arial", "Helvetica", "Times New Roman", "Times", "Courier New", "Courier", "Verdana", "Georgia", "Palatino", "Garamond", "Bookman", "Comic Sans MS", "Trebuchet MS", "Arial Black", "Impact", "Inter, sans-serif", "sans-serif", "serif", "monospace" ],
+		options: [
+			'Arial',
+			'Helvetica',
+			'Times New Roman',
+			'Times',
+			'Courier New',
+			'Courier',
+			'Verdana',
+			'Georgia',
+			'Palatino',
+			'Garamond',
+			'Bookman',
+			'Comic Sans MS',
+			'Trebuchet MS',
+			'Arial Black',
+			'Impact',
+			'Inter, sans-serif',
+			'sans-serif',
+			'serif',
+			'monospace',
+		],
 		tier: 'advanced',
 	},
 	{
 		property: 'font-size',
 		label: 'Font size',
 		placeholder: '18px',
-		tier: 'simple',
+		tier: 'advanced',
 	},
 	{
 		property: 'font-weight',
 		label: 'Font weight',
 		placeholder: '700',
-		tier: 'simple',
+		tier: 'advanced',
 	},
 	{
 		property: 'line-height',
@@ -51,14 +72,14 @@ export const STYLE_CONTROL_FIELDS = [
 		property: 'text-transform',
 		label: 'Text transform',
 		placeholder: 'uppercase',
-		options: [ "none", "capitalize", "uppercase", "lowercase" ],
+		options: [ 'none', 'capitalize', 'uppercase', 'lowercase' ],
 		tier: 'advanced',
 	},
 	{
 		property: 'text-decoration',
 		label: 'Text decoration',
 		placeholder: 'underline',
-		options: [ "none", "underline", "overline", "line-through" ],
+		options: [ 'none', 'underline', 'overline', 'line-through' ],
 		tier: 'advanced',
 	},
 	{
@@ -109,42 +130,64 @@ export const STYLE_CONTROL_FIELDS = [
 		property: 'display',
 		label: 'Display / Layout mode',
 		placeholder: 'flex | grid | block',
-		options: [ "block", "inline-block", "flex", "inline-flex", "grid", "inline-grid", "none" ],
+		options: [
+			'block',
+			'inline-block',
+			'flex',
+			'inline-flex',
+			'grid',
+			'inline-grid',
+			'none',
+		],
 		tier: 'advanced',
 	},
 	{
 		property: 'flex-direction',
 		label: 'Flex direction',
 		placeholder: 'row | column',
-		options: [ "row", "row-reverse", "column", "column-reverse" ],
+		options: [ 'row', 'row-reverse', 'column', 'column-reverse' ],
 		tier: 'advanced',
 	},
 	{
 		property: 'flex-wrap',
 		label: 'Flex wrap',
 		placeholder: 'nowrap | wrap',
-		options: [ "nowrap", "wrap", "wrap-reverse" ],
+		options: [ 'nowrap', 'wrap', 'wrap-reverse' ],
 		tier: 'advanced',
 	},
 	{
 		property: 'justify-content',
 		label: 'Justify content',
 		placeholder: 'flex-start | center | space-between',
-		options: [ "flex-start", "flex-end", "center", "space-between", "space-around", "space-evenly" ],
+		options: [
+			'flex-start',
+			'flex-end',
+			'center',
+			'space-between',
+			'space-around',
+			'space-evenly',
+		],
 		tier: 'advanced',
 	},
 	{
 		property: 'align-items',
 		label: 'Align items',
 		placeholder: 'stretch | center | flex-start',
-		options: [ "stretch", "flex-start", "flex-end", "center", "baseline" ],
+		options: [ 'stretch', 'flex-start', 'flex-end', 'center', 'baseline' ],
 		tier: 'advanced',
 	},
 	{
 		property: 'align-content',
 		label: 'Align content',
 		placeholder: 'stretch | center',
-		options: [ "stretch", "flex-start", "flex-end", "center", "space-between", "space-around" ],
+		options: [
+			'stretch',
+			'flex-start',
+			'flex-end',
+			'center',
+			'space-between',
+			'space-around',
+		],
 		tier: 'advanced',
 	},
 	{ property: 'gap', label: 'Gap', placeholder: '16px', tier: 'advanced' },
@@ -195,7 +238,14 @@ export const STYLE_CONTROL_FIELDS = [
 		property: 'align-self',
 		label: 'Align self',
 		placeholder: 'auto | center',
-		options: [ "auto", "flex-start", "flex-end", "center", "baseline", "stretch" ],
+		options: [
+			'auto',
+			'flex-start',
+			'flex-end',
+			'center',
+			'baseline',
+			'stretch',
+		],
 		tier: 'advanced',
 	},
 	{
@@ -245,7 +295,7 @@ export const STYLE_CONTROL_FIELDS = [
 		property: 'object-fit',
 		label: 'Object fit',
 		placeholder: 'cover | contain',
-		options: [ "fill", "contain", "cover", "none", "scale-down" ],
+		options: [ 'fill', 'contain', 'cover', 'none', 'scale-down' ],
 		tier: 'advanced',
 	},
 	{
@@ -259,7 +309,7 @@ export const STYLE_CONTROL_FIELDS = [
 		property: 'position',
 		label: 'Position',
 		placeholder: 'static | relative | absolute | sticky',
-		options: [ "static", "relative", "absolute", "fixed", "sticky" ],
+		options: [ 'static', 'relative', 'absolute', 'fixed', 'sticky' ],
 		tier: 'advanced',
 	},
 	{
@@ -348,10 +398,31 @@ export const STYLE_CONTROL_FIELDS = [
 		property: 'overflow',
 		label: 'Overflow',
 		placeholder: 'hidden | visible',
-		options: [ "visible", "hidden", "clip", "scroll", "auto" ],
+		options: [ 'visible', 'hidden', 'clip', 'scroll', 'auto' ],
 		tier: 'advanced',
 	},
 ];
+
+const legacyProperties = new Set(
+	LEGACY_STYLE_CONTROL_FIELDS.map( ( field ) => field.property )
+);
+
+export const STYLE_CONTROL_FIELDS = Object.freeze( [
+	...LEGACY_STYLE_CONTROL_FIELDS,
+	...Object.values( STYLE_CONTROLS )
+		.filter(
+			( control ) =>
+				control.property !== 'color' &&
+				! legacyProperties.has( control.property )
+		)
+		.map( ( control ) => ( {
+			property: control.property,
+			label: control.label,
+			placeholder: control.placeholder,
+			options: control.options.length ? control.options : undefined,
+			tier: 'advanced',
+		} ) ),
+] );
 
 export const MAPPED_STYLE_PROPERTIES = new Set( [
 	'color',

@@ -3,14 +3,23 @@
 	"version": "0.22.0",
 	"private": true,
 	"scripts": {
-		"build": "wp-scripts build",
+		"build:registry": "node scripts/generate-control-registry.mjs",
+		"build": "npm run build:registry && wp-scripts build",
 		"lint": "wp-scripts lint-js src",
 		"test:a11y": "node tests/accessibility-test.mjs",
 		"test:css-fallback": "node tests/custom-css-test.mjs",
 		"test:design-tokens": "node tests/design-tokens-test.mjs",
+		"test:drop-intent": "node tests/drop-intent-test.mjs",
+		"test:persistence": "node tests/editor-persistence-test.mjs",
+		"test:guided-roles": "node tests/guided-roles-test.mjs",
 		"test:history": "node tests/history-test.mjs",
 		"test:html-policy": "node tests/html-policy-test.mjs",
+		"test:import": "node tests/import-parser-test.cjs",
+		"test:isolation": "node tests/canvas-isolation-test.mjs",
 		"test:parser": "node tests/parser-classification-test.mjs",
+		"test:react-attributes": "node tests/react-attributes-test.mjs",
+		"test:control-registry": "node tests/control-registry-test.mjs",
+		"test:schema-v3": "node tests/schema-v3-test.mjs",
 		"test:php": "php tests/php-scanner-test.php",
 		"test:php-extraction": "node tests/php-snippets-test.mjs",
 		"test:responsive": "node tests/responsive-styles-test.mjs",
@@ -28,6 +37,8 @@
 		"@wordpress/element": "8.5.0",
 		"gsap": "^3.15.0",
 		"postcss": "8.5.26",
+		"postcss-safe-parser": "7.0.1",
+		"postcss-selector-parser": "6.1.4",
 		"specificity": "1.0.0",
 		"zustand": "5.0.15"
 	},
@@ -35,4 +46,3 @@
 		"@wordpress/scripts": "34.1.0"
 	}
 }
-

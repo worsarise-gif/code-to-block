@@ -43,10 +43,18 @@ const buttons = [
 	[ element( 'a', { role: 'button' } ), 'button' ],
 ];
 
+const forms = [
+	[ element( 'form', { children: 2 } ), 'form' ],
+	[ element( 'input' ), 'form_field' ],
+	[ element( 'textarea' ), 'form_field' ],
+	[ element( 'select', { children: 2 } ), 'form_field' ],
+];
+
 for ( const [ source, expected ] of [
 	...testimonial,
 	...navigation,
 	...buttons,
+	...forms,
 ] ) {
 	assert.equal(
 		blockTypeFor( source ),
@@ -55,4 +63,4 @@ for ( const [ source, expected ] of [
 	);
 }
 
-console.log( 'PASS: 16 parser block-type classifications.' );
+console.log( 'PASS: 20 parser block-type classifications.' );

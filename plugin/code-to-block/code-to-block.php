@@ -21,7 +21,9 @@ define( 'CODE_TO_BLOCK_META_KEY', '_ctb_block_tree' );
 define( 'CODE_TO_BLOCK_COMPONENT_POST_TYPE', 'ctb_component' );
 define( 'CODE_TO_BLOCK_COMPONENT_META_KEY', '_ctb_component_tree' );
 
+require_once CODE_TO_BLOCK_PATH . 'includes/class-code-to-block-registry.php';
 require_once CODE_TO_BLOCK_PATH . 'includes/class-code-to-block-schema.php';
+require_once CODE_TO_BLOCK_PATH . 'includes/class-code-to-block-migrations.php';
 require_once CODE_TO_BLOCK_PATH . 'includes/class-code-to-block-element-permissions.php';
 require_once CODE_TO_BLOCK_PATH . 'includes/class-code-to-block-components.php';
 require_once CODE_TO_BLOCK_PATH . 'includes/class-code-to-block-commerce.php';
@@ -52,7 +54,7 @@ function code_to_block_register_post_type() {
 			'rest_base'    => 'ctb-pages',
 			'has_archive'  => false,
 			'rewrite'      => array( 'slug' => 'built-page' ),
-			'supports'     => array( 'title' ),
+			'supports'     => array( 'title', 'revisions' ),
 			'menu_icon'    => 'dashicons-layout',
 		)
 	);
@@ -189,6 +191,10 @@ function code_to_block_enqueue_dedicated_editor_assets() {
 		return;
 	}
 	$asset = require $asset_path;
+	$preview_url = get_preview_post_link( $post );
+	if ( ! is_string( $preview_url ) || '' === $preview_url ) {
+		$preview_url = get_permalink( $post->ID );
+	}
 	$role_options = array();
 	$roles_object = wp_roles();
 	foreach ( $roles_object->roles as $role_slug => $role_data ) {
@@ -206,17 +212,29 @@ function code_to_block_enqueue_dedicated_editor_assets() {
 		true
 	);
 	
+	$post_type_object = get_post_type_object( $post->post_type );
+	$can_publish = $post_type_object
+		&& current_user_can( $post_type_object->cap->publish_posts );
+	$server_version = get_post_meta( $post->ID, '_ctb_server_version', true );
+
 	wp_localize_script(
 		'code-to-block-editor',
 		'codeToBlockEditorSettings',
 		array(
 			'postId'                     => $post->ID,
 			'siteUrl'                    => trailingslashit( home_url() ),
-			'previewUrl'                 => get_permalink( $post->ID ),
+			'previewUrl'                 => $preview_url,
+			'postRestPath'                => rest_get_route_for_post( $post ),
+			'postStatus'                  => $post->post_status,
+			'canPublish'                  => $can_publish,
+			'canUnfilteredHtml'           => current_user_can( 'unfiltered_html' ),
+			'serverVersion'               => $server_version,
 			'contentModeUrl'             => admin_url( 'admin.php?page=code-to-block-content&post=' . $post->ID ),
 			'roles'                      => $role_options,
 			'canManageElementPermissions' => current_user_can( 'manage_options' ),
 			'canRegisterPhp'             => Code_To_Block_Shortcodes::current_user_can_register( $post->ID ),
+			'registryVersion'            => Code_To_Block_Registry::VERSION,
+			'registryManifest'           => Code_To_Block_Registry::manifest(),
 		)
 	);
 	
@@ -370,6 +388,9 @@ function code_to_block_handle_duplicate() {
 			wp_delete_post( $new_post_id, true );
 			wp_die( esc_html( $document->get_error_message() ) );
 		}
+		if ( ! current_user_can( 'unfiltered_html' ) ) {
+			$document = Code_To_Block_Schema::disable_imported_script_execution( $document );
+		}
 		$duplicate_json = wp_json_encode( $document, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE );
 		update_post_meta( $new_post_id, CODE_TO_BLOCK_META_KEY, wp_slash( $duplicate_json ) );
 		$editor_snapshot = get_post_meta( $post_id, Code_To_Block_Parity::EDITOR_SNAPSHOT_META_KEY, true );
@@ -414,18 +435,34 @@ function code_to_block_empty_content_slots( &$block ) {
  * Registers the canonical JSON string used for block-tree storage.
  */
 function code_to_block_register_meta() {
+	$block_tree_args = array(
+		'type'              => 'string',
+		'single'            => true,
+		'default'           => '',
+		'show_in_rest'      => false,
+		'sanitize_callback' => array( 'Code_To_Block_Schema', 'sanitize_meta_value' ),
+		'auth_callback'     => array( 'Code_To_Block_Schema', 'authorize_meta' ),
+	);
+	// WordPress 6.4+ supports native meta revisions.
+	if ( version_compare( get_bloginfo( 'version' ), '6.4', '>=' ) ) {
+		$block_tree_args['revisions_enabled'] = true;
+	}
+	register_post_meta( CODE_TO_BLOCK_POST_TYPE, CODE_TO_BLOCK_META_KEY, $block_tree_args );
+
+	// Non-revisioned server version for optimistic concurrency.
 	register_post_meta(
 		CODE_TO_BLOCK_POST_TYPE,
-		CODE_TO_BLOCK_META_KEY,
+		'_ctb_server_version',
 		array(
 			'type'              => 'string',
 			'single'            => true,
 			'default'           => '',
 			'show_in_rest'      => false,
-			'sanitize_callback' => array( 'Code_To_Block_Schema', 'sanitize_meta_value' ),
+			'sanitize_callback' => 'sanitize_text_field',
 			'auth_callback'     => array( 'Code_To_Block_Schema', 'authorize_meta' ),
 		)
 	);
+
 	register_post_meta(
 		CODE_TO_BLOCK_COMPONENT_POST_TYPE,
 		CODE_TO_BLOCK_COMPONENT_META_KEY,
@@ -557,7 +594,9 @@ function code_to_block_enqueue_editor_assets( $hook_suffix ) {
 		array(
 			'postId'         => $post instanceof WP_Post ? $post->ID : 0,
 			'siteUrl'        => trailingslashit( home_url() ),
-			'canRegisterPhp' => $post instanceof WP_Post && Code_To_Block_Shortcodes::current_user_can_register( $post->ID ),
+			'canRegisterPhp'  => $post instanceof WP_Post && Code_To_Block_Shortcodes::current_user_can_register( $post->ID ),
+			'registryVersion' => Code_To_Block_Registry::VERSION,
+			'registryManifest' => Code_To_Block_Registry::manifest(),
 		)
 	);
 
@@ -705,6 +744,44 @@ function code_to_block_output_seo_head() {
 	Code_To_Block_SEO::output_head( $post_id, $document );
 }
 add_action( 'wp_head', 'code_to_block_output_seo_head', 5 );
+
+/**
+ * Emits preserved imported scripts only in the separate frontend document.
+ * The visual editor never calls these hooks, so imported code cannot reach the
+ * builder shell. Preview windows are opened without an opener reference.
+ */
+function code_to_block_output_imported_head_scripts() {
+	if ( ! is_singular( CODE_TO_BLOCK_POST_TYPE ) ) {
+		return;
+	}
+	$post_id = get_queried_object_id();
+	if ( post_password_required( $post_id ) ) {
+		return;
+	}
+	$document = code_to_block_get_saved_document( $post_id );
+	if ( null !== $document ) {
+		echo Code_To_Block_Renderer::render_imported_scripts( $document, is_preview(), 'head' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- validated script assets.
+	}
+}
+add_action( 'wp_head', 'code_to_block_output_imported_head_scripts', 99 );
+
+function code_to_block_output_imported_footer_scripts() {
+	if ( ! is_singular( CODE_TO_BLOCK_POST_TYPE ) ) {
+		return;
+	}
+	$post_id = get_queried_object_id();
+	if ( post_password_required( $post_id ) ) {
+		return;
+	}
+	$document = code_to_block_get_saved_document( $post_id );
+	if ( null === $document ) {
+		return;
+	}
+	$preview = is_preview();
+	echo Code_To_Block_Renderer::render_imported_scripts( $document, $preview, 'body' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- validated script assets.
+	echo Code_To_Block_Renderer::render_imported_scripts( $document, $preview, 'body-end' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- validated script assets.
+}
+add_action( 'wp_footer', 'code_to_block_output_imported_footer_scripts', 99 );
 
 /**
  * Uses a full-canvas public template while retaining WordPress head/footer hooks.

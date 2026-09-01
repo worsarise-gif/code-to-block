@@ -1,4 +1,4 @@
-const PHP_OPEN = /<\?php\b/gi;
+const PHP_OPEN = /<\?(php\b|=)/gi;
 
 function findClosingTag( source, start ) {
 	let state = 'code';
@@ -128,7 +128,14 @@ export function extractPhpSnippets(
 
 		const index = detections.length + 1;
 		const tag = `${ shortcodePrefix }_${ createSuffix( index ) }`;
-		const code = source.slice( match.index, end );
+		let code = source.slice( match.index, end );
+		if ( match[ 1 ] === '=' ) {
+			const expression = source
+				.slice( PHP_OPEN.lastIndex, end - 2 )
+				.trim()
+				.replace( /;?\s*$/, ';' );
+			code = `<?php echo ${ expression } ?>`;
+		}
 		output += source.slice( cursor, match.index ) + `[${ tag }]`;
 		detections.push( {
 			id: `php-${ index }`,
