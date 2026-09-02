@@ -16,7 +16,8 @@ import {
 	createDefaultBlockAdapterRegistry,
 	createFallbackBlock,
 } from './importer/conversion/BlockAdapterRegistry.mjs';
-import { ImportDiagnosticsCollector } from './importer/ImportDiagnosticsCollector.mjs';
+import { ImportDiagnosticsCollector, diagnostic } from './importer/ImportDiagnosticsCollector.mjs';
+import { stylesheetMatches } from './importer/css/stylesheet-matcher.mjs';
 import {
 	scopeImportedCss,
 	selectorForStaticMatching,
@@ -41,21 +42,6 @@ const COLOR_VALUE =
 	/^(?:#[0-9a-f]{3,8}|(?:rgb|hsl|hwb|lab|lch|oklab|oklch|color)\()/i;
 const SIZE_VALUE =
 	/^-?(?:\d+|\d*\.\d+)(?:px|rem|em|vw|vh|vmin|vmax|%|ch|ex|cm|mm|in|pt|pc)$/i;
-
-function diagnostic( severity, code, message, source, node ) {
-	return {
-		severity,
-		code,
-		message,
-		...( source ? { source } : {} ),
-		...( node?.source?.start
-			? {
-					line: node.source.start.line,
-					column: node.source.start.column,
-			  }
-			: {} ),
-	};
-}
 
 function sourceHash( source ) {
 	let hash = 2166136261;
@@ -163,98 +149,7 @@ function mapRootTokens( stylesheets ) {
 	return { designTokens, bindings };
 }
 
-const MAX_SELECTORS = 2000;
 
-function stylesheetMatches( document, stylesheets, diagnostics ) {
-	const matches = new Map();
-	const elements = [ ...document.body.querySelectorAll( '*' ) ];
-	let selectorCount = 0;
-	let order = 0;
-	for ( const stylesheet of stylesheets ) {
-		stylesheet.ast.walkRules( ( rule ) => {
-			if ( isKeyframeRule( rule ) ) {
-				return;
-			}
-			for ( const selector of rule.selectors ) {
-				selectorCount += 1;
-				if ( selectorCount > MAX_SELECTORS ) {
-					throw new Error(
-						`CSS cannot contain more than ${ MAX_SELECTORS } selectors.`
-					);
-				}
-				let staticSelector;
-				let specificity;
-				const pseudoStates = [];
-				try {
-					selectorParser( ( selectors ) => {
-						selectors.walkPseudos( ( pseudo ) => {
-							const name = pseudo.value.toLowerCase();
-							if (
-								[
-									':hover',
-									':focus',
-									':focus-visible',
-								].includes( name )
-							) {
-								pseudoStates.push(
-									name === ':hover' ? 'hover' : 'focus'
-								);
-							}
-						} );
-					} ).processSync( selector );
-					staticSelector = selectorForStaticMatching( selector );
-					specificity = calculate( selector );
-				} catch {
-					diagnostics.push(
-						diagnostic(
-							'warning',
-							'SELECTOR_NOT_NATIVE_EDITABLE',
-							`Selector was preserved but could not be indexed: ${ selector }`,
-							'css',
-							rule
-						)
-					);
-					continue;
-				}
-				let selected;
-				try {
-					selected = staticSelector.trim()
-						? elements.filter( ( element ) =>
-								element.matches( staticSelector )
-						  )
-						: [];
-				} catch {
-					selected = [];
-				}
-				const declarations = rule.nodes
-					.filter( ( node ) => node.type === 'decl' )
-					.map( ( declaration ) => ( {
-						property: declaration.prop,
-						value: declaration.value,
-						important: Boolean( declaration.important ),
-					} ) );
-				for ( const element of selected ) {
-					matches.set( element, [
-						...( matches.get( element ) || [] ),
-						{
-							selector,
-							declarations,
-							specificity,
-							order: order++,
-							condition:
-								rule.parent.type === 'atrule'
-									? `@${ rule.parent.name } ${ rule.parent.params }`.trim()
-									: 'base',
-							pseudo_states: pseudoStates,
-							stylesheet_id: stylesheet.asset.id,
-						},
-					] );
-				}
-			}
-		} );
-	}
-	return matches;
-}
 
 function inlineStyles( element ) {
 	const declarations = new Map();

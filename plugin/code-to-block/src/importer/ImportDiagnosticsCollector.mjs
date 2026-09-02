@@ -1,3 +1,18 @@
+export function diagnostic( severity, code, message, source, node ) {
+	return {
+		severity,
+		code,
+		message,
+		...( source ? { source } : {} ),
+		...( node?.source?.start
+			? {
+					line: node.source.start.line,
+					column: node.source.start.column,
+			  }
+			: {} ),
+	};
+}
+
 export class ImportDiagnosticsCollector {
 	#items = [];
 
