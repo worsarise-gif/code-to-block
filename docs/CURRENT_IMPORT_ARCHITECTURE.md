@@ -51,9 +51,10 @@ Editor import dialog (`src/index.js`)
 | `src/index.js::commitImportedCode`       | Delegates one transactional editor commit                                                | UI wrapper remains                                             | Implemented     | `ImportCodeService.commit()` callback                       |
 | `src/parser.js::detectImportedCode`      | Compatibility facade for pure source detection                                           | Facade retained for callers                                    | Implemented     | `importer/detection/`                                       |
 | `src/parser.js::normalizeImportedCode`   | Compatibility facade for context-sensitive normalization                                 | Facade retained for callers                                    | Implemented     | `importer/normalization/`                                   |
-| `src/parser.js::createCodeImportSession` | CSS/PHP/assets/conversion orchestration behind a transactional service                   | CSS/assets can be split further later                          | Partially split | `importer/html`, `conversion`, future `css/assets/security` |
+| `src/parser.js::createCodeImportSession` | CSS/PHP/conversion orchestration behind a transactional service                          | Stylesheet matching bridge remains                             | Partially split | `importer/html`, `conversion`, `css/`, `assets/`           |
 | `BlockAdapterRegistry`                   | Native, generic, and localized fallback selection                                        | Adapter coverage can grow without changing traversal           | Implemented     | `src/importer/conversion/`                                  |
-| `src/parser.js::scopeImportedCss`        | Safe PostCSS parse and selector isolation                                                | Correct behavior but parser-owned                              | Keep/move later | `importer/css/`                                             |
+| `importer/css/scope-imported-css.mjs`    | Safe PostCSS parse, selector isolation, stylesheet inventory, scope class management     | None                                                           | Implemented     | `importer/css/`                                             |
+| `importer/assets/collect-import-assets`   | Script extraction, standalone scripts, URL reference analysis, duplicate ID diagnostics  | None                                                           | Implemented     | `importer/assets/`                                          |
 | `src/html-policy.mjs`                    | Client attribute/tag/URL safety                                                          | Correct reusable policy; custom-element handling is incomplete | Keep/generalize | `importer/security/` facade                                 |
 | `src/php-snippets.mjs`                   | Extracts PHP to inert placeholders; package retains restricted server-code review assets | Registration is intentionally separate                         | Implemented     | `PhpImportPolicy`                                           |
 | `src/canvas-isolation.mjs`               | Inert editor iframe, CSP, message whitelist, and safe page-root application              | Full runtime bridge is future work                             | Implemented     | `ImportedDocumentRuntime` / `CanvasBridge`                  |
@@ -94,12 +95,18 @@ Editor import dialog (`src/index.js`)
 
 ## Implemented boundary and next extension
 
-The first five importer architecture steps are complete: pure detection and
+The first six importer architecture steps are complete: pure detection and
 normalization, HTML document decomposition, transactional session analysis and
 commit, registry-driven recursive conversion, localized fallbacks, service-led
-UI integration, and canonical source/server-code/compatibility/security
-persistence.
+UI integration, canonical source/server-code/compatibility/security
+persistence, PostCSS selector scoping and stylesheet inventory
+(`importer/css/`), and asset/reference/script collection (`importer/assets/`).
 
-The next safe extension is to move the still-correct PostCSS scoping and asset
-collection helpers out of `src/parser.js` into `src/importer/css/` and
-`src/importer/assets/`, preserving their existing outputs with snapshot tests.
+The stylesheet matching bridge (`stylesheetMatches`) remains in `src/parser.js`
+because it couples CSS AST traversal with DOM element matching. It is the next
+candidate for extraction once the DOM-analysis boundary is clearer.
+
+The next safe extension is to continue A3 extraction: move the Zustand store,
+DnD adapters, preview CSS, inspector controls, diagnostics, forms, commerce,
+widgets, motion/actions, and persistence orchestration out of `src/index.js`
+as described in `docs/editor-domain-boundaries.md`.

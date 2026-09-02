@@ -36,6 +36,8 @@
     "test:shortcodes": "php tests/shortcodes-test.php",
     "test:scripts": "node tests/script-actions-test.mjs",
     "test:tree": "node tests/tree-order-test.mjs",
+    "test:css-scoping": "node tests/css-scoping-parity-test.mjs",
+    "test:asset-collection": "node tests/asset-collection-parity-test.mjs",
     "start": "wp-scripts start"
   },
   "dependencies": {

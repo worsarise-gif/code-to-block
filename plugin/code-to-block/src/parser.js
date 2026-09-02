@@ -1,5 +1,3 @@
-import postcss from 'postcss';
-import safeParser from 'postcss-safe-parser';
 import selectorParser from 'postcss-selector-parser';
 import { calculate } from 'specificity';
 
@@ -19,29 +17,26 @@ import {
 	createFallbackBlock,
 } from './importer/conversion/BlockAdapterRegistry.mjs';
 import { ImportDiagnosticsCollector } from './importer/ImportDiagnosticsCollector.mjs';
+import {
+	scopeImportedCss,
+	selectorForStaticMatching,
+	inventoryStylesheet,
+	isKeyframeRule,
+	addScopeClass,
+	IMPORT_SCOPE_CLASS,
+} from './importer/css/scope-imported-css.mjs';
+import {
+	extractScripts,
+	standaloneScript,
+	analyzeReferences,
+	duplicateIdDiagnostics,
+} from './importer/assets/collect-import-assets.mjs';
 
 const MAX_IMPORT_LENGTH = 2 * 1024 * 1024;
 const MAX_BLOCKS = 1000;
 const MAX_DEPTH = 50;
-const MAX_SELECTORS = 2000;
 const MAX_CSS_MAPPING_DECLARATIONS = 1000;
-const IMPORT_SCOPE_CLASS = 'ctb-import-scope';
-const DYNAMIC_PSEUDO_NAMES = new Set( [
-	':active',
-	':checked',
-	':disabled',
-	':enabled',
-	':focus',
-	':focus-visible',
-	':focus-within',
-	':hover',
-	':invalid',
-	':link',
-	':target',
-	':valid',
-	':visited',
-] );
-const KEYFRAME_AT_RULES = new Set( [ 'keyframes', '-webkit-keyframes' ] );
+
 const COLOR_VALUE =
 	/^(?:#[0-9a-f]{3,8}|(?:rgb|hsl|hwb|lab|lch|oklab|oklch|color)\()/i;
 const SIZE_VALUE =
@@ -97,208 +92,7 @@ export function normalizeImportedCode( rawSource ) {
 	return normalizeImportedSource( rawSource );
 }
 
-function attributesObject( element ) {
-	return Object.fromEntries(
-		[ ...element.attributes ].map( ( attribute ) => [
-			attribute.name.toLowerCase(),
-			attribute.value,
-		] )
-	);
-}
-
-function isKeyframeRule( rule ) {
-	let parent = rule.parent;
-	while ( parent ) {
-		if (
-			parent.type === 'atrule' &&
-			KEYFRAME_AT_RULES.has( parent.name.toLowerCase() )
-		) {
-			return true;
-		}
-		parent = parent.parent;
-	}
-	return false;
-}
-
-function isRootNode( node ) {
-	return (
-		( node.type === 'tag' &&
-			[ 'html', 'body' ].includes( node.value.toLowerCase() ) ) ||
-		( node.type === 'pseudo' && node.value.toLowerCase() === ':root' )
-	);
-}
-
-function rootClassNode() {
-	return selectorParser.className( { value: IMPORT_SCOPE_CLASS } );
-}
-
-function removeRedundantDocumentRoots( selector ) {
-	let foundRoot = false;
-	for ( const node of [ ...selector.nodes ] ) {
-		if ( isRootNode( node ) ) {
-			if ( ! foundRoot ) {
-				node.replaceWith( rootClassNode() );
-				foundRoot = true;
-			} else {
-				const previous = node.prev();
-				if ( previous?.type === 'combinator' ) {
-					previous.remove();
-				}
-				node.remove();
-			}
-		}
-	}
-	return foundRoot;
-}
-
-function addScopeToSelector( selector ) {
-	if ( removeRedundantDocumentRoots( selector ) ) {
-		return [ selector ];
-	}
-	const descendant = selector.clone();
-	descendant.prepend( selectorParser.combinator( { value: ' ' } ) );
-	descendant.prepend( rootClassNode() );
-
-	const self = selector.clone();
-	const insertionPoint = self.nodes.find(
-		( node ) => node.type === 'combinator'
-	);
-	if ( insertionPoint ) {
-		self.insertBefore( insertionPoint, rootClassNode() );
-	} else {
-		self.append( rootClassNode() );
-	}
-	return [ self, descendant ];
-}
-
-export function scopeImportedCss( css, diagnostics = [] ) {
-	let root;
-	try {
-		root = postcss.parse( css, { from: 'imported.css' } );
-	} catch ( error ) {
-		diagnostics.push(
-			diagnostic(
-				'warning',
-				'CSS_PARSE_RECOVERED',
-				`CSS syntax was recovered and preserved where possible: ${
-					error.reason || error.message
-				}`,
-				'css',
-				error
-			)
-		);
-		root = safeParser( css, { from: 'imported.css' } );
-	}
-
-	const scopedRoot = root.clone();
-	scopedRoot.walkAtRules( 'import', ( atRule ) => {
-		diagnostics.push(
-			diagnostic(
-				'warning',
-				'CSS_IMPORT_QUARANTINED',
-				`@import ${ atRule.params } was retained as a reference but not loaded because its selectors cannot be scoped safely.`,
-				'css',
-				atRule
-			)
-		);
-		atRule.remove();
-	} );
-	scopedRoot.walkDecls( ( declaration ) => {
-		if (
-			/^(?:behavior|-moz-binding)$/i.test( declaration.prop ) ||
-			/(?:expression\s*\(|javascript\s*:|<\s*\/\s*style)/i.test(
-				declaration.value
-			)
-		) {
-			diagnostics.push(
-				diagnostic(
-					'warning',
-					'UNSAFE_CSS_DECLARATION_BLOCKED',
-					`${ declaration.prop } was quarantined from rendered CSS.`,
-					'css',
-					declaration
-				)
-			);
-			declaration.remove();
-		}
-	} );
-
-	scopedRoot.walkRules( ( rule ) => {
-		if ( isKeyframeRule( rule ) ) {
-			return;
-		}
-		try {
-			const scopedSelectors = [];
-			selectorParser( ( selectors ) => {
-				selectors.each( ( selector ) => {
-					for ( const scoped of addScopeToSelector( selector ) ) {
-						scopedSelectors.push( scoped.toString() );
-					}
-				} );
-			} ).processSync( rule.selector );
-			rule.selector = [ ...new Set( scopedSelectors ) ].join( ', ' );
-		} catch {
-			diagnostics.push(
-				diagnostic(
-					'warning',
-					'SELECTOR_NOT_RENDERED',
-					`Selector was preserved as source but could not be safely scoped: ${ rule.selector }`,
-					'css',
-					rule
-				)
-			);
-			rule.remove();
-		}
-	} );
-	return { root, css: scopedRoot.toString() };
-}
-
-function selectorForStaticMatching( selector ) {
-	return selectorParser( ( selectors ) => {
-		selectors.walkPseudos( ( pseudo ) => {
-			const name = pseudo.value.toLowerCase();
-			if (
-				name.startsWith( '::' ) ||
-				[ ':before', ':after' ].includes( name )
-			) {
-				pseudo.remove();
-			} else if ( DYNAMIC_PSEUDO_NAMES.has( name ) ) {
-				pseudo.remove();
-			}
-		} );
-	} ).processSync( selector );
-}
-
-function inventoryStylesheet( root ) {
-	const selectors = [];
-	const mediaConditions = [];
-	const keyframes = [];
-	const customProperties = [];
-	root.walkRules( ( rule ) => {
-		if ( ! isKeyframeRule( rule ) ) {
-			selectors.push( ...rule.selectors );
-		}
-	} );
-	root.walkAtRules( ( atRule ) => {
-		const name = atRule.name.toLowerCase();
-		if ( name === 'media' ) {
-			mediaConditions.push( atRule.params );
-		} else if ( KEYFRAME_AT_RULES.has( name ) ) {
-			keyframes.push( atRule.params );
-		}
-	} );
-	root.walkDecls( ( declaration ) => {
-		if ( declaration.prop.startsWith( '--' ) ) {
-			customProperties.push( declaration.prop );
-		}
-	} );
-	return {
-		selectors: [ ...new Set( selectors ) ],
-		media_conditions: [ ...new Set( mediaConditions ) ],
-		keyframes: [ ...new Set( keyframes ) ],
-		custom_properties: [ ...new Set( customProperties ) ],
-	};
-}
+export { scopeImportedCss };
 
 function tokenCategory( name, value ) {
 	if (
@@ -368,6 +162,8 @@ function mapRootTokens( stylesheets ) {
 	}
 	return { designTokens, bindings };
 }
+
+const MAX_SELECTORS = 2000;
 
 function stylesheetMatches( document, stylesheets, diagnostics ) {
 	const matches = new Map();
@@ -477,190 +273,6 @@ function inlineStyles( element ) {
 	return declarations;
 }
 
-function scriptPlacement( script, document ) {
-	if ( script.closest( 'head' ) ) {
-		return 'head';
-	}
-	const following = [ ...document.body.children ].filter(
-		( element ) =>
-			element !== script &&
-			// compareDocumentPosition exposes relationships as a bitmask.
-			// eslint-disable-next-line no-bitwise
-			element.compareDocumentPosition( script ) &
-				window.Node.DOCUMENT_POSITION_FOLLOWING
-	);
-	return following.length === 0 ? 'body-end' : 'body';
-}
-
-function extractScripts( document, sessionId, diagnostics ) {
-	return [ ...document.querySelectorAll( 'script' ) ].map(
-		( script, index ) => {
-			const attributes = attributesObject( script );
-			const src = String( script.getAttribute( 'src' ) || '' ).trim();
-			if ( src && /^(?:https?:)?\/\//i.test( src ) ) {
-				diagnostics.push(
-					diagnostic(
-						'warning',
-						'EXTERNAL_SCRIPT_NOT_FETCHED',
-						`External script was recorded without being fetched during import: ${ src }`,
-						'script',
-						script
-					)
-				);
-			}
-			return {
-				id: `import-script-${ sessionId }-${ index + 1 }`,
-				source_type: src ? 'external-script' : 'inline-script',
-				placement: scriptPlacement( script, document ),
-				type: attributes.type || 'text/javascript',
-				source: src ? '' : script.textContent,
-				...( src ? { src } : {} ),
-				attributes,
-				enabled_in_editor: false,
-				enabled_in_preview: true,
-				enabled_on_publish: true,
-				execution_policy: 'preview-and-frontend',
-				security_status: 'requires-trust',
-				origin: 'imported',
-			};
-		}
-	);
-}
-
-function standaloneScript( source, sessionId, index ) {
-	return {
-		id: `import-script-${ sessionId }-${ index + 1 }`,
-		source_type: 'inline-script',
-		placement: 'body-end',
-		type: 'text/javascript',
-		source,
-		attributes: {},
-		enabled_in_editor: false,
-		enabled_in_preview: true,
-		enabled_on_publish: true,
-		execution_policy: 'preview-and-frontend',
-		security_status: 'requires-trust',
-		origin: 'imported',
-	};
-}
-
-function analyzeReferences( document, stylesheets, scripts, diagnostics ) {
-	const references = [];
-	for ( const element of document.querySelectorAll(
-		'[href], [src], [srcset], [poster], [action], [formaction], [cite], [data]'
-	) ) {
-		for ( const name of [
-			'href',
-			'src',
-			'srcset',
-			'poster',
-			'action',
-			'formaction',
-			'cite',
-			'data',
-		] ) {
-			if ( ! element.hasAttribute( name ) ) {
-				continue;
-			}
-			const value = element.getAttribute( name );
-			const dangerous =
-				/^\s*(?:javascript|vbscript|data\s*:\s*text\/html)\s*:/i.test(
-					value
-				);
-			if ( dangerous ) {
-				diagnostics.push(
-					diagnostic(
-						'warning',
-						'UNSAFE_URL_BLOCKED',
-						`Unsafe ${ name } URL was quarantined on <${ element.tagName.toLowerCase() }>.`,
-						'html',
-						element
-					)
-				);
-			}
-			references.push( {
-				type: `${ element.tagName.toLowerCase() }.${ name }`,
-				value,
-				external: /^(?:https?:)?\/\//i.test( value ),
-				blocked: dangerous,
-			} );
-		}
-	}
-	for ( const stylesheet of stylesheets ) {
-		stylesheet.ast.walkAtRules( 'import', ( atRule ) => {
-			const value = atRule.params.trim();
-			const urlMatch = value.match(
-				/^(?:url\(\s*)?(['"]?)(.*?)\1\s*\)?(?:\s|$)/i
-			);
-			const url = urlMatch?.[ 2 ] || value;
-			references.push( {
-				type: 'css.import',
-				value: url,
-				external: /^(?:https?:)?\/\//i.test( url ),
-				blocked: true,
-			} );
-		} );
-		stylesheet.ast.walkDecls( ( declaration ) => {
-			for ( const match of declaration.value.matchAll(
-				/url\(\s*(['"]?)(.*?)\1\s*\)/gi
-			) ) {
-				references.push( {
-					type: 'css.url',
-					value: match[ 2 ],
-					external: /^(?:https?:)?\/\//i.test( match[ 2 ] ),
-					blocked: /^\s*(?:javascript|vbscript)\s*:/i.test(
-						match[ 2 ]
-					),
-				} );
-			}
-		} );
-	}
-	for ( const script of scripts ) {
-		if ( script.src ) {
-			references.push( {
-				type: 'script.src',
-				value: script.src,
-				external: /^(?:https?:)?\/\//i.test( script.src ),
-				blocked:
-					! /^(?:https?:)?\/\//i.test( script.src ) &&
-					/^[a-z][a-z0-9+.-]*:/i.test( script.src ),
-			} );
-		}
-	}
-	const hasBase = Boolean( document.querySelector( 'base[href]' ) );
-	if (
-		! hasBase &&
-		references.some(
-			( reference ) =>
-				! reference.blocked &&
-				! reference.external &&
-				! /^(?:#|data:|blob:|mailto:|tel:|\/\/)/i.test(
-					reference.value
-				)
-		)
-	) {
-		diagnostics.push(
-			diagnostic(
-				'warning',
-				'RELATIVE_ASSET_BASE_UNKNOWN',
-				'Relative asset URLs were preserved because the pasted source has no base URL.',
-				'asset'
-			)
-		);
-	}
-	return references;
-}
-
-function addScopeClass( attributes ) {
-	const classes = String( attributes.class || '' )
-		.split( /\s+/ )
-		.filter( Boolean );
-	if ( ! classes.includes( IMPORT_SCOPE_CLASS ) ) {
-		classes.push( IMPORT_SCOPE_CLASS );
-	}
-	attributes.class = classes.join( ' ' );
-}
-
 function mergePageRootAttributes( target, pageMeta ) {
 	for ( const attributes of [
 		pageMeta.html_attributes,
@@ -693,26 +305,6 @@ function mergePageRootAttributes( target, pageMeta ) {
 			} else if ( name !== 'id' && target[ name ] === undefined ) {
 				target[ name ] = value;
 			}
-		}
-	}
-}
-
-function duplicateIdDiagnostics( document, diagnostics ) {
-	const ids = new Map();
-	for ( const element of document.querySelectorAll( '[id]' ) ) {
-		ids.set( element.id, [ ...( ids.get( element.id ) || [] ), element ] );
-	}
-	for ( const [ id, elements ] of ids ) {
-		if ( elements.length > 1 ) {
-			diagnostics.push(
-				diagnostic(
-					'warning',
-					'DUPLICATE_HTML_ID',
-					`HTML id "${ id }" occurs ${ elements.length } times and was preserved unchanged.`,
-					'html',
-					elements[ 0 ]
-				)
-			);
 		}
 	}
 }
