@@ -1,0 +1,9 @@
+{
+  "sha256": "be7b11b346e42a234e5f324d22002a35fe2115bfa098683067259e4cb531c6a3",
+  "counts": {
+    "broad_types": 10,
+    "mapped_properties": 92,
+    "native_tags": 103,
+    "widget_roots": 8
+  }
+}

@@ -56,12 +56,12 @@ final class Code_To_Block_Schema {
 	const HTML_TAGS = array(
 		'a', 'address', 'article', 'aside', 'audio', 'b', 'bdi', 'bdo', 'blockquote',
 		'br', 'button', 'cite', 'code', 'col', 'colgroup', 'data', 'datalist', 'dd', 'del',
-		'details', 'dfn', 'div', 'dl', 'dt', 'em', 'figcaption', 'figure',
+		'details', 'dfn', 'dialog', 'div', 'dl', 'dt', 'em', 'figcaption', 'figure',
 		'fieldset', 'footer', 'form', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'header', 'hgroup', 'hr',
 		'i', 'img', 'input', 'ins', 'kbd', 'label', 'legend', 'li', 'main', 'mark', 'menu', 'meter',
 		'iframe', 'nav', 'ol', 'optgroup', 'option', 'output', 'p', 'picture', 'pre', 'progress', 'q', 'rp', 'rt', 'ruby',
 		's', 'samp', 'section', 'select', 'small', 'source', 'span', 'strong', 'sub',
-		'summary', 'sup', 'svg', 'g', 'defs', 'symbol', 'use', 'path', 'circle', 'ellipse', 'line', 'polyline', 'polygon', 'rect',
+		'slot', 'summary', 'sup', 'svg', 'g', 'defs', 'symbol', 'use', 'path', 'circle', 'ellipse', 'line', 'polyline', 'polygon', 'rect', 'template',
 		'table', 'tbody', 'td', 'textarea', 'tfoot', 'th', 'thead', 'time', 'track',
 		'tr', 'u', 'ul', 'var', 'video', 'wbr',
 	);
@@ -311,7 +311,7 @@ final class Code_To_Block_Schema {
 			return $diagnostics;
 		}
 
-		return array(
+		$result = array(
 			'origin'         => array(
 				'type'              => 'code-import',
 				'import_session_id' => $origin['import_session_id'],
@@ -324,6 +324,17 @@ final class Code_To_Block_Schema {
 			'references'     => $references,
 			'diagnostics'    => $diagnostics,
 		);
+		foreach ( array( 'source', 'server_code', 'fallbacks', 'compatibility', 'security' ) as $key ) {
+			if ( ! array_key_exists( $key, $value ) ) {
+				continue;
+			}
+			$sanitized = self::sanitize_bounded_json( $value[ $key ], $path . '.' . $key, 0 );
+			if ( is_wp_error( $sanitized ) ) {
+				return $sanitized;
+			}
+			$result[ $key ] = $sanitized;
+		}
+		return $result;
 	}
 
 	private static function sanitize_imported_page_meta( $value, $path ) {
@@ -334,6 +345,9 @@ final class Code_To_Block_Schema {
 		$result = array();
 		if ( isset( $value['document_type'] ) && in_array( $value['document_type'], array( 'full-document', 'fragment' ), true ) ) {
 			$result['document_type'] = $value['document_type'];
+		}
+		if ( isset( $value['document_shape'] ) && in_array( $value['document_shape'], array( 'full-document', 'body-document', 'headless-document', 'fragment', 'single-node', 'mixed-source', 'unknown' ), true ) ) {
+			$result['document_shape'] = $value['document_shape'];
 		}
 		if ( isset( $value['source_type'] ) && in_array( $value['source_type'], array( 'full-document', 'mixed', 'html-fragment', 'stylesheet', 'javascript', 'php', 'plain-text' ), true ) ) {
 			$result['source_type'] = $value['source_type'];
@@ -407,6 +421,22 @@ final class Code_To_Block_Schema {
 				'source_text'   => $stylesheet['source_text'],
 				'scoped_source' => $stylesheet['scoped_source'],
 			);
+			if ( isset( $stylesheet['asset_origin'] ) && is_string( $stylesheet['asset_origin'] ) && preg_match( '/^[a-z][a-z0-9-]{0,49}$/', $stylesheet['asset_origin'] ) ) {
+				$clean['asset_origin'] = $stylesheet['asset_origin'];
+			}
+			if ( isset( $stylesheet['order'] ) && is_int( $stylesheet['order'] ) && $stylesheet['order'] >= 0 && $stylesheet['order'] <= self::MAX_IMPORTED_STYLESHEETS ) {
+				$clean['order'] = $stylesheet['order'];
+			}
+			if ( isset( $stylesheet['media'] ) && is_string( $stylesheet['media'] ) && strlen( $stylesheet['media'] ) <= 1000 && ! preg_match( '/[{}<>\x00-\x1f]/', $stylesheet['media'] ) ) {
+				$clean['media'] = $stylesheet['media'];
+			}
+			if ( isset( $stylesheet['attributes'] ) ) {
+				$attributes = self::sanitize_import_string_map( $stylesheet['attributes'], $item_path . '.attributes', 30 );
+				if ( is_wp_error( $attributes ) ) {
+					return $attributes;
+				}
+				$clean['attributes'] = $attributes;
+			}
 			foreach ( array( 'selectors', 'media_conditions', 'keyframes', 'custom_properties' ) as $key ) {
 				$items = isset( $stylesheet[ $key ] ) ? $stylesheet[ $key ] : array();
 				if ( ! is_array( $items ) || count( $items ) > self::MAX_SELECTORS ) {
@@ -483,6 +513,15 @@ final class Code_To_Block_Schema {
 				if ( '' !== $src ) {
 					$clean['src'] = $src;
 				}
+			}
+			if ( isset( $script['source_type'] ) && in_array( $script['source_type'], array( 'inline-script', 'external-script', 'event-handler' ), true ) ) {
+				$clean['source_type'] = $script['source_type'];
+			}
+			if ( isset( $script['execution_policy'] ) && in_array( $script['execution_policy'], array( 'disabled', 'preview-only', 'preview-and-frontend' ), true ) ) {
+				$clean['execution_policy'] = $script['execution_policy'];
+			}
+			if ( isset( $script['security_status'] ) && in_array( $script['security_status'], array( 'safe-policy', 'requires-trust', 'blocked' ), true ) ) {
+				$clean['security_status'] = $script['security_status'];
 			}
 			$result[] = $clean;
 		}
@@ -900,6 +939,21 @@ final class Code_To_Block_Schema {
 				return self::error( $path . '.meta.imported_original_tag', 'must be a safe original element name' );
 			}
 			$block['meta']['imported_original_tag'] = $meta['imported_original_tag'];
+		}
+		if ( array_key_exists( 'import_fidelity', $meta ) && in_array( $meta['import_fidelity'], array( 'native', 'hybrid', 'preserved', 'restricted' ), true ) ) {
+			$block['meta']['import_fidelity'] = $meta['import_fidelity'];
+		}
+		if ( array_key_exists( 'imported_source', $meta ) ) {
+			if ( ! is_string( $meta['imported_source'] ) || strlen( $meta['imported_source'] ) > self::MAX_STRING_BYTES ) {
+				return self::error( $path . '.meta.imported_source', 'must be a string within the 128 KiB source limit' );
+			}
+			$block['meta']['imported_source'] = $meta['imported_source'];
+		}
+		if ( array_key_exists( 'fallback_reason', $meta ) ) {
+			if ( ! is_string( $meta['fallback_reason'] ) || strlen( $meta['fallback_reason'] ) > 1000 ) {
+				return self::error( $path . '.meta.fallback_reason', 'must be a string of 1000 bytes or fewer' );
+			}
+			$block['meta']['fallback_reason'] = $meta['fallback_reason'];
 		}
 		if ( array_key_exists( 'imported_css_rules', $meta ) ) {
 			$imported_css_rules = self::sanitize_imported_css_rules( $meta['imported_css_rules'], $path . '.meta.imported_css_rules' );
@@ -1516,9 +1570,9 @@ final class Code_To_Block_Schema {
 			if ( is_string( $attribute_value ) && strlen( $attribute_value ) > self::MAX_STRING_BYTES ) {
 				return self::error( $path . '.' . $name, 'exceeds the 128 KiB string limit', 413 );
 			}
-			if ( is_string( $attribute_value ) && 'href' === $name ) {
+			if ( is_string( $attribute_value ) && in_array( $name, array( 'href', 'action', 'formaction' ), true ) ) {
 				$attribute_value = self::sanitize_resource_url( $attribute_value, true );
-			} elseif ( is_string( $attribute_value ) && in_array( $name, array( 'src', 'cite' ), true ) ) {
+			} elseif ( is_string( $attribute_value ) && in_array( $name, array( 'src', 'cite', 'poster', 'xlink:href' ), true ) ) {
 				$attribute_value = self::sanitize_resource_url( $attribute_value, false );
 			} elseif ( is_string( $attribute_value ) && 'srcset' === $name ) {
 				$attribute_value = self::sanitize_srcset( $attribute_value );
@@ -1556,6 +1610,7 @@ final class Code_To_Block_Schema {
 			'datalist'   => array(),
 			'del'        => array( 'cite', 'datetime' ),
 			'details'    => array( 'open' ),
+			'dialog'     => array( 'open' ),
 			'fieldset'   => array( 'disabled', 'form', 'name' ),
 			'form'       => array( 'action', 'method', 'enctype', 'novalidate', 'target', 'autocomplete' ),
 			'iframe'     => array( 'src', 'title', 'loading', 'width', 'height', 'allow', 'allowfullscreen', 'referrerpolicy', 'sandbox' ),
@@ -1573,6 +1628,7 @@ final class Code_To_Block_Schema {
 			'progress'   => array( 'value', 'max' ),
 			'q'          => array( 'cite' ),
 			'select'     => array( 'name', 'required', 'disabled', 'multiple', 'size', 'autocomplete' ),
+			'slot'       => array( 'name' ),
 			'source'     => array( 'src', 'srcset', 'sizes', 'type', 'media', 'width', 'height' ),
 			'svg'        => array( 'viewbox', 'width', 'height', 'fill', 'stroke', 'xmlns', 'aria-hidden', 'focusable' ),
 			'g'          => array( 'fill', 'stroke', 'transform' ),
@@ -1592,6 +1648,14 @@ final class Code_To_Block_Schema {
 			'video'      => array( 'src', 'poster', 'controls', 'autoplay', 'loop', 'muted', 'playsinline', 'preload', 'crossorigin', 'width', 'height' ),
 		);
 
+		if (
+			preg_match( '/^[a-z][a-z0-9._-]*-[a-z0-9._-]+$/', $tag ) &&
+			preg_match( '/^[a-z_:][a-z0-9:._-]*$/i', $name ) &&
+			! preg_match( '/^on/i', $name ) &&
+			'style' !== $name
+		) {
+			return true;
+		}
 		return isset( $by_tag[ $tag ] ) && in_array( $name, $by_tag[ $tag ], true );
 	}
 

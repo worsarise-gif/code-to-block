@@ -65,6 +65,12 @@ compiler.run( ( error, stats ) => {
 			.source_type,
 		'php'
 	);
+	assert.equal(
+		bundled.exports.detectImportedCode(
+			'<body><main>Body only</main></body>'
+		).documentShape,
+		'body-document'
+	);
 
 	const result = bundled.exports.parseBlockDocument(
 		'<style>.lead{color:red}</style><section class="lead">One</section><p>Two</p>',
@@ -137,15 +143,95 @@ compiler.run( ( error, stats ) => {
 	);
 
 	const customElement = bundled.exports.parseBlockDocument(
-		'<my-widget class="feature"><h2>Kept heading</h2><p>Kept copy</p></my-widget>',
+		'<my-widget class="feature" theme="dark" onclick="bad()"><h2>Kept heading</h2><p>Kept copy</p></my-widget>',
 		''
 	);
-	assert.equal( customElement.document.root.tag, 'div' );
+	assert.equal( customElement.document.root.tag, 'my-widget' );
 	assert.equal(
-		customElement.document.root.attributes[ 'data-ctb-original-tag' ],
+		customElement.document.root.meta.imported_original_tag,
 		'my-widget'
 	);
+	assert.equal( customElement.document.root.attributes.theme, 'dark' );
+	assert.equal( customElement.document.root.attributes.onclick, undefined );
+	assert.equal( customElement.document.root.meta.import_fidelity, 'hybrid' );
 	assert.equal( customElement.document.root.children.length, 2 );
+	assert.ok(
+		customElement.diagnostics.some(
+			( item ) => item.code === 'UNSUPPORTED_ELEMENT_PRESERVED'
+		)
+	);
+
+	const genericElements = bundled.exports.parseBlockDocument(
+		'<dialog open><slot name="content">Fallback</slot></dialog>',
+		''
+	);
+	assert.equal( genericElements.document.root.tag, 'dialog' );
+	assert.equal( genericElements.document.root.attributes.open, true );
+	assert.equal( genericElements.document.root.children[ 0 ].tag, 'slot' );
+	assert.equal(
+		genericElements.document.root.children[ 0 ].attributes.name,
+		'content'
+	);
+
+	const mediaStyle = bundled.exports.parseBlockDocument(
+		'<style media="(max-width: 600px)">.compact{display:none}</style><div class="compact">Compact</div>',
+		''
+	);
+	assert.equal(
+		mediaStyle.document.imported_assets.stylesheets[ 0 ].media,
+		'(max-width: 600px)'
+	);
+	assert.match(
+		mediaStyle.document.imported_assets.stylesheets[ 0 ].scoped_source,
+		/^@media \(max-width: 600px\)/
+	);
+
+	const headIsNotVisual = bundled.exports.parseBlockDocument(
+		'<!doctype html><html lang="en"><head><title>Metadata</title><meta name="description" content="x"><link rel="canonical" href="https://example.test/"><style>body{margin:0}</style><script>window.ready=true</script></head><body id="page"><main>Visible</main></body></html>',
+		''
+	);
+	assert.deepEqual(
+		headIsNotVisual.document.root.children.map( ( child ) => child.tag ),
+		[ 'main' ]
+	);
+	assert.equal(
+		headIsNotVisual.document.imported_assets.page_meta.document_shape,
+		'full-document'
+	);
+	assert.equal(
+		headIsNotVisual.document.imported_assets.source.original.includes(
+			'<title>Metadata</title>'
+		),
+		true
+	);
+	assert.equal(
+		headIsNotVisual.session.documentModel.head.links[ 0 ].relation,
+		'canonical'
+	);
+
+	const inlineDeclarations = Array.from(
+		{ length: 1001 },
+		( _, index ) => `--property-${ index }:${ index }`
+	).join( ';' );
+	const localizedFallback = bundled.exports.parseBlockDocument(
+		`<section><div style="${ inlineDeclarations }">Preserved text</div><p>Sibling survives</p></section>`,
+		''
+	);
+	assert.equal(
+		localizedFallback.document.root.children[ 0 ].attributes[
+			'data-ctb-fallback'
+		],
+		'preserved'
+	);
+	assert.equal(
+		localizedFallback.document.root.children[ 1 ].children[ 0 ].value,
+		'Sibling survives'
+	);
+	assert.ok(
+		localizedFallback.diagnostics.some(
+			( item ) => item.code === 'NODE_CONVERSION_FALLBACK'
+		)
+	);
 
 	const quarantinedImport = bundled.exports.parseBlockDocument(
 		'<style>@import url("https://cdn.example.test/theme.css"); .safe{color:blue}</style><div class="safe">Safe</div>',
@@ -180,40 +266,41 @@ compiler.run( ( error, stats ) => {
 		basedDocument.document.root.children[ 0 ].attributes.src,
 		'images/hero.jpg'
 	);
-	/*
-	const formResult = bundled.exports.parseBlockDocument(
-		'<form id="contact" action="javascript:alert(1)" method="post"><label>Name <input type="text" name="name" placeholder="Your name" required></label><label for="message">Message</label><textarea id="message" name="message" placeholder="Tell us more"></textarea><label>Plan <select name="plan" required><option value="">Choose a plan</option><option value="basic">Basic</option><option value="pro">Pro</option></select></label><button type="submit">Send message</button></form>',
+
+	const structuralHtml = bundled.exports.parseBlockDocument(
+		'<form action="javascript:alert(1)" method="post"><label>Name <input name="name" required></label><button type="submit">Send</button></form><table><thead><tr><th>Plan</th></tr></thead><tbody><tr><td>Pro</td></tr></tbody></table><svg viewBox="0 0 10 10" aria-label="Dot"><circle cx="5" cy="5" r="4"></circle></svg><object data="https://unsafe.example/embed"><p>Preserved object fallback</p></object>',
 		''
 	);
-	const form = formResult.document.root;
-	assert.equal( form.type, 'form' );
+	const [ form, table, svg, embeddedObject ] =
+		structuralHtml.document.root.children;
 	assert.equal( form.tag, 'form' );
 	assert.equal( form.attributes.action, undefined );
-	assert.equal( form.attributes[ 'data-submission' ], 'native' );
-	assert.equal( form.attributes[ 'data-submit-label' ], 'Send message' );
-	assert.equal( form.children.length, 3 );
-	assert.deepEqual(
-		form.children.map( ( field ) => field.type ),
-		[ 'form_field', 'form_field', 'form_field' ]
-	);
-	assert.deepEqual(
-		form.children.map( ( field ) => field.tag ),
-		[ 'div', 'div', 'div' ]
-	);
-	assert.equal( form.children[ 0 ].attributes[ 'data-field-label' ], 'Name' );
-	assert.equal( form.children[ 0 ].attributes[ 'data-field-required' ], true );
-	assert.equal( form.children[ 1 ].attributes[ 'data-field-type' ], 'textarea' );
-	assert.equal( form.children[ 1 ].attributes[ 'data-field-label' ], 'Message' );
-	assert.equal( form.children[ 2 ].attributes[ 'data-field-type' ], 'select' );
+	assert.equal( form.children[ 0 ].tag, 'label' );
+	assert.equal( table.tag, 'table' );
+	assert.equal( table.children[ 1 ].children[ 0 ].children[ 0 ].tag, 'td' );
+	assert.equal( svg.tag, 'svg' );
+	assert.equal( svg.children[ 0 ].tag, 'circle' );
+	assert.equal( embeddedObject.tag, 'div' );
 	assert.equal(
-		form.children[ 2 ].attributes[ 'data-field-placeholder' ],
-		'Choose a plan'
+		embeddedObject.attributes[ 'data-ctb-original-tag' ],
+		'object'
 	);
-	assert.equal(
-		form.children[ 2 ].attributes[ 'data-field-options' ],
-		'Basic, Pro'
+	assert.match(
+		embeddedObject.children[ 0 ].children[ 0 ].value,
+		/Preserved object fallback/
 	);
-	*/
+
+	const advancedCss = bundled.exports.parseBlockDocument(
+		'<style>:root{--gap:2rem}*{box-sizing:border-box}.layout{display:grid;gap:var(--gap)}.layout::before{content:""}@media (max-width:700px){.layout{display:flex}}@keyframes pulse{from{opacity:0}to{opacity:1}}</style><main class="layout">Layout</main>',
+		''
+	);
+	const advancedCssSource =
+		advancedCss.document.imported_assets.stylesheets[ 0 ].scoped_source;
+	assert.match( advancedCssSource, /--gap:\s*2rem/ );
+	assert.match( advancedCssSource, /display:\s*grid/ );
+	assert.match( advancedCssSource, /::before/ );
+	assert.match( advancedCssSource, /@media/ );
+	assert.match( advancedCssSource, /@keyframes/ );
 
 	const fs = require( 'node:fs' );
 	const comprehensiveHtml = fs.readFileSync(
@@ -277,9 +364,24 @@ compiler.run( ( error, stats ) => {
 			'full-document'
 		);
 		assert.ok( externalResult.document.root.children.length > 0 );
+		const escapedFixture = externalFixture
+			.replace( /</g, '\\<' )
+			.replace( /@/g, '\\@' );
+		const escapedExternalResult = bundled.exports.parseBlockDocument(
+			escapedFixture,
+			''
+		);
+		assert.equal(
+			escapedExternalResult.session.review.builder_nodes,
+			externalResult.session.review.builder_nodes
+		);
+		assert.equal(
+			escapedExternalResult.session.detection.transportEncoding,
+			'escaped-rich-text'
+		);
 		// eslint-disable-next-line no-console
 		console.log(
-			`PASS: external full-document fixture imported ${ externalResult.session.review.builder_nodes } builder nodes.`
+			`PASS: external full-document fixture and escaped transport imported ${ externalResult.session.review.builder_nodes } builder nodes.`
 		);
 	}
 } );

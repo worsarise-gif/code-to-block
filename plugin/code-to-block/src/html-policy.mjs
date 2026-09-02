@@ -127,8 +127,16 @@ const ATTRIBUTES_BY_TAG = {
 	data: [ 'value' ],
 	del: [ 'cite', 'datetime' ],
 	details: [ 'open' ],
+	dialog: [ 'open' ],
 	fieldset: [ 'disabled', 'form', 'name' ],
-	form: [ 'action', 'method', 'enctype', 'novalidate', 'target', 'autocomplete' ],
+	form: [
+		'action',
+		'method',
+		'enctype',
+		'novalidate',
+		'target',
+		'autocomplete',
+	],
 	iframe: [
 		'src',
 		'title',
@@ -140,7 +148,15 @@ const ATTRIBUTES_BY_TAG = {
 		'referrerpolicy',
 		'sandbox',
 	],
-	audio: [ 'src', 'controls', 'autoplay', 'loop', 'muted', 'preload', 'crossorigin' ],
+	audio: [
+		'src',
+		'controls',
+		'autoplay',
+		'loop',
+		'muted',
+		'preload',
+		'crossorigin',
+	],
 	img: [
 		'src',
 		'alt',
@@ -177,18 +193,53 @@ const ATTRIBUTES_BY_TAG = {
 	output: [ 'for', 'form', 'name' ],
 	progress: [ 'value', 'max' ],
 	q: [ 'cite' ],
-	select: [ 'name', 'required', 'disabled', 'multiple', 'size', 'autocomplete' ],
+	select: [
+		'name',
+		'required',
+		'disabled',
+		'multiple',
+		'size',
+		'autocomplete',
+	],
+	slot: [ 'name' ],
 	source: [ 'src', 'srcset', 'sizes', 'type', 'media', 'width', 'height' ],
-	svg: [ 'viewbox', 'width', 'height', 'fill', 'stroke', 'xmlns', 'aria-hidden', 'focusable' ],
+	svg: [
+		'viewbox',
+		'width',
+		'height',
+		'fill',
+		'stroke',
+		'xmlns',
+		'aria-hidden',
+		'focusable',
+	],
 	g: [ 'fill', 'stroke', 'transform' ],
 	use: [ 'href', 'xlink:href', 'x', 'y', 'width', 'height' ],
-	path: [ 'd', 'fill', 'stroke', 'stroke-width', 'stroke-linecap', 'stroke-linejoin', 'transform' ],
+	path: [
+		'd',
+		'fill',
+		'stroke',
+		'stroke-width',
+		'stroke-linecap',
+		'stroke-linejoin',
+		'transform',
+	],
 	circle: [ 'cx', 'cy', 'r', 'fill', 'stroke', 'stroke-width' ],
 	ellipse: [ 'cx', 'cy', 'rx', 'ry', 'fill', 'stroke', 'stroke-width' ],
 	line: [ 'x1', 'x2', 'y1', 'y2', 'stroke', 'stroke-width' ],
 	polyline: [ 'points', 'fill', 'stroke', 'stroke-width' ],
 	polygon: [ 'points', 'fill', 'stroke', 'stroke-width' ],
-	rect: [ 'x', 'y', 'rx', 'ry', 'width', 'height', 'fill', 'stroke', 'stroke-width' ],
+	rect: [
+		'x',
+		'y',
+		'rx',
+		'ry',
+		'width',
+		'height',
+		'fill',
+		'stroke',
+		'stroke-width',
+	],
 	track: [ 'default', 'kind', 'label', 'src', 'srclang' ],
 	td: [ 'colspan', 'rowspan', 'headers' ],
 	th: [ 'colspan', 'rowspan', 'headers', 'scope', 'abbr' ],
@@ -204,7 +255,19 @@ const ATTRIBUTES_BY_TAG = {
 		'readonly',
 		'autocomplete',
 	],
-	video: [ 'src', 'poster', 'controls', 'autoplay', 'loop', 'muted', 'playsinline', 'preload', 'crossorigin', 'width', 'height' ],
+	video: [
+		'src',
+		'poster',
+		'controls',
+		'autoplay',
+		'loop',
+		'muted',
+		'playsinline',
+		'preload',
+		'crossorigin',
+		'width',
+		'height',
+	],
 };
 
 const NAVIGATION_PROTOCOLS = new Set( [ 'http', 'https', 'mailto', 'tel' ] );
@@ -232,6 +295,14 @@ export function attributeIsAllowed( tag, name ) {
 	if (
 		GLOBAL_ATTRIBUTES.has( name ) ||
 		/^(?:aria|data)-[a-z0-9_.:-]+$/.test( name )
+	) {
+		return true;
+	}
+	if (
+		/^[a-z][a-z0-9._-]*-[a-z0-9._-]+$/.test( tag ) &&
+		/^[a-z_:][a-z0-9:._-]*$/i.test( name ) &&
+		! /^on/i.test( name ) &&
+		name !== 'style'
 	) {
 		return true;
 	}
@@ -287,9 +358,11 @@ export function sanitizeElementAttributes( element, tag ) {
 		}
 
 		let value = attribute.value;
-		if ( name === 'href' || name === 'action' ) {
+		if ( [ 'href', 'action', 'formaction' ].includes( name ) ) {
 			value = sanitizeResourceUrl( value, true );
-		} else if ( [ 'src', 'cite' ].includes( name ) ) {
+		} else if (
+			[ 'src', 'cite', 'poster', 'xlink:href' ].includes( name )
+		) {
 			value = sanitizeResourceUrl( value, false );
 		} else if ( name === 'srcset' ) {
 			value = sanitizeSrcset( value );

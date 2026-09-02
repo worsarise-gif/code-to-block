@@ -73,7 +73,7 @@ import {
 	undoDocument,
 } from './history.mjs';
 import { rankDropCandidates, resolveDropIntent } from './drop-intent.mjs';
-import { parseBlockDocument } from './parser';
+import { createImportCodeService } from './importer/ImportCodeService.mjs';
 import { materializeCommerce } from './commerce-preview.mjs';
 import {
 	CommerceProductEditor,
@@ -92,7 +92,20 @@ import {
 	ownStyleSet,
 	setOwnStyleSet,
 } from './responsive-styles.mjs';
-import { canMoveBlock, moveBlockSibling } from './tree.mjs';
+import {
+	canMoveBlock,
+	countBlocks,
+	findBlock,
+	findBlockLocation,
+	moveBlockSibling,
+} from './tree.mjs';
+import {
+	createPrimitiveBlock,
+	setHiddenInFallback,
+	setStyleSetBindings,
+	updateBlockStyleSet,
+	updateEditableBlock,
+} from './store/block-commands.mjs';
 import {
 	COMPONENT_FAILURE_MESSAGE,
 	createComponentDocument,
@@ -126,7 +139,7 @@ import {
 	setRolePropertyOverride,
 	updateRolePropertyGlobally,
 } from './semantic-roles.mjs';
-import { canInsertElement, createElementBlock } from './elements/registry.mjs';
+import { canInsertElement } from './elements/registry.mjs';
 import { allowedTagForBlock, resolveInspector } from './elements/resolver.mjs';
 
 const VOID_TAGS = new Set( [
@@ -140,6 +153,7 @@ const VOID_TAGS = new Set( [
 	'wbr',
 ] );
 const IMPORT_SCOPE_CLASS = 'ctb-import-scope';
+const importCodeService = createImportCodeService();
 
 const EXAMPLE_DOCUMENT = ensureGuidedRoleDesignSystem(
 	{
@@ -275,82 +289,6 @@ function createTextBlock( id, value ) {
 		},
 		meta: { source: 'phase-3-example' },
 	};
-}
-
-function updateBlockStyleSet( state, id, breakpoint, update ) {
-	const currentBlock = findBlock( state.document.root, id );
-	if ( ! currentBlock || currentBlock.permissions?.locked ) {
-		return state;
-	}
-	const currentStyleSet = ownStyleSet( currentBlock, breakpoint );
-	const editableStyleSet = {
-		...currentStyleSet,
-		mapped: { ...currentStyleSet.mapped },
-		custom_css_fallback: currentStyleSet.custom_css_fallback || '',
-	};
-	if ( currentStyleSet.token_bindings ) {
-		editableStyleSet.token_bindings = {
-			...currentStyleSet.token_bindings,
-		};
-	}
-	if ( currentStyleSet.role_bindings ) {
-		editableStyleSet.role_bindings = JSON.parse(
-			JSON.stringify( currentStyleSet.role_bindings )
-		);
-	}
-	if ( currentStyleSet.import_review_flags ) {
-		editableStyleSet.import_review_flags = JSON.parse(
-			JSON.stringify( currentStyleSet.import_review_flags )
-		);
-	}
-	const nextStyleSet = update( editableStyleSet );
-	if (
-		JSON.stringify( currentStyleSet ) === JSON.stringify( nextStyleSet )
-	) {
-		return state;
-	}
-
-	const document = JSON.parse( JSON.stringify( state.document ) );
-	setOwnStyleSet( findBlock( document.root, id ), breakpoint, nextStyleSet );
-	return commitDocument( state, document, id );
-}
-
-function updateEditableBlock( state, id, mutate, allowLocked = false ) {
-	const current = findBlock( state.document.root, id );
-	if ( ! current || ( current.permissions?.locked && ! allowLocked ) ) {
-		return state;
-	}
-	const document = JSON.parse( JSON.stringify( state.document ) );
-	const block = findBlock( document.root, id );
-	mutate( block, document );
-	return commitDocument( state, document, id );
-}
-
-function createPrimitiveBlock( primitive ) {
-	return createElementBlock( primitive );
-}
-
-function setStyleSetBindings( styleSet, bindings ) {
-	if ( Object.keys( bindings ).length ) {
-		styleSet.token_bindings = bindings;
-	} else {
-		delete styleSet.token_bindings;
-	}
-	return styleSet;
-}
-
-function setHiddenInFallback( fallback, hidden, visibleDisplay = '' ) {
-	const declarations = String( fallback || '' )
-		.split( ';' )
-		.map( ( part ) => part.trim() )
-		.filter( Boolean )
-		.filter( ( part ) => ! /^display\s*:/i.test( part ) );
-	if ( hidden ) {
-		declarations.push( 'display: none !important' );
-	} else if ( visibleDisplay ) {
-		declarations.push( `display: ${ visibleDisplay } !important` );
-	}
-	return declarations.length ? declarations.join( '; ' ) + ';' : '';
 }
 
 const useEditorStore = create( ( set ) => ( {
@@ -1972,57 +1910,6 @@ const useEditorStore = create( ( set ) => ( {
 		} ),
 } ) );
 
-function findBlock( block, id ) {
-	if ( block.id === id ) {
-		return block;
-	}
-
-	for ( const child of block.children ) {
-		if ( child.kind !== 'text' ) {
-			const match = findBlock( child, id );
-			if ( match ) {
-				return match;
-			}
-		}
-	}
-
-	return null;
-}
-
-function findBlockLocation(
-	block,
-	id,
-	parentId = null,
-	index = 0,
-	depth = 0,
-	ancestorIds = []
-) {
-	if ( block.id === id ) {
-		return { block, parentId, index, depth, ancestorIds };
-	}
-
-	let blockIndex = 0;
-	for ( const child of block.children || [] ) {
-		if ( child.kind === 'text' ) {
-			continue;
-		}
-		const match = findBlockLocation(
-			child,
-			id,
-			block.id,
-			blockIndex,
-			depth + 1,
-			[ ...ancestorIds, block.id ]
-		);
-		if ( match ) {
-			return match;
-		}
-		blockIndex += 1;
-	}
-
-	return null;
-}
-
 function resolveDocumentDropIntent( {
 	root,
 	targetId,
@@ -2354,17 +2241,6 @@ function buildEditorStyleSnapshot( document ) {
 
 	visit( document.root );
 	return snapshot;
-}
-
-function countBlocks( block ) {
-	return (
-		1 +
-		block.children.reduce(
-			( total, child ) =>
-				total + ( child.kind === 'text' ? 0 : countBlocks( child ) ),
-			0
-		)
-	);
 }
 
 function collisionStrategy( args ) {
@@ -6662,6 +6538,7 @@ function Editor() {
 	const liveImportTimerRef = useRef( null );
 	const lastImportedInputRef = useRef( '' );
 	const applyImportedCodeRef = useRef( null );
+	const importAnalysisRequestRef = useRef( 0 );
 	const [ documentLoading, setDocumentLoading ] = useState( true );
 	const [ parseWarnings, setParseWarnings ] = useState( [] );
 	const [ importReview, setImportReview ] = useState( null );
@@ -7996,7 +7873,7 @@ function Editor() {
 		return response;
 	}
 
-	function prepareImportedCode( source ) {
+	async function prepareImportedCode( source ) {
 		if ( ! source.trim() ) {
 			setParseError(
 				'Paste HTML, CSS, JavaScript, PHP, or text before importing.'
@@ -8006,31 +7883,16 @@ function Editor() {
 			return null;
 		}
 		setImportActivity( 'Parsing code...' );
+		const requestId = ++importAnalysisRequestRef.current;
 		try {
 			const shortcodePrefix = `ctb_php_${ postId || 'draft' }`;
 
-			const result = parseBlockDocument( source, '', shortcodePrefix );
-			if (
-				editorSettings.canUnfilteredHtml === false &&
-				result.session.scripts.length
-			) {
-				for ( const script of result.session.scripts ) {
-					script.enabled_in_editor = false;
-					script.enabled_in_preview = false;
-					script.enabled_on_publish = false;
-				}
-				result.scriptDetections = result.scriptDetections.map(
-					( detection ) => ( {
-						...detection,
-						status: 'blocked',
-						description:
-							'Preserved as a disabled page script because this account cannot publish unfiltered HTML.',
-					} )
-				);
-				result.session.scriptDetections = result.scriptDetections;
-				result.warnings.push(
-					'Imported scripts were preserved but disabled because this account lacks unfiltered_html.'
-				);
+			const result = await importCodeService.analyze( source, {
+				shortcodePrefix,
+				canExecuteScripts: editorSettings.canUnfilteredHtml !== false,
+			} );
+			if ( requestId !== importAnalysisRequestRef.current ) {
+				return null;
 			}
 			setImportReview( { source, result } );
 			lastImportedInputRef.current = source;
@@ -8049,6 +7911,9 @@ function Editor() {
 			void reviewPhpDetections( result.phpDetections );
 			return result;
 		} catch ( error ) {
+			if ( requestId !== importAnalysisRequestRef.current ) {
+				return null;
+			}
 			setParseError( error.message );
 			setImportActivity( 'Fix the code below to continue.' );
 			setImportReview( null );
@@ -8064,11 +7929,17 @@ function Editor() {
 		if ( ! result ) {
 			return false;
 		}
-		const normalized = normalizeImportedStyles(
-			result.document,
-			useEditorStore.getState().document
-		);
-		setDocument( normalized.document );
+		let normalized;
+		importCodeService.commit( result.session.id, {
+			transformCandidate: ( candidate ) => {
+				normalized = normalizeImportedStyles(
+					candidate,
+					useEditorStore.getState().document
+				);
+				return normalized.document;
+			},
+			commitDocument: ( candidate ) => setDocument( candidate ),
+		} );
 		liveImportStartedRef.current = true;
 		setPersistenceStatus(
 			`Imported ${ countBlocks(
@@ -8097,18 +7968,18 @@ function Editor() {
 		return true;
 	}
 
-	function applyImportNow() {
+	async function applyImportNow() {
 		window.clearTimeout( liveImportTimerRef.current );
 		const result =
 			importReview?.source === unifiedInput
 				? importReview.result
-				: applyImportedCodeRef.current( unifiedInput );
+				: await applyImportedCodeRef.current( unifiedInput );
 		commitImportedCode( result );
 	}
 
 	function importCode( event ) {
 		event.preventDefault();
-		applyImportNow();
+		void applyImportNow();
 	}
 
 	useEffect( () => {
@@ -8125,7 +7996,7 @@ function Editor() {
 		const source = unifiedInput;
 		liveImportTimerRef.current = window.setTimeout( () => {
 			if ( source !== lastImportedInputRef.current ) {
-				applyImportedCodeRef.current( source );
+				void applyImportedCodeRef.current( source );
 			}
 		}, 700 );
 		return () => window.clearTimeout( liveImportTimerRef.current );
@@ -8485,19 +8356,26 @@ function Editor() {
 
 			{ isImporterOpen &&
 				( () => {
-					const detectedHtml = unifiedInput.trim()
-						? [ unifiedInput ]
+					const analyzed =
+						importReview?.source === unifiedInput
+							? importReview.result
+							: null;
+					const detection = analyzed?.session.detection;
+					const detectedHtml = detection?.containsHtml
+						? [ analyzed.session.normalizedSource ]
 						: [];
-					const detectedCss =
-						unifiedInput.match(
-							/<style\b[^>]*>([\s\S]*?)<\/style>/gi
-						) || [];
-					const detectedJs =
-						unifiedInput.match(
-							/<script\b[^>]*>([\s\S]*?)<\/script>/gi
-						) || [];
-					const detectedPhp =
-						unifiedInput.match( /<\?php[\s\S]*?\?>/gi ) || [];
+					const detectedCss = (
+						analyzed?.session.stylesheets || []
+					).map( ( stylesheet ) => stylesheet.source_text );
+					const detectedJs = ( analyzed?.session.scripts || [] ).map(
+						( script ) =>
+							script.src
+								? `<script src="${ script.src }"></script>`
+								: script.source
+					);
+					const detectedPhp = ( analyzed?.phpDetections || [] ).map(
+						( detectionItem ) => detectionItem.code
+					);
 					const hasDetected =
 						detectedHtml.length > 0 ||
 						detectedCss.length > 0 ||
@@ -8918,6 +8796,9 @@ function Editor() {
 				{ /* CANVAS WITH BREADCRUMBS */ }
 				<CenterCanvas
 					previewStyles={ previewStyles }
+					importedPageRoot={
+						document.imported_assets?.page_meta || {}
+					}
 					breadcrumbPath={ breadcrumbPath }
 					selectBlock={ selectBlock }
 					DndContext={ DndContext }

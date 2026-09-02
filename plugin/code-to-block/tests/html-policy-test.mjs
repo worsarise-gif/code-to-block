@@ -18,15 +18,25 @@ assert.equal( attributeIsAllowed( 'div', 'onclick' ), false );
 assert.equal( attributeIsAllowed( 'img', 'srcset' ), true );
 assert.equal( attributeIsAllowed( 'form', 'method' ), true );
 assert.equal( attributeIsAllowed( 'input', 'required' ), true );
+assert.equal( attributeIsAllowed( 'dialog', 'open' ), true );
+assert.equal( attributeIsAllowed( 'slot', 'name' ), true );
+assert.equal( attributeIsAllowed( 'my-widget', 'theme' ), true );
+assert.equal( attributeIsAllowed( 'my-widget', 'onclick' ), false );
 assert.equal( sanitizeResourceUrl( 'javascript:alert(1)', true ), '' );
 assert.equal( sanitizeResourceUrl( ' java\nscript:alert(1)', true ), '' );
-assert.equal( sanitizeResourceUrl( 'mailto:team@example.test', true ), 'mailto:team@example.test' );
+assert.equal(
+	sanitizeResourceUrl( 'mailto:team@example.test', true ),
+	'mailto:team@example.test'
+);
 assert.equal( sanitizeResourceUrl( 'mailto:team@example.test', false ), '' );
-assert.equal( sanitizeResourceUrl( '/images/hero.jpg', false ), '/images/hero.jpg' );
+assert.equal(
+	sanitizeResourceUrl( '/images/hero.jpg', false ),
+	'/images/hero.jpg'
+);
 assert.equal(
 	sanitizeSrcset( 'small.jpg 1x, javascript:alert(1) 2x, wide.jpg 900w' ),
 	'small.jpg 1x, wide.jpg 900w'
 );
 assert.equal( sanitizeSrcset( 'photo.jpg invalid' ), '' );
 
-console.log( 'PASS: 18 HTML policy assertions.' );
+console.log( 'PASS: 22 HTML policy assertions.' );

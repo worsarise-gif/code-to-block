@@ -1,0 +1,56 @@
+{
+  "compat-v2.fixture.json": {
+    "editor_style_snapshot_sha256": "9d3203f0925b301ede3b204090abacf2e41781666e9fa57fc81f9bba5ed0212f",
+    "frontend_css_sha256": "2f6f15825ca234813604d7e2924ed19b771a5c4b14a963a0d3295e32ea177393",
+    "frontend_html_sha256": "cb59a6a450b9cd0e01e838d35ffa2ea41851b948c3dd46e5c98277b45f91f2fd",
+    "frontend_style_snapshot_sha256": "e74f3452d1fc75516a53db87964ad3c2fa9304a9bd642e5d8442418322be99dd",
+    "metadata": {
+      "block_count": 13,
+      "imported_stylesheets": 1,
+      "nested_form_discrepancy": "legacy-schema-accepts-registry-rejects",
+      "nested_form_pairs": 1,
+      "schema_version": 2,
+      "type_counts": {
+        "button": 1,
+        "container": 2,
+        "form": 2,
+        "form_field": 1,
+        "image": 1,
+        "text": 2,
+        "woocommerce_cart": 1,
+        "woocommerce_checkout": 1,
+        "woocommerce_product": 1,
+        "woocommerce_product_grid": 1
+      }
+    },
+    "sanitized_sha256": "762ab4f514c05aa408c6f45b4edda1a7dc66e7ce5285f2b930013ef81827223b",
+    "source_sha256": "c16f9f61f36a1ba773351ff65030e1097781763ebed539f487a2e2130b6e37d8"
+  },
+  "legacy-v1.fixture.json": {
+    "editor_style_snapshot_sha256": "16cef90d78d91bfa671e3826c19defa5df14505ac7b76c1a71d9a4c7fea5e751",
+    "frontend_css_sha256": "bc0faf389b003d45435857f446ec9f063ec7f3ad1c55b2d3734151d920aeb1e8",
+    "frontend_html_sha256": "ba8ac18c0465a4fa575e347067e031735a4a0980ea4f53577add0c258efac5d9",
+    "frontend_style_snapshot_sha256": "a72d16373ad66d08a999a0e26a8b930bdadebf3834c025853da248fd844e7b0a",
+    "metadata": {
+      "block_count": 19,
+      "imported_stylesheets": 0,
+      "nested_form_discrepancy": "legacy-schema-accepts-registry-rejects",
+      "nested_form_pairs": 1,
+      "schema_version": 1,
+      "type_counts": {
+        "button": 1,
+        "container": 6,
+        "form": 2,
+        "form_field": 2,
+        "image": 1,
+        "text": 3,
+        "woocommerce_cart": 1,
+        "woocommerce_checkout": 1,
+        "woocommerce_product": 1,
+        "woocommerce_product_grid": 1
+      }
+    },
+    "sanitized_sha256": "d62e676c2f56e4bb6c272abe83ca4a61db83ef1c7c9fdd5bdbc425ad24765b35",
+    "source_sha256": "94267af07f4643210746dd4f9ed4826ab71433acf2eca253108a625a13701a4d"
+  }
+}

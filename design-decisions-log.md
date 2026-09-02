@@ -395,6 +395,10 @@ Full report in `upgrade/file2-part1-perf-report.md`.
 
 **Phase**: 7 addendum (File 10)
 
+**Status**: Historical legacy behavior. Superseded for the builder-controls
+overhaul by the strict Content/Style/Advanced ownership decision below. The
+legacy tier remains only while schema v1/v2 uses the compatibility inspector.
+
 **Decision**: File 10 Simple/Advanced mode reuses File 9's centralized `isMappedControlVisible`/`controlVisibilityReason` in `src/custom-css.mjs:17` — adds `tier: simple|advanced` to each `STYLE_CONTROL_FIELDS` entry (simple: color/padding/margin/font-size/weight/border/radius/background-color/width/max-width; advanced: all layout flex/grid, positioning, visual effects). Visibility now depends on triple condition `(display, panelMode, search)`: search match (`label|property` contains query) overrides tier+layout so searching "shadow" in Simple surfaces Box Shadow; otherwise simple hides advanced, layout hides flex vs grid. Editor `src/index.js:2538` stores `panelMode` default `simple` from `localStorage ctb-panel-mode` persisting per session across selection/reopen, pill toggle Simple/Advanced + search input above `MappedStyleControls` with override note, `RawCssControl` gated behind Advanced (or search `raw|css|custom`), values never cleared when hidden — switching modes rapidly preserves `box-shadow` etc. via `commitDocument` history. Content-mode view has no toggle (already excludes style panel entirely) — Simple by construction.
 
 **Why**: File 9's bug was ad-hoc duplicated show/hide causing "columns control silently disappears" across widgets. Building a second toggle system would reintroduce same class of bug. Reusing one centralized rule set with explicit `tier` + `display` + `search` makes behavior predictable and testable: rapid Simple↔Advanced toggling never loses advanced values, search temporarily surfaces hidden controls without changing mode.
@@ -590,9 +594,72 @@ Full report in `upgrade/file2-part1-perf-report.md`.
 
 **Phase**: 7 addendum (File 10)
 
+**Status**: Historical legacy behavior. Superseded for the builder-controls
+overhaul by the strict Content/Style/Advanced ownership decision below. The
+legacy tier remains only while schema v1/v2 uses the compatibility inspector.
+
 **Decision**: File 10 Simple/Advanced mode reuses File 9's centralized `isMappedControlVisible`/`controlVisibilityReason` in `src/custom-css.mjs:17` — adds `tier: simple|advanced` to each `STYLE_CONTROL_FIELDS` entry (simple: color/padding/margin/font-size/weight/border/radius/background-color/width/max-width; advanced: all layout flex/grid, positioning, visual effects). Visibility now depends on triple condition `(display, panelMode, search)`: search match (`label|property` contains query) overrides tier+layout so searching "shadow" in Simple surfaces Box Shadow; otherwise simple hides advanced, layout hides flex vs grid. Editor `src/index.js:2538` stores `panelMode` default `simple` from `localStorage ctb-panel-mode` persisting per session across selection/reopen, pill toggle Simple/Advanced + search input above `MappedStyleControls` with override note, `RawCssControl` gated behind Advanced (or search `raw|css|custom`), values never cleared when hidden — switching modes rapidly preserves `box-shadow` etc. via `commitDocument` history. Content-mode view has no toggle (already excludes style panel entirely) — Simple by construction.
 
 **Why**: File 9's bug was ad-hoc duplicated show/hide causing "columns control silently disappears" across widgets. Building a second toggle system would reintroduce same class of bug. Reusing one centralized rule set with explicit `tier` + `display` + `search` makes behavior predictable and testable: rapid Simple↔Advanced toggling never loses advanced values, search temporarily surfaces hidden controls without changing mode.
+
+## Builder controls A2 — registry identity, authority, and extension conflicts
+
+**Phase**: Builder controls overhaul, Task A2
+
+**Decision**: Adopt `docs/control-registry-contract.md` as normative. Stable
+`element` identity and independent `definition_version` sit beside compatibility
+`type` and semantic `tag`. JavaScript definitions generate the build manifest;
+PHP is authoritative for persistence and rendering. Capabilities are explicit
+target grants. Duplicate IDs, aliases, reserved namespaces, or unresolved
+references reject an extension fragment; there is no last-write-wins path.
+Unknown v3 definitions are preserved and read-only rather than re-inferred.
+
+**Why**: Palette, inspector, schema, renderer, insertion, and migration cannot
+remain independent registration paths without drifting. Explicit authority and
+conflict behavior also prevents a client-only or missing extension from
+weakening server validation or destroying namespaced data.
+
+## Builder controls A2 — strict tabs and configured progressive disclosure
+
+**Phase**: Builder controls overhaul, Task A2
+
+**Decision**: Content owns data/semantics/behavior, Style owns visual target
+grants, and Advanced owns placement, motion, visibility/conditions,
+attributes/accessibility, performance, permissions, and developer controls.
+Advanced never mounts Style groups. This supersedes the global Simple/Advanced
+tier. Primary/recommended/optional grants provide element-specific disclosure.
+
+**Why**: A universal tier and repeated style catalog make irrelevant controls
+inevitable. Strict ownership lets shared implementations remain reusable without
+granting typography, layout, media, or state controls to nonsensical targets.
+
+## Builder controls A2 — sparse style contexts and deterministic cascade
+
+**Phase**: Builder controls overhaul, Task A2
+
+**Decision**: Adopt `docs/style-context-contract.md` as normative. Persist only
+canonical `base`, `bp:<id>`, `state:<id>`, and
+`bp:<id>|state:<id>` contexts. Resolve the recorded 12-level source precedence,
+use stable block-ID selectors and registered part markers, do not add universal
+`!important`, and store visibility outside layout `display`.
+
+**Why**: Sparse contexts prevent copied inherited values, while one exact
+grammar and precedence makes editor/frontend output testable across targets,
+breakpoints, states, presets, custom declarations, and retained legacy priority.
+
+## Builder controls A2 — dual-read migration and fail-safe apply
+
+**Phase**: Builder controls overhaul, Task A2
+
+**Decision**: Legacy documents remain dual-read through their adapter/compiler;
+successful migrations write canonical v3. Preview never mutates the source.
+Apply must validate, compile, parity-check, create a revision, and perform a
+stale-safe meta update atomically. Failure retains source JSON and existing CSS;
+rollback restores the source revision and reactivates the adapter.
+
+**Why**: Opening a page is not consent to rewrite it. Atomic, report-producing
+migration is required before selector, target, visibility, or priority semantics
+can change without silently losing values.
 
 ## Upgrade 11 — Zone-based context menu (4 zones, distinct actions, no second system)
 

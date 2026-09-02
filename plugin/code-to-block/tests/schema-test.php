@@ -245,17 +245,26 @@ assert_true( ! isset( $explained_sanitized['root']['meta']['css_mapping']['decla
 
 $imported = json_value( $fixtures[0] );
 $imported->schema_version = 2;
-$imported->root->tag = 'div';
+$imported->root->tag = 'my-widget';
+$imported->root->attributes->theme = 'dark';
 $imported->root->attributes->{'data-ctb-original-tag'} = 'my-widget';
 $imported->root->meta->imported_original_tag = 'my-widget';
+$imported->root->meta->import_fidelity = 'hybrid';
 $imported->imported_assets = (object) array(
 	'origin' => (object) array(
 		'type' => 'code-import',
 		'import_session_id' => 'code-import-abc123',
 		'source_hash' => 'abc123',
 	),
+	'source' => (object) array(
+		'original' => '<my-widget theme="dark">Imported</my-widget>',
+		'normalized' => '<my-widget theme="dark">Imported</my-widget>',
+		'hash' => 'abc123',
+		'transport_encoding' => 'raw',
+	),
 	'page_meta' => (object) array(
 		'document_type' => 'full-document',
+		'document_shape' => 'full-document',
 		'source_type' => 'full-document',
 		'detected_languages' => array( 'html', 'css', 'javascript', 'php' ),
 		'doctype' => 'html',
@@ -271,6 +280,9 @@ $imported->imported_assets = (object) array(
 			'id' => 'import-style-abc123-1',
 			'source_text' => 'body{margin:0}',
 			'scoped_source' => '.ctb-import-scope{margin:0}',
+			'asset_origin' => 'style-element',
+			'order' => 0,
+			'media' => '(max-width: 600px)',
 			'selectors' => array( 'body' ),
 			'media_conditions' => array(),
 			'keyframes' => array(),
@@ -290,9 +302,16 @@ $imported->imported_assets = (object) array(
 			'enabled_in_preview' => true,
 			'enabled_on_publish' => false,
 			'origin' => 'imported',
+			'source_type' => 'external-script',
+			'execution_policy' => 'preview-and-frontend',
+			'security_status' => 'requires-trust',
 		),
 	),
 	'references' => array( (object) array( 'type' => 'css.import', 'value' => 'https://cdn.example.test/page.css', 'external' => true, 'blocked' => true ) ),
+	'server_code' => array( (object) array( 'id' => 'php-1', 'language' => 'php', 'source' => '<?php return "safe"; ?>', 'status' => 'restricted' ) ),
+	'fallbacks' => array(),
+	'compatibility' => (object) array( 'native' => 0, 'hybrid' => 1, 'preserved' => 0, 'restricted' => 1, 'level' => 4 ),
+	'security' => (object) array( 'scripts_disabled_in_editor' => 1, 'restricted_server_code' => 1, 'blocked_urls' => 1 ),
 	'diagnostics' => array( (object) array( 'severity' => 'warning', 'code' => 'PHP_REVIEW_REQUIRED', 'message' => 'PHP requires review.', 'source' => 'php' ) ),
 );
 $imported_sanitized = Code_To_Block_Schema::sanitize_document( $imported );
@@ -301,7 +320,14 @@ assert_true( 'full-document' === $imported_sanitized['imported_assets']['page_me
 assert_true( array( 'html', 'css', 'javascript', 'php' ) === $imported_sanitized['imported_assets']['page_meta']['detected_languages'], 'Detected languages must round-trip.' );
 assert_true( false === $imported_sanitized['imported_assets']['scripts'][0]['enabled_in_editor'], 'The server must force imported scripts off in editor mode.' );
 assert_true( ! isset( $imported_sanitized['imported_assets']['scripts'][0]['attributes']->onclick ), 'Event-handler script attributes must be removed.' );
-assert_true( 'my-widget' === $imported_sanitized['root']['meta']['imported_original_tag'], 'Normalized custom-element provenance must round-trip.' );
+assert_true( 'my-widget' === $imported_sanitized['root']['tag'], 'Generic custom elements must retain their original tag.' );
+assert_true( 'dark' === $imported_sanitized['root']['attributes']->theme, 'Safe custom-element attributes must round-trip.' );
+assert_true( 'my-widget' === $imported_sanitized['root']['meta']['imported_original_tag'], 'Custom-element provenance must round-trip.' );
+assert_true( 'hybrid' === $imported_sanitized['root']['meta']['import_fidelity'], 'Per-node import fidelity must round-trip.' );
+assert_true( 'full-document' === $imported_sanitized['imported_assets']['page_meta']['document_shape'], 'Document shape must round-trip.' );
+assert_true( '<my-widget theme="dark">Imported</my-widget>' === $imported_sanitized['imported_assets']['source']['original'], 'Original imported source must remain recoverable.' );
+assert_true( '(max-width: 600px)' === $imported_sanitized['imported_assets']['stylesheets'][0]['media'], 'Stylesheet media ownership must round-trip.' );
+assert_true( 'preview-and-frontend' === $imported_sanitized['imported_assets']['scripts'][0]['execution_policy'], 'Script execution policy must round-trip.' );
 $disabled_imported = Code_To_Block_Schema::disable_imported_script_execution( $imported_sanitized );
 assert_true( false === $disabled_imported['imported_assets']['scripts'][0]['enabled_in_preview'], 'Accounts without unfiltered_html must not execute imported scripts in Preview.' );
 assert_true( false === $disabled_imported['imported_assets']['scripts'][0]['enabled_on_publish'], 'Accounts without unfiltered_html must not execute imported scripts after publish.' );

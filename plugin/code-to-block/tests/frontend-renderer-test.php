@@ -525,6 +525,8 @@ $base_fixture->imported_assets = (object) array(
 	),
 	'page_meta' => (object) array(
 		'base_href' => 'https://assets.example.test/theme/pages/',
+		'html_attributes' => (object) array( 'lang' => 'fr', 'class' => 'theme-dark', 'onload' => 'bad()' ),
+		'body_attributes' => (object) array( 'id' => 'imported-page', 'class' => 'portfolio', 'data-theme' => 'dark' ),
 		'metas' => array(),
 		'links' => array(),
 	),
@@ -566,6 +568,13 @@ $base_script = Code_To_Block_Renderer::render_imported_scripts( $base_document, 
 assert_renderer( false !== strpos( $base_html, 'src="https://assets.example.test/theme/pages/images/card.jpg"' ), 'Relative element resources must resolve against the imported document base URL.' );
 assert_renderer( false !== strpos( $base_css, 'url(https://assets.example.test/theme/images/hero.jpg)' ), 'Relative stylesheet resources must resolve against the imported document base URL.' );
 assert_renderer( false !== strpos( $base_script, 'src="https://assets.example.test/theme/pages/scripts/app.js"' ), 'Relative script resources must resolve against the imported document base URL.' );
+$html_root_attributes = Code_To_Block_Renderer::render_imported_page_root_attributes( $base_document, 'html', array( 'lang' => 'en', 'class' => 'wordpress' ) );
+$body_root_attributes = Code_To_Block_Renderer::render_imported_page_root_attributes( $base_document, 'body', array( 'class' => 'code-to-block-page-template' ) );
+assert_renderer( false !== strpos( $html_root_attributes, 'lang="fr"' ), 'Imported html language must apply to the isolated frontend document.' );
+assert_renderer( false !== strpos( $html_root_attributes, 'class="wordpress theme-dark"' ), 'Imported html classes must merge with WordPress-owned classes.' );
+assert_renderer( false === strpos( $html_root_attributes, 'onload' ), 'Executable html-root attributes must not render.' );
+assert_renderer( false !== strpos( $body_root_attributes, 'id="imported-page"' ), 'Imported body identity must survive Preview/Publish.' );
+assert_renderer( false !== strpos( $body_root_attributes, 'data-theme="dark"' ), 'Imported body data attributes must survive Preview/Publish.' );
 
 $v3_fixture = (object) array(
 	'schema_version'   => 3,

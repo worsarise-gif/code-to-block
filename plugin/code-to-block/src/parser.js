@@ -3,13 +3,22 @@ import safeParser from 'postcss-safe-parser';
 import selectorParser from 'postcss-selector-parser';
 import { calculate } from 'specificity';
 
-import { blockTypeFor } from './block-type.mjs';
 import { splitResolvedStyles } from './custom-css.mjs';
-import {
-	sanitizeElementAttributes,
-	SUPPORTED_HTML_TAGS,
-} from './html-policy.mjs';
+import { sanitizeElementAttributes } from './html-policy.mjs';
 import { extractPhpSnippets } from './php-snippets.mjs';
+import { detectImportedSource } from './importer/detection/detect-imported-source.mjs';
+import { normalizeImportedSource } from './importer/normalization/normalize-imported-source.mjs';
+import {
+	decomposeImportedDocument,
+	parseImportedHtml,
+	serializableDocumentModel,
+} from './importer/html/HtmlDocumentParser.mjs';
+import {
+	childNodesForElement,
+	createDefaultBlockAdapterRegistry,
+	createFallbackBlock,
+} from './importer/conversion/BlockAdapterRegistry.mjs';
+import { ImportDiagnosticsCollector } from './importer/ImportDiagnosticsCollector.mjs';
 
 const MAX_IMPORT_LENGTH = 2 * 1024 * 1024;
 const MAX_BLOCKS = 1000;
@@ -65,37 +74,6 @@ function sourceHash( source ) {
 	return ( hash >>> 0 ).toString( 36 );
 }
 
-function wholeCodeFence( source ) {
-	const match = source.match(
-		/^\s*```(html|css|javascript|js|php)?\s*\n([\s\S]*?)\n```\s*$/i
-	);
-	return match
-		? {
-				language: String( match[ 1 ] || '' ).toLowerCase(),
-				source: match[ 2 ],
-		  }
-		: null;
-}
-
-function stripWholeCodeFence( source ) {
-	return wholeCodeFence( source )?.source || source;
-}
-
-function looksLikeStandaloneCss( source ) {
-	return (
-		/(?:^|})\s*(?:@(?:media|supports|container|font-face|keyframes)\b|[^{};]+)\s*\{[\s\S]*\}\s*$/i.test(
-			source
-		) &&
-		/(?:^|[;{])\s*(?:--[a-z0-9_-]+|-?[a-z][a-z0-9-]*)\s*:/i.test( source )
-	);
-}
-
-function looksLikeStandaloneJavaScript( source ) {
-	return /(?:^|[;{}\n])\s*(?:import\s|export\s|(?:const|let|var|class|function)\s+[A-Za-z_$]|document\.|window\.|console\.|[A-Za-z_$][\w$]*\s*=\s*(?:async\s*)?\([^)]*\)\s*=>|(?:addEventListener|querySelector|getElementById|alert|setTimeout|setInterval|fetch)\s*\()/m.test(
-		source
-	);
-}
-
 /**
  * Conservatively classifies a unified import before DOM parsing. Tag-based
  * HTML remains authoritative; bare CSS/JS is only recognized when the source
@@ -105,90 +83,7 @@ function looksLikeStandaloneJavaScript( source ) {
  * @return {Object} Detected source characteristics.
  */
 export function detectImportedCode( rawSource ) {
-	const raw = String( rawSource || '' ).replace( /\r\n?/g, '\n' );
-	const fence = wholeCodeFence( raw );
-	const source = fence?.source || raw;
-	const fenceLanguage =
-		fence?.language === 'js' ? 'javascript' : fence?.language || '';
-	const fullDocument = /<!doctype\s+html|<html\b|<head\b|<body\b/i.test(
-		source
-	);
-	const hasHtml =
-		fullDocument ||
-		/<(?:meta|title|style|script|link|base|[a-z][\w:-]*)(?:\s|\/?>)/i.test(
-			source
-		);
-	const hasPhp = /<\?(?:php\b|=)/i.test( source ) || fenceLanguage === 'php';
-	const hasEmbeddedCss = /<style\b/i.test( source );
-	const hasEmbeddedJavaScript = /<script\b/i.test( source );
-	const standaloneCss =
-		fenceLanguage === 'css' ||
-		( ! hasHtml && ! hasPhp && looksLikeStandaloneCss( source ) );
-	const standaloneJavaScript =
-		fenceLanguage === 'javascript' ||
-		( ! hasHtml &&
-			! hasPhp &&
-			! standaloneCss &&
-			looksLikeStandaloneJavaScript( source ) );
-	const languages = [];
-	if ( hasHtml ) {
-		languages.push( 'html' );
-	}
-	if ( hasEmbeddedCss || standaloneCss ) {
-		languages.push( 'css' );
-	}
-	if ( hasEmbeddedJavaScript || standaloneJavaScript ) {
-		languages.push( 'javascript' );
-	}
-	if ( hasPhp ) {
-		languages.push( 'php' );
-	}
-
-	let sourceType = 'plain-text';
-	if ( fullDocument ) {
-		sourceType = 'full-document';
-	} else if ( languages.length > 1 ) {
-		sourceType = 'mixed';
-	} else if ( hasHtml ) {
-		sourceType = 'html-fragment';
-	} else if ( standaloneCss ) {
-		sourceType = 'stylesheet';
-	} else if ( standaloneJavaScript ) {
-		sourceType = 'javascript';
-	} else if ( hasPhp ) {
-		sourceType = 'php';
-	}
-
-	return {
-		source_type: sourceType,
-		languages,
-		full_document: fullDocument,
-		has_html: hasHtml,
-		standalone_css: standaloneCss,
-		standalone_javascript: standaloneJavaScript,
-		has_php: hasPhp,
-		fenced_language: fenceLanguage,
-	};
-}
-
-function protectRegexLiterals( source ) {
-	const protectedValues = [];
-	const value = source.replace(
-		/(^|[=(,:;!&|?{}\[\]\n]\s*)(\/(?![/*])(?:\\.|[^/\n\\])+\/[dgimsuvy]*)/g,
-		( match, prefix, literal ) => {
-			const token = `__CTB_REGEX_${ protectedValues.length }__`;
-			protectedValues.push( literal );
-			return prefix + token;
-		}
-	);
-	return {
-		value,
-		restore: ( normalized ) =>
-			normalized.replace(
-				/__CTB_REGEX_(\d+)__/g,
-				( match, index ) => protectedValues[ Number( index ) ] ?? match
-			),
-	};
+	return detectImportedSource( rawSource );
 }
 
 /**
@@ -199,30 +94,7 @@ function protectRegexLiterals( source ) {
  * @return {string} Normalized source.
  */
 export function normalizeImportedCode( rawSource ) {
-	let source = String( rawSource || '' ).replace( /\r\n?/g, '\n' );
-	source = source.replace(
-		/^[\uFEFF\u200B-\u200D\u2060]+|[\u200B-\u200D\u2060]+$/g,
-		''
-	);
-	source = stripWholeCodeFence( source );
-	const escapedMarkers =
-		source.match(
-			/\\<(?:!doctype|\/?html\b|\/?head\b|\/?body\b|\/?style\b|\/?script\b|\/?[a-z][\w:-]*\b)/gi
-		) || [];
-	const escapedDocument = escapedMarkers.length > 0;
-	if ( ! escapedDocument ) {
-		return source;
-	}
-
-	const protectedRegex = protectRegexLiterals( source );
-	source = protectedRegex.value
-		.replace( /^(?:&#x20;|&#32;)+/gim, ( encoded ) =>
-			' '.repeat( encoded.match( /&#(?:x20|32);/gi )?.length || 0 )
-		)
-		.replace( /\\([<>@*])/g, '$1' )
-		.replace( /\\--/g, '--' )
-		.replace( /([A-Za-z_$][\w$]*)\\\.(?=[A-Za-z_$])/g, '$1.' );
-	return protectedRegex.restore( source );
+	return normalizeImportedSource( rawSource );
 }
 
 function attributesObject( element ) {
@@ -605,30 +477,6 @@ function inlineStyles( element ) {
 	return declarations;
 }
 
-function extractPageMeta( document, fullDocument, detection ) {
-	const metas = [ ...document.head.querySelectorAll( 'meta' ) ].map(
-		attributesObject
-	);
-	const links = [ ...document.head.querySelectorAll( 'link' ) ].map(
-		attributesObject
-	);
-	return {
-		document_type: fullDocument ? 'full-document' : 'fragment',
-		source_type: detection.source_type,
-		detected_languages: detection.languages,
-		doctype: document.doctype?.name || undefined,
-		html_attributes: attributesObject( document.documentElement ),
-		title: document.title || undefined,
-		metas,
-		links,
-		base_href:
-			document.head
-				.querySelector( 'base[href]' )
-				?.getAttribute( 'href' ) || undefined,
-		body_attributes: attributesObject( document.body ),
-	};
-}
-
 function scriptPlacement( script, document ) {
 	if ( script.closest( 'head' ) ) {
 		return 'head';
@@ -662,6 +510,7 @@ function extractScripts( document, sessionId, diagnostics ) {
 			}
 			return {
 				id: `import-script-${ sessionId }-${ index + 1 }`,
+				source_type: src ? 'external-script' : 'inline-script',
 				placement: scriptPlacement( script, document ),
 				type: attributes.type || 'text/javascript',
 				source: src ? '' : script.textContent,
@@ -670,6 +519,8 @@ function extractScripts( document, sessionId, diagnostics ) {
 				enabled_in_editor: false,
 				enabled_in_preview: true,
 				enabled_on_publish: true,
+				execution_policy: 'preview-and-frontend',
+				security_status: 'requires-trust',
 				origin: 'imported',
 			};
 		}
@@ -679,6 +530,7 @@ function extractScripts( document, sessionId, diagnostics ) {
 function standaloneScript( source, sessionId, index ) {
 	return {
 		id: `import-script-${ sessionId }-${ index + 1 }`,
+		source_type: 'inline-script',
 		placement: 'body-end',
 		type: 'text/javascript',
 		source,
@@ -686,6 +538,8 @@ function standaloneScript( source, sessionId, index ) {
 		enabled_in_editor: false,
 		enabled_in_preview: true,
 		enabled_on_publish: true,
+		execution_policy: 'preview-and-frontend',
+		security_status: 'requires-trust',
 		origin: 'imported',
 	};
 }
@@ -693,9 +547,18 @@ function standaloneScript( source, sessionId, index ) {
 function analyzeReferences( document, stylesheets, scripts, diagnostics ) {
 	const references = [];
 	for ( const element of document.querySelectorAll(
-		'[href], [src], [srcset]'
+		'[href], [src], [srcset], [poster], [action], [formaction], [cite], [data]'
 	) ) {
-		for ( const name of [ 'href', 'src', 'srcset' ] ) {
+		for ( const name of [
+			'href',
+			'src',
+			'srcset',
+			'poster',
+			'action',
+			'formaction',
+			'cite',
+			'data',
+		] ) {
 			if ( ! element.hasAttribute( name ) ) {
 				continue;
 			}
@@ -764,6 +627,27 @@ function analyzeReferences( document, stylesheets, scripts, diagnostics ) {
 			} );
 		}
 	}
+	const hasBase = Boolean( document.querySelector( 'base[href]' ) );
+	if (
+		! hasBase &&
+		references.some(
+			( reference ) =>
+				! reference.blocked &&
+				! reference.external &&
+				! /^(?:#|data:|blob:|mailto:|tel:|\/\/)/i.test(
+					reference.value
+				)
+		)
+	) {
+		diagnostics.push(
+			diagnostic(
+				'warning',
+				'RELATIVE_ASSET_BASE_UNKNOWN',
+				'Relative asset URLs were preserved because the pasted source has no base URL.',
+				'asset'
+			)
+		);
+	}
 	return references;
 }
 
@@ -783,6 +667,25 @@ function mergePageRootAttributes( target, pageMeta ) {
 		pageMeta.body_attributes,
 	] ) {
 		for ( const [ name, value ] of Object.entries( attributes ) ) {
+			if (
+				/^on/i.test( name ) ||
+				name === 'style' ||
+				name.startsWith( 'data-ctb-' ) ||
+				! (
+					[
+						'class',
+						'lang',
+						'dir',
+						'title',
+						'role',
+						'hidden',
+						'tabindex',
+					].includes( name ) ||
+					/^(?:aria|data)-[a-z0-9_.:-]+$/.test( name )
+				)
+			) {
+				continue;
+			}
 			if ( name === 'class' ) {
 				target.class = [ target.class, value ]
 					.filter( Boolean )
@@ -814,19 +717,34 @@ function duplicateIdDiagnostics( document, diagnostics ) {
 	}
 }
 
-function makeStylesheet( source, index, sessionId, diagnostics ) {
+function makeStylesheet(
+	source,
+	index,
+	sessionId,
+	diagnostics,
+	metadata = {}
+) {
 	const scoped = scopeImportedCss( source, diagnostics );
 	const inventory = inventoryStylesheet( scoped.root );
+	const renderedSource = metadata.media
+		? `@media ${ metadata.media }{${ scoped.css }}`
+		: scoped.css;
 	return {
 		ast: scoped.root,
 		asset: {
 			id: `import-style-${ sessionId }-${ index + 1 }`,
 			source_text: source,
-			scoped_source: scoped.css,
+			scoped_source: renderedSource,
 			origin: {
 				type: 'code-import',
 				import_session_id: sessionId,
 			},
+			asset_origin: metadata.origin || 'style-element',
+			order: metadata.order ?? index,
+			...( metadata.media ? { media: metadata.media } : {} ),
+			...( metadata.attributes
+				? { attributes: metadata.attributes }
+				: {} ),
 			...inventory,
 		},
 	};
@@ -865,7 +783,7 @@ export function createCodeImportSession(
 	const normalizedSource = normalizeImportedCode( rawSource );
 	const hash = sourceHash( normalizedSource );
 	const sessionId = `code-import-${ hash }`;
-	const diagnostics = [];
+	const diagnostics = new ImportDiagnosticsCollector();
 	const detection = detectImportedCode( rawSource );
 	const phpSource =
 		detection.fenced_language === 'php' &&
@@ -877,12 +795,32 @@ export function createCodeImportSession(
 		detection.standalone_css || detection.standalone_javascript
 			? ''
 			: php.html;
-	const fullDocument = detection.full_document;
-	const document = new window.DOMParser().parseFromString(
-		htmlSource,
-		'text/html'
-	);
-	const pageMeta = extractPageMeta( document, fullDocument, detection );
+	const fullDocument = detection.documentShape === 'full-document';
+	const document = parseImportedHtml( htmlSource, window );
+	const decomposedDocument = decomposeImportedDocument( document, detection );
+	const pageMeta = {
+		document_type: fullDocument ? 'full-document' : 'fragment',
+		document_shape: detection.documentShape,
+		source_type: detection.source_type,
+		detected_languages: detection.languages,
+		doctype: decomposedDocument.doctype,
+		html_attributes: decomposedDocument.htmlAttributes,
+		title: decomposedDocument.head.title,
+		metas: decomposedDocument.head.meta,
+		links: decomposedDocument.head.links,
+		base_href: decomposedDocument.baseUrl,
+		body_attributes: decomposedDocument.bodyAttributes,
+	};
+	if ( detection.malformedLikely ) {
+		diagnostics.push(
+			diagnostic(
+				'warning',
+				'HTML_PARSE_RECOVERED',
+				'The source appeared malformed; browser HTML5 error recovery was applied and the original source was retained.',
+				'html'
+			)
+		);
+	}
 	const scripts = extractScripts( document, hash, diagnostics );
 	if ( detection.standalone_javascript ) {
 		scripts.push(
@@ -893,20 +831,40 @@ export function createCodeImportSession(
 		script.remove();
 	}
 
-	const stylesheetSources = [ ...document.querySelectorAll( 'style' ) ].map(
-		( style ) => style.textContent
+	const stylesheetSources = decomposedDocument.head.styles.map(
+		( style ) => ( {
+			source: style.sourceText,
+			metadata: {
+				origin: 'style-element',
+				order: style.order,
+				media: style.media,
+				attributes: style.attributes,
+			},
+		} )
 	);
 	if ( detection.standalone_css ) {
-		stylesheetSources.push( normalizedSource );
+		stylesheetSources.push( {
+			source: normalizedSource,
+			metadata: {
+				origin: 'standalone-css',
+				order: stylesheetSources.length,
+			},
+		} );
 	}
 	if ( css.trim() ) {
-		stylesheetSources.push( css );
+		stylesheetSources.push( {
+			source: css,
+			metadata: {
+				origin: 'separate-css',
+				order: stylesheetSources.length,
+			},
+		} );
 	}
 	for ( const style of document.querySelectorAll( 'style' ) ) {
 		style.remove();
 	}
-	const stylesheets = stylesheetSources.map( ( source, index ) =>
-		makeStylesheet( source, index, hash, diagnostics )
+	const stylesheets = stylesheetSources.map( ( item, index ) =>
+		makeStylesheet( item.source, index, hash, diagnostics, item.metadata )
 	);
 	const matches = stylesheetMatches( document, stylesheets, diagnostics );
 	const { designTokens, bindings } = mapRootTokens( stylesheets );
@@ -951,7 +909,9 @@ export function createCodeImportSession(
 		}
 	}
 
-	let roots = [ ...document.body.children ];
+	let roots = decomposedDocument.renderRoots.filter(
+		( element ) => element.isConnected
+	);
 	if ( roots.length === 0 ) {
 		const generatedRoot = document.createElement( 'main' );
 		generatedRoot.setAttribute(
@@ -999,8 +959,52 @@ export function createCodeImportSession(
 		mappedStates: 0,
 		customCss: 0,
 		unsupportedElements: 0,
+		native: 0,
+		hybrid: 0,
+		preserved: 0,
+		restricted: php.phpDetections.length,
 	};
+	const fallbacks = [];
+	const adapterRegistry = createDefaultBlockAdapterRegistry();
+
 	function toBlock( element, depth = 1 ) {
+		try {
+			return convertElementToBlock( element, depth );
+		} catch ( error ) {
+			const fallbackIndex = ++blockIndex;
+			const fallback = createFallbackBlock(
+				element,
+				{
+					makeId: () =>
+						`import-${ hash }-fallback-${ fallbackIndex }`,
+				},
+				error
+			);
+			fallbacks.push( {
+				block_id: fallback.id,
+				original_tag: element?.tagName?.toLowerCase() || 'unknown',
+				source: fallback.meta.imported_source,
+				reason: fallback.meta.fallback_reason,
+			} );
+			importStats.preserved++;
+			diagnostics.push(
+				diagnostic(
+					'warning',
+					'NODE_CONVERSION_FALLBACK',
+					`<${
+						element?.tagName?.toLowerCase() || 'unknown'
+					}> was preserved as a localized fallback because its subtree could not be converted: ${
+						error.message
+					}`,
+					'html',
+					element
+				)
+			);
+			return fallback;
+		}
+	}
+
+	function convertElementToBlock( element, depth = 1 ) {
 		if ( depth > MAX_DEPTH ) {
 			throw new Error(
 				`HTML cannot be nested more than ${ MAX_DEPTH } levels.`
@@ -1008,16 +1012,30 @@ export function createCodeImportSession(
 		}
 		const currentIndex = ++blockIndex;
 		const sourceTag = element.tagName.toLowerCase();
-		const supported = SUPPORTED_HTML_TAGS.has( sourceTag );
-		const tag = supported ? sourceTag : 'div';
+		const adapter = adapterRegistry.resolve( element );
+		const adapterResult = adapter.describe( element );
+		const supported = adapter.fidelity === 'native';
+		const generic = adapter.fidelity === 'hybrid';
+		const tag = adapterResult.tag;
 
-		if ( ! supported ) {
+		if ( generic ) {
+			importStats.unsupportedElements++;
+			diagnostics.push(
+				diagnostic(
+					'info',
+					'UNSUPPORTED_ELEMENT_PRESERVED',
+					`<${ sourceTag }> was retained as a generic editable HTML element.`,
+					'html',
+					element
+				)
+			);
+		} else if ( adapter.fidelity === 'preserved' ) {
 			importStats.unsupportedElements++;
 			diagnostics.push(
 				diagnostic(
 					'warning',
 					'UNSUPPORTED_ELEMENT_NORMALIZED',
-					`Unsupported <${ sourceTag }> was normalized to an editable <div>; its safe attributes, children, and matched styles were retained.`,
+					`Unsafe or parser-control <${ sourceTag }> markup was represented by a preserved fallback container.`,
 					'html',
 					element
 				)
@@ -1075,7 +1093,7 @@ export function createCodeImportSession(
 			}
 		}
 
-		const children = [ ...element.childNodes ]
+		const children = childNodesForElement( element )
 			.filter(
 				( child ) =>
 					child.nodeType === window.Node.ELEMENT_NODE ||
@@ -1088,14 +1106,12 @@ export function createCodeImportSession(
 					: toBlock( child, depth + 1 )
 			);
 		const attributes = sanitizeElementAttributes( element, tag );
-		if ( ! supported ) {
+		if ( adapter.fidelity === 'preserved' ) {
 			attributes[ 'data-ctb-original-tag' ] = sourceTag;
 		}
 		const block = {
-			id: `import-${ hash }-${
-				supported ? tag : 'fallback'
-			}-${ currentIndex }`,
-			type: supported ? blockTypeFor( element ) : 'container',
+			id: `import-${ hash }-${ tag }-${ currentIndex }`,
+			type: adapterResult.type,
 			tag,
 			attributes,
 			children,
@@ -1103,6 +1119,7 @@ export function createCodeImportSession(
 			meta: {
 				source: 'pasted-html-css',
 				...( supported ? {} : { imported_original_tag: sourceTag } ),
+				import_fidelity: adapter.fidelity,
 				imported_native_html: [
 					'form',
 					'input',
@@ -1121,6 +1138,7 @@ export function createCodeImportSession(
 					: {} ),
 			},
 		};
+		importStats[ adapter.fidelity ]++;
 		return block;
 	}
 
@@ -1165,20 +1183,66 @@ export function createCodeImportSession(
 			)
 		);
 	}
+	const collectedDiagnostics = diagnostics.toArray();
 
 	const title = pageMeta.title || 'Imported layout';
+	const serverCode = php.phpDetections.map( ( item ) => ( {
+		id: item.id,
+		language: 'php',
+		source: item.code,
+		shortcode: item.shortcode,
+		status: 'restricted',
+	} ) );
+	let compatibilityLevel = 1;
+	if ( importStats.restricted > 0 ) {
+		compatibilityLevel = 4;
+	} else if ( importStats.preserved > 0 ) {
+		compatibilityLevel = 3;
+	} else if (
+		importStats.hybrid > 0 ||
+		stylesheets.length ||
+		scripts.length
+	) {
+		compatibilityLevel = 2;
+	}
+	const compatibility = {
+		native: importStats.native,
+		hybrid: importStats.hybrid,
+		preserved: importStats.preserved,
+		restricted: importStats.restricted,
+		level: compatibilityLevel,
+	};
+	const security = {
+		scripts_disabled_in_editor: scripts.length,
+		restricted_server_code: serverCode.length,
+		blocked_urls: references.filter( ( reference ) => reference.blocked )
+			.length,
+		inline_event_handlers: collectedDiagnostics.filter(
+			( item ) => item.code === 'INLINE_EVENT_HANDLER_BLOCKED'
+		).length,
+	};
 	const importedAssets = {
 		origin: {
 			type: 'code-import',
 			import_session_id: sessionId,
 			source_hash: hash,
 		},
+		source: {
+			original: String( rawSource ),
+			normalized: normalizedSource,
+			hash,
+			transport_encoding: detection.transportEncoding,
+		},
 		page_meta: pageMeta,
 		stylesheets: stylesheets.map( ( item ) => item.asset ),
 		token_bindings: bindings,
 		scripts,
 		references,
-		diagnostics,
+		server_code: serverCode,
+		fallbacks,
+		compatibility,
+		security,
+		diagnostics: collectedDiagnostics,
 	};
 	const importedDocument = {
 		schema_version: 2,
@@ -1202,17 +1266,34 @@ export function createCodeImportSession(
 	} ) );
 	return {
 		id: sessionId,
+		schemaVersion: 1,
+		state: 'analyzed',
 		rawSource,
 		normalizedSource,
+		source: importedAssets.source,
 		document: importedDocument,
+		documentModel: serializableDocumentModel( decomposedDocument ),
+		dom: {
+			renderRootCount: roots.length,
+			blockCount: blockIndex + ( needsDocumentRoot ? 1 : 0 ),
+		},
 		stylesheets: importedAssets.stylesheets,
 		scripts,
+		serverCode,
+		fallbackNodes: fallbacks,
+		assets: { references },
+		compatibility,
+		security,
 		nodes: root,
 		pageMeta,
 		detection,
-		warnings: diagnostics.filter( ( item ) => item.severity === 'warning' ),
-		errors: diagnostics.filter( ( item ) => item.severity === 'error' ),
-		diagnostics,
+		warnings: collectedDiagnostics.filter(
+			( item ) => item.severity === 'warning'
+		),
+		errors: collectedDiagnostics.filter(
+			( item ) => item.severity === 'error'
+		),
+		diagnostics: collectedDiagnostics,
 		sourceMap: {},
 		review: {
 			document_type: pageMeta.document_type,
@@ -1237,15 +1318,18 @@ export function createCodeImportSession(
 			external_assets: references.filter(
 				( reference ) => reference.external
 			).length,
-			warnings: diagnostics.filter(
+			warnings: collectedDiagnostics.filter(
 				( item ) => item.severity === 'warning'
 			).length,
-			errors: diagnostics.filter( ( item ) => item.severity === 'error' )
-				.length,
+			errors: collectedDiagnostics.filter(
+				( item ) => item.severity === 'error'
+			).length,
 			mapped_responsive: importStats.mappedResponsive,
 			mapped_states: importStats.mappedStates,
 			custom_css: importStats.customCss,
 			unsupported_elements: importStats.unsupportedElements,
+			compatibility,
+			security,
 		},
 		scriptDetections,
 		phpDetections: php.phpDetections,

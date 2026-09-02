@@ -1,8 +1,9 @@
-import { createPortal, useRef, useState } from '@wordpress/element';
+import { createPortal, useEffect, useRef, useState } from '@wordpress/element';
 
 import {
 	createEditorCanvasDocument,
 	EDITOR_CANVAS_SANDBOX,
+	applyImportedPageRoot,
 } from '../canvas-isolation.mjs';
 
 const EDITOR_CANVAS_DOCUMENT = createEditorCanvasDocument();
@@ -10,6 +11,7 @@ const EDITOR_CANVAS_DOCUMENT = createEditorCanvasDocument();
 function IsolatedCanvasFrame( {
 	children,
 	previewStyles,
+	importedPageRoot,
 	onDragOver,
 	onDragLeave,
 	onDrop,
@@ -18,12 +20,23 @@ function IsolatedCanvasFrame( {
 	const [ mountNode, setMountNode ] = useState( null );
 
 	function connectFrame() {
+		applyImportedPageRoot(
+			frameRef.current?.contentDocument,
+			importedPageRoot
+		);
 		setMountNode(
 			frameRef.current?.contentDocument?.getElementById(
 				'ctb-canvas-root'
 			) || null
 		);
 	}
+
+	useEffect( () => {
+		applyImportedPageRoot(
+			frameRef.current?.contentDocument,
+			importedPageRoot
+		);
+	}, [ importedPageRoot, mountNode ] );
 
 	return (
 		<>
@@ -60,6 +73,7 @@ function IsolatedCanvasFrame( {
 
 export default function CenterCanvas( {
 	previewStyles,
+	importedPageRoot,
 	breadcrumbPath,
 	selectBlock,
 	DndContext,
@@ -113,6 +127,15 @@ export default function CenterCanvas( {
 			event.preventDefault();
 			addPrimitiveAtDrop( primitive, event );
 		}
+	}
+
+	let dragOverlayLabel = activeBlock
+		? `Moving ${ activeBlock.id }`
+		: 'Moving block';
+	if ( dropIntent ) {
+		dragOverlayLabel = dropIntent.valid
+			? `Move ${ dropIntent.position } ${ dropIntent.targetId }`
+			: dropIntent.reason;
 	}
 
 	return (
@@ -184,6 +207,7 @@ export default function CenterCanvas( {
 						) : (
 							<IsolatedCanvasFrame
 								previewStyles={ previewStyles?.css || '' }
+								importedPageRoot={ importedPageRoot }
 								onDragOver={ handleCanvasDragOver }
 								onDragLeave={ handleCanvasDragLeave }
 								onDrop={ handleCanvasDrop }
@@ -203,11 +227,7 @@ export default function CenterCanvas( {
 									: 'bg-indigo-600'
 							}` }
 						>
-							{ dropIntent
-								? dropIntent.valid
-									? `Move ${ dropIntent.position } ${ dropIntent.targetId }`
-									: dropIntent.reason
-								: `Moving ${ activeBlock.id }` }
+							{ dragOverlayLabel }
 						</div>
 					</DragOverlay>
 				) : null }

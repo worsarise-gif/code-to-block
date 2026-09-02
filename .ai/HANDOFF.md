@@ -1,65 +1,121 @@
 # Handoff
 
-## Current Task
-Plan the complete Code to Block builder-controls overhaul: Divi 5-informed research, repository audit, target architecture, complete element contracts, migration, implementation sequencing, tests, and acceptance criteria. Do not implement the overhaul yet.
+### HANDOFF
 
-## Last Agent
-Codex
+**Goal**
+Implement the universal HTML/CSS/JavaScript/PHP importer described in
+`upgrades/code to block.md` without regressing the in-progress builder-controls
+overhaul or weakening the editor/WordPress security boundaries.
 
-## Status
-Engineering specification complete and structurally verified; overhaul implementation has not started.
+**Completed**
+The first importer architecture pass is implemented. The current import path is
+documented in `docs/CURRENT_IMPORT_ARCHITECTURE.md`. Detection, transport-aware
+normalization, HTML5 document decomposition, diagnostics, transactional session
+analysis/commit, and block adapter selection now have explicit modules under
+`src/importer/`. The parser preserves full-document metadata, source snapshots,
+head assets, custom elements, style ordering/media, script policy, restricted
+PHP assets, compatibility/security summaries, URL references, and localized
+fallbacks. Per-node conversion failures preserve source and do not abort
+siblings. The editor consumes `ImportCodeService`, performs no source-detection
+regex duplication, and commits once through the existing history boundary.
+Imported html/body identity is applied only inside the sandboxed iframe and
+isolated WordPress frontend document. The PHP schema and renderer round-trip the
+new canonical import package while keeping scripts disabled in the editor and
+PHP registration separate.
 
-## Completed
-- Audited the current inspector, style-control catalog, schema, renderer, primitive factory, dormant panels/widgets, responsive/state storage, global systems, REST persistence, and validation paths.
-- Researched current official Divi 5 interface, module-attribute, composable-settings, responsive, preset, and custom-attribute documentation.
-- Compared official Elementor, Bricks, Breakdance, WordPress, and Webflow control architecture documentation.
-- Defined strict Content / Style / Advanced responsibilities and removed the global Simple/Advanced style-mode concept from the target design.
-- Defined declarative element definitions, configured capability grants, registered style targets, sparse responsive/state contexts, preset/global precedence, schema v3, stable selectors, dual JS/PHP compilers, and explicit v1/v2 migration.
-- Covered 58 first-class elements in the matrix, detailed element contracts, exclusions, and implementation checklists.
-- Added explicit routing for every wider native-HTML import family so allowed tags do not receive a universal generic inspector.
-- Wrote phased, file-level implementation tasks with purpose, steps, dependencies, migration notes, tests, and acceptance criteria.
-- Stress-tested the proposal and incorporated the resulting revisions into the final architecture.
+The pre-existing builder-controls A1/A2 work and A3 increment 1 also remain
+present: pure tree queries and store composition helpers are extracted and
+covered by focused tests. A3 overall is still active.
 
-## Current State
-The complete deliverable is `upgrade/builder-controls-overhaul-specification.md`. It contains all 31 requested sections and is the controlling plan for the overhaul. This work changes documentation only; no runtime builder code or schema was changed.
+**Current State**
+The production build succeeds. The importer-specific source files pass scoped
+WordPress lint. Focused importer, schema, frontend-renderer, isolation,
+persistence, responsive, architecture, history, tree, store, script, shortcode,
+and schema-v3 tests pass. There are only the two existing webpack bundle-size
+warnings. A browser smoke test was not run because no local WordPress endpoint
+was started during this task.
 
-The earlier drag-and-drop implementation remains code-complete but lacks the authenticated live WordPress verification matrix because the available browser was logged out.
+**Files Changed**
 
-## Files Changed
-- `upgrade/builder-controls-overhaul-specification.md`: new complete architecture and implementation specification.
-- `.ai/HANDOFF.md`: replaced the previous handoff with this latest project state while retaining the unresolved drag-and-drop verification risk.
+-   `docs/CURRENT_IMPORT_ARCHITECTURE.md`: current call graph, responsibilities,
+    invariants, and next extraction boundary.
+-   `plugin/code-to-block/src/importer/`: detection, normalization, HTML document
+    parsing, diagnostics, adapter registry, and transactional service modules.
+-   `plugin/code-to-block/src/parser.js`: service-compatible orchestration,
+    decomposed document parsing, generic/custom conversion, localized fallbacks,
+    and canonical import assets.
+-   `plugin/code-to-block/src/index.js`: service-led analyze/review/commit flow.
+-   `plugin/code-to-block/src/canvas-isolation.mjs` and
+    `src/components/CenterCanvas.js`: bridge validation and safe imported page-root
+    application in the isolated editor document.
+-   `plugin/code-to-block/src/html-policy.mjs`: expanded inert generic/custom HTML
+    support and URL/attribute filtering.
+-   `plugin/code-to-block/includes/class-code-to-block-schema.php`: canonical
+    imported source, server code, fallbacks, compatibility, security, page-root,
+    stylesheet, script-policy, and fidelity metadata validation.
+-   `plugin/code-to-block/includes/class-code-to-block-renderer.php` and
+    `templates/singular-ctb-page.php`: sanitized html/body attributes in the
+    isolated frontend page.
+-   `plugin/code-to-block/tests/`: new detection/normalization and service tests,
+    plus expanded parser, isolation, HTML-policy, schema, and renderer coverage.
+-   `plugin/code-to-block/package.json`: focused importer test scripts.
+-   `plugin/code-to-block/build/index.js` and `build/index.asset.php`: regenerated
+    production bundle.
 
-## Pending
-- Product/engineering review and approval of the specification's architecture contracts.
-- When implementation is authorized, execute Task A1 (baseline fixtures and current-behavior inventory) before refactoring.
-- Separately, authenticate local WordPress and run the previously required drag matrix on post 39 before claiming live drag-and-drop verification.
+**Pending**
 
-## Problems / Risks
-- The worktree already contains substantial unrelated user/agent changes and generated cache files; preserve them.
-- Legacy schema v1/v2, traversal-index CSS selectors, universal style fields, duplicated Style/Advanced panels, and blanket `!important` output remain unchanged until implementation.
-- The specification intentionally recommends a registry/schema/compiler foundation before broad UI work; implementing element panels first would recreate hardcoded branching.
-- The native HTML allowlist is broader than the 58 first-class library. The specification routes those tags through first-class or limited compatibility definitions rather than pretending each is a polished palette element.
-- Live drag-and-drop behavior is still unverified due to the WordPress authentication blocker documented in the prior handoff.
-- The MemPalace checkpoint was attempted three times but its server was read-only because peer writer PID 12732 held the palace lock; retry this local handoff when that lock clears.
+-   Run authenticated browser smoke coverage against a local WordPress instance:
+    import a full document, inspect review diagnostics, apply once, undo once,
+    save/reload, Preview, and Publish.
+-   Next importer architecture slice: move the existing PostCSS scoping and asset
+    collectors from `src/parser.js` into `src/importer/css/` and
+    `src/importer/assets/` with byte/snapshot parity tests.
+-   Continue builder-controls A3 separately with the tree mutation/DnD adapter
+    extraction described in `docs/editor-domain-boundaries.md`.
 
-## Next Step
-Review and approve `upgrade/builder-controls-overhaul-specification.md`. Once implementation is explicitly authorized, begin section 23 Task A1 by capturing golden v1/v2 documents, inspector snapshots, CSS/frontend parity fixtures, and the exact current supported-element inventory without changing behavior.
+**Problems / Risks**
 
-## Important Decisions
-- Preserve strict Content / Style / Advanced ownership; Advanced must never render another style catalog.
-- Element definitions grant configured control groups to registered targets; inheritance never implies every control.
-- Keep `type` as a renderer family and `tag` as output semantics, while schema v3 adds a stable `element` identity and independent definition version.
-- Store local values sparsely by target and context, including breakpoint-state intersections.
-- Use stable hashed element selectors and target markers for v3; do not add `!important` automatically. Keep the legacy compiler during the support window.
-- Migration is dual-read/canonical-write and explicit, atomic, previewable, reversible through WordPress revisions, and never silently triggered by opening an old page.
-- PHP remains authoritative for validation/sanitization; JS and PHP CSS compilers share fixtures and must produce semantically identical output.
-- Reuse the good existing history, token, guided-role, import, validation, revision/autosave, permissions, and parity systems through adapters rather than deleting them.
+-   MemPalace and Obsidian access were not available in this Codex session; this
+    repository handoff is the available continuity record.
+-   Preserve unrelated dirty/untracked work, including the upgrade-plan deletions,
+    design logs, A1/A2/A3 files, Playwright log, and Babel cache entries.
+-   Imported scripts remain disabled in editor mode. PHP remains inert/restricted
+    until an explicit capability-gated registration workflow.
+-   `src/parser.js` still owns PostCSS and asset collection; do not rewrite these
+    while extracting them because their current behavior is covered and passing.
+-   Repository-wide lint was already red before this work. Use scoped lint for
+    importer files and do not fold unrelated `src/index.js` cleanup into this task.
 
-## Verification
-- Document structure: PASS — 31 numbered deliverable sections.
-- Element coverage: PASS — 58 matrix rows, 58 detailed contracts, and 58 checklist rows.
-- Native HTML compatibility: PASS — every current allowed tag family has an explicit first-class or limited compatibility route.
-- Completeness scan: PASS — no TODO/TBD, continuation promises, or abbreviation placeholders.
-- Markdown structure: PASS — balanced fenced code blocks.
-- `git diff --check -- upgrade/builder-controls-overhaul-specification.md`: no reported whitespace errors; the new file is untracked pending the user's normal Git workflow.
-- Runtime tests/build: not run because this task intentionally changed documentation only.
+**Next Step**
+Start the local WordPress test environment, import
+`plugin/code-to-block/tests/fixtures/comprehensive_import.html` through the UI,
+then verify apply/undo/save/reload/Preview/Publish before extending the importer.
+
+**Important Decisions**
+
+-   Detection is advisory; DOMParser/PostCSS remain authoritative.
+-   Analysis never mutates editor state. Commit requires a current analyzed
+    session and calls the supplied store/history boundary exactly once.
+-   One unsupported node becomes one localized fallback; siblings continue.
+-   Inert standard/custom elements preserve their real tag and safe attributes.
+    Active embedded-object content is not promoted to a generic executable node.
+-   Source, compatibility, security, and restricted server code are persisted as
+    canonical review data, while editor execution remains prohibited.
+-   Existing schema versions and the builder-controls contracts remain compatible.
+
+**Verification**
+
+-   PASS: importer detection 24, service 11, HTML policy 22, canvas isolation 25,
+    parser/comprehensive fixture, parser classification 20, CSS mapping 17, React
+    attributes, responsive styles 25, import boundaries 4, persistence 9, PHP
+    extraction 18, scripts 12, schema-v3 20, architecture contracts 584, history
+    19, tree 25, store commands 28, shortcodes 29.
+-   PASS: PHP schema 110 and frontend renderer 96 assertions.
+-   PASS: PHP syntax for schema, renderer, and singular template.
+-   PASS: scoped `wp-scripts lint-js` for all new/touched importer modules and
+    focused tests.
+-   PASS: `git diff --check` (line-ending notices only) and production build.
+-   BUILD NOTE: existing index/entrypoint asset-size warnings remain.
+-   NOT RUN: authenticated WordPress browser smoke.
+
+### END HANDOFF

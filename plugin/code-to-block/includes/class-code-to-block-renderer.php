@@ -11,6 +11,48 @@ final class Code_To_Block_Renderer {
 	const ASSET_DIRECTORY = 'code-to-block';
 
 	/**
+	 * Renders imported html/body identity for the dedicated frontend document.
+	 * Executable and style attributes remain in their isolated asset systems.
+	 *
+	 * @param array  $document       Sanitized builder document.
+	 * @param string $scope          html or body.
+	 * @param array  $base_attributes WordPress-owned attributes to merge.
+	 * @return string
+	 */
+	public static function render_imported_page_root_attributes( $document, $scope, $base_attributes = array() ) {
+		$scope = 'html' === $scope ? 'html' : 'body';
+		$assets = isset( $document['imported_assets'] ) ? self::object_to_array( $document['imported_assets'] ) : array();
+		$page_meta = isset( $assets['page_meta'] ) ? self::object_to_array( $assets['page_meta'] ) : array();
+		$key = $scope . '_attributes';
+		$imported = isset( $page_meta[ $key ] ) ? self::object_to_array( $page_meta[ $key ] ) : array();
+		$attributes = is_array( $base_attributes ) ? $base_attributes : array();
+		foreach ( $imported as $name => $value ) {
+			$name = is_string( $name ) ? strtolower( $name ) : '';
+			if (
+				! preg_match( '/^(?:class|id|lang|dir|title|role|hidden|tabindex|(?:aria|data)-[a-z0-9_.:-]+)$/', $name ) ||
+				0 === strpos( $name, 'data-ctb-' ) ||
+				( ! is_string( $value ) && ! is_bool( $value ) )
+			) {
+				continue;
+			}
+			if ( 'class' === $name ) {
+				$attributes['class'] = trim( ( isset( $attributes['class'] ) ? $attributes['class'] : '' ) . ' ' . $value );
+			} else {
+				$attributes[ $name ] = $value;
+			}
+		}
+		$html = '';
+		foreach ( $attributes as $name => $value ) {
+			if ( true === $value ) {
+				$html .= ' ' . esc_attr( $name );
+			} elseif ( is_string( $value ) && '' !== $value ) {
+				$html .= ' ' . esc_attr( $name ) . '="' . esc_attr( $value ) . '"';
+			}
+		}
+		return $html;
+	}
+
+	/**
 	 * Base URL used while rendering one imported document.
 	 *
 	 * @var string

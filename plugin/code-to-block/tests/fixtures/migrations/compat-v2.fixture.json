@@ -1,0 +1,307 @@
+{
+  "schema_version": 2,
+  "name": "A1 immutable compatibility v2 import coverage",
+  "design_tokens": {
+    "colors": {
+      "brand": { "label": "Imported brand", "value": "#6558d3" }
+    },
+    "typography": {
+      "body-size": { "label": "Body size", "value": "1rem" }
+    },
+    "spacing": {
+      "section": { "label": "Section spacing", "value": "48px" }
+    }
+  },
+  "style_roles": {
+    "type.body": {
+      "id": "type.body",
+      "kind": "typography",
+      "labelKey": "type.body",
+      "descriptionKey": "type.body.description",
+      "propertyTokenRefs": { "font-size": "typography.body-size" },
+      "variants": {
+        "default": { "font-size": "typography.body-size" }
+      },
+      "supportedContexts": ["paragraph"],
+      "builtIn": false,
+      "version": 1
+    }
+  },
+  "feature_flags": { "guided_roles": true },
+  "seo": {
+    "title": "A1 compatibility fixture",
+    "description": "Frozen migration baseline",
+    "canonical": "https://example.test/a1-baseline"
+  },
+  "slot_values": { "v2-text": "Page-local slot value" },
+  "history": [
+    {
+      "id": "a1-history-v2",
+      "action": "Baseline fixture captured",
+      "timestamp": "2026-09-01T00:00:00.000Z",
+      "block_id": "v2-root"
+    }
+  ],
+  "imported_assets": {
+    "origin": {
+      "type": "code-import",
+      "import_session_id": "code-import-a1baseline",
+      "source_hash": "a1baseline"
+    },
+    "page_meta": {
+      "document_type": "full-document",
+      "source_type": "full-document",
+      "detected_languages": ["html", "css", "javascript"],
+      "doctype": "html",
+      "title": "Imported A1 baseline",
+      "base_href": "https://assets.example.test/site/",
+      "html_attributes": { "lang": "en" },
+      "body_attributes": { "class": "imported-page" },
+      "metas": [{ "name": "viewport", "content": "width=device-width, initial-scale=1" }],
+      "links": [{ "rel": "stylesheet", "href": "styles/site.css" }]
+    },
+    "stylesheets": [
+      {
+        "id": "a1-imported-css",
+        "source_text": ".import-card::before{content:\"\";display:block}@media (max-width:700px){.import-card{display:none}}",
+        "scoped_source": ".ctb-import-scope .import-card::before{content:\"\";display:block}@media (max-width:700px){.ctb-import-scope .import-card{display:none}}",
+        "selectors": [".import-card::before", ".import-card:hover"],
+        "media_conditions": ["(max-width:700px)"],
+        "keyframes": [],
+        "custom_properties": ["--import-accent"]
+      }
+    ],
+    "token_bindings": { "--import-accent": "colors.brand" },
+    "scripts": [
+      {
+        "id": "a1-imported-script",
+        "placement": "body-end",
+        "type": "module",
+        "source": "",
+        "src": "scripts/site.js",
+        "attributes": { "defer": "", "data-fixture": "a1" },
+        "enabled_in_editor": true,
+        "enabled_in_preview": false,
+        "enabled_on_publish": false,
+        "origin": "imported"
+      }
+    ],
+    "references": [
+      { "type": "css.url", "value": "images/card.png", "external": false, "blocked": false }
+    ],
+    "diagnostics": [
+      { "severity": "warning", "code": "UNSUPPORTED_PSEUDO", "message": "Pseudo selector remains in imported CSS metadata.", "source": "css" }
+    ]
+  },
+  "root": {
+    "id": "v2-root",
+    "type": "container",
+    "tag": "section",
+    "attributes": { "class": "ctb-import-scope import-card", "data-fixture": "v2" },
+    "children": [
+      {
+        "id": "v2-text",
+        "type": "text",
+        "tag": "p",
+        "attributes": { "class": "body-copy", "aria-label": "Imported body copy" },
+        "children": [{ "kind": "text", "value": "Imported baseline body" }],
+        "styles": {
+          "mapped": { "font-size": "var(--ctb-token-typography-body-size)" },
+          "custom_css_fallback": "",
+          "token_bindings": { "font-size": "typography.body-size" },
+          "role_bindings": {
+            "typography": {
+              "roleId": "type.body",
+              "kind": "typography",
+              "typographyAdjustment": { "size": 0, "density": 0 },
+              "overrides": [],
+              "source": "imported"
+            }
+          },
+          "import_review_flags": [
+            {
+              "id": "a1-role-review",
+              "property": "font-size",
+              "roleId": "type.body",
+              "message": "Imported value approximated the body role."
+            }
+          ]
+        },
+        "is_content_slot": true,
+        "slot_label": "Imported body",
+        "slot_content_type": "text",
+        "meta": { "source": "code-import" }
+      },
+      {
+        "id": "v2-dynamic-text",
+        "type": "text",
+        "tag": "span",
+        "attributes": { "class": "dynamic-product-title" },
+        "children": [{ "kind": "text", "value": "Product title fallback" }],
+        "styles": { "mapped": {}, "custom_css_fallback": "" },
+        "is_dynamic": true,
+        "dynamic_source": "wc_product_title",
+        "meta": { "source": "a1-dynamic" }
+      },
+      {
+        "id": "v2-image",
+        "type": "image",
+        "tag": "img",
+        "attributes": { "src": "images/card.png", "alt": "Imported product card" },
+        "children": [],
+        "styles": { "mapped": { "object-fit": "cover", "width": "100%" }, "custom_css_fallback": "" },
+        "performance": { "lazy_load": true, "image_lazy_load": true },
+        "meta": { "source": "code-import" }
+      },
+      {
+        "id": "v2-button",
+        "type": "button",
+        "tag": "button",
+        "attributes": { "type": "button", "class": "import-action" },
+        "children": [{ "kind": "text", "value": "Open" }],
+        "styles": { "mapped": { "background-color": "#f5f3ff", "color": "var(--ctb-token-colors-brand)" }, "custom_css_fallback": "cursor:pointer;", "token_bindings": { "color": "colors.brand" } },
+        "states": {
+          "hover": { "mapped": { "opacity": "0.9" }, "custom_css_fallback": "" },
+          "focus": { "mapped": { "outline": "2px solid #6558d3" }, "custom_css_fallback": "" },
+          "active": { "mapped": { "transform": "scale(0.98)" }, "custom_css_fallback": "" }
+        },
+        "meta": { "source": "code-import" }
+      },
+      {
+        "id": "v2-cart",
+        "type": "woocommerce_cart",
+        "tag": "div",
+        "attributes": { "class": "woo-cart-v2" },
+        "children": [],
+        "styles": { "mapped": {}, "custom_css_fallback": "" },
+        "meta": { "source": "a1-commerce" }
+      },
+      {
+        "id": "v2-checkout",
+        "type": "woocommerce_checkout",
+        "tag": "div",
+        "attributes": { "class": "woo-checkout-v2" },
+        "children": [],
+        "styles": { "mapped": {}, "custom_css_fallback": "" },
+        "meta": { "source": "a1-commerce" }
+      },
+      {
+        "id": "v2-product",
+        "type": "woocommerce_product",
+        "tag": "article",
+        "attributes": { "data-product-id": "0", "class": "woo-product-v2" },
+        "children": [],
+        "styles": { "mapped": {}, "custom_css_fallback": "" },
+        "meta": { "source": "a1-commerce" }
+      },
+      {
+        "id": "v2-product-grid",
+        "type": "woocommerce_product_grid",
+        "tag": "div",
+        "attributes": { "data-grid-limit": "4", "class": "woo-grid-v2" },
+        "children": [],
+        "styles": { "mapped": { "display": "grid" }, "custom_css_fallback": "" },
+        "meta": { "source": "a1-commerce" }
+      },
+      {
+        "id": "v2-form",
+        "type": "form",
+        "tag": "form",
+        "attributes": { "data-submit-label": "Submit v2" },
+        "children": [
+          {
+            "id": "v2-field",
+            "type": "form_field",
+            "tag": "div",
+            "attributes": { "data-field-type": "textarea", "data-field-label": "Message", "data-field-name": "message" },
+            "children": [],
+            "styles": { "mapped": {}, "custom_css_fallback": "" },
+            "meta": { "source": "a1-form" }
+          },
+          {
+            "id": "v2-nested-form",
+            "type": "form",
+            "tag": "form",
+            "attributes": { "data-submit-label": "Nested v2" },
+            "children": [],
+            "styles": { "mapped": {}, "custom_css_fallback": "" },
+            "meta": { "source": "a1-form" }
+          }
+        ],
+        "styles": { "mapped": { "display": "grid" }, "custom_css_fallback": "" },
+        "meta": { "source": "a1-form" }
+      },
+      {
+        "id": "v2-linked-component",
+        "type": "container",
+        "tag": "div",
+        "attributes": { "class": "component-link-v2" },
+        "children": [],
+        "styles": { "mapped": {}, "custom_css_fallback": "" },
+        "permissions": { "role": "administrator", "can_edit": false, "can_delete": false, "can_publish": false, "locked": true },
+        "meta": { "source": "saved-component", "saved_component_id": 202 }
+      }
+    ],
+    "styles": {
+      "mapped": { "color": "var(--ctb-token-colors-brand)", "padding": "var(--ctb-token-spacing-section)" },
+      "custom_css_fallback": "contain:layout paint;",
+      "token_bindings": { "color": "colors.brand", "padding": "spacing.section" }
+    },
+    "responsive_overrides": {
+      "tablet": { "mapped": { "padding": "32px" }, "custom_css_fallback": "" },
+      "mobile": { "mapped": { "padding": "16px" }, "custom_css_fallback": "" }
+    },
+    "states": {
+      "hover": { "mapped": { "background-color": "#f5f3ff" }, "custom_css_fallback": "" },
+      "focus": { "mapped": { "outline": "1px solid currentColor" }, "custom_css_fallback": "" },
+      "active": { "mapped": { "opacity": "0.99" }, "custom_css_fallback": "" }
+    },
+    "actions": [
+      {
+        "trigger": "manual-review",
+        "behavior": "unverified-script",
+        "params": {
+          "code": "document.querySelector('.import-card')",
+          "description": "Retained for manual migration review only."
+        }
+      }
+    ],
+    "visibility_conditions": { "login": "logged_out" },
+    "permissions": { "role": "editor", "can_edit": false, "locked": true },
+    "performance": { "lazy_load": true },
+    "meta": {
+      "source": "code-import",
+      "imported_native_html": true,
+      "imported_original_tag": "import-card",
+      "css_mapping": {
+        "version": 1,
+        "declarations": [
+          {
+            "property": "padding",
+            "value": "var(--ctb-token-spacing-section)",
+            "important": false,
+            "origin": "stylesheet",
+            "destination": "style-control",
+            "control": "padding"
+          },
+          {
+            "property": "content",
+            "value": "\"\"",
+            "important": false,
+            "origin": "stylesheet",
+            "destination": "raw-css"
+          }
+        ]
+      },
+      "imported_css_rules": [
+        {
+          "selector": ".import-card::before",
+          "declarations": [{ "property": "content", "value": "\"\"", "important": false }],
+          "order": 1,
+          "condition": "@media (max-width:700px)",
+          "stylesheet_id": "a1-imported-css"
+        }
+      ]
+    }
+  }
+}

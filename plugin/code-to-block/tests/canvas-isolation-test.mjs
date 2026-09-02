@@ -2,10 +2,13 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 
 import {
+	applyImportedPageRoot,
+	CANVAS_BRIDGE_MESSAGE_TYPES,
 	createEditorCanvasDocument,
 	EDITOR_CANVAS_BASE_CSS,
 	EDITOR_CANVAS_CSP,
 	EDITOR_CANVAS_SANDBOX,
+	isCanvasBridgeMessage,
 } from '../src/canvas-isolation.mjs';
 
 let assertions = 0;
@@ -85,5 +88,58 @@ for ( const intent of [ 'before', 'inside', 'after', 'invalid' ] ) {
 		`The isolated canvas must style the ${ intent } drop state.`
 	);
 }
+
+function fakeElement() {
+	const attributes = new Map();
+	return {
+		attributes,
+		getAttribute: ( name ) => attributes.get( name ) || null,
+		setAttribute: ( name, value ) => attributes.set( name, value ),
+		removeAttribute: ( name ) => attributes.delete( name ),
+	};
+}
+const documentElement = fakeElement();
+const body = fakeElement();
+applyImportedPageRoot(
+	{ documentElement, body },
+	{
+		html_attributes: { lang: 'fr', class: 'theme-dark', onclick: 'bad()' },
+		body_attributes: { id: 'page', 'data-theme': 'dark' },
+	}
+);
+check(
+	documentElement.attributes.get( 'lang' ) === 'fr',
+	'html lang is applied'
+);
+check(
+	documentElement.attributes.get( 'class' ) === 'theme-dark',
+	'imported html class stays inside the frame'
+);
+check(
+	! documentElement.attributes.has( 'onclick' ),
+	'root events are rejected'
+);
+check( body.attributes.get( 'id' ) === 'page', 'body identity is applied' );
+check( body.attributes.get( 'data-theme' ) === 'dark', 'body data is applied' );
+check(
+	CANVAS_BRIDGE_MESSAGE_TYPES.includes( 'NODE_SELECTED' ),
+	'bridge exposes selection messages'
+);
+check(
+	isCanvasBridgeMessage( {
+		channel: 'code-to-block-canvas',
+		type: 'CANVAS_READY',
+		payload: {},
+	} ),
+	'valid canvas messages pass strict validation'
+);
+check(
+	! isCanvasBridgeMessage( {
+		channel: 'attacker',
+		type: 'CANVAS_READY',
+		payload: {},
+	} ),
+	'foreign channels are rejected'
+);
 
 console.log( `PASS: ${ assertions } isolated canvas assertions.` );

@@ -1,5 +1,90 @@
 export const EDITOR_CANVAS_SANDBOX = 'allow-same-origin';
 
+export const CANVAS_BRIDGE_MESSAGE_TYPES = Object.freeze( [
+	'CANVAS_READY',
+	'DOCUMENT_LOAD',
+	'DOCUMENT_PATCH',
+	'NODE_SELECTED',
+	'NODE_HOVERED',
+	'NODE_RECT_REQUEST',
+	'NODE_RECT_RESPONSE',
+	'SCROLL_TO_NODE',
+	'VIEWPORT_CHANGED',
+	'SCRIPT_RUNTIME_STATUS',
+	'RUNTIME_ERROR',
+	'ANCHOR_NAVIGATION',
+	'FORM_INTERACTION',
+] );
+
+const CANVAS_BRIDGE_MESSAGE_SET = new Set( CANVAS_BRIDGE_MESSAGE_TYPES );
+
+export function isCanvasBridgeMessage( value ) {
+	return Boolean(
+		value &&
+			typeof value === 'object' &&
+			value.channel === 'code-to-block-canvas' &&
+			CANVAS_BRIDGE_MESSAGE_SET.has( value.type ) &&
+			( value.payload === undefined ||
+				( value.payload !== null &&
+					typeof value.payload === 'object' &&
+					! Array.isArray( value.payload ) ) )
+	);
+}
+
+function pageRootAttributeAllowed( name ) {
+	if ( name.startsWith( 'data-ctb-' ) ) {
+		return false;
+	}
+	return (
+		[ 'class', 'id', 'lang', 'dir', 'title' ].includes( name ) ||
+		/^(?:aria|data)-[a-z0-9_.:-]+$/.test( name )
+	);
+}
+
+function replaceImportedAttributes( element, attributes ) {
+	for ( const name of String(
+		element.getAttribute( 'data-ctb-imported-attributes' ) || ''
+	)
+		.split( /\s+/ )
+		.filter( Boolean ) ) {
+		element.removeAttribute( name );
+	}
+	const applied = [];
+	for ( const [ rawName, rawValue ] of Object.entries( attributes || {} ) ) {
+		const name = rawName.toLowerCase();
+		if ( ! pageRootAttributeAllowed( name ) || /^on/i.test( name ) ) {
+			continue;
+		}
+		element.setAttribute( name, String( rawValue ) );
+		applied.push( name );
+	}
+	if ( applied.length ) {
+		element.setAttribute(
+			'data-ctb-imported-attributes',
+			applied.join( ' ' )
+		);
+	} else {
+		element.removeAttribute( 'data-ctb-imported-attributes' );
+	}
+}
+
+/**
+ * Applies imported html/body identity inside the isolated document only.
+ *
+ * @param {Document} frameDocument Isolated canvas document.
+ * @param {Object}   pageMeta      Sanitized imported page metadata.
+ */
+export function applyImportedPageRoot( frameDocument, pageMeta = {} ) {
+	if ( ! frameDocument?.documentElement || ! frameDocument?.body ) {
+		return;
+	}
+	replaceImportedAttributes(
+		frameDocument.documentElement,
+		pageMeta.html_attributes
+	);
+	replaceImportedAttributes( frameDocument.body, pageMeta.body_attributes );
+}
+
 export const EDITOR_CANVAS_CSP = [
 	"default-src 'none'",
 	"script-src 'none'",

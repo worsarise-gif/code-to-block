@@ -1,3 +1,65 @@
+export function findBlock( block, id ) {
+	if ( block.id === id ) {
+		return block;
+	}
+
+	for ( const child of block.children ) {
+		if ( child.kind !== 'text' ) {
+			const match = findBlock( child, id );
+			if ( match ) {
+				return match;
+			}
+		}
+	}
+
+	return null;
+}
+
+export function findBlockLocation(
+	block,
+	id,
+	parentId = null,
+	index = 0,
+	depth = 0,
+	ancestorIds = []
+) {
+	if ( block.id === id ) {
+		return { block, parentId, index, depth, ancestorIds };
+	}
+
+	let blockIndex = 0;
+	for ( const child of block.children || [] ) {
+		if ( child.kind === 'text' ) {
+			continue;
+		}
+		const match = findBlockLocation(
+			child,
+			id,
+			block.id,
+			blockIndex,
+			depth + 1,
+			[ ...ancestorIds, block.id ]
+		);
+		if ( match ) {
+			return match;
+		}
+		blockIndex += 1;
+	}
+
+	return null;
+}
+
+export function countBlocks( block ) {
+	return (
+		1 +
+		block.children.reduce(
+			( total, child ) =>
+				total + ( child.kind === 'text' ? 0 : countBlocks( child ) ),
+			0
+		)
+	);
+}
+
 function findParent( block, id ) {
 	for ( const child of block.children ) {
 		if ( child.kind === 'text' ) {
