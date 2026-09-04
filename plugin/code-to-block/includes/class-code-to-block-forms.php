@@ -158,6 +158,10 @@ final class Code_To_Block_Forms {
 			
 			if ( 'file' === $type ) {
 				$file_upload = isset( $_FILES[ $name ] ) ? $_FILES[ $name ] : null;
+				if ( count( $_FILES ) > 5 ) {
+					$errors[ $name ] = 'Too many files uploaded.';
+					continue;
+				}
 				if ( $required && ( ! $file_upload || $file_upload['error'] === UPLOAD_ERR_NO_FILE ) ) {
 					$errors[ $name ] = sprintf( '%s is required.', $label );
 					continue;
@@ -177,6 +181,11 @@ final class Code_To_Block_Forms {
 						$errors[ $name ] = sprintf( '%s is an invalid file type.', $label );
 						continue;
 					}
+					if ( ! is_uploaded_file( $file_upload['tmp_name'] ) ) {
+						$errors[ $name ] = sprintf( '%s was not securely uploaded.', $label );
+						continue;
+					}
+					$file_upload['name'] = sanitize_file_name( $file_upload['name'] );
 					$data[ $name ] = $file_upload; // Temporarily store array to process later
 				}
 				continue;
