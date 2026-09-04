@@ -120,6 +120,13 @@ equal(
 	'Token seeding must be idempotent.'
 );
 equal( guided.schema_version, 2, 'New documents must use schema version 2.' );
+const schemaV3Document = structuredClone( guided );
+schemaV3Document.schema_version = 3;
+equal(
+	migrateGuidedRolesDocument( schemaV3Document ).schema_version,
+	3,
+	'Guided-role migration must not downgrade a newer document schema.'
+);
 
 const gatedDocument = structuredClone( baseDocument );
 gatedDocument.feature_flags = { guided_roles: false };

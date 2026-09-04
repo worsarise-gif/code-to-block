@@ -93,7 +93,7 @@ export function tokensForProperty( designTokens, property ) {
 }
 
 export function effectiveTokenBindings( block, breakpoint ) {
-	const bindings = { ...( block.styles.token_bindings || {} ) };
+	const bindings = { ...( block.styles?.token_bindings || {} ) };
 	if ( breakpoint === 'tablet' || breakpoint === 'mobile' ) {
 		Object.assign(
 			bindings,

@@ -1,3 +1,4 @@
 *
 !.gitignore
 !core-builder.spec.js
+!large-html-import.spec.js

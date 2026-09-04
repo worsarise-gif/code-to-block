@@ -466,8 +466,12 @@ export function ensureGuidedRoleDesignSystem(
 	{ newDocument = false, enable = true } = {}
 ) {
 	const next = clone( document );
-	if ( newDocument || Number( next.schema_version || 1 ) >= 2 ) {
-		next.schema_version = GUIDED_ROLES_SCHEMA_VERSION;
+	const schemaVersion = Number( next.schema_version || 1 );
+	if ( newDocument || schemaVersion >= GUIDED_ROLES_SCHEMA_VERSION ) {
+		next.schema_version = Math.max(
+			schemaVersion,
+			GUIDED_ROLES_SCHEMA_VERSION
+		);
 	}
 	next.feature_flags = {
 		...( next.feature_flags || {} ),

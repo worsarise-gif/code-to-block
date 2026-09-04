@@ -410,11 +410,7 @@ const legacyProperties = new Set(
 export const STYLE_CONTROL_FIELDS = Object.freeze( [
 	...LEGACY_STYLE_CONTROL_FIELDS,
 	...Object.values( STYLE_CONTROLS )
-		.filter(
-			( control ) =>
-				control.property !== 'color' &&
-				! legacyProperties.has( control.property )
-		)
+		.filter( ( control ) => ! legacyProperties.has( control.property ) )
 		.map( ( control ) => ( {
 			property: control.property,
 			label: control.label,

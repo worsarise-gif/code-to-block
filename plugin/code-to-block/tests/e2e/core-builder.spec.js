@@ -222,6 +222,10 @@ test( 'styles a Form Field placeholder focus state through the inspector', async
 	await page.getByRole( 'tab', { name: 'Style', exact: true } ).click();
 	await page.locator( '#ctb-style-target' ).selectOption( 'placeholder' );
 	await page.locator( '#ctb-style-state' ).selectOption( 'focusVisible' );
+	await page
+		.locator( 'summary' )
+		.filter( { hasText: /^Text$/ } )
+		.click();
 	await page.locator( '#ctb-desktop-color' ).fill( '#445566' );
 	await page
 		.getByRole( 'button', { name: 'Apply desktop styles', exact: true } )
@@ -230,12 +234,14 @@ test( 'styles a Form Field placeholder focus state through the inspector', async
 	const previewStyles = canvas.locator(
 		'style[data-ctb-preview-styles="1"]'
 	);
-	await expect( previewStyles ).toContainText(
-		'[data-ctb-part="control"]:focus-visible::placeholder{color:#445566;}'
-	);
-	await expect( previewStyles ).not.toContainText(
-		'::placeholder:focus-visible'
-	);
+	await expect
+		.poll( () => previewStyles.textContent() )
+		.toContain(
+			'[data-ctb-part="control"]:focus-visible::placeholder{color:#445566;}'
+		);
+	await expect
+		.poll( () => previewStyles.textContent() )
+		.not.toContain( '::placeholder:focus-visible' );
 
 	const saveResponsePromise = page.waitForResponse(
 		( response ) =>
@@ -251,9 +257,13 @@ test( 'styles a Form Field placeholder focus state through the inspector', async
 	const reloadedCanvas = page
 		.locator( 'iframe[title="Isolated builder canvas"]' )
 		.contentFrame();
-	await expect(
-		reloadedCanvas.locator( 'style[data-ctb-preview-styles="1"]' )
-	).toContainText(
-		'[data-ctb-part="control"]:focus-visible::placeholder{color:#445566;}'
-	);
+	await expect
+		.poll( () =>
+			reloadedCanvas
+				.locator( 'style[data-ctb-preview-styles="1"]' )
+				.textContent()
+		)
+		.toContain(
+			'[data-ctb-part="control"]:focus-visible::placeholder{color:#445566;}'
+		);
 } );

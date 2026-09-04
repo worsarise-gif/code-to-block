@@ -88,6 +88,11 @@ const document = {
 equal( effectiveTokenBindings( document.root, 'desktop' ), { color: 'colors.brand' }, 'Desktop bindings come from base styles.' );
 equal( effectiveTokenBindings( document.root, 'tablet' ), { color: 'colors.brand', padding: 'spacing.section' }, 'Tablet bindings extend desktop.' );
 equal( effectiveTokenBindings( document.root, 'mobile' ), { color: 'colors.brand', padding: 'spacing.section' }, 'Mobile bindings apply after tablet.' );
+equal(
+	effectiveTokenBindings( { style: { targets: {} } }, 'desktop' ),
+	{},
+	'Canonical v3 blocks without a legacy styles mirror have no legacy token bindings.'
+);
 equal( styleSetHasTokenOverride( linked, 'color' ), false, 'A var() value remains linked to its token.' );
 equal( styleSetHasTokenOverride( overridden, 'color' ), true, 'A raw value with binding metadata is an explicit override.' );
 equal( blockHasTokenOverride( document.root ), true, 'Responsive token divergence must mark its block.' );
