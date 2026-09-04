@@ -75,7 +75,7 @@ function StructuredField( { control, disabled, onCommit } ) {
 	);
 }
 
-function ContentField( { control, disabled, onCommit } ) {
+function ControlField( { control, disabled, onCommit } ) {
 	const id = `ctb-content-${ control.id }`;
 	if ( control.type === 'toggle' ) {
 		return (
@@ -164,7 +164,104 @@ function ContentField( { control, disabled, onCommit } ) {
 			/>
 		);
 	}
-	if ( control.type === 'textarea' ) {
+
+	if ( control.type === 'buttonGroup' ) {
+		return (
+			<div className="block">
+				<span className={ LABEL_CLASS }>{ control.label }</span>
+				<div className="flex rounded-md shadow-sm">
+					{ ( control.options || [] ).map( ( option, index ) => (
+						<button
+							key={ option.value || option }
+							type="button"
+							disabled={ disabled }
+							onClick={ () => onCommit( option.value || option ) }
+							className={ `relative -ml-px inline-flex items-center bg-white px-3 py-1.5 text-xs font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10 disabled:cursor-not-allowed disabled:opacity-50 ${
+								control.value === (option.value || option) ? 'bg-gray-100 z-10' : ''
+							} ${ index === 0 ? 'rounded-l-md ml-0' : '' } ${ index === (control.options.length - 1) ? 'rounded-r-md' : '' }` }
+						>
+							{ option.label || option }
+						</button>
+					) ) }
+				</div>
+			</div>
+		);
+	}
+
+	if ( control.type === 'color' ) {
+		return (
+			<label className="block" htmlFor={ id }>
+				<span className={ LABEL_CLASS }>{ control.label }</span>
+				<div className="flex items-center gap-2">
+					<input
+						id={ id }
+						type="color"
+						className="h-8 w-8 cursor-pointer rounded border border-gray-300 p-0 shadow-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 disabled:cursor-not-allowed disabled:opacity-50"
+						disabled={ disabled }
+						value={ control.value || '#000000' }
+						onChange={ ( event ) => onCommit( event.target.value ) }
+					/>
+					<input
+						type="text"
+						className={ INPUT_CLASS + " flex-1" }
+						disabled={ disabled }
+						value={ control.value ?? '' }
+						placeholder={ control.placeholder }
+						onChange={ ( event ) => onCommit( event.target.value ) }
+					/>
+				</div>
+			</label>
+		);
+	}
+
+	if ( control.type === 'cssValue' ) {
+		const parseValue = (val) => {
+			if (!val) return { number: '', unit: 'px' };
+			const match = String(val).match(/^(-?[\d.]+)(px|%|em|rem|vh|vw|auto)?$/);
+			if (match) return { number: match[1], unit: match[2] || 'px' };
+			return { number: val, unit: '' }; // fallback for complex values like 'calc()'
+		};
+		const { number, unit } = parseValue(control.value);
+		const isAuto = control.value === 'auto';
+
+		return (
+			<div className="block">
+				<span className={ LABEL_CLASS }>{ control.label }</span>
+				<div className="flex items-center gap-1">
+					<input
+						type="text"
+						className={ INPUT_CLASS + " flex-1" }
+						disabled={ disabled || isAuto }
+						value={ isAuto ? '' : number }
+						placeholder={ control.placeholder }
+						onChange={ ( event ) => onCommit( event.target.value + (unit && event.target.value ? unit : '') ) }
+					/>
+					<select
+						className={ INPUT_CLASS + " w-16 px-1" }
+						disabled={ disabled }
+						value={ isAuto ? 'auto' : (unit || '') }
+						onChange={ ( event ) => {
+							if (event.target.value === 'auto') {
+								onCommit('auto');
+							} else {
+								onCommit( ((number && number !== 'auto') ? number : '0') + event.target.value );
+							}
+						} }
+					>
+						<option value="">-</option>
+						<option value="px">px</option>
+						<option value="%">%</option>
+						<option value="em">em</option>
+						<option value="rem">rem</option>
+						<option value="vh">vh</option>
+						<option value="vw">vw</option>
+						<option value="auto">auto</option>
+					</select>
+				</div>
+			</div>
+		);
+	}
+if ( control.type === 'textarea' ) {
 		return (
 			<label className="block" htmlFor={ id }>
 				<span className={ LABEL_CLASS }>{ control.label }</span>
@@ -270,7 +367,7 @@ function ElementContentPanel( {
 				className="m-0 space-y-5 border-0 p-0"
 			>
 				{ controls.map( ( control ) => (
-					<ContentField
+					<ControlField
 						key={ `${ selectedBlock.id }:${ control.id }` }
 						control={ control }
 						disabled={ disabled }

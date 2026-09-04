@@ -333,10 +333,17 @@ function labelForProperty( property ) {
 		.join( ' ' );
 }
 
+function getPropertyType(property) {
+	if (['color', 'background-color', 'border-color', 'outline-color', 'fill', 'stroke'].includes(property)) return 'color';
+	if (['text-align', 'justify-content', 'align-items', 'flex-direction', 'text-decoration'].includes(property)) return 'buttonGroup';
+	if (PROPERTY_OPTIONS[property]) return 'select';
+	return 'cssValue'; // Maps to text input with units
+}
+
 function createPropertyControl( property ) {
 	return Object.freeze( {
 		id: `style.${ property }`,
-		type: PROPERTY_OPTIONS[ property ] ? 'select' : 'cssValue',
+		type: getPropertyType(property),
 		label: labelForProperty( property ),
 		property,
 		placeholder: PROPERTY_PLACEHOLDERS[ property ] || '',
