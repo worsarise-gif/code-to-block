@@ -451,11 +451,25 @@ const FLEX_CHILD_CONTROLS = new Set( [
 const GRID_CONTAINER_CONTROLS = new Set( [
 	'grid-template-columns',
 	'grid-template-rows',
+	'grid-auto-flow',
+	'grid-auto-columns',
+	'grid-auto-rows',
+	'justify-content',
+	'align-content',
+	'justify-items',
+	'align-items',
 	'gap',
 	'row-gap',
 	'column-gap',
 ] );
-const GRID_CHILD_CONTROLS = new Set( [ 'grid-column', 'grid-row' ] );
+const GRID_CHILD_CONTROLS = new Set( [
+	'grid-column',
+	'grid-row',
+	'grid-area',
+	'justify-self',
+	'align-self',
+	'order',
+] );
 
 function matchesSearch( field, query ) {
 	if ( ! query ) {
@@ -501,16 +515,31 @@ export function isMappedControlVisible(
 	const isParentGrid =
 		'grid' === parentDisplay || 'inline-grid' === parentDisplay;
 
-	if ( FLEX_CONTAINER_CONTROLS.has( property ) && ! isFlex ) {
+	const needsFlexContainer = FLEX_CONTAINER_CONTROLS.has( property );
+	const needsGridContainer = GRID_CONTAINER_CONTROLS.has( property );
+	const needsFlexChild = FLEX_CHILD_CONTROLS.has( property );
+	const needsGridChild = GRID_CHILD_CONTROLS.has( property );
+	if ( needsFlexContainer && needsGridContainer && ! isFlex && ! isGrid ) {
 		return false;
 	}
-	if ( GRID_CONTAINER_CONTROLS.has( property ) && ! isGrid ) {
+	if ( needsFlexContainer && ! needsGridContainer && ! isFlex ) {
 		return false;
 	}
-	if ( FLEX_CHILD_CONTROLS.has( property ) && ! isParentFlex ) {
+	if ( needsGridContainer && ! needsFlexContainer && ! isGrid ) {
 		return false;
 	}
-	if ( GRID_CHILD_CONTROLS.has( property ) && ! isParentGrid ) {
+	if (
+		needsFlexChild &&
+		needsGridChild &&
+		! isParentFlex &&
+		! isParentGrid
+	) {
+		return false;
+	}
+	if ( needsFlexChild && ! needsGridChild && ! isParentFlex ) {
+		return false;
+	}
+	if ( needsGridChild && ! needsFlexChild && ! isParentGrid ) {
 		return false;
 	}
 
@@ -534,29 +563,53 @@ export function controlVisibilityReason(
 		.trim()
 		.toLowerCase();
 
+	const needsFlexContainer = FLEX_CONTAINER_CONTROLS.has( property );
+	const needsGridContainer = GRID_CONTAINER_CONTROLS.has( property );
+	const needsFlexChild = FLEX_CHILD_CONTROLS.has( property );
+	const needsGridChild = GRID_CHILD_CONTROLS.has( property );
 	if (
-		FLEX_CONTAINER_CONTROLS.has( property ) &&
+		needsFlexContainer &&
+		needsGridContainer &&
+		! [ 'flex', 'inline-flex', 'grid', 'inline-grid' ].includes( display )
+	) {
+		return 'Control applies when Display is flex or grid';
+	}
+	if (
+		needsFlexContainer &&
+		! needsGridContainer &&
 		display !== 'flex' &&
 		display !== 'inline-flex'
 	) {
 		return 'Flex controls apply when Display is flex';
 	}
 	if (
-		GRID_CONTAINER_CONTROLS.has( property ) &&
+		needsGridContainer &&
+		! needsFlexContainer &&
 		display !== 'grid' &&
 		display !== 'inline-grid'
 	) {
 		return 'Grid controls apply when Display is grid';
 	}
 	if (
-		FLEX_CHILD_CONTROLS.has( property ) &&
+		needsFlexChild &&
+		needsGridChild &&
+		! [ 'flex', 'inline-flex', 'grid', 'inline-grid' ].includes(
+			parentDisplay
+		)
+	) {
+		return 'Control applies when parent Display is flex or grid';
+	}
+	if (
+		needsFlexChild &&
+		! needsGridChild &&
 		parentDisplay !== 'flex' &&
 		parentDisplay !== 'inline-flex'
 	) {
 		return 'Flex child controls apply when parent Display is flex';
 	}
 	if (
-		GRID_CHILD_CONTROLS.has( property ) &&
+		needsGridChild &&
+		! needsFlexChild &&
 		parentDisplay !== 'grid' &&
 		parentDisplay !== 'inline-grid'
 	) {

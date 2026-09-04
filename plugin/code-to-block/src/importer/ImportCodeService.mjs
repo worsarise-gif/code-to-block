@@ -1,7 +1,7 @@
 import { parseBlockDocument } from '../parser.js';
 
 function applyScriptCapabilityPolicy( result, canExecuteScripts ) {
-	if ( canExecuteScripts !== false || ! result.session.scripts.length ) {
+	if ( canExecuteScripts !== false || ! result.session?.scripts?.length ) {
 		return;
 	}
 	for ( const script of result.session.scripts ) {
@@ -11,13 +11,14 @@ function applyScriptCapabilityPolicy( result, canExecuteScripts ) {
 		script.execution_policy = 'disabled';
 		script.security_status = 'blocked';
 	}
-	result.scriptDetections = result.scriptDetections.map( ( detection ) => ( {
+	result.scriptDetections = ( result.scriptDetections || [] ).map( ( detection ) => ( {
 		...detection,
 		status: 'blocked',
 		description:
 			'Preserved as a disabled page script because this account cannot publish unfiltered HTML.',
 	} ) );
 	result.session.scriptDetections = result.scriptDetections;
+	result.warnings = result.warnings || [];
 	result.warnings.push(
 		'Imported scripts were preserved but disabled because this account lacks unfiltered_html.'
 	);
@@ -110,6 +111,6 @@ export class ImportCodeService {
 	}
 }
 
-export function createImportCodeService() {
-	return new ImportCodeService();
+export function createImportCodeService( options ) {
+	return new ImportCodeService( options );
 }

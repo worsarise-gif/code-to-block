@@ -4,8 +4,12 @@ import { calculate } from 'specificity';
 import { splitResolvedStyles } from './custom-css.mjs';
 import { sanitizeElementAttributes } from './html-policy.mjs';
 import { extractPhpSnippets } from './php-snippets.mjs';
+import { projectPhpTemplate } from './php-template-projection.mjs';
 import { detectImportedSource } from './importer/detection/detect-imported-source.mjs';
-import { normalizeImportedSource } from './importer/normalization/normalize-imported-source.mjs';
+import {
+	normalizeImportedSource,
+	extractWordPressTemplateMetadata,
+} from './importer/normalization/normalize-imported-source.mjs';
 import {
 	decomposeImportedDocument,
 	parseImportedHtml,
@@ -243,12 +247,35 @@ function toWarningStrings( diagnostics ) {
 		.map( ( item ) => item.message );
 }
 
+function extractEchoedHtmlFromPhp( source ) {
+	const outputChunks = [];
+	const heredocRegex =
+		/(?:echo|print)\s*<<<['"]?([a-zA-Z0-9_]+)['"]?\s*\n([\s\S]*?)\n\s*\1;/gi;
+	let match;
+	while ( ( match = heredocRegex.exec( source ) ) ) {
+		outputChunks.push( match[ 2 ] );
+	}
+
+	const stringRegex = /(?:echo|print)\s*(['"])([\s\S]*?)\1\s*;/gi;
+	while ( ( match = stringRegex.exec( source ) ) ) {
+		const content = match[ 2 ];
+		if (
+			/<[a-z][\w:-]*[\s/>]/i.test( content ) ||
+			/<style[\s>]/i.test( content ) ||
+			/<script[\s>]/i.test( content )
+		) {
+			outputChunks.push( content );
+		}
+	}
+
+	return outputChunks.join( '\n' );
+}
+
 /**
- * Builds a complete candidate package. This function never mutates editor state
- * and DOMParser does not execute scripts or inline event attributes.
+ * Parses raw code paste into an immutable candidate document and diagnostics.
  *
- * @param {string} rawSource       Unified source pasted into the importer.
- * @param {string} css             Optional separate stylesheet source.
+ * @param {string} rawSource       Unified source text.
+ * @param {string} css             Optional standalone CSS override.
  * @param {string} shortcodePrefix Prefix for inert PHP placeholders.
  * @return {Object} Complete candidate import session.
  */
@@ -268,6 +295,7 @@ export function createCodeImportSession(
 	}
 
 	const normalizedSource = normalizeImportedCode( rawSource );
+	const wpTemplate = extractWordPressTemplateMetadata( rawSource );
 	const hash = sourceHash( normalizedSource );
 	const sessionId = `code-import-${ hash }`;
 	const diagnostics = new ImportDiagnosticsCollector();
@@ -277,11 +305,53 @@ export function createCodeImportSession(
 		! /<\?(?:php\b|=)/i.test( normalizedSource )
 			? `<?php\n${ normalizedSource }\n?>`
 			: normalizedSource;
-	const php = extractPhpSnippets( phpSource, shortcodePrefix );
-	const htmlSource =
+	const php = extractPhpSnippets( phpSource, shortcodePrefix, undefined, {
+		tolerant: true,
+	} );
+	let phpDetections = php.phpDetections;
+	let htmlSource =
 		detection.standalone_css || detection.standalone_javascript
 			? ''
 			: php.html;
+
+	if ( detection.has_php && detection.containsHtml ) {
+		const projection = projectPhpTemplate( htmlSource, phpDetections );
+		htmlSource = projection.html;
+		phpDetections = projection.phpDetections;
+		if ( projection.projectedCount ) {
+			diagnostics.push(
+				diagnostic(
+					'info',
+					'PHP_STATIC_PROJECTION',
+					`${ projection.projectedCount } PHP block${
+						projection.projectedCount === 1 ? '' : 's'
+					} were projected from literal template data without executing PHP.`,
+					'php'
+				)
+			);
+		}
+		if ( projection.runtimeCodeSkipped ) {
+			diagnostics.push(
+				diagnostic(
+					'warning',
+					'PHP_RUNTIME_CODE_NOT_EXECUTED',
+					'PHP request/runtime logic was not executed during import; configure equivalent dynamic behavior in the builder.',
+					'php'
+				)
+			);
+		}
+	}
+
+	if (
+		detection.has_php &&
+		! /<[a-z][\w:-]*[\s/>]/i.test( htmlSource )
+	) {
+		const echoed = extractEchoedHtmlFromPhp( phpSource );
+		if ( echoed.trim() ) {
+			htmlSource = ( htmlSource ? htmlSource + '\n' : '' ) + echoed;
+		}
+	}
+
 	const fullDocument = detection.documentShape === 'full-document';
 	const document = parseImportedHtml( htmlSource, window );
 	const decomposedDocument = decomposeImportedDocument( document, detection );
@@ -292,7 +362,10 @@ export function createCodeImportSession(
 		detected_languages: detection.languages,
 		doctype: decomposedDocument.doctype,
 		html_attributes: decomposedDocument.htmlAttributes,
-		title: decomposedDocument.head.title,
+		title: wpTemplate.templateName || decomposedDocument.head.title,
+		template_name: wpTemplate.templateName || undefined,
+		is_wordpress_template:
+			wpTemplate.isTemplate || detection.is_wordpress_template,
 		metas: decomposedDocument.head.meta,
 		links: decomposedDocument.head.links,
 		base_href: decomposedDocument.baseUrl,
@@ -449,7 +522,9 @@ export function createCodeImportSession(
 		native: 0,
 		hybrid: 0,
 		preserved: 0,
-		restricted: php.phpDetections.length,
+		restricted: phpDetections.filter(
+			( item ) => item.requiresReview !== false
+		).length,
 	};
 	const fallbacks = [];
 	const adapterRegistry = createDefaultBlockAdapterRegistry();
@@ -596,6 +671,14 @@ export function createCodeImportSession(
 		if ( adapter.fidelity === 'preserved' ) {
 			attributes[ 'data-ctb-original-tag' ] = sourceTag;
 		}
+		const declMap = new Map();
+		for ( const item of explanation ) {
+			declMap.set( item.property, item );
+		}
+		const uniqueExplanation = Array.from( declMap.values() ).slice(
+			0,
+			MAX_CSS_MAPPING_DECLARATIONS
+		);
 		const block = {
 			id: `import-${ hash }-${ tag }-${ currentIndex }`,
 			type: adapterResult.type,
@@ -615,13 +698,10 @@ export function createCodeImportSession(
 				].includes( tag ),
 				css_mapping: {
 					version: 1,
-					declarations: explanation.slice(
-						0,
-						MAX_CSS_MAPPING_DECLARATIONS
-					),
+					declarations: uniqueExplanation,
 				},
 				...( matchedRules.length
-					? { imported_css_rules: matchedRules }
+					? { imported_css_rules: matchedRules.slice( 0, 20 ) }
 					: {} ),
 			},
 		};
@@ -673,13 +753,15 @@ export function createCodeImportSession(
 	const collectedDiagnostics = diagnostics.toArray();
 
 	const title = pageMeta.title || 'Imported layout';
-	const serverCode = php.phpDetections.map( ( item ) => ( {
-		id: item.id,
-		language: 'php',
-		source: item.code,
-		shortcode: item.shortcode,
-		status: 'restricted',
-	} ) );
+	const serverCode = phpDetections
+		.filter( ( item ) => item.requiresReview !== false )
+		.map( ( item ) => ( {
+			id: item.id,
+			language: 'php',
+			source: item.code,
+			shortcode: item.shortcode,
+			status: 'restricted',
+		} ) );
 	let compatibilityLevel = 1;
 	if ( importStats.restricted > 0 ) {
 		compatibilityLevel = 4;
@@ -819,7 +901,7 @@ export function createCodeImportSession(
 			security,
 		},
 		scriptDetections,
-		phpDetections: php.phpDetections,
+		phpDetections,
 	};
 }
 

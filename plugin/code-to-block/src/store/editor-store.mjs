@@ -24,16 +24,14 @@ import {
 } from '../history.mjs';
 import {
 	updateBlockStyleSet,
+	updateBlockTargetStyleSet as updateTargetStyleSetCommand,
 	setStyleSetBindings,
 	setHiddenInFallback,
 	updateEditableBlock,
 	createPrimitiveBlock,
 } from './block-commands.mjs';
 import { mergeMappedStyleUpdates } from '../custom-css.mjs';
-import {
-	findBlock,
-	moveBlockSibling,
-} from '../tree.mjs';
+import { findBlock, moveBlockSibling } from '../tree.mjs';
 import {
 	effectiveMappedStyles,
 	ownStyleSet,
@@ -41,6 +39,10 @@ import {
 } from '../responsive-styles.mjs';
 import { canInsertElement } from '../elements/registry.mjs';
 import { allowedTagForBlock } from '../elements/resolver.mjs';
+import {
+	contextKeyForBreakpoint,
+	effectiveTargetMappedStyles,
+} from '../styles/editor-bridge.mjs';
 import {
 	TOKEN_PROPERTIES,
 	tokenIdIsValid,
@@ -67,148 +69,38 @@ export const VOID_TAGS = new Set( [
 	'wbr',
 ] );
 
-export const EXAMPLE_DOCUMENT = ensureGuidedRoleDesignSystem(
+export const EMPTY_DOCUMENT = ensureGuidedRoleDesignSystem(
 	{
 		schema_version: 1,
-		name: 'Pricing card',
+		name: 'Page',
 		root: {
-			id: 'pricing-card',
+			id: 'root',
 			type: 'container',
-			tag: 'article',
-			attributes: { class: 'pricing-card' },
-			children: [
-				{
-					id: 'pricing-plan-name',
-					type: 'text',
-					tag: 'h2',
-					attributes: {},
-					children: [ { kind: 'text', value: 'Professional' } ],
-					styles: {
-						mapped: {
-							color: '#27314d',
-							'font-size': '22px',
-							margin: '0 0 12px',
-						},
-						custom_css_fallback: '',
-					},
-					meta: { source: 'phase-3-example' },
-				},
-				{
-					id: 'pricing-price',
-					type: 'text',
-					tag: 'p',
-					attributes: {},
-					children: [
-						{
-							id: 'pricing-price-value',
-							type: 'text',
-							tag: 'span',
-							attributes: {},
-							children: [ { kind: 'text', value: '$29' } ],
-							styles: {
-								mapped: {
-									color: '#121936',
-									'font-size': '44px',
-									'font-weight': '750',
-								},
-								custom_css_fallback: '',
-							},
-							meta: { source: 'phase-3-example' },
-						},
-						{ kind: 'text', value: '/month' },
-					],
-					styles: {
-						mapped: { color: '#69708a', margin: '0 0 24px' },
-						custom_css_fallback: '',
-					},
-					meta: { source: 'phase-3-example' },
-				},
-				{
-					id: 'pricing-features',
-					type: 'container',
-					tag: 'ul',
-					attributes: {},
-					children: [
-						createTextBlock(
-							'pricing-feature-projects',
-							'Unlimited projects'
-						),
-						createTextBlock(
-							'pricing-feature-support',
-							'Priority support'
-						),
-					],
-					styles: {
-						mapped: {
-							color: '#3e4662',
-							'line-height': '1.9',
-							margin: '0 0 28px',
-							'padding-left': '20px',
-						},
-						custom_css_fallback: '',
-					},
-					meta: { source: 'phase-3-example' },
-				},
-				{
-					id: 'pricing-cta',
-					type: 'button',
-					tag: 'a',
-					attributes: { href: '#signup' },
-					children: [ { kind: 'text', value: 'Start free trial' } ],
-					styles: {
-						mapped: {
-							background: '#6558d3',
-							'border-radius': '9px',
-							color: '#ffffff',
-							display: 'block',
-							padding: '13px 18px',
-							'text-align': 'center',
-							'text-decoration': 'none',
-						},
-						custom_css_fallback: '',
-					},
-					meta: { source: 'phase-3-example' },
-				},
-			],
+			tag: 'div',
+			attributes: { class: 'ctb-canvas-root' },
+			children: [],
 			styles: {
 				mapped: {
-					background: '#ffffff',
-					border: '1px solid #c8cee0',
-					'border-radius': '18px',
-					'box-shadow': '0 22px 55px rgba(25, 33, 61, 0.16)',
-					'font-family': 'Arial, sans-serif',
-					'max-width': '360px',
-					padding: '34px',
+					'min-height': '100vh',
+					padding: '40px 20px',
+					'box-sizing': 'border-box',
 				},
 				custom_css_fallback: '',
 			},
-			meta: { source: 'phase-3-example' },
+			meta: { source: 'clean-workspace' },
 		},
 	},
 	{ newDocument: true }
 );
 
-function createTextBlock( id, value ) {
-	return {
-		id,
-		type: 'text',
-		tag: 'li',
-		attributes: {},
-		children: [ { kind: 'text', value } ],
-		styles: {
-			mapped: { color: '#3e4662', 'line-height': '1.9' },
-			custom_css_fallback: '',
-		},
-		meta: { source: 'phase-3-example' },
-	};
-}
+export const EXAMPLE_DOCUMENT = EMPTY_DOCUMENT;
 
 export const useEditorStore = create( ( set ) => ( {
-	document: EXAMPLE_DOCUMENT,
+	document: EMPTY_DOCUMENT,
 	past: [],
 	future: [],
 	savedDocument: null,
-	selectedBlockId: EXAMPLE_DOCUMENT.root.id,
+	selectedBlockId: EMPTY_DOCUMENT.root.id,
 	activeBreakpoint: 'desktop',
 	panelMode: 'simple',
 	setEditorContext: ( activeBreakpoint, panelMode ) =>
@@ -259,6 +151,64 @@ export const useEditorStore = create( ( set ) => ( {
 				return setStyleSetBindings( styleSet, bindings );
 			} )
 		),
+	updateBlockTargetMappedStyles: (
+		id,
+		updates,
+		targetId = 'root',
+		contextKey = 'base'
+	) =>
+		set( ( state ) =>
+			updateTargetStyleSetCommand(
+				state,
+				id,
+				targetId,
+				contextKey,
+				( styleSet ) => {
+					styleSet.mapped = mergeMappedStyleUpdates(
+						styleSet.mapped,
+						updates
+					);
+					const bindings = { ...( styleSet.token_bindings || {} ) };
+					for ( const [ property, value ] of Object.entries(
+						updates
+					) ) {
+						if ( ! value ) {
+							delete bindings[ property ];
+						}
+					}
+					return setStyleSetBindings( styleSet, bindings );
+				}
+			)
+		),
+	updateBlockTargetCustomCss: (
+		id,
+		customCss,
+		targetId = 'root',
+		contextKey = 'base'
+	) =>
+		set( ( state ) =>
+			updateTargetStyleSetCommand(
+				state,
+				id,
+				targetId,
+				contextKey,
+				( styleSet ) => ( {
+					...styleSet,
+					custom_css_fallback: customCss,
+				} )
+			)
+		),
+	replaceBlockTargetStyleSet: (
+		id,
+		replacement,
+		targetId = 'root',
+		contextKey = 'base'
+	) =>
+		set( ( state ) =>
+			updateTargetStyleSetCommand( state, id, targetId, contextKey, () =>
+				JSON.parse( JSON.stringify( replacement ) )
+			)
+		),
 	replaceBlockStyleSet: ( id, replacement, breakpoint = 'desktop' ) =>
 		set( ( state ) =>
 			updateBlockStyleSet( state, id, breakpoint, () =>
@@ -269,7 +219,14 @@ export const useEditorStore = create( ( set ) => ( {
 		set( ( state ) => {
 			const block = findBlock( state.document.root, id );
 			const mappedDisplay = block
-				? effectiveMappedStyles( block, breakpoint ).display
+				? ( state.document.schema_version === 3 && block.element
+						? effectiveTargetMappedStyles(
+								block,
+								'root',
+								contextKeyForBreakpoint( breakpoint )
+						  )
+						: effectiveMappedStyles( block, breakpoint )
+				  ).display
 				: '';
 			const visibleDisplay =
 				mappedDisplay && mappedDisplay !== 'none'
@@ -683,6 +640,77 @@ export const useEditorStore = create( ( set ) => ( {
 				}
 				return setStyleSetBindings( styleSet, bindings );
 			} );
+		} ),
+	setBlockTargetTokenBinding: (
+		id,
+		property,
+		reference,
+		targetId = 'root',
+		contextKey = 'base',
+		localOverride = false
+	) =>
+		set( ( state ) => {
+			const token = getDesignToken(
+				state.document.design_tokens,
+				reference
+			);
+			if (
+				! token ||
+				! tokensForProperty(
+					state.document.design_tokens,
+					property
+				).some( ( item ) => item.reference === reference )
+			) {
+				return state;
+			}
+			return updateTargetStyleSetCommand(
+				state,
+				id,
+				targetId,
+				contextKey,
+				( styleSet ) => {
+					styleSet.mapped[ property ] = localOverride
+						? token.value
+						: tokenCssValue( reference );
+					return setStyleSetBindings( styleSet, {
+						...( styleSet.token_bindings || {} ),
+						[ property ]: reference,
+					} );
+				}
+			);
+		} ),
+	removeBlockTargetTokenBinding: (
+		id,
+		property,
+		reference,
+		targetId = 'root',
+		contextKey = 'base'
+	) =>
+		set( ( state ) => {
+			const token = getDesignToken(
+				state.document.design_tokens,
+				reference
+			);
+			return updateTargetStyleSetCommand(
+				state,
+				id,
+				targetId,
+				contextKey,
+				( styleSet ) => {
+					const bindings = {
+						...( styleSet.token_bindings || {} ),
+					};
+					delete bindings[ property ];
+					if (
+						token &&
+						styleSet.mapped[ property ] ===
+							tokenCssValue( reference )
+					) {
+						styleSet.mapped[ property ] = token.value;
+					}
+					return setStyleSetBindings( styleSet, bindings );
+				}
+			);
 		} ),
 	setBlockStyleRole: (
 		id,

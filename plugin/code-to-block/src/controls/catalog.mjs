@@ -103,13 +103,11 @@ const CONTROL_GROUPS = {
 		label: 'Alignment',
 		properties: [ 'text-align', 'align-self' ],
 	},
-	flex: {
-		id: 'flex',
-		label: 'Flex layout',
+	layout: {
+		id: 'layout',
+		label: 'Layout',
 		properties: [
 			'display',
-			'flex-direction',
-			'flex-wrap',
 			'justify-content',
 			'align-items',
 			'align-content',
@@ -118,23 +116,21 @@ const CONTROL_GROUPS = {
 			'column-gap',
 		],
 	},
+	flex: {
+		id: 'flex',
+		label: 'Flex layout',
+		properties: [ 'flex-direction', 'flex-wrap' ],
+	},
 	grid: {
 		id: 'grid',
 		label: 'Grid layout',
 		properties: [
-			'display',
 			'grid-template-columns',
 			'grid-template-rows',
 			'grid-auto-flow',
 			'grid-auto-columns',
 			'grid-auto-rows',
-			'justify-content',
-			'align-content',
 			'justify-items',
-			'align-items',
-			'gap',
-			'row-gap',
-			'column-gap',
 		],
 	},
 	childPlacement: {

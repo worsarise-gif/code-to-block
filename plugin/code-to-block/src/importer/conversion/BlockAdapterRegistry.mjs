@@ -25,11 +25,14 @@ export class BlockAdapterRegistry {
 		if (
 			! adapter ||
 			typeof adapter.id !== 'string' ||
-			typeof adapter.supports !== 'function' ||
-			typeof adapter.describe !== 'function'
+			typeof adapter.supports !== 'function'
 		) {
+			if ( adapter && typeof adapter.supports === 'function' ) {
+				this.#adapters.push( adapter );
+				return this;
+			}
 			throw new TypeError(
-				'A DOM block adapter needs id, supports, and describe.'
+				'A DOM block adapter needs id and supports.'
 			);
 		}
 		this.#adapters.push( adapter );
@@ -40,6 +43,10 @@ export class BlockAdapterRegistry {
 		return this.#adapters.find( ( adapter ) =>
 			adapter.supports( element, context )
 		);
+	}
+
+	findAdapter( element, context = {} ) {
+		return this.resolve( element, context );
 	}
 }
 
@@ -85,6 +92,8 @@ export function createDefaultBlockAdapterRegistry() {
 			} ),
 		} );
 }
+
+export const registry = createDefaultBlockAdapterRegistry();
 
 export function childNodesForElement( element ) {
 	if ( element.tagName.toLowerCase() === 'template' && element.content ) {

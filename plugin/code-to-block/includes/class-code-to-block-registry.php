@@ -60,6 +60,26 @@ final class Code_To_Block_Registry {
 
 	/**
 	 * @param string $element_id Element definition ID.
+	 * @return array
+	 */
+	public static function capabilities( $element_id ) {
+		$definition = self::get( $element_id );
+		return null !== $definition && ! empty( $definition['capabilities'] ) && is_array( $definition['capabilities'] )
+			? $definition['capabilities']
+			: array();
+	}
+
+	/**
+	 * @param string $element_id Element definition ID.
+	 * @param string $capability Capability ID.
+	 * @return bool
+	 */
+	public static function has_capability( $element_id, $capability ) {
+		return in_array( $capability, self::capabilities( $element_id ), true );
+	}
+
+	/**
+	 * @param string $element_id Element definition ID.
 	 * @param string $tag HTML tag.
 	 * @return bool
 	 */
@@ -89,6 +109,20 @@ final class Code_To_Block_Registry {
 	public static function target_is_allowed( $element_id, $target ) {
 		$definition = self::get( $element_id );
 		return null !== $definition && ! empty( $definition['targets'] ) && in_array( $target, $definition['targets'], true );
+	}
+
+	/**
+	 * @param string $element_id Element definition ID.
+	 * @param string $target Target ID.
+	 * @return array
+	 */
+	public static function target_style_groups( $element_id, $target ) {
+		$definition = self::get( $element_id );
+		return null !== $definition &&
+			! empty( $definition['targetStyleGroups'][ $target ] ) &&
+			is_array( $definition['targetStyleGroups'][ $target ] )
+			? $definition['targetStyleGroups'][ $target ]
+			: array();
 	}
 
 	/**

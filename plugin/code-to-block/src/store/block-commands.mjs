@@ -1,12 +1,27 @@
 import { createElementBlock } from '../elements/registry.mjs';
 import { commitDocument } from '../history.mjs';
 import { ownStyleSet, setOwnStyleSet } from '../responsive-styles.mjs';
+import {
+	contextKeyForBreakpoint,
+	readTargetStyleSet,
+	targetContextIsAllowed,
+	writeTargetStyleSet,
+} from '../styles/editor-bridge.mjs';
 import { findBlock } from '../tree.mjs';
 
 export function updateBlockStyleSet( state, id, breakpoint, update ) {
 	const currentBlock = findBlock( state.document.root, id );
 	if ( ! currentBlock || currentBlock.permissions?.locked ) {
 		return state;
+	}
+	if ( state.document.schema_version === 3 && currentBlock.element ) {
+		return updateBlockTargetStyleSet(
+			state,
+			id,
+			'root',
+			contextKeyForBreakpoint( breakpoint ),
+			update
+		);
 	}
 	const currentStyleSet = ownStyleSet( currentBlock, breakpoint );
 	const editableStyleSet = {
@@ -38,6 +53,46 @@ export function updateBlockStyleSet( state, id, breakpoint, update ) {
 
 	const document = JSON.parse( JSON.stringify( state.document ) );
 	setOwnStyleSet( findBlock( document.root, id ), breakpoint, nextStyleSet );
+	return commitDocument( state, document, id );
+}
+
+export function updateBlockTargetStyleSet(
+	state,
+	id,
+	targetId,
+	contextKey,
+	update
+) {
+	const currentBlock = findBlock( state.document.root, id );
+	if (
+		! currentBlock ||
+		currentBlock.permissions?.locked ||
+		state.document.schema_version !== 3 ||
+		! targetContextIsAllowed( currentBlock, targetId, contextKey )
+	) {
+		return state;
+	}
+	const currentStyleSet = readTargetStyleSet(
+		currentBlock,
+		targetId,
+		contextKey
+	);
+	const editableStyleSet = JSON.parse( JSON.stringify( currentStyleSet ) );
+	const nextStyleSet = update( editableStyleSet );
+	if (
+		! nextStyleSet ||
+		JSON.stringify( currentStyleSet ) === JSON.stringify( nextStyleSet )
+	) {
+		return state;
+	}
+
+	const document = JSON.parse( JSON.stringify( state.document ) );
+	writeTargetStyleSet(
+		findBlock( document.root, id ),
+		targetId,
+		contextKey,
+		nextStyleSet
+	);
 	return commitDocument( state, document, id );
 }
 

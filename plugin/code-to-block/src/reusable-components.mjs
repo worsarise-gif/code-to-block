@@ -1,4 +1,5 @@
 import {
+	blockStyleSets,
 	parseTokenReference,
 	tokenCssValue,
 	tokenReference,
@@ -32,14 +33,6 @@ function visitBlocks( block, callback ) {
 	}
 }
 
-function styleSetsFor( block ) {
-	return [
-		block.styles,
-		...Object.values( block.responsive_overrides || {} ),
-		...Object.values( block.states || {} ),
-	].filter( Boolean );
-}
-
 function collectTokenReferences( value, references ) {
 	if ( Array.isArray( value ) ) {
 		value.forEach( ( item ) => collectTokenReferences( item, references ) );
@@ -67,7 +60,7 @@ export function createComponentDocument( document, block, name ) {
 	const references = new Set();
 	const roleReferences = new Set();
 	visitBlocks( block, ( item ) => {
-		for ( const styleSet of styleSetsFor( item ) ) {
+		for ( const styleSet of blockStyleSets( item ) ) {
 			for ( const reference of Object.values(
 				styleSet.token_bindings || {}
 			) ) {
@@ -394,8 +387,9 @@ function rewriteStyleTokens( styleSet, tokenMap ) {
 		if ( ! nextReference ) {
 			continue;
 		}
-		if ( styleSet.mapped?.[ property ] === tokenCssValue( reference ) ) {
-			styleSet.mapped[ property ] = tokenCssValue( nextReference );
+		const values = styleSet.mapped || styleSet.declarations;
+		if ( values?.[ property ] === tokenCssValue( reference ) ) {
+			values[ property ] = tokenCssValue( nextReference );
 		}
 		styleSet.token_bindings[ property ] = nextReference;
 	}
@@ -435,7 +429,7 @@ function rewriteDomReferences( block, domIdMap ) {
 }
 
 function rewriteClone( block, idMap, domIdMap, tokenMap, roleMap ) {
-	for ( const styleSet of styleSetsFor( block ) ) {
+	for ( const styleSet of blockStyleSets( block ) ) {
 		rewriteStyleTokens( styleSet, tokenMap );
 		for ( const binding of Object.values( styleSet.role_bindings || {} ) ) {
 			if ( roleMap[ binding.roleId ] ) {

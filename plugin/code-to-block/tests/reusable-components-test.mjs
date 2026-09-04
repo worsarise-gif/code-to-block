@@ -133,6 +133,53 @@ check(
 	'#6558d3',
 	'Namespaced component token definitions are merged for rendering.'
 );
+
+const targetChild = block( 'target-child' );
+targetChild.style = {
+	targets: {
+		label: {
+			contexts: {
+				base: {
+					declarations: {
+						color: 'var(--ctb-token-colors-brand)',
+					},
+					token_bindings: { color: 'colors.brand' },
+				},
+			},
+		},
+	},
+};
+const targetPage = {
+	...page,
+	schema_version: 3,
+	root: block( 'target-root', [ targetChild, block( 'target-host' ) ] ),
+};
+const targetSaved = createComponentDocument(
+	targetPage,
+	targetChild,
+	'Target token'
+);
+check(
+	targetSaved.design_tokens.colors.brand.value,
+	'#6558d3',
+	'Tokens referenced only by v3 target contexts are bundled.'
+);
+const targetInserted = insertComponent( targetPage, 'target-host', 8, 'target-a' );
+const targetResolved = materializeComponents( targetInserted, [
+	{ id: 8, name: 'Target token', status: 'ready', document: targetSaved },
+] );
+const targetRendered =
+	targetResolved.root.children[ 1 ].children[ 0 ].children[ 0 ];
+check(
+	targetRendered.style.targets.label.contexts.base.token_bindings.color,
+	'colors.saved-8-brand',
+	'V3 target token bindings are namespaced when components materialize.'
+);
+check(
+	targetRendered.style.targets.label.contexts.base.declarations.color,
+	'var(--ctb-token-colors-saved-8-brand)',
+	'V3 target token declarations follow the namespaced binding.'
+);
 check(
 	renderedRoot.children[ 1 ].attributes.for,
 	renderedRoot.attributes.id,

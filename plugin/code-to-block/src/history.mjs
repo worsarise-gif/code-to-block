@@ -42,7 +42,13 @@ export function describeDocumentChange( previous, next, selectedBlockId ) {
 		if ( changed( oldBlock, newBlock, 'permissions' ) ) return 'Permissions updated';
 		if ( changed( oldBlock, newBlock, 'visibility_conditions' ) ) return 'Visibility conditions updated';
 		if ( changed( oldBlock, newBlock, 'performance' ) ) return 'Performance settings updated';
-		if ( changed( oldBlock, newBlock, 'states' ) || changed( oldBlock, newBlock, 'styles' ) || changed( oldBlock, newBlock, 'responsive_overrides' ) ) return 'Style updated';
+		if (
+			changed( oldBlock, newBlock, 'style' ) ||
+			changed( oldBlock, newBlock, 'states' ) ||
+			changed( oldBlock, newBlock, 'styles' ) ||
+			changed( oldBlock, newBlock, 'responsive_overrides' )
+		)
+			return 'Style updated';
 		if ( changed( oldBlock, newBlock, 'attributes' ) ) return 'Attributes updated';
 		if ( changed( oldBlock, newBlock, 'is_dynamic' ) || changed( oldBlock, newBlock, 'dynamic_source' ) || changed( oldBlock, newBlock, 'is_content_slot' ) ) return 'Dynamic data updated';
 	}

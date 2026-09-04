@@ -105,6 +105,15 @@ check(
 );
 assert.deepEqual( validateDocumentV3( migrated.document ), [] );
 assertions += 1;
+const nonCanonical = JSON.parse( JSON.stringify( migrated.document ) );
+nonCanonical.root.style.targets.root.contexts[ 'state:hover|bp:tablet' ] =
+	nonCanonical.root.style.targets.root.contexts[ 'state:hover' ];
+check(
+	validateDocumentV3( nonCanonical ).some( ( error ) =>
+		error.includes( 'state:hover|bp:tablet is invalid' )
+	),
+	'validation rejects context aliases that the server cannot persist'
+);
 check(
 	migrateDocumentToV3( migrated.document ).alreadyCurrent,
 	'migration is idempotent for v3'

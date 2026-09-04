@@ -83,7 +83,11 @@ $document = (object) array(
 			'targets' => (object) array(
 				'root' => (object) array(
 					'contexts' => (object) array(
-						'base'                    => (object) array( 'declarations' => (object) array( 'color' => '#112233' ) ),
+						'base'                    => (object) array(
+							'declarations'        => (object) array( 'color' => '#112233' ),
+							'custom_declarations' => 'letter-spacing: .1em;',
+							'origin_notes'        => (object) array( 'source' => 'import', 'declarations' => array( 'color' ) ),
+						),
 						'bp:tablet|state:hover' => (object) array( 'declarations' => (object) array( 'transform' => 'translateY(-2px)' ) ),
 					),
 				),
@@ -98,10 +102,16 @@ $document = (object) array(
 
 $sanitized = Code_To_Block_Schema::sanitize_document( $document );
 check_v3( ! is_wp_error( $sanitized ), 'valid schema v3 document must pass server validation' );
+check_v3( Code_To_Block_Registry::has_capability( 'core/button', 'buttonAction' ), 'server registry exposes element capability grants' );
+check_v3( ! Code_To_Block_Registry::has_capability( 'core/button', 'image' ), 'server capability checks reject ungranted behavior' );
+check_v3( in_array( 'typography', Code_To_Block_Registry::target_style_groups( 'core/button', 'label' ), true ), 'server registry exposes target-specific shared packs' );
+check_v3( ! in_array( 'icon', Code_To_Block_Registry::target_style_groups( 'core/button', 'label' ), true ), 'server target grants exclude irrelevant packs' );
 check_v3( 3 === $sanitized['schema_version'], 'schema version is preserved' );
 check_v3( 1 === $sanitized['registry_version'], 'registry version is preserved' );
 check_v3( 'core/button' === $sanitized['root']['element'], 'element identity is preserved' );
 check_v3( '#112233' === $sanitized['root']['style']['targets']['root']['contexts']['base']['declarations']->color, 'target declaration is preserved' );
+check_v3( 'letter-spacing: .1em;' === $sanitized['root']['style']['targets']['root']['contexts']['base']['custom_declarations'], 'target custom declarations survive server sanitation' );
+check_v3( 'import' === $sanitized['root']['style']['targets']['root']['contexts']['base']['origin_notes']['source'], 'target origin metadata survives server sanitation' );
 check_v3( false === $sanitized['root']['advanced']['visibility']['mobile'], 'advanced visibility is preserved' );
 
 $unknown_element = clone_v3( $document );
@@ -127,5 +137,39 @@ check_v3( is_wp_error( Code_To_Block_Schema::sanitize_document( $unsafe_css ) ),
 $wrong_registry = clone_v3( $document );
 $wrong_registry->registry_version = 2;
 check_v3( is_wp_error( Code_To_Block_Schema::sanitize_document( $wrong_registry ) ), 'stale registry version is rejected' );
+
+$form_field_document = clone_v3( $document );
+$form_field_document->root->id = 'field-server-fixture';
+$form_field_document->root->element = 'forms/field-group';
+$form_field_document->root->type = 'form_field';
+$form_field_document->root->tag = 'div';
+$form_field_document->root->props = (object) array(
+	'fieldType'  => 'email',
+	'label'      => 'Email',
+	'name'       => 'email',
+	'placeholder' => 'you@example.com',
+	'help'       => 'Reply address',
+	'options'    => array(),
+	'required'   => true,
+);
+$form_field_document->root->attributes = new stdClass();
+$form_field_document->root->children = array();
+$form_field_document->root->style->targets = (object) array(
+	'placeholder'  => (object) array(
+		'contexts' => (object) array(
+			'state:focusVisible' => (object) array( 'declarations' => (object) array( 'color' => '#556677' ) ),
+		),
+	),
+	'requiredMark' => (object) array(
+		'contexts' => (object) array(
+			'base' => (object) array( 'declarations' => (object) array( 'color' => '#aa0000' ) ),
+		),
+	),
+);
+$sanitized_form_field = Code_To_Block_Schema::sanitize_document( $form_field_document );
+check_v3( ! is_wp_error( $sanitized_form_field ), 'Form Field props and renderer-backed targets pass server validation' );
+check_v3( 'you@example.com' === $sanitized_form_field['root']['props']['placeholder'], 'Form Field semantic placeholder survives server sanitation' );
+check_v3( Code_To_Block_Registry::target_is_allowed( 'forms/field-group', 'requiredMark' ), 'server registry exposes the required mark target' );
+check_v3( '[data-ctb-part="row"] [data-ctb-part="control"]::placeholder' === Code_To_Block_Registry::target_selector( 'forms/field-group', 'placeholder' ), 'server registry exposes the real control placeholder selector' );
 
 fwrite( STDOUT, "PASS: {$assertions} server schema v3 assertions.\n" );

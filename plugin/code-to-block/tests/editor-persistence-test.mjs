@@ -99,4 +99,34 @@ equal(
 	'Already-published pages do not make a redundant status request.'
 );
 
+const scheduledCalls = [];
+const scheduled = await publishSavedDocument( {
+	apiFetch: async ( request ) => {
+		scheduledCalls.push( request );
+		return { id: 27, status: 'future', date: '2026-10-01T12:00:00' };
+	},
+	postRestPath: '/wp/v2/ctb-pages/27',
+	postStatus: 'draft',
+	targetStatus: 'future',
+	extraData: { date: '2026-10-01T12:00:00' },
+	saveDocument: async () => saveResult,
+} );
+equal(
+	scheduledCalls,
+	[
+		{
+			path: '/wp/v2/ctb-pages/27',
+			method: 'POST',
+			data: { status: 'future', date: '2026-10-01T12:00:00' },
+		},
+	],
+	'Scheduling sends status future with targeted date in request payload.'
+);
+equal(
+	scheduled.post.status,
+	'future',
+	'Scheduling returns post with future status.'
+);
+
 console.log( `PASS: ${ assertions } editor persistence assertions.` );
+

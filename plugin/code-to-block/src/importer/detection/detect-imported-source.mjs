@@ -116,6 +116,16 @@ export function detectImportedSource( rawSource ) {
 		);
 	const containsPhp =
 		/<\?(?:php\b|=)/i.test( source ) || fenceLanguage === 'php';
+	const hasWpTemplateHeader =
+		/(?:\/\*[\s\S]*?Template Name:[^\r\n*]+[\s\S]*?\*\/)/i.test( source );
+	const hasWpTemplateTags =
+		/\b(?:get_header|get_footer|get_sidebar|the_title|the_content|the_post|have_posts|wp_head|wp_footer)\s*\(/i.test(
+			source
+		);
+	const hasPhpEchoMarkup =
+		/(?:echo|print)\s*(?:<<<['"]?HTML['"]?[\s\S]*?HTML;|['"][^'"]*<[a-z][\w:-]*[^'"]*['"])/i.test(
+			source
+		);
 	const styleBlocks = ( source.match( /<style(?:\s|>)/gi ) || [] ).length;
 	const scriptBlocks = ( source.match( /<script(?:\s|>)/gi ) || [] ).length;
 	const standaloneCss =
@@ -127,11 +137,24 @@ export function detectImportedSource( rawSource ) {
 			! containsPhp &&
 			! standaloneCss &&
 			looksLikeStandaloneJavaScript( source ) );
-	const containsHtml = tagMarkup && ! standaloneCss && ! standaloneJavaScript;
-	const containsCss = styleBlocks > 0 || standaloneCss;
-	const containsJavaScript = scriptBlocks > 0 || standaloneJavaScript;
+	const containsHtml =
+		( tagMarkup || hasPhpEchoMarkup ) &&
+		! standaloneCss &&
+		! standaloneJavaScript;
+	const containsCss =
+		styleBlocks > 0 ||
+		standaloneCss ||
+		/(?:echo|print)[\s\S]*?<style(?:\s|>)/i.test( source );
+	const containsJavaScript =
+		scriptBlocks > 0 ||
+		standaloneJavaScript ||
+		/(?:echo|print)[\s\S]*?<script(?:\s|>)/i.test( source );
 	const documentShape = detectDocumentShape( source, {
-		hasDoctype,
+		hasDoctype:
+			hasDoctype ||
+			( hasWpTemplateTags &&
+				/\bget_header\b/i.test( source ) &&
+				/\bget_footer\b/i.test( source ) ),
 		hasHtmlElement,
 		hasHeadElement,
 		hasBodyElement,
@@ -153,6 +176,15 @@ export function detectImportedSource( rawSource ) {
 	let sourceType = 'plain-text';
 	if ( documentShape === 'full-document' ) {
 		sourceType = 'full-document';
+	} else if (
+		containsPhp &&
+		( containsHtml ||
+			containsCss ||
+			containsJavaScript ||
+			hasWpTemplateHeader ||
+			hasWpTemplateTags )
+	) {
+		sourceType = 'php-template';
 	} else if ( languages.length > 1 ) {
 		sourceType = 'mixed';
 	} else if ( containsHtml ) {
@@ -196,6 +228,9 @@ export function detectImportedSource( rawSource ) {
 		standalone_css: standaloneCss,
 		standalone_javascript: standaloneJavaScript,
 		has_php: containsPhp,
+		hasWpTemplateHeader,
+		hasWpTemplateTags,
+		is_wordpress_template: hasWpTemplateHeader || hasWpTemplateTags,
 		fenced_language: fenceLanguage,
 	};
 }

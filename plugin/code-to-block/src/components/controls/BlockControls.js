@@ -1,7 +1,7 @@
 import '../../editor.css';
 import { createImportCodeService } from '../../importer/ImportCodeService.mjs';
 import { useEditorStore } from '../../store/editor-store.mjs';
-import { defaultGsapAction } from '../../utils/editor-utils.js';
+import { defaultGsapAction, GSAP_ANIMATION_BEHAVIORS, CSS_ANIMATION_BEHAVIORS } from '../../utils/editor-utils.js';
 
 export function BlockDynamicControl( { block, onChange } ) {
 	const handleToggle = ( event ) => {

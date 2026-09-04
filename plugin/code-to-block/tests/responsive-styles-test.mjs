@@ -36,14 +36,56 @@ const block = {
 	},
 };
 
-equal( BREAKPOINTS.map( ( item ) => item.id ), [ 'desktop', 'tablet', 'mobile' ], 'The editor must expose all three modes.' );
-equal( breakpointCascade( 'desktop' ), [], 'Desktop has no responsive cascade.' );
-equal( breakpointCascade( 'tablet' ), [ 'tablet' ], 'Tablet applies only its own override.' );
-equal( breakpointCascade( 'mobile' ), [ 'tablet', 'mobile' ], 'Mobile must inherit the tablet media rule before its own.' );
-equal( ownStyleSet( block, 'desktop' ), block.styles, 'Desktop edits the required base style set.' );
-equal( ownStyleSet( block, 'tablet' ), block.responsive_overrides.tablet, 'Tablet edits only the tablet branch.' );
-equal( ownStyleSet( { styles: block.styles }, 'mobile' ), { mapped: {}, custom_css_fallback: '' }, 'Missing optional branches must read as empty overrides.' );
-equal( inheritedMappedStyles( block, 'tablet' ), block.styles.mapped, 'Tablet inherits desktop values.' );
+equal(
+	BREAKPOINTS.map( ( item ) => item.id ),
+	[ 'desktop', 'tablet', 'mobile' ],
+	'The editor must expose all three modes.'
+);
+equal(
+	breakpointCascade( 'desktop' ),
+	[],
+	'Desktop has no responsive cascade.'
+);
+equal(
+	breakpointCascade( 'tablet' ),
+	[ 'tablet' ],
+	'Tablet applies only its own override.'
+);
+equal(
+	breakpointCascade( 'mobile' ),
+	[ 'tablet', 'mobile' ],
+	'Mobile must inherit the tablet media rule before its own.'
+);
+equal(
+	ownStyleSet( block, 'desktop' ),
+	block.styles,
+	'Desktop edits the required base style set.'
+);
+equal(
+	ownStyleSet( block, 'tablet' ),
+	block.responsive_overrides.tablet,
+	'Tablet edits only the tablet branch.'
+);
+equal(
+	ownStyleSet( { styles: block.styles }, 'mobile' ),
+	{ mapped: {}, custom_css_fallback: '' },
+	'Missing optional branches must read as empty overrides.'
+);
+equal(
+	ownStyleSet( {}, 'desktop' ),
+	{ mapped: {}, custom_css_fallback: '' },
+	'A canonical v3 block without a legacy style mirror must read as an empty legacy style set.'
+);
+equal(
+	effectiveMappedStyles( {}, 'tablet' ),
+	{},
+	'Legacy cascade reads must remain safe when canonical v3 blocks omit legacy styles.'
+);
+equal(
+	inheritedMappedStyles( block, 'tablet' ),
+	block.styles.mapped,
+	'Tablet inherits desktop values.'
+);
 equal(
 	inheritedMappedStyles( block, 'mobile' ),
 	{ color: '#111111', padding: '24px', 'font-size': '26px' },
@@ -54,10 +96,30 @@ equal(
 	{ color: '#111111', padding: '14px', 'font-size': '26px' },
 	'Mobile values must override the inherited tablet cascade.'
 );
-equal( styleSetIsEmpty( { mapped: {}, custom_css_fallback: '' } ), true, 'An empty style set must be removable.' );
-equal( styleSetIsEmpty( { mapped: { color: 'red' }, custom_css_fallback: '' } ), false, 'Mapped values make an override non-empty.' );
-equal( styleSetIsEmpty( { mapped: {}, token_bindings: { color: 'colors.brand' }, custom_css_fallback: '' } ), false, 'Token metadata must keep its responsive branch.' );
-equal( countStyleOverrides( block.responsive_overrides.tablet ), 3, 'Mapped declarations and raw CSS must be counted.' );
+equal(
+	styleSetIsEmpty( { mapped: {}, custom_css_fallback: '' } ),
+	true,
+	'An empty style set must be removable.'
+);
+equal(
+	styleSetIsEmpty( { mapped: { color: 'red' }, custom_css_fallback: '' } ),
+	false,
+	'Mapped values make an override non-empty.'
+);
+equal(
+	styleSetIsEmpty( {
+		mapped: {},
+		token_bindings: { color: 'colors.brand' },
+		custom_css_fallback: '',
+	} ),
+	false,
+	'Token metadata must keep its responsive branch.'
+);
+equal(
+	countStyleOverrides( block.responsive_overrides.tablet ),
+	3,
+	'Mapped declarations and raw CSS must be counted.'
+);
 
 const visibilityBlock = {
 	styles: {
@@ -75,27 +137,81 @@ const visibilityBlock = {
 		},
 	},
 };
-equal( isBlockHidden( visibilityBlock, 'desktop' ), true, 'Desktop visibility controls must override a mapped display value.' );
-equal( isBlockHidden( visibilityBlock, 'tablet' ), false, 'A tablet show override must restore the element after a desktop hide.' );
-equal( isBlockHidden( visibilityBlock, 'mobile' ), true, 'A mobile hide override must win after the tablet restore.' );
-equal( isHiddenOverridden( visibilityBlock, 'tablet' ), false, 'An explicit tablet display value is not a hide override.' );
-equal( isHiddenOverridden( visibilityBlock, 'mobile' ), true, 'The current breakpoint must report its own hide override.' );
+equal(
+	isBlockHidden( visibilityBlock, 'desktop' ),
+	true,
+	'Desktop visibility controls must override a mapped display value.'
+);
+equal(
+	isBlockHidden( visibilityBlock, 'tablet' ),
+	false,
+	'A tablet show override must restore the element after a desktop hide.'
+);
+equal(
+	isBlockHidden( visibilityBlock, 'mobile' ),
+	true,
+	'A mobile hide override must win after the tablet restore.'
+);
+equal(
+	isHiddenOverridden( visibilityBlock, 'tablet' ),
+	false,
+	'An explicit tablet display value is not a hide override.'
+);
+equal(
+	isHiddenOverridden( visibilityBlock, 'mobile' ),
+	true,
+	'The current breakpoint must report its own hide override.'
+);
 
 const created = { styles: block.styles };
-setOwnStyleSet( created, 'tablet', { mapped: { margin: '20px' }, custom_css_fallback: '' } );
-equal( created.responsive_overrides.tablet.mapped.margin, '20px', 'Setting tablet styles must create the optional branch.' );
-setOwnStyleSet( created, 'mobile', { mapped: { padding: '12px' }, custom_css_fallback: '' } );
-equal( Object.keys( created.responsive_overrides ), [ 'tablet', 'mobile' ], 'Breakpoint branches must coexist.' );
-setOwnStyleSet( created, 'mobile', { mapped: { padding: 'var(--ctb-token-spacing-section)' }, token_bindings: { padding: 'spacing.section' }, custom_css_fallback: '' } );
-equal( created.responsive_overrides.mobile.token_bindings.padding, 'spacing.section', 'Responsive token bindings must persist with their mapped value.' );
+setOwnStyleSet( created, 'tablet', {
+	mapped: { margin: '20px' },
+	custom_css_fallback: '',
+} );
+equal(
+	created.responsive_overrides.tablet.mapped.margin,
+	'20px',
+	'Setting tablet styles must create the optional branch.'
+);
+setOwnStyleSet( created, 'mobile', {
+	mapped: { padding: '12px' },
+	custom_css_fallback: '',
+} );
+equal(
+	Object.keys( created.responsive_overrides ),
+	[ 'tablet', 'mobile' ],
+	'Breakpoint branches must coexist.'
+);
+setOwnStyleSet( created, 'mobile', {
+	mapped: { padding: 'var(--ctb-token-spacing-section)' },
+	token_bindings: { padding: 'spacing.section' },
+	custom_css_fallback: '',
+} );
+equal(
+	created.responsive_overrides.mobile.token_bindings.padding,
+	'spacing.section',
+	'Responsive token bindings must persist with their mapped value.'
+);
 setOwnStyleSet( created, 'tablet', { mapped: {}, custom_css_fallback: '' } );
-equal( Object.keys( created.responsive_overrides ), [ 'mobile' ], 'Clearing tablet must preserve mobile.' );
+equal(
+	Object.keys( created.responsive_overrides ),
+	[ 'mobile' ],
+	'Clearing tablet must preserve mobile.'
+);
 setOwnStyleSet( created, 'mobile', { mapped: {}, custom_css_fallback: '' } );
-equal( 'responsive_overrides' in created, false, 'Clearing the last override must remove the optional container.' );
+equal(
+	'responsive_overrides' in created,
+	false,
+	'Clearing the last override must remove the optional container.'
+);
 
 const desktop = { styles: block.styles };
 const replacement = { mapped: { color: '#ffffff' }, custom_css_fallback: '' };
 setOwnStyleSet( desktop, 'desktop', replacement );
-equal( desktop.styles, replacement, 'Desktop replacement must not create responsive metadata.' );
+equal(
+	desktop.styles,
+	replacement,
+	'Desktop replacement must not create responsive metadata.'
+);
 
 console.log( `PASS: ${ assertions } responsive style assertions.` );

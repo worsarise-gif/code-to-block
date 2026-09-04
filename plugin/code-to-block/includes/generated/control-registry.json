@@ -12,6 +12,22 @@
         "aside",
         "article"
       ],
+      "capabilities": [
+        "accessibility",
+        "animation",
+        "background",
+        "border",
+        "children",
+        "customAttributes",
+        "customCss",
+        "flexLayout",
+        "gridLayout",
+        "hoverState",
+        "interactive",
+        "responsive",
+        "sizing",
+        "spacing"
+      ],
       "props": [],
       "targets": [
         "root"
@@ -19,7 +35,28 @@
       "targetSelectors": {
         "root": "&"
       },
+      "targetEditorSelectors": {
+        "root": "&"
+      },
+      "targetFrontendSelectors": {
+        "root": "&"
+      },
+      "targetStyleGroups": {
+        "root": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ]
+      },
       "styleGroups": [
+        "layout",
         "flex",
         "grid",
         "sizing",
@@ -50,6 +87,20 @@
         "div",
         "section"
       ],
+      "capabilities": [
+        "accessibility",
+        "animation",
+        "background",
+        "border",
+        "children",
+        "customAttributes",
+        "customCss",
+        "flexLayout",
+        "gridLayout",
+        "responsive",
+        "sizing",
+        "spacing"
+      ],
       "props": [
         "columns"
       ],
@@ -59,7 +110,28 @@
       "targetSelectors": {
         "root": "&"
       },
+      "targetEditorSelectors": {
+        "root": "&"
+      },
+      "targetFrontendSelectors": {
+        "root": "&"
+      },
+      "targetStyleGroups": {
+        "root": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ]
+      },
       "styleGroups": [
+        "layout",
         "flex",
         "grid",
         "sizing",
@@ -89,6 +161,20 @@
         "article",
         "aside"
       ],
+      "capabilities": [
+        "accessibility",
+        "animation",
+        "background",
+        "border",
+        "children",
+        "customAttributes",
+        "customCss",
+        "flexLayout",
+        "gridLayout",
+        "responsive",
+        "sizing",
+        "spacing"
+      ],
       "props": [
         "editorLabel"
       ],
@@ -98,7 +184,28 @@
       "targetSelectors": {
         "root": "&"
       },
+      "targetEditorSelectors": {
+        "root": "&"
+      },
+      "targetFrontendSelectors": {
+        "root": "&"
+      },
+      "targetStyleGroups": {
+        "root": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ]
+      },
       "styleGroups": [
+        "layout",
         "flex",
         "grid",
         "sizing",
@@ -132,6 +239,22 @@
         "footer",
         "section"
       ],
+      "capabilities": [
+        "accessibility",
+        "animation",
+        "background",
+        "border",
+        "children",
+        "customAttributes",
+        "customCss",
+        "flexLayout",
+        "gridLayout",
+        "hoverState",
+        "interactive",
+        "responsive",
+        "sizing",
+        "spacing"
+      ],
       "props": [
         "editorLabel"
       ],
@@ -141,7 +264,28 @@
       "targetSelectors": {
         "root": "&"
       },
+      "targetEditorSelectors": {
+        "root": "&"
+      },
+      "targetFrontendSelectors": {
+        "root": "&"
+      },
+      "targetStyleGroups": {
+        "root": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ]
+      },
       "styleGroups": [
+        "layout",
         "flex",
         "grid",
         "sizing",
@@ -172,6 +316,22 @@
         "div",
         "span"
       ],
+      "capabilities": [
+        "accessibility",
+        "animation",
+        "background",
+        "border",
+        "children",
+        "customAttributes",
+        "customCss",
+        "flexLayout",
+        "gridLayout",
+        "hoverState",
+        "interactive",
+        "responsive",
+        "sizing",
+        "spacing"
+      ],
       "props": [
         "editorLabel"
       ],
@@ -181,7 +341,28 @@
       "targetSelectors": {
         "root": "&"
       },
+      "targetEditorSelectors": {
+        "root": "&"
+      },
+      "targetFrontendSelectors": {
+        "root": "&"
+      },
+      "targetStyleGroups": {
+        "root": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ]
+      },
       "styleGroups": [
+        "layout",
         "flex",
         "grid",
         "sizing",
@@ -216,6 +397,22 @@
         "h5",
         "h6"
       ],
+      "capabilities": [
+        "accessibility",
+        "animation",
+        "background",
+        "border",
+        "customAttributes",
+        "customCss",
+        "focusState",
+        "hoverState",
+        "interactive",
+        "responsive",
+        "sizing",
+        "spacing",
+        "text",
+        "typography"
+      ],
       "props": [],
       "targets": [
         "root",
@@ -224,6 +421,36 @@
       "targetSelectors": {
         "root": "&",
         "text": "[data-ctb-part=\"text\"]"
+      },
+      "targetEditorSelectors": {
+        "root": "&",
+        "text": "[data-ctb-part=\"text\"]"
+      },
+      "targetFrontendSelectors": {
+        "root": "&",
+        "text": "[data-ctb-part=\"text\"]"
+      },
+      "targetStyleGroups": {
+        "root": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "text": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ]
       },
       "styleGroups": [
         "typography",
@@ -259,6 +486,21 @@
         "small",
         "address"
       ],
+      "capabilities": [
+        "accessibility",
+        "animation",
+        "background",
+        "border",
+        "customAttributes",
+        "customCss",
+        "hoverState",
+        "interactive",
+        "responsive",
+        "sizing",
+        "spacing",
+        "text",
+        "typography"
+      ],
       "props": [],
       "targets": [
         "root",
@@ -267,6 +509,36 @@
       "targetSelectors": {
         "root": "&",
         "text": "[data-ctb-part=\"text\"]"
+      },
+      "targetEditorSelectors": {
+        "root": "&",
+        "text": "[data-ctb-part=\"text\"]"
+      },
+      "targetFrontendSelectors": {
+        "root": "&",
+        "text": "[data-ctb-part=\"text\"]"
+      },
+      "targetStyleGroups": {
+        "root": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "text": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ]
       },
       "styleGroups": [
         "typography",
@@ -299,6 +571,22 @@
         "article",
         "address"
       ],
+      "capabilities": [
+        "accessibility",
+        "animation",
+        "background",
+        "border",
+        "customAttributes",
+        "customCss",
+        "focusState",
+        "hoverState",
+        "interactive",
+        "responsive",
+        "richText",
+        "sizing",
+        "spacing",
+        "typography"
+      ],
       "props": [],
       "targets": [
         "root",
@@ -319,6 +607,106 @@
         "markers": "[data-ctb-part=\"markers\"]",
         "quotes": "[data-ctb-part=\"quotes\"]",
         "code": "[data-ctb-part=\"code\"]"
+      },
+      "targetEditorSelectors": {
+        "root": "&",
+        "body": "[data-ctb-part=\"body\"]",
+        "headings": "[data-ctb-part=\"headings\"]",
+        "links": "[data-ctb-part=\"links\"]",
+        "lists": "[data-ctb-part=\"lists\"]",
+        "markers": "[data-ctb-part=\"markers\"]",
+        "quotes": "[data-ctb-part=\"quotes\"]",
+        "code": "[data-ctb-part=\"code\"]"
+      },
+      "targetFrontendSelectors": {
+        "root": "&",
+        "body": "[data-ctb-part=\"body\"]",
+        "headings": "[data-ctb-part=\"headings\"]",
+        "links": "[data-ctb-part=\"links\"]",
+        "lists": "[data-ctb-part=\"lists\"]",
+        "markers": "[data-ctb-part=\"markers\"]",
+        "quotes": "[data-ctb-part=\"quotes\"]",
+        "code": "[data-ctb-part=\"code\"]"
+      },
+      "targetStyleGroups": {
+        "root": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "body": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "headings": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "links": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "lists": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "markers": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "quotes": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "code": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ]
       },
       "styleGroups": [
         "typography",
@@ -351,7 +739,28 @@
       "allowedTags": [
         "a"
       ],
-      "props": [],
+      "capabilities": [
+        "accessibility",
+        "animation",
+        "background",
+        "border",
+        "customAttributes",
+        "customCss",
+        "focusState",
+        "hoverState",
+        "iconStyle",
+        "interactive",
+        "link",
+        "responsive",
+        "sizing",
+        "spacing",
+        "text",
+        "typography"
+      ],
+      "props": [
+        "icon",
+        "iconPosition"
+      ],
       "targets": [
         "root",
         "label",
@@ -361,6 +770,50 @@
         "root": "&",
         "label": "[data-ctb-part=\"label\"]",
         "icon": "[data-ctb-part=\"icon\"]"
+      },
+      "targetEditorSelectors": {
+        "root": "&",
+        "label": "[data-ctb-part=\"label\"]",
+        "icon": "[data-ctb-part=\"icon\"]"
+      },
+      "targetFrontendSelectors": {
+        "root": "&",
+        "label": "[data-ctb-part=\"label\"]",
+        "icon": "[data-ctb-part=\"icon\"]"
+      },
+      "targetStyleGroups": {
+        "root": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "icon",
+          "filters",
+          "childPlacement"
+        ],
+        "label": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "icon": [
+          "icon",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ]
       },
       "styleGroups": [
         "typography",
@@ -398,6 +851,22 @@
         "ol",
         "menu"
       ],
+      "capabilities": [
+        "accessibility",
+        "animation",
+        "background",
+        "border",
+        "children",
+        "customAttributes",
+        "customCss",
+        "focusState",
+        "hoverState",
+        "interactive",
+        "responsive",
+        "sizing",
+        "spacing",
+        "typography"
+      ],
       "props": [],
       "targets": [
         "root",
@@ -410,6 +879,58 @@
         "item": "[data-ctb-part=\"item\"]",
         "marker": "[data-ctb-part=\"marker\"]",
         "link": "[data-ctb-part=\"link\"]"
+      },
+      "targetEditorSelectors": {
+        "root": "&",
+        "item": "[data-ctb-part=\"item\"]",
+        "marker": "[data-ctb-part=\"marker\"]",
+        "link": "[data-ctb-part=\"link\"]"
+      },
+      "targetFrontendSelectors": {
+        "root": "&",
+        "item": "[data-ctb-part=\"item\"]",
+        "marker": "[data-ctb-part=\"marker\"]",
+        "link": "[data-ctb-part=\"link\"]"
+      },
+      "targetStyleGroups": {
+        "root": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "item": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "marker": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "link": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ]
       },
       "styleGroups": [
         "typography",
@@ -442,6 +963,20 @@
       "allowedTags": [
         "li"
       ],
+      "capabilities": [
+        "accessibility",
+        "animation",
+        "background",
+        "border",
+        "children",
+        "customAttributes",
+        "customCss",
+        "responsive",
+        "sizing",
+        "spacing",
+        "text",
+        "typography"
+      ],
       "props": [],
       "targets": [
         "root",
@@ -452,6 +987,46 @@
         "root": "&",
         "item": "[data-ctb-part=\"item\"]",
         "marker": "[data-ctb-part=\"marker\"]"
+      },
+      "targetEditorSelectors": {
+        "root": "&",
+        "item": "[data-ctb-part=\"item\"]",
+        "marker": "[data-ctb-part=\"marker\"]"
+      },
+      "targetFrontendSelectors": {
+        "root": "&",
+        "item": "[data-ctb-part=\"item\"]",
+        "marker": "[data-ctb-part=\"marker\"]"
+      },
+      "targetStyleGroups": {
+        "root": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "item": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "marker": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ]
       },
       "styleGroups": [
         "typography",
@@ -481,6 +1056,26 @@
         "a",
         "button"
       ],
+      "capabilities": [
+        "accessibility",
+        "animation",
+        "background",
+        "border",
+        "buttonAction",
+        "customAttributes",
+        "customCss",
+        "focusState",
+        "hoverState",
+        "icon",
+        "iconStyle",
+        "interactive",
+        "link",
+        "responsive",
+        "sizing",
+        "spacing",
+        "text",
+        "typography"
+      ],
       "props": [
         "mode",
         "icon",
@@ -499,6 +1094,64 @@
         "label": "[data-ctb-part=\"label\"]",
         "icon": "[data-ctb-part=\"icon\"]",
         "spinner": "[data-ctb-part=\"spinner\"]"
+      },
+      "targetEditorSelectors": {
+        "root": "&",
+        "label": "[data-ctb-part=\"label\"]",
+        "icon": "[data-ctb-part=\"icon\"]",
+        "spinner": "[data-ctb-part=\"spinner\"]"
+      },
+      "targetFrontendSelectors": {
+        "root": "&",
+        "label": "[data-ctb-part=\"label\"]",
+        "icon": "[data-ctb-part=\"icon\"]",
+        "spinner": "[data-ctb-part=\"spinner\"]"
+      },
+      "targetStyleGroups": {
+        "root": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "icon",
+          "filters",
+          "childPlacement"
+        ],
+        "label": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "icon": [
+          "icon",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "spinner": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "icon",
+          "filters",
+          "childPlacement"
+        ]
       },
       "styleGroups": [
         "typography",
@@ -535,6 +1188,23 @@
       "allowedTags": [
         "img"
       ],
+      "capabilities": [
+        "accessibility",
+        "animation",
+        "border",
+        "customAttributes",
+        "customCss",
+        "focusState",
+        "hoverState",
+        "image",
+        "imageStyle",
+        "interactive",
+        "link",
+        "responsive",
+        "sizing",
+        "spacing",
+        "typography"
+      ],
       "props": [
         "mediaId",
         "decorative",
@@ -551,6 +1221,45 @@
         "media": "[data-ctb-part=\"media\"]",
         "caption": "[data-ctb-part=\"caption\"]"
       },
+      "targetEditorSelectors": {
+        "root": "&",
+        "media": "[data-ctb-part=\"media\"]",
+        "caption": "[data-ctb-part=\"caption\"]"
+      },
+      "targetFrontendSelectors": {
+        "root": "&",
+        "media": "[data-ctb-part=\"media\"]",
+        "caption": "[data-ctb-part=\"caption\"]"
+      },
+      "targetStyleGroups": {
+        "root": [
+          "media",
+          "sizing",
+          "spacing",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement",
+          "alignment"
+        ],
+        "media": [
+          "media",
+          "sizing",
+          "spacing",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement",
+          "alignment"
+        ],
+        "caption": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "alignment"
+        ]
+      },
       "styleGroups": [
         "media",
         "sizing",
@@ -558,7 +1267,10 @@
         "border",
         "shadow",
         "filters",
-        "childPlacement"
+        "childPlacement",
+        "alignment",
+        "typography",
+        "text"
       ],
       "advancedGroups": [
         "placement",
@@ -581,6 +1293,19 @@
       "allowedTags": [
         "figure"
       ],
+      "capabilities": [
+        "accessibility",
+        "animation",
+        "border",
+        "children",
+        "customAttributes",
+        "customCss",
+        "image",
+        "imageStyle",
+        "responsive",
+        "sizing",
+        "spacing"
+      ],
       "props": [
         "caption",
         "source"
@@ -594,6 +1319,43 @@
         "root": "&",
         "media": "[data-ctb-part=\"media\"]",
         "caption": "[data-ctb-part=\"caption\"]"
+      },
+      "targetEditorSelectors": {
+        "root": "&",
+        "media": "[data-ctb-part=\"media\"]",
+        "caption": "[data-ctb-part=\"caption\"]"
+      },
+      "targetFrontendSelectors": {
+        "root": "&",
+        "media": "[data-ctb-part=\"media\"]",
+        "caption": "[data-ctb-part=\"caption\"]"
+      },
+      "targetStyleGroups": {
+        "root": [
+          "media",
+          "sizing",
+          "spacing",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "media": [
+          "media",
+          "sizing",
+          "spacing",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "caption": [
+          "sizing",
+          "spacing",
+          "border",
+          "shadow",
+          "childPlacement"
+        ]
       },
       "styleGroups": [
         "media",
@@ -623,6 +1385,22 @@
         "span",
         "svg"
       ],
+      "capabilities": [
+        "accessibility",
+        "animation",
+        "background",
+        "border",
+        "customAttributes",
+        "customCss",
+        "focusState",
+        "hoverState",
+        "icon",
+        "iconStyle",
+        "interactive",
+        "responsive",
+        "sizing",
+        "spacing"
+      ],
       "props": [
         "icon",
         "decorative",
@@ -635,6 +1413,36 @@
       "targetSelectors": {
         "root": "&",
         "icon": "[data-ctb-part=\"icon\"]"
+      },
+      "targetEditorSelectors": {
+        "root": "&",
+        "icon": "[data-ctb-part=\"icon\"]"
+      },
+      "targetFrontendSelectors": {
+        "root": "&",
+        "icon": "[data-ctb-part=\"icon\"]"
+      },
+      "targetStyleGroups": {
+        "root": [
+          "icon",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "icon": [
+          "icon",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ]
       },
       "styleGroups": [
         "icon",
@@ -668,6 +1476,16 @@
         "hr",
         "div"
       ],
+      "capabilities": [
+        "accessibility",
+        "animation",
+        "border",
+        "customAttributes",
+        "customCss",
+        "responsive",
+        "sizing",
+        "spacing"
+      ],
       "props": [
         "semantic",
         "orientation"
@@ -679,6 +1497,29 @@
       "targetSelectors": {
         "root": "&",
         "line": "[data-ctb-part=\"line\"]"
+      },
+      "targetEditorSelectors": {
+        "root": "&",
+        "line": "[data-ctb-part=\"line\"]"
+      },
+      "targetFrontendSelectors": {
+        "root": "&",
+        "line": "[data-ctb-part=\"line\"]"
+      },
+      "targetStyleGroups": {
+        "root": [
+          "sizing",
+          "spacing",
+          "border",
+          "alignment",
+          "childPlacement"
+        ],
+        "line": [
+          "sizing",
+          "spacing",
+          "border",
+          "childPlacement"
+        ]
       },
       "styleGroups": [
         "sizing",
@@ -704,12 +1545,30 @@
       "allowedTags": [
         "div"
       ],
+      "capabilities": [
+        "accessibility",
+        "customAttributes",
+        "customCss",
+        "responsive",
+        "sizing"
+      ],
       "props": [],
       "targets": [
         "root"
       ],
       "targetSelectors": {
         "root": "&"
+      },
+      "targetEditorSelectors": {
+        "root": "&"
+      },
+      "targetFrontendSelectors": {
+        "root": "&"
+      },
+      "targetStyleGroups": {
+        "root": [
+          "sizing"
+        ]
       },
       "styleGroups": [
         "sizing"
@@ -727,6 +1586,21 @@
       "allowedTags": [
         "video"
       ],
+      "capabilities": [
+        "accessibility",
+        "animation",
+        "border",
+        "customAttributes",
+        "customCss",
+        "focusState",
+        "hoverState",
+        "imageStyle",
+        "interactive",
+        "responsive",
+        "sizing",
+        "spacing",
+        "video"
+      ],
       "props": [
         "captions",
         "transcript"
@@ -740,6 +1614,43 @@
         "root": "&",
         "media": "[data-ctb-part=\"media\"]",
         "caption": "[data-ctb-part=\"caption\"]"
+      },
+      "targetEditorSelectors": {
+        "root": "&",
+        "media": "[data-ctb-part=\"media\"]",
+        "caption": "[data-ctb-part=\"caption\"]"
+      },
+      "targetFrontendSelectors": {
+        "root": "&",
+        "media": "[data-ctb-part=\"media\"]",
+        "caption": "[data-ctb-part=\"caption\"]"
+      },
+      "targetStyleGroups": {
+        "root": [
+          "media",
+          "sizing",
+          "spacing",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "media": [
+          "media",
+          "sizing",
+          "spacing",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "caption": [
+          "sizing",
+          "spacing",
+          "border",
+          "shadow",
+          "childPlacement"
+        ]
       },
       "styleGroups": [
         "media",
@@ -771,6 +1682,20 @@
       "allowedTags": [
         "audio"
       ],
+      "capabilities": [
+        "accessibility",
+        "animation",
+        "audio",
+        "background",
+        "border",
+        "customAttributes",
+        "customCss",
+        "focusState",
+        "interactive",
+        "responsive",
+        "sizing",
+        "spacing"
+      ],
       "props": [
         "transcript"
       ],
@@ -783,6 +1708,41 @@
         "root": "&",
         "player": "[data-ctb-part=\"player\"]",
         "caption": "[data-ctb-part=\"caption\"]"
+      },
+      "targetEditorSelectors": {
+        "root": "&",
+        "player": "[data-ctb-part=\"player\"]",
+        "caption": "[data-ctb-part=\"caption\"]"
+      },
+      "targetFrontendSelectors": {
+        "root": "&",
+        "player": "[data-ctb-part=\"player\"]",
+        "caption": "[data-ctb-part=\"caption\"]"
+      },
+      "targetStyleGroups": {
+        "root": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "player": [
+          "sizing",
+          "spacing",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "caption": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ]
       },
       "styleGroups": [
         "sizing",
@@ -812,6 +1772,19 @@
       "allowedTags": [
         "iframe"
       ],
+      "capabilities": [
+        "accessibility",
+        "animation",
+        "border",
+        "customAttributes",
+        "customCss",
+        "focusState",
+        "imageStyle",
+        "interactive",
+        "responsive",
+        "sizing",
+        "spacing"
+      ],
       "props": [],
       "targets": [
         "root",
@@ -822,6 +1795,43 @@
         "root": "&",
         "frame": "[data-ctb-part=\"frame\"]",
         "placeholder": "[data-ctb-part=\"placeholder\"]"
+      },
+      "targetEditorSelectors": {
+        "root": "&",
+        "frame": "[data-ctb-part=\"frame\"]",
+        "placeholder": "[data-ctb-part=\"placeholder\"]"
+      },
+      "targetFrontendSelectors": {
+        "root": "&",
+        "frame": "[data-ctb-part=\"frame\"]",
+        "placeholder": "[data-ctb-part=\"placeholder\"]"
+      },
+      "targetStyleGroups": {
+        "root": [
+          "media",
+          "sizing",
+          "spacing",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "frame": [
+          "media",
+          "sizing",
+          "spacing",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "placeholder": [
+          "sizing",
+          "spacing",
+          "border",
+          "shadow",
+          "childPlacement"
+        ]
       },
       "styleGroups": [
         "media",
@@ -852,6 +1862,20 @@
       "allowedTags": [
         "iframe"
       ],
+      "capabilities": [
+        "accessibility",
+        "animation",
+        "border",
+        "customAttributes",
+        "customCss",
+        "focusState",
+        "hoverState",
+        "imageStyle",
+        "interactive",
+        "responsive",
+        "sizing",
+        "spacing"
+      ],
       "props": [
         "provider",
         "address",
@@ -871,6 +1895,53 @@
         "frame": "[data-ctb-part=\"frame\"]",
         "marker": "[data-ctb-part=\"marker\"]",
         "placeholder": "[data-ctb-part=\"placeholder\"]"
+      },
+      "targetEditorSelectors": {
+        "root": "&",
+        "frame": "[data-ctb-part=\"frame\"]",
+        "marker": "[data-ctb-part=\"marker\"]",
+        "placeholder": "[data-ctb-part=\"placeholder\"]"
+      },
+      "targetFrontendSelectors": {
+        "root": "&",
+        "frame": "[data-ctb-part=\"frame\"]",
+        "marker": "[data-ctb-part=\"marker\"]",
+        "placeholder": "[data-ctb-part=\"placeholder\"]"
+      },
+      "targetStyleGroups": {
+        "root": [
+          "media",
+          "sizing",
+          "spacing",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "frame": [
+          "media",
+          "sizing",
+          "spacing",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "marker": [
+          "sizing",
+          "spacing",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "placeholder": [
+          "sizing",
+          "spacing",
+          "border",
+          "shadow",
+          "childPlacement"
+        ]
       },
       "styleGroups": [
         "media",
@@ -902,6 +1973,22 @@
       "allowedTags": [
         "img"
       ],
+      "capabilities": [
+        "accessibility",
+        "animation",
+        "border",
+        "customAttributes",
+        "customCss",
+        "focusState",
+        "hoverState",
+        "image",
+        "imageStyle",
+        "interactive",
+        "link",
+        "responsive",
+        "sizing",
+        "spacing"
+      ],
       "props": [
         "mediaId",
         "linkHome",
@@ -916,6 +2003,43 @@
         "root": "&",
         "media": "[data-ctb-part=\"media\"]",
         "text": "[data-ctb-part=\"text\"]"
+      },
+      "targetEditorSelectors": {
+        "root": "&",
+        "media": "[data-ctb-part=\"media\"]",
+        "text": "[data-ctb-part=\"text\"]"
+      },
+      "targetFrontendSelectors": {
+        "root": "&",
+        "media": "[data-ctb-part=\"media\"]",
+        "text": "[data-ctb-part=\"text\"]"
+      },
+      "targetStyleGroups": {
+        "root": [
+          "media",
+          "sizing",
+          "spacing",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "media": [
+          "media",
+          "sizing",
+          "spacing",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "text": [
+          "sizing",
+          "spacing",
+          "border",
+          "shadow",
+          "childPlacement"
+        ]
       },
       "styleGroups": [
         "media",
@@ -948,12 +2072,39 @@
       "allowedTags": [
         "div"
       ],
+      "capabilities": [
+        "accessibility",
+        "animation",
+        "background",
+        "border",
+        "customAttributes",
+        "customCss",
+        "responsive",
+        "richText",
+        "sizing",
+        "spacing"
+      ],
       "props": [],
       "targets": [
         "root"
       ],
       "targetSelectors": {
         "root": "&"
+      },
+      "targetEditorSelectors": {
+        "root": "&"
+      },
+      "targetFrontendSelectors": {
+        "root": "&"
+      },
+      "targetStyleGroups": {
+        "root": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "childPlacement"
+        ]
       },
       "styleGroups": [
         "sizing",
@@ -980,6 +2131,22 @@
         "pre",
         "code"
       ],
+      "capabilities": [
+        "accessibility",
+        "animation",
+        "background",
+        "border",
+        "customAttributes",
+        "customCss",
+        "focusState",
+        "hoverState",
+        "interactive",
+        "responsive",
+        "sizing",
+        "spacing",
+        "text",
+        "typography"
+      ],
       "props": [
         "language",
         "lineNumbers",
@@ -996,6 +2163,60 @@
         "code": "[data-ctb-part=\"code\"]",
         "toolbar": "[data-ctb-part=\"toolbar\"]",
         "copyButton": "[data-ctb-part=\"copyButton\"]"
+      },
+      "targetEditorSelectors": {
+        "root": "&",
+        "code": "[data-ctb-part=\"code\"]",
+        "toolbar": "[data-ctb-part=\"toolbar\"]",
+        "copyButton": "[data-ctb-part=\"copyButton\"]"
+      },
+      "targetFrontendSelectors": {
+        "root": "&",
+        "code": "[data-ctb-part=\"code\"]",
+        "toolbar": "[data-ctb-part=\"toolbar\"]",
+        "copyButton": "[data-ctb-part=\"copyButton\"]"
+      },
+      "targetStyleGroups": {
+        "root": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "code": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "toolbar": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "copyButton": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ]
       },
       "styleGroups": [
         "typography",
@@ -1028,6 +2249,17 @@
         "div",
         "span"
       ],
+      "capabilities": [
+        "accessibility",
+        "animation",
+        "background",
+        "border",
+        "customAttributes",
+        "customCss",
+        "responsive",
+        "sizing",
+        "spacing"
+      ],
       "props": [
         "shortcode",
         "attributes",
@@ -1039,6 +2271,21 @@
       ],
       "targetSelectors": {
         "root": "&"
+      },
+      "targetEditorSelectors": {
+        "root": "&"
+      },
+      "targetFrontendSelectors": {
+        "root": "&"
+      },
+      "targetStyleGroups": {
+        "root": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "childPlacement"
+        ]
       },
       "styleGroups": [
         "sizing",
@@ -1064,6 +2311,26 @@
       "allowedTags": [
         "nav"
       ],
+      "capabilities": [
+        "accessibility",
+        "animation",
+        "background",
+        "border",
+        "children",
+        "customAttributes",
+        "customCss",
+        "flexLayout",
+        "focusState",
+        "gridLayout",
+        "hoverState",
+        "interactive",
+        "link",
+        "navigation",
+        "repeater",
+        "responsive",
+        "sizing",
+        "spacing"
+      ],
       "props": [
         "menuId",
         "orientation",
@@ -1088,7 +2355,102 @@
         "toggle": "[data-ctb-part=\"toggle\"]",
         "icon": "[data-ctb-part=\"icon\"]"
       },
+      "targetEditorSelectors": {
+        "root": "&",
+        "item": "[data-ctb-part=\"item\"]",
+        "link": "[data-ctb-part=\"link\"]",
+        "dropdown": "[data-ctb-part=\"dropdown\"]",
+        "dropdownItem": "[data-ctb-part=\"dropdownItem\"]",
+        "toggle": "[data-ctb-part=\"toggle\"]",
+        "icon": "[data-ctb-part=\"icon\"]"
+      },
+      "targetFrontendSelectors": {
+        "root": "&",
+        "item": "[data-ctb-part=\"item\"]",
+        "link": "[data-ctb-part=\"link\"]",
+        "dropdown": "[data-ctb-part=\"dropdown\"]",
+        "dropdownItem": "[data-ctb-part=\"dropdownItem\"]",
+        "toggle": "[data-ctb-part=\"toggle\"]",
+        "icon": "[data-ctb-part=\"icon\"]"
+      },
+      "targetStyleGroups": {
+        "root": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "item": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "link": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "dropdown": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "dropdownItem": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "toggle": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "icon": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ]
+      },
       "styleGroups": [
+        "layout",
         "flex",
         "grid",
         "sizing",
@@ -1122,6 +2484,25 @@
       "allowedTags": [
         "form"
       ],
+      "capabilities": [
+        "accessibility",
+        "animation",
+        "background",
+        "border",
+        "children",
+        "customAttributes",
+        "customCss",
+        "flexLayout",
+        "focusState",
+        "form",
+        "gridLayout",
+        "interactive",
+        "repeater",
+        "responsive",
+        "sizing",
+        "spacing",
+        "typography"
+      ],
       "props": [
         "submissionMode",
         "successMessage",
@@ -1149,7 +2530,119 @@
         "success": "[data-ctb-part=\"success\"]",
         "submit": "[data-ctb-part=\"submit\"]"
       },
+      "targetEditorSelectors": {
+        "root": "&",
+        "row": "[data-ctb-part=\"row\"]",
+        "label": "[data-ctb-part=\"label\"]",
+        "control": "[data-ctb-part=\"control\"]",
+        "help": "[data-ctb-part=\"help\"]",
+        "error": "[data-ctb-part=\"error\"]",
+        "success": "[data-ctb-part=\"success\"]",
+        "submit": "[data-ctb-part=\"submit\"]"
+      },
+      "targetFrontendSelectors": {
+        "root": "&",
+        "row": "[data-ctb-part=\"row\"]",
+        "label": "[data-ctb-part=\"label\"]",
+        "control": "[data-ctb-part=\"control\"]",
+        "help": "[data-ctb-part=\"help\"]",
+        "error": "[data-ctb-part=\"error\"]",
+        "success": "[data-ctb-part=\"success\"]",
+        "submit": "[data-ctb-part=\"submit\"]"
+      },
+      "targetStyleGroups": {
+        "root": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "typography",
+          "text",
+          "childPlacement"
+        ],
+        "row": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "typography",
+          "text",
+          "childPlacement"
+        ],
+        "label": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "control": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "help": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "error": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "success": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "typography",
+          "text",
+          "childPlacement"
+        ],
+        "submit": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ]
+      },
       "styleGroups": [
+        "layout",
         "flex",
         "grid",
         "sizing",
@@ -1183,28 +2676,146 @@
         "div",
         "fieldset"
       ],
+      "capabilities": [
+        "accessibility",
+        "animation",
+        "background",
+        "border",
+        "children",
+        "customAttributes",
+        "customCss",
+        "focusState",
+        "formField",
+        "interactive",
+        "repeater",
+        "responsive",
+        "sizing",
+        "spacing",
+        "typography"
+      ],
       "props": [
         "fieldType",
         "label",
         "name",
+        "placeholder",
         "help",
+        "options",
         "required"
       ],
       "targets": [
         "root",
+        "row",
         "label",
         "control",
         "placeholder",
         "help",
-        "error"
+        "error",
+        "requiredMark"
       ],
       "targetSelectors": {
         "root": "&",
-        "label": "[data-ctb-part=\"label\"]",
-        "control": "[data-ctb-part=\"control\"]",
-        "placeholder": "[data-ctb-part=\"placeholder\"]",
-        "help": "[data-ctb-part=\"help\"]",
-        "error": "[data-ctb-part=\"error\"]"
+        "row": "[data-ctb-part=\"row\"]",
+        "label": "[data-ctb-part=\"row\"] > [data-ctb-part=\"label\"]",
+        "control": "[data-ctb-part=\"row\"] [data-ctb-part=\"control\"]",
+        "placeholder": "[data-ctb-part=\"row\"] [data-ctb-part=\"control\"]::placeholder",
+        "help": "[data-ctb-part=\"row\"] > [data-ctb-part=\"help\"]",
+        "error": "[data-ctb-part=\"row\"] > [data-ctb-part=\"error\"]",
+        "requiredMark": "[data-ctb-part=\"row\"] > [data-ctb-part=\"label\"] > [data-ctb-part=\"requiredMark\"]"
+      },
+      "targetEditorSelectors": {
+        "root": "&",
+        "row": "[data-ctb-part=\"row\"]",
+        "label": "[data-ctb-part=\"row\"] > [data-ctb-part=\"label\"]",
+        "control": "[data-ctb-part=\"row\"] [data-ctb-part=\"control\"]",
+        "placeholder": "[data-ctb-part=\"row\"] [data-ctb-part=\"control\"]::placeholder",
+        "help": "[data-ctb-part=\"row\"] > [data-ctb-part=\"help\"]",
+        "error": "[data-ctb-part=\"row\"] > [data-ctb-part=\"error\"]",
+        "requiredMark": "[data-ctb-part=\"row\"] > [data-ctb-part=\"label\"] > [data-ctb-part=\"requiredMark\"]"
+      },
+      "targetFrontendSelectors": {
+        "root": "&",
+        "row": "[data-ctb-part=\"row\"]",
+        "label": "[data-ctb-part=\"row\"] > [data-ctb-part=\"label\"]",
+        "control": "[data-ctb-part=\"row\"] [data-ctb-part=\"control\"]",
+        "placeholder": "[data-ctb-part=\"row\"] [data-ctb-part=\"control\"]::placeholder",
+        "help": "[data-ctb-part=\"row\"] > [data-ctb-part=\"help\"]",
+        "error": "[data-ctb-part=\"row\"] > [data-ctb-part=\"error\"]",
+        "requiredMark": "[data-ctb-part=\"row\"] > [data-ctb-part=\"label\"] > [data-ctb-part=\"requiredMark\"]"
+      },
+      "targetStyleGroups": {
+        "root": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "row": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "label": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "control": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "placeholder": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "help": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "error": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "requiredMark": [
+          "typography",
+          "text",
+          "spacing"
+        ]
       },
       "styleGroups": [
         "typography",
@@ -1238,6 +2849,21 @@
       "allowedTags": [
         "input"
       ],
+      "capabilities": [
+        "accessibility",
+        "animation",
+        "background",
+        "border",
+        "customAttributes",
+        "customCss",
+        "focusState",
+        "formField",
+        "interactive",
+        "responsive",
+        "sizing",
+        "spacing",
+        "typography"
+      ],
       "props": [],
       "targets": [
         "root",
@@ -1254,6 +2880,84 @@
         "label": "[data-ctb-part=\"label\"]",
         "help": "[data-ctb-part=\"help\"]",
         "error": "[data-ctb-part=\"error\"]"
+      },
+      "targetEditorSelectors": {
+        "root": "&",
+        "control": "[data-ctb-part=\"control\"]",
+        "placeholder": "[data-ctb-part=\"placeholder\"]",
+        "label": "[data-ctb-part=\"label\"]",
+        "help": "[data-ctb-part=\"help\"]",
+        "error": "[data-ctb-part=\"error\"]"
+      },
+      "targetFrontendSelectors": {
+        "root": "&",
+        "control": "[data-ctb-part=\"control\"]",
+        "placeholder": "[data-ctb-part=\"placeholder\"]",
+        "label": "[data-ctb-part=\"label\"]",
+        "help": "[data-ctb-part=\"help\"]",
+        "error": "[data-ctb-part=\"error\"]"
+      },
+      "targetStyleGroups": {
+        "root": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "control": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "placeholder": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "label": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "help": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "error": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ]
       },
       "styleGroups": [
         "typography",
@@ -1288,6 +2992,22 @@
       "allowedTags": [
         "textarea"
       ],
+      "capabilities": [
+        "accessibility",
+        "animation",
+        "background",
+        "border",
+        "customAttributes",
+        "customCss",
+        "focusState",
+        "formField",
+        "interactive",
+        "responsive",
+        "sizing",
+        "spacing",
+        "text",
+        "typography"
+      ],
       "props": [
         "resize"
       ],
@@ -1306,6 +3026,84 @@
         "label": "[data-ctb-part=\"label\"]",
         "help": "[data-ctb-part=\"help\"]",
         "error": "[data-ctb-part=\"error\"]"
+      },
+      "targetEditorSelectors": {
+        "root": "&",
+        "control": "[data-ctb-part=\"control\"]",
+        "placeholder": "[data-ctb-part=\"placeholder\"]",
+        "label": "[data-ctb-part=\"label\"]",
+        "help": "[data-ctb-part=\"help\"]",
+        "error": "[data-ctb-part=\"error\"]"
+      },
+      "targetFrontendSelectors": {
+        "root": "&",
+        "control": "[data-ctb-part=\"control\"]",
+        "placeholder": "[data-ctb-part=\"placeholder\"]",
+        "label": "[data-ctb-part=\"label\"]",
+        "help": "[data-ctb-part=\"help\"]",
+        "error": "[data-ctb-part=\"error\"]"
+      },
+      "targetStyleGroups": {
+        "root": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "control": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "placeholder": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "label": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "help": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "error": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ]
       },
       "styleGroups": [
         "typography",
@@ -1340,6 +3138,23 @@
       "allowedTags": [
         "select"
       ],
+      "capabilities": [
+        "accessibility",
+        "animation",
+        "background",
+        "border",
+        "children",
+        "customAttributes",
+        "customCss",
+        "focusState",
+        "formField",
+        "interactive",
+        "repeater",
+        "responsive",
+        "sizing",
+        "spacing",
+        "typography"
+      ],
       "props": [
         "options",
         "placeholder"
@@ -1359,6 +3174,82 @@
         "label": "[data-ctb-part=\"label\"]",
         "help": "[data-ctb-part=\"help\"]",
         "error": "[data-ctb-part=\"error\"]"
+      },
+      "targetEditorSelectors": {
+        "root": "&",
+        "control": "[data-ctb-part=\"control\"]",
+        "indicator": "[data-ctb-part=\"indicator\"]",
+        "label": "[data-ctb-part=\"label\"]",
+        "help": "[data-ctb-part=\"help\"]",
+        "error": "[data-ctb-part=\"error\"]"
+      },
+      "targetFrontendSelectors": {
+        "root": "&",
+        "control": "[data-ctb-part=\"control\"]",
+        "indicator": "[data-ctb-part=\"indicator\"]",
+        "label": "[data-ctb-part=\"label\"]",
+        "help": "[data-ctb-part=\"help\"]",
+        "error": "[data-ctb-part=\"error\"]"
+      },
+      "targetStyleGroups": {
+        "root": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "control": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "indicator": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "label": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "help": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "error": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ]
       },
       "styleGroups": [
         "typography",
@@ -1392,6 +3283,21 @@
       "allowedTags": [
         "input"
       ],
+      "capabilities": [
+        "accessibility",
+        "animation",
+        "background",
+        "border",
+        "customAttributes",
+        "customCss",
+        "focusState",
+        "formField",
+        "interactive",
+        "responsive",
+        "sizing",
+        "spacing",
+        "typography"
+      ],
       "props": [
         "label",
         "consent"
@@ -1411,6 +3317,82 @@
         "label": "[data-ctb-part=\"label\"]",
         "help": "[data-ctb-part=\"help\"]",
         "error": "[data-ctb-part=\"error\"]"
+      },
+      "targetEditorSelectors": {
+        "root": "&",
+        "control": "[data-ctb-part=\"control\"]",
+        "checkmark": "[data-ctb-part=\"checkmark\"]",
+        "label": "[data-ctb-part=\"label\"]",
+        "help": "[data-ctb-part=\"help\"]",
+        "error": "[data-ctb-part=\"error\"]"
+      },
+      "targetFrontendSelectors": {
+        "root": "&",
+        "control": "[data-ctb-part=\"control\"]",
+        "checkmark": "[data-ctb-part=\"checkmark\"]",
+        "label": "[data-ctb-part=\"label\"]",
+        "help": "[data-ctb-part=\"help\"]",
+        "error": "[data-ctb-part=\"error\"]"
+      },
+      "targetStyleGroups": {
+        "root": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "control": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "checkmark": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "label": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "help": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "error": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ]
       },
       "styleGroups": [
         "typography",
@@ -1445,6 +3427,22 @@
         "div",
         "fieldset"
       ],
+      "capabilities": [
+        "accessibility",
+        "animation",
+        "background",
+        "border",
+        "customAttributes",
+        "customCss",
+        "focusState",
+        "formField",
+        "interactive",
+        "repeater",
+        "responsive",
+        "sizing",
+        "spacing",
+        "typography"
+      ],
       "props": [
         "name",
         "legend",
@@ -1467,6 +3465,82 @@
         "dot": "[data-ctb-part=\"dot\"]",
         "label": "[data-ctb-part=\"label\"]",
         "error": "[data-ctb-part=\"error\"]"
+      },
+      "targetEditorSelectors": {
+        "root": "&",
+        "option": "[data-ctb-part=\"option\"]",
+        "control": "[data-ctb-part=\"control\"]",
+        "dot": "[data-ctb-part=\"dot\"]",
+        "label": "[data-ctb-part=\"label\"]",
+        "error": "[data-ctb-part=\"error\"]"
+      },
+      "targetFrontendSelectors": {
+        "root": "&",
+        "option": "[data-ctb-part=\"option\"]",
+        "control": "[data-ctb-part=\"control\"]",
+        "dot": "[data-ctb-part=\"dot\"]",
+        "label": "[data-ctb-part=\"label\"]",
+        "error": "[data-ctb-part=\"error\"]"
+      },
+      "targetStyleGroups": {
+        "root": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "option": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "control": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "dot": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "label": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "error": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ]
       },
       "styleGroups": [
         "typography",
@@ -1500,6 +3574,22 @@
       "allowedTags": [
         "input"
       ],
+      "capabilities": [
+        "accessibility",
+        "animation",
+        "background",
+        "border",
+        "customAttributes",
+        "customCss",
+        "focusState",
+        "formField",
+        "hoverState",
+        "interactive",
+        "responsive",
+        "sizing",
+        "spacing",
+        "typography"
+      ],
       "props": [
         "maxSize",
         "label",
@@ -1520,6 +3610,84 @@
         "filename": "[data-ctb-part=\"filename\"]",
         "help": "[data-ctb-part=\"help\"]",
         "error": "[data-ctb-part=\"error\"]"
+      },
+      "targetEditorSelectors": {
+        "root": "&",
+        "dropzone": "[data-ctb-part=\"dropzone\"]",
+        "button": "[data-ctb-part=\"button\"]",
+        "filename": "[data-ctb-part=\"filename\"]",
+        "help": "[data-ctb-part=\"help\"]",
+        "error": "[data-ctb-part=\"error\"]"
+      },
+      "targetFrontendSelectors": {
+        "root": "&",
+        "dropzone": "[data-ctb-part=\"dropzone\"]",
+        "button": "[data-ctb-part=\"button\"]",
+        "filename": "[data-ctb-part=\"filename\"]",
+        "help": "[data-ctb-part=\"help\"]",
+        "error": "[data-ctb-part=\"error\"]"
+      },
+      "targetStyleGroups": {
+        "root": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "dropzone": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "button": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "filename": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "help": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "error": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ]
       },
       "styleGroups": [
         "typography",
@@ -1555,6 +3723,25 @@
         "button",
         "input"
       ],
+      "capabilities": [
+        "accessibility",
+        "animation",
+        "background",
+        "border",
+        "buttonAction",
+        "customAttributes",
+        "customCss",
+        "focusState",
+        "formField",
+        "hoverState",
+        "iconStyle",
+        "interactive",
+        "responsive",
+        "sizing",
+        "spacing",
+        "text",
+        "typography"
+      ],
       "props": [
         "loadingLabel",
         "successLabel",
@@ -1571,6 +3758,64 @@
         "label": "[data-ctb-part=\"label\"]",
         "icon": "[data-ctb-part=\"icon\"]",
         "spinner": "[data-ctb-part=\"spinner\"]"
+      },
+      "targetEditorSelectors": {
+        "root": "&",
+        "label": "[data-ctb-part=\"label\"]",
+        "icon": "[data-ctb-part=\"icon\"]",
+        "spinner": "[data-ctb-part=\"spinner\"]"
+      },
+      "targetFrontendSelectors": {
+        "root": "&",
+        "label": "[data-ctb-part=\"label\"]",
+        "icon": "[data-ctb-part=\"icon\"]",
+        "spinner": "[data-ctb-part=\"spinner\"]"
+      },
+      "targetStyleGroups": {
+        "root": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "icon",
+          "filters",
+          "childPlacement"
+        ],
+        "label": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "icon": [
+          "icon",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "spinner": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "icon",
+          "filters",
+          "childPlacement"
+        ]
       },
       "styleGroups": [
         "typography",
@@ -1607,6 +3852,24 @@
       "allowedTags": [
         "div"
       ],
+      "capabilities": [
+        "accessibility",
+        "animation",
+        "background",
+        "border",
+        "children",
+        "customAttributes",
+        "customCss",
+        "flexLayout",
+        "focusState",
+        "gridLayout",
+        "hoverState",
+        "interactive",
+        "repeater",
+        "responsive",
+        "sizing",
+        "spacing"
+      ],
       "props": [
         "items",
         "multiple",
@@ -1629,7 +3892,91 @@
         "icon": "[data-ctb-part=\"icon\"]",
         "content": "[data-ctb-part=\"content\"]"
       },
+      "targetEditorSelectors": {
+        "root": "&",
+        "item": "[data-ctb-part=\"item\"]",
+        "header": "[data-ctb-part=\"header\"]",
+        "title": "[data-ctb-part=\"title\"]",
+        "icon": "[data-ctb-part=\"icon\"]",
+        "content": "[data-ctb-part=\"content\"]"
+      },
+      "targetFrontendSelectors": {
+        "root": "&",
+        "item": "[data-ctb-part=\"item\"]",
+        "header": "[data-ctb-part=\"header\"]",
+        "title": "[data-ctb-part=\"title\"]",
+        "icon": "[data-ctb-part=\"icon\"]",
+        "content": "[data-ctb-part=\"content\"]"
+      },
+      "targetStyleGroups": {
+        "root": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "item": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "header": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "title": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "icon": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "content": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ]
+      },
       "styleGroups": [
+        "layout",
         "flex",
         "grid",
         "sizing",
@@ -1662,6 +4009,23 @@
       "allowedTags": [
         "details"
       ],
+      "capabilities": [
+        "accessibility",
+        "animation",
+        "background",
+        "border",
+        "children",
+        "customAttributes",
+        "customCss",
+        "flexLayout",
+        "focusState",
+        "gridLayout",
+        "hoverState",
+        "interactive",
+        "responsive",
+        "sizing",
+        "spacing"
+      ],
       "props": [
         "title",
         "content",
@@ -1681,7 +4045,77 @@
         "icon": "[data-ctb-part=\"icon\"]",
         "content": "[data-ctb-part=\"content\"]"
       },
+      "targetEditorSelectors": {
+        "root": "&",
+        "header": "[data-ctb-part=\"header\"]",
+        "title": "[data-ctb-part=\"title\"]",
+        "icon": "[data-ctb-part=\"icon\"]",
+        "content": "[data-ctb-part=\"content\"]"
+      },
+      "targetFrontendSelectors": {
+        "root": "&",
+        "header": "[data-ctb-part=\"header\"]",
+        "title": "[data-ctb-part=\"title\"]",
+        "icon": "[data-ctb-part=\"icon\"]",
+        "content": "[data-ctb-part=\"content\"]"
+      },
+      "targetStyleGroups": {
+        "root": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "header": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "title": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "icon": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "content": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ]
+      },
       "styleGroups": [
+        "layout",
         "flex",
         "grid",
         "sizing",
@@ -1714,6 +4148,24 @@
       "allowedTags": [
         "div"
       ],
+      "capabilities": [
+        "accessibility",
+        "animation",
+        "background",
+        "border",
+        "children",
+        "customAttributes",
+        "customCss",
+        "flexLayout",
+        "focusState",
+        "gridLayout",
+        "hoverState",
+        "interactive",
+        "repeater",
+        "responsive",
+        "sizing",
+        "spacing"
+      ],
       "props": [
         "tabs",
         "activeTab",
@@ -1736,7 +4188,95 @@
         "panel": "[data-ctb-part=\"panel\"]",
         "icon": "[data-ctb-part=\"icon\"]"
       },
+      "targetEditorSelectors": {
+        "root": "&",
+        "tablist": "[data-ctb-part=\"tablist\"]",
+        "tab": "[data-ctb-part=\"tab\"]",
+        "activeTab": "[data-ctb-part=\"activeTab\"]",
+        "panel": "[data-ctb-part=\"panel\"]",
+        "icon": "[data-ctb-part=\"icon\"]"
+      },
+      "targetFrontendSelectors": {
+        "root": "&",
+        "tablist": "[data-ctb-part=\"tablist\"]",
+        "tab": "[data-ctb-part=\"tab\"]",
+        "activeTab": "[data-ctb-part=\"activeTab\"]",
+        "panel": "[data-ctb-part=\"panel\"]",
+        "icon": "[data-ctb-part=\"icon\"]"
+      },
+      "targetStyleGroups": {
+        "root": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "tablist": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "tab": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "activeTab": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "panel": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "icon": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ]
+      },
       "styleGroups": [
+        "layout",
         "flex",
         "grid",
         "sizing",
@@ -1770,6 +4310,22 @@
         "figure",
         "blockquote"
       ],
+      "capabilities": [
+        "accessibility",
+        "animation",
+        "background",
+        "border",
+        "customAttributes",
+        "customCss",
+        "flexLayout",
+        "focusState",
+        "gridLayout",
+        "hoverState",
+        "interactive",
+        "responsive",
+        "sizing",
+        "spacing"
+      ],
       "props": [
         "quote",
         "author",
@@ -1794,7 +4350,82 @@
         "avatar": "[data-ctb-part=\"avatar\"]",
         "rating": "[data-ctb-part=\"rating\"]"
       },
+      "targetEditorSelectors": {
+        "root": "&",
+        "quote": "[data-ctb-part=\"quote\"]",
+        "author": "[data-ctb-part=\"author\"]",
+        "role": "[data-ctb-part=\"role\"]",
+        "avatar": "[data-ctb-part=\"avatar\"]",
+        "rating": "[data-ctb-part=\"rating\"]"
+      },
+      "targetFrontendSelectors": {
+        "root": "&",
+        "quote": "[data-ctb-part=\"quote\"]",
+        "author": "[data-ctb-part=\"author\"]",
+        "role": "[data-ctb-part=\"role\"]",
+        "avatar": "[data-ctb-part=\"avatar\"]",
+        "rating": "[data-ctb-part=\"rating\"]"
+      },
+      "targetStyleGroups": {
+        "root": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "quote": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "author": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "role": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "avatar": [
+          "sizing",
+          "spacing",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "rating": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ]
+      },
       "styleGroups": [
+        "layout",
         "flex",
         "grid",
         "sizing",
@@ -1827,6 +4458,18 @@
         "div",
         "span"
       ],
+      "capabilities": [
+        "accessibility",
+        "animation",
+        "background",
+        "border",
+        "customAttributes",
+        "customCss",
+        "responsive",
+        "sizing",
+        "spacing",
+        "typography"
+      ],
       "props": [
         "value",
         "start",
@@ -1849,6 +4492,72 @@
         "prefix": "[data-ctb-part=\"prefix\"]",
         "suffix": "[data-ctb-part=\"suffix\"]",
         "label": "[data-ctb-part=\"label\"]"
+      },
+      "targetEditorSelectors": {
+        "root": "&",
+        "number": "[data-ctb-part=\"number\"]",
+        "prefix": "[data-ctb-part=\"prefix\"]",
+        "suffix": "[data-ctb-part=\"suffix\"]",
+        "label": "[data-ctb-part=\"label\"]"
+      },
+      "targetFrontendSelectors": {
+        "root": "&",
+        "number": "[data-ctb-part=\"number\"]",
+        "prefix": "[data-ctb-part=\"prefix\"]",
+        "suffix": "[data-ctb-part=\"suffix\"]",
+        "label": "[data-ctb-part=\"label\"]"
+      },
+      "targetStyleGroups": {
+        "root": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "number": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "prefix": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "suffix": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "label": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ]
       },
       "styleGroups": [
         "typography",
@@ -1878,6 +4587,18 @@
         "progress",
         "div"
       ],
+      "capabilities": [
+        "accessibility",
+        "animation",
+        "background",
+        "border",
+        "customAttributes",
+        "customCss",
+        "responsive",
+        "sizing",
+        "spacing",
+        "typography"
+      ],
       "props": [
         "label",
         "showValue",
@@ -1896,6 +4617,67 @@
         "fill": "[data-ctb-part=\"fill\"]",
         "label": "[data-ctb-part=\"label\"]",
         "value": "[data-ctb-part=\"value\"]"
+      },
+      "targetEditorSelectors": {
+        "root": "&",
+        "track": "[data-ctb-part=\"track\"]",
+        "fill": "[data-ctb-part=\"fill\"]",
+        "label": "[data-ctb-part=\"label\"]",
+        "value": "[data-ctb-part=\"value\"]"
+      },
+      "targetFrontendSelectors": {
+        "root": "&",
+        "track": "[data-ctb-part=\"track\"]",
+        "fill": "[data-ctb-part=\"fill\"]",
+        "label": "[data-ctb-part=\"label\"]",
+        "value": "[data-ctb-part=\"value\"]"
+      },
+      "targetStyleGroups": {
+        "root": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "typography",
+          "text",
+          "childPlacement"
+        ],
+        "track": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "typography",
+          "text",
+          "childPlacement"
+        ],
+        "fill": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "typography",
+          "text",
+          "childPlacement"
+        ],
+        "label": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "childPlacement"
+        ],
+        "value": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "childPlacement"
+        ]
       },
       "styleGroups": [
         "sizing",
@@ -1924,6 +4706,25 @@
         "div",
         "figure"
       ],
+      "capabilities": [
+        "accessibility",
+        "animation",
+        "background",
+        "border",
+        "children",
+        "customAttributes",
+        "customCss",
+        "flexLayout",
+        "focusState",
+        "gridLayout",
+        "hoverState",
+        "image",
+        "interactive",
+        "repeater",
+        "responsive",
+        "sizing",
+        "spacing"
+      ],
       "props": [
         "items",
         "captions",
@@ -1946,7 +4747,90 @@
         "caption": "[data-ctb-part=\"caption\"]",
         "overlay": "[data-ctb-part=\"overlay\"]"
       },
+      "targetEditorSelectors": {
+        "root": "&",
+        "grid": "[data-ctb-part=\"grid\"]",
+        "item": "[data-ctb-part=\"item\"]",
+        "media": "[data-ctb-part=\"media\"]",
+        "caption": "[data-ctb-part=\"caption\"]",
+        "overlay": "[data-ctb-part=\"overlay\"]"
+      },
+      "targetFrontendSelectors": {
+        "root": "&",
+        "grid": "[data-ctb-part=\"grid\"]",
+        "item": "[data-ctb-part=\"item\"]",
+        "media": "[data-ctb-part=\"media\"]",
+        "caption": "[data-ctb-part=\"caption\"]",
+        "overlay": "[data-ctb-part=\"overlay\"]"
+      },
+      "targetStyleGroups": {
+        "root": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "grid": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "item": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "media": [
+          "sizing",
+          "spacing",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "caption": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "overlay": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ]
+      },
       "styleGroups": [
+        "layout",
         "flex",
         "grid",
         "sizing",
@@ -1980,6 +4864,25 @@
         "div",
         "section"
       ],
+      "capabilities": [
+        "accessibility",
+        "animation",
+        "background",
+        "border",
+        "children",
+        "customAttributes",
+        "customCss",
+        "flexLayout",
+        "focusState",
+        "gridLayout",
+        "hoverState",
+        "image",
+        "interactive",
+        "repeater",
+        "responsive",
+        "sizing",
+        "spacing"
+      ],
       "props": [
         "slides",
         "autoplay",
@@ -2007,7 +4910,104 @@
         "arrows": "[data-ctb-part=\"arrows\"]",
         "dots": "[data-ctb-part=\"dots\"]"
       },
+      "targetEditorSelectors": {
+        "root": "&",
+        "track": "[data-ctb-part=\"track\"]",
+        "slide": "[data-ctb-part=\"slide\"]",
+        "media": "[data-ctb-part=\"media\"]",
+        "caption": "[data-ctb-part=\"caption\"]",
+        "arrows": "[data-ctb-part=\"arrows\"]",
+        "dots": "[data-ctb-part=\"dots\"]"
+      },
+      "targetFrontendSelectors": {
+        "root": "&",
+        "track": "[data-ctb-part=\"track\"]",
+        "slide": "[data-ctb-part=\"slide\"]",
+        "media": "[data-ctb-part=\"media\"]",
+        "caption": "[data-ctb-part=\"caption\"]",
+        "arrows": "[data-ctb-part=\"arrows\"]",
+        "dots": "[data-ctb-part=\"dots\"]"
+      },
+      "targetStyleGroups": {
+        "root": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "track": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "slide": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "media": [
+          "sizing",
+          "spacing",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "caption": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "arrows": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "dots": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ]
+      },
       "styleGroups": [
+        "layout",
         "flex",
         "grid",
         "sizing",
@@ -2042,6 +5042,25 @@
         "div",
         "section"
       ],
+      "capabilities": [
+        "accessibility",
+        "animation",
+        "background",
+        "border",
+        "children",
+        "customAttributes",
+        "customCss",
+        "flexLayout",
+        "focusState",
+        "gridLayout",
+        "hoverState",
+        "image",
+        "interactive",
+        "repeater",
+        "responsive",
+        "sizing",
+        "spacing"
+      ],
       "props": [
         "items",
         "visibleCount",
@@ -2064,7 +5083,84 @@
         "arrows": "[data-ctb-part=\"arrows\"]",
         "dots": "[data-ctb-part=\"dots\"]"
       },
+      "targetEditorSelectors": {
+        "root": "&",
+        "track": "[data-ctb-part=\"track\"]",
+        "item": "[data-ctb-part=\"item\"]",
+        "arrows": "[data-ctb-part=\"arrows\"]",
+        "dots": "[data-ctb-part=\"dots\"]"
+      },
+      "targetFrontendSelectors": {
+        "root": "&",
+        "track": "[data-ctb-part=\"track\"]",
+        "item": "[data-ctb-part=\"item\"]",
+        "arrows": "[data-ctb-part=\"arrows\"]",
+        "dots": "[data-ctb-part=\"dots\"]"
+      },
+      "targetStyleGroups": {
+        "root": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "track": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "item": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "arrows": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "dots": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ]
+      },
       "styleGroups": [
+        "layout",
         "flex",
         "grid",
         "sizing",
@@ -2099,6 +5195,25 @@
         "nav",
         "div"
       ],
+      "capabilities": [
+        "accessibility",
+        "animation",
+        "background",
+        "border",
+        "customAttributes",
+        "customCss",
+        "flexLayout",
+        "focusState",
+        "gridLayout",
+        "hoverState",
+        "icon",
+        "interactive",
+        "link",
+        "repeater",
+        "responsive",
+        "sizing",
+        "spacing"
+      ],
       "props": [
         "networks",
         "showLabels",
@@ -2116,7 +5231,63 @@
         "icon": "[data-ctb-part=\"icon\"]",
         "label": "[data-ctb-part=\"label\"]"
       },
+      "targetEditorSelectors": {
+        "root": "&",
+        "item": "[data-ctb-part=\"item\"]",
+        "icon": "[data-ctb-part=\"icon\"]",
+        "label": "[data-ctb-part=\"label\"]"
+      },
+      "targetFrontendSelectors": {
+        "root": "&",
+        "item": "[data-ctb-part=\"item\"]",
+        "icon": "[data-ctb-part=\"icon\"]",
+        "label": "[data-ctb-part=\"label\"]"
+      },
+      "targetStyleGroups": {
+        "root": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "item": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "icon": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "label": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ]
+      },
       "styleGroups": [
+        "layout",
         "flex",
         "grid",
         "sizing",
@@ -2149,6 +5320,25 @@
       "allowedTags": [
         "nav"
       ],
+      "capabilities": [
+        "accessibility",
+        "animation",
+        "background",
+        "border",
+        "customAttributes",
+        "customCss",
+        "flexLayout",
+        "focusState",
+        "gridLayout",
+        "hoverState",
+        "interactive",
+        "link",
+        "navigation",
+        "repeater",
+        "responsive",
+        "sizing",
+        "spacing"
+      ],
       "props": [
         "source",
         "homeLabel",
@@ -2169,7 +5359,70 @@
         "separator": "[data-ctb-part=\"separator\"]",
         "current": "[data-ctb-part=\"current\"]"
       },
+      "targetEditorSelectors": {
+        "root": "&",
+        "item": "[data-ctb-part=\"item\"]",
+        "link": "[data-ctb-part=\"link\"]",
+        "separator": "[data-ctb-part=\"separator\"]",
+        "current": "[data-ctb-part=\"current\"]"
+      },
+      "targetFrontendSelectors": {
+        "root": "&",
+        "item": "[data-ctb-part=\"item\"]",
+        "link": "[data-ctb-part=\"link\"]",
+        "separator": "[data-ctb-part=\"separator\"]",
+        "current": "[data-ctb-part=\"current\"]"
+      },
+      "targetStyleGroups": {
+        "root": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "item": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "link": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "separator": [
+          "sizing",
+          "spacing",
+          "border",
+          "childPlacement"
+        ],
+        "current": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ]
+      },
       "styleGroups": [
+        "layout",
         "flex",
         "grid",
         "sizing",
@@ -2202,6 +5455,26 @@
       "allowedTags": [
         "form"
       ],
+      "capabilities": [
+        "accessibility",
+        "animation",
+        "background",
+        "border",
+        "buttonAction",
+        "customAttributes",
+        "customCss",
+        "flexLayout",
+        "focusState",
+        "formField",
+        "gridLayout",
+        "hoverState",
+        "interactive",
+        "query",
+        "responsive",
+        "sizing",
+        "spacing",
+        "typography"
+      ],
       "props": [
         "source",
         "placeholder",
@@ -2229,7 +5502,120 @@
         "empty": "[data-ctb-part=\"empty\"]",
         "loading": "[data-ctb-part=\"loading\"]"
       },
+      "targetEditorSelectors": {
+        "root": "&",
+        "input": "[data-ctb-part=\"input\"]",
+        "button": "[data-ctb-part=\"button\"]",
+        "icon": "[data-ctb-part=\"icon\"]",
+        "results": "[data-ctb-part=\"results\"]",
+        "result": "[data-ctb-part=\"result\"]",
+        "empty": "[data-ctb-part=\"empty\"]",
+        "loading": "[data-ctb-part=\"loading\"]"
+      },
+      "targetFrontendSelectors": {
+        "root": "&",
+        "input": "[data-ctb-part=\"input\"]",
+        "button": "[data-ctb-part=\"button\"]",
+        "icon": "[data-ctb-part=\"icon\"]",
+        "results": "[data-ctb-part=\"results\"]",
+        "result": "[data-ctb-part=\"result\"]",
+        "empty": "[data-ctb-part=\"empty\"]",
+        "loading": "[data-ctb-part=\"loading\"]"
+      },
+      "targetStyleGroups": {
+        "root": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "typography",
+          "text",
+          "childPlacement"
+        ],
+        "input": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "button": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "icon": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "results": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "typography",
+          "text",
+          "childPlacement"
+        ],
+        "result": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "typography",
+          "text",
+          "childPlacement"
+        ],
+        "empty": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "loading": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "typography",
+          "text",
+          "childPlacement"
+        ]
+      },
       "styleGroups": [
+        "layout",
         "flex",
         "grid",
         "sizing",
@@ -2264,6 +5650,22 @@
       "allowedTags": [
         "q"
       ],
+      "capabilities": [
+        "accessibility",
+        "animation",
+        "background",
+        "border",
+        "customAttributes",
+        "customCss",
+        "focusState",
+        "hoverState",
+        "interactive",
+        "responsive",
+        "sizing",
+        "spacing",
+        "text",
+        "typography"
+      ],
       "props": [
         "citation",
         "sourceUrl"
@@ -2279,6 +5681,60 @@
         "quote": "[data-ctb-part=\"quote\"]",
         "citation": "[data-ctb-part=\"citation\"]",
         "mark": "[data-ctb-part=\"mark\"]"
+      },
+      "targetEditorSelectors": {
+        "root": "&",
+        "quote": "[data-ctb-part=\"quote\"]",
+        "citation": "[data-ctb-part=\"citation\"]",
+        "mark": "[data-ctb-part=\"mark\"]"
+      },
+      "targetFrontendSelectors": {
+        "root": "&",
+        "quote": "[data-ctb-part=\"quote\"]",
+        "citation": "[data-ctb-part=\"citation\"]",
+        "mark": "[data-ctb-part=\"mark\"]"
+      },
+      "targetStyleGroups": {
+        "root": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "quote": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "citation": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "mark": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ]
       },
       "styleGroups": [
         "typography",
@@ -2311,6 +5767,22 @@
       "allowedTags": [
         "blockquote"
       ],
+      "capabilities": [
+        "accessibility",
+        "animation",
+        "background",
+        "border",
+        "customAttributes",
+        "customCss",
+        "focusState",
+        "hoverState",
+        "interactive",
+        "responsive",
+        "richText",
+        "sizing",
+        "spacing",
+        "typography"
+      ],
       "props": [
         "attribution"
       ],
@@ -2323,6 +5795,48 @@
         "root": "&",
         "quote": "[data-ctb-part=\"quote\"]",
         "citation": "[data-ctb-part=\"citation\"]"
+      },
+      "targetEditorSelectors": {
+        "root": "&",
+        "quote": "[data-ctb-part=\"quote\"]",
+        "citation": "[data-ctb-part=\"citation\"]"
+      },
+      "targetFrontendSelectors": {
+        "root": "&",
+        "quote": "[data-ctb-part=\"quote\"]",
+        "citation": "[data-ctb-part=\"citation\"]"
+      },
+      "targetStyleGroups": {
+        "root": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "quote": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "citation": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ]
       },
       "styleGroups": [
         "typography",
@@ -2356,6 +5870,24 @@
         "article",
         "div"
       ],
+      "capabilities": [
+        "accessibility",
+        "animation",
+        "background",
+        "border",
+        "buttonAction",
+        "customAttributes",
+        "customCss",
+        "flexLayout",
+        "focusState",
+        "gridLayout",
+        "hoverState",
+        "interactive",
+        "repeater",
+        "responsive",
+        "sizing",
+        "spacing"
+      ],
       "props": [
         "plan",
         "price",
@@ -2386,7 +5918,111 @@
         "cta": "[data-ctb-part=\"cta\"]",
         "badge": "[data-ctb-part=\"badge\"]"
       },
+      "targetEditorSelectors": {
+        "root": "&",
+        "header": "[data-ctb-part=\"header\"]",
+        "price": "[data-ctb-part=\"price\"]",
+        "period": "[data-ctb-part=\"period\"]",
+        "features": "[data-ctb-part=\"features\"]",
+        "feature": "[data-ctb-part=\"feature\"]",
+        "cta": "[data-ctb-part=\"cta\"]",
+        "badge": "[data-ctb-part=\"badge\"]"
+      },
+      "targetFrontendSelectors": {
+        "root": "&",
+        "header": "[data-ctb-part=\"header\"]",
+        "price": "[data-ctb-part=\"price\"]",
+        "period": "[data-ctb-part=\"period\"]",
+        "features": "[data-ctb-part=\"features\"]",
+        "feature": "[data-ctb-part=\"feature\"]",
+        "cta": "[data-ctb-part=\"cta\"]",
+        "badge": "[data-ctb-part=\"badge\"]"
+      },
+      "targetStyleGroups": {
+        "root": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "header": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "price": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "period": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "features": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "feature": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "cta": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "badge": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ]
+      },
       "styleGroups": [
+        "layout",
         "flex",
         "grid",
         "sizing",
@@ -2421,6 +6057,22 @@
         "div",
         "a"
       ],
+      "capabilities": [
+        "accessibility",
+        "animation",
+        "background",
+        "border",
+        "customAttributes",
+        "customCss",
+        "flexLayout",
+        "focusState",
+        "gridLayout",
+        "hoverState",
+        "interactive",
+        "responsive",
+        "sizing",
+        "spacing"
+      ],
       "props": [
         "icon",
         "title",
@@ -2440,7 +6092,59 @@
         "title": "[data-ctb-part=\"title\"]",
         "description": "[data-ctb-part=\"description\"]"
       },
+      "targetEditorSelectors": {
+        "root": "&",
+        "icon": "[data-ctb-part=\"icon\"]",
+        "title": "[data-ctb-part=\"title\"]",
+        "description": "[data-ctb-part=\"description\"]"
+      },
+      "targetFrontendSelectors": {
+        "root": "&",
+        "icon": "[data-ctb-part=\"icon\"]",
+        "title": "[data-ctb-part=\"title\"]",
+        "description": "[data-ctb-part=\"description\"]"
+      },
+      "targetStyleGroups": {
+        "root": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "icon": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "title": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "description": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ]
+      },
       "styleGroups": [
+        "layout",
         "flex",
         "grid",
         "sizing",
@@ -2473,6 +6177,22 @@
         "div",
         "time"
       ],
+      "capabilities": [
+        "accessibility",
+        "animation",
+        "background",
+        "border",
+        "customAttributes",
+        "customCss",
+        "dynamicData",
+        "flexLayout",
+        "gridLayout",
+        "interactive",
+        "repeater",
+        "responsive",
+        "sizing",
+        "spacing"
+      ],
       "props": [
         "end",
         "timezone",
@@ -2497,7 +6217,84 @@
         "separator": "[data-ctb-part=\"separator\"]",
         "expired": "[data-ctb-part=\"expired\"]"
       },
+      "targetEditorSelectors": {
+        "root": "&",
+        "segment": "[data-ctb-part=\"segment\"]",
+        "value": "[data-ctb-part=\"value\"]",
+        "label": "[data-ctb-part=\"label\"]",
+        "separator": "[data-ctb-part=\"separator\"]",
+        "expired": "[data-ctb-part=\"expired\"]"
+      },
+      "targetFrontendSelectors": {
+        "root": "&",
+        "segment": "[data-ctb-part=\"segment\"]",
+        "value": "[data-ctb-part=\"value\"]",
+        "label": "[data-ctb-part=\"label\"]",
+        "separator": "[data-ctb-part=\"separator\"]",
+        "expired": "[data-ctb-part=\"expired\"]"
+      },
+      "targetStyleGroups": {
+        "root": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "segment": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "value": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "label": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "separator": [
+          "sizing",
+          "spacing",
+          "border",
+          "childPlacement"
+        ],
+        "expired": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ]
+      },
       "styleGroups": [
+        "layout",
         "flex",
         "grid",
         "sizing",
@@ -2528,6 +6325,25 @@
         "article",
         "div"
       ],
+      "capabilities": [
+        "accessibility",
+        "animation",
+        "background",
+        "border",
+        "customAttributes",
+        "customCss",
+        "flexLayout",
+        "focusState",
+        "gridLayout",
+        "hoverState",
+        "image",
+        "interactive",
+        "link",
+        "repeater",
+        "responsive",
+        "sizing",
+        "spacing"
+      ],
       "props": [
         "photo",
         "name",
@@ -2553,7 +6369,93 @@
         "social": "[data-ctb-part=\"social\"]",
         "icon": "[data-ctb-part=\"icon\"]"
       },
+      "targetEditorSelectors": {
+        "root": "&",
+        "photo": "[data-ctb-part=\"photo\"]",
+        "name": "[data-ctb-part=\"name\"]",
+        "role": "[data-ctb-part=\"role\"]",
+        "bio": "[data-ctb-part=\"bio\"]",
+        "social": "[data-ctb-part=\"social\"]",
+        "icon": "[data-ctb-part=\"icon\"]"
+      },
+      "targetFrontendSelectors": {
+        "root": "&",
+        "photo": "[data-ctb-part=\"photo\"]",
+        "name": "[data-ctb-part=\"name\"]",
+        "role": "[data-ctb-part=\"role\"]",
+        "bio": "[data-ctb-part=\"bio\"]",
+        "social": "[data-ctb-part=\"social\"]",
+        "icon": "[data-ctb-part=\"icon\"]"
+      },
+      "targetStyleGroups": {
+        "root": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "photo": [
+          "sizing",
+          "spacing",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "name": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "role": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "bio": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "social": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "icon": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ]
+      },
       "styleGroups": [
+        "layout",
         "flex",
         "grid",
         "sizing",
@@ -2586,6 +6488,26 @@
         "article",
         "div"
       ],
+      "capabilities": [
+        "accessibility",
+        "animation",
+        "background",
+        "border",
+        "buttonAction",
+        "customAttributes",
+        "customCss",
+        "dynamicData",
+        "flexLayout",
+        "focusState",
+        "gridLayout",
+        "hoverState",
+        "image",
+        "interactive",
+        "query",
+        "responsive",
+        "sizing",
+        "spacing"
+      ],
       "props": [
         "source",
         "showQuantity",
@@ -2611,7 +6533,99 @@
         "variations": "[data-ctb-part=\"variations\"]",
         "button": "[data-ctb-part=\"button\"]"
       },
+      "targetEditorSelectors": {
+        "root": "&",
+        "image": "[data-ctb-part=\"image\"]",
+        "title": "[data-ctb-part=\"title\"]",
+        "price": "[data-ctb-part=\"price\"]",
+        "stock": "[data-ctb-part=\"stock\"]",
+        "description": "[data-ctb-part=\"description\"]",
+        "variations": "[data-ctb-part=\"variations\"]",
+        "button": "[data-ctb-part=\"button\"]"
+      },
+      "targetFrontendSelectors": {
+        "root": "&",
+        "image": "[data-ctb-part=\"image\"]",
+        "title": "[data-ctb-part=\"title\"]",
+        "price": "[data-ctb-part=\"price\"]",
+        "stock": "[data-ctb-part=\"stock\"]",
+        "description": "[data-ctb-part=\"description\"]",
+        "variations": "[data-ctb-part=\"variations\"]",
+        "button": "[data-ctb-part=\"button\"]"
+      },
+      "targetStyleGroups": {
+        "root": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "image": [
+          "sizing",
+          "spacing",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "title": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "price": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "stock": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "description": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "variations": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "button": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ]
+      },
       "styleGroups": [
+        "layout",
         "flex",
         "grid",
         "sizing",
@@ -2646,6 +6660,28 @@
         "section",
         "div"
       ],
+      "capabilities": [
+        "accessibility",
+        "animation",
+        "background",
+        "border",
+        "buttonAction",
+        "children",
+        "customAttributes",
+        "customCss",
+        "dynamicData",
+        "flexLayout",
+        "focusState",
+        "gridLayout",
+        "hoverState",
+        "image",
+        "interactive",
+        "query",
+        "repeater",
+        "responsive",
+        "sizing",
+        "spacing"
+      ],
       "props": [
         "category",
         "orderBy",
@@ -2671,7 +6707,97 @@
         "price": "[data-ctb-part=\"price\"]",
         "button": "[data-ctb-part=\"button\"]"
       },
+      "targetEditorSelectors": {
+        "root": "&",
+        "grid": "[data-ctb-part=\"grid\"]",
+        "item": "[data-ctb-part=\"item\"]",
+        "image": "[data-ctb-part=\"image\"]",
+        "title": "[data-ctb-part=\"title\"]",
+        "price": "[data-ctb-part=\"price\"]",
+        "button": "[data-ctb-part=\"button\"]"
+      },
+      "targetFrontendSelectors": {
+        "root": "&",
+        "grid": "[data-ctb-part=\"grid\"]",
+        "item": "[data-ctb-part=\"item\"]",
+        "image": "[data-ctb-part=\"image\"]",
+        "title": "[data-ctb-part=\"title\"]",
+        "price": "[data-ctb-part=\"price\"]",
+        "button": "[data-ctb-part=\"button\"]"
+      },
+      "targetStyleGroups": {
+        "root": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "grid": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "item": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "image": [
+          "sizing",
+          "spacing",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "title": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "price": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "button": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ]
+      },
       "styleGroups": [
+        "layout",
         "flex",
         "grid",
         "sizing",
@@ -2704,6 +6830,26 @@
       "allowedTags": [
         "section",
         "div"
+      ],
+      "capabilities": [
+        "accessibility",
+        "animation",
+        "background",
+        "border",
+        "buttonAction",
+        "customAttributes",
+        "customCss",
+        "dynamicData",
+        "flexLayout",
+        "focusState",
+        "gridLayout",
+        "hoverState",
+        "image",
+        "interactive",
+        "query",
+        "responsive",
+        "sizing",
+        "spacing"
       ],
       "props": [
         "showCoupon",
@@ -2738,7 +6884,142 @@
         "actions": "[data-ctb-part=\"actions\"]",
         "empty": "[data-ctb-part=\"empty\"]"
       },
+      "targetEditorSelectors": {
+        "root": "&",
+        "item": "[data-ctb-part=\"item\"]",
+        "image": "[data-ctb-part=\"image\"]",
+        "name": "[data-ctb-part=\"name\"]",
+        "quantity": "[data-ctb-part=\"quantity\"]",
+        "price": "[data-ctb-part=\"price\"]",
+        "remove": "[data-ctb-part=\"remove\"]",
+        "totals": "[data-ctb-part=\"totals\"]",
+        "coupon": "[data-ctb-part=\"coupon\"]",
+        "actions": "[data-ctb-part=\"actions\"]",
+        "empty": "[data-ctb-part=\"empty\"]"
+      },
+      "targetFrontendSelectors": {
+        "root": "&",
+        "item": "[data-ctb-part=\"item\"]",
+        "image": "[data-ctb-part=\"image\"]",
+        "name": "[data-ctb-part=\"name\"]",
+        "quantity": "[data-ctb-part=\"quantity\"]",
+        "price": "[data-ctb-part=\"price\"]",
+        "remove": "[data-ctb-part=\"remove\"]",
+        "totals": "[data-ctb-part=\"totals\"]",
+        "coupon": "[data-ctb-part=\"coupon\"]",
+        "actions": "[data-ctb-part=\"actions\"]",
+        "empty": "[data-ctb-part=\"empty\"]"
+      },
+      "targetStyleGroups": {
+        "root": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "item": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "image": [
+          "sizing",
+          "spacing",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "name": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "quantity": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "price": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "remove": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "totals": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "coupon": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "actions": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "empty": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ]
+      },
       "styleGroups": [
+        "layout",
         "flex",
         "grid",
         "sizing",
@@ -2773,6 +7054,27 @@
         "section",
         "div"
       ],
+      "capabilities": [
+        "accessibility",
+        "animation",
+        "background",
+        "border",
+        "buttonAction",
+        "customAttributes",
+        "customCss",
+        "dynamicData",
+        "flexLayout",
+        "focusState",
+        "form",
+        "gridLayout",
+        "hoverState",
+        "interactive",
+        "repeater",
+        "responsive",
+        "sizing",
+        "spacing",
+        "typography"
+      ],
       "props": [
         "showLogin",
         "showCoupon",
@@ -2804,7 +7106,146 @@
         "payment": "[data-ctb-part=\"payment\"]",
         "submit": "[data-ctb-part=\"submit\"]"
       },
+      "targetEditorSelectors": {
+        "root": "&",
+        "form": "[data-ctb-part=\"form\"]",
+        "section": "[data-ctb-part=\"section\"]",
+        "heading": "[data-ctb-part=\"heading\"]",
+        "label": "[data-ctb-part=\"label\"]",
+        "field": "[data-ctb-part=\"field\"]",
+        "error": "[data-ctb-part=\"error\"]",
+        "summary": "[data-ctb-part=\"summary\"]",
+        "payment": "[data-ctb-part=\"payment\"]",
+        "submit": "[data-ctb-part=\"submit\"]"
+      },
+      "targetFrontendSelectors": {
+        "root": "&",
+        "form": "[data-ctb-part=\"form\"]",
+        "section": "[data-ctb-part=\"section\"]",
+        "heading": "[data-ctb-part=\"heading\"]",
+        "label": "[data-ctb-part=\"label\"]",
+        "field": "[data-ctb-part=\"field\"]",
+        "error": "[data-ctb-part=\"error\"]",
+        "summary": "[data-ctb-part=\"summary\"]",
+        "payment": "[data-ctb-part=\"payment\"]",
+        "submit": "[data-ctb-part=\"submit\"]"
+      },
+      "targetStyleGroups": {
+        "root": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "typography",
+          "text",
+          "childPlacement"
+        ],
+        "form": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "typography",
+          "text",
+          "childPlacement"
+        ],
+        "section": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "typography",
+          "text",
+          "childPlacement"
+        ],
+        "heading": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "label": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "field": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "error": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "summary": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "payment": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "typography",
+          "text",
+          "childPlacement"
+        ],
+        "submit": [
+          "typography",
+          "text",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ]
+      },
       "styleGroups": [
+        "layout",
         "flex",
         "grid",
         "sizing",
@@ -2842,6 +7283,22 @@
         "ul",
         "ol"
       ],
+      "capabilities": [
+        "accessibility",
+        "background",
+        "border",
+        "children",
+        "customAttributes",
+        "customCss",
+        "dynamicData",
+        "flexLayout",
+        "gridLayout",
+        "query",
+        "repeater",
+        "responsive",
+        "sizing",
+        "spacing"
+      ],
       "props": [
         "source",
         "filters",
@@ -2869,7 +7326,86 @@
         "error": "[data-ctb-part=\"error\"]",
         "loading": "[data-ctb-part=\"loading\"]"
       },
+      "targetEditorSelectors": {
+        "root": "&",
+        "list": "[data-ctb-part=\"list\"]",
+        "item": "[data-ctb-part=\"item\"]",
+        "empty": "[data-ctb-part=\"empty\"]",
+        "error": "[data-ctb-part=\"error\"]",
+        "loading": "[data-ctb-part=\"loading\"]"
+      },
+      "targetFrontendSelectors": {
+        "root": "&",
+        "list": "[data-ctb-part=\"list\"]",
+        "item": "[data-ctb-part=\"item\"]",
+        "empty": "[data-ctb-part=\"empty\"]",
+        "error": "[data-ctb-part=\"error\"]",
+        "loading": "[data-ctb-part=\"loading\"]"
+      },
+      "targetStyleGroups": {
+        "root": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "list": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "item": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ],
+        "empty": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "error": [
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "childPlacement"
+        ],
+        "loading": [
+          "layout",
+          "flex",
+          "grid",
+          "sizing",
+          "spacing",
+          "background",
+          "border",
+          "shadow",
+          "filters",
+          "childPlacement"
+        ]
+      },
       "styleGroups": [
+        "layout",
         "flex",
         "grid",
         "sizing",
@@ -2897,12 +7433,37 @@
       "allowedTags": [
         "*"
       ],
+      "capabilities": [
+        "accessibility",
+        "background",
+        "border",
+        "children",
+        "customAttributes",
+        "customCss",
+        "responsive",
+        "sizing",
+        "spacing"
+      ],
       "props": [],
       "targets": [
         "root"
       ],
       "targetSelectors": {
         "root": "&"
+      },
+      "targetEditorSelectors": {
+        "root": "&"
+      },
+      "targetFrontendSelectors": {
+        "root": "&"
+      },
+      "targetStyleGroups": {
+        "root": [
+          "sizing",
+          "spacing",
+          "background",
+          "border"
+        ]
       },
       "styleGroups": [
         "sizing",

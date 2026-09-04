@@ -1,7 +1,7 @@
 {
   "compat-v2.fixture.json": {
     "editor_style_snapshot_sha256": "9d3203f0925b301ede3b204090abacf2e41781666e9fa57fc81f9bba5ed0212f",
-    "frontend_css_sha256": "2f6f15825ca234813604d7e2924ed19b771a5c4b14a963a0d3295e32ea177393",
+    "frontend_css_sha256": "373231838245ca6e20ef3f1d6698a8bfb0eccb056ee7b9b420cb2d3b41d94188",
     "frontend_html_sha256": "cb59a6a450b9cd0e01e838d35ffa2ea41851b948c3dd46e5c98277b45f91f2fd",
     "frontend_style_snapshot_sha256": "e74f3452d1fc75516a53db87964ad3c2fa9304a9bd642e5d8442418322be99dd",
     "metadata": {
@@ -28,7 +28,7 @@
   },
   "legacy-v1.fixture.json": {
     "editor_style_snapshot_sha256": "16cef90d78d91bfa671e3826c19defa5df14505ac7b76c1a71d9a4c7fea5e751",
-    "frontend_css_sha256": "bc0faf389b003d45435857f446ec9f063ec7f3ad1c55b2d3734151d920aeb1e8",
+    "frontend_css_sha256": "24673a37db056b485a6d881a72a14689ac51fd4422f6b4abe59974fa908b03c0",
     "frontend_html_sha256": "ba8ac18c0465a4fa575e347067e031735a4a0980ea4f53577add0c258efac5d9",
     "frontend_style_snapshot_sha256": "a72d16373ad66d08a999a0e26a8b930bdadebf3834c025853da248fd844e7b0a",
     "metadata": {

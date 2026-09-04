@@ -1,16 +1,52 @@
-import { createElement } from '@wordpress/element';
+import { createElement, Component } from '@wordpress/element';
 import { useDraggable, useDroppable } from '@dnd-kit/core';
 import '../../editor.css';
 import { blockHasTokenOverride } from '../../design-tokens.mjs';
+import { createButtonTargetNodes } from '../../elements/button-renderer.mjs';
+import { createFormFieldTargetNodes } from '../../elements/form-field-renderer.mjs';
+import { createImageTargetElement } from '../../elements/image-renderer.mjs';
+import { elementRootTargetAttributes } from '../../elements/targets.mjs';
+import { createTextTargetNodes } from '../../elements/text-renderer.mjs';
 import { createImportCodeService } from '../../importer/ImportCodeService.mjs';
 import { sanitizeRichTextHtml } from '../../rich-text.mjs';
 import { normalizeReactAttributes } from '../../react-attributes.mjs';
 import { ownStyleSet } from '../../responsive-styles.mjs';
+import {
+	contextKeyForBreakpoint,
+	readTargetStyleSet,
+} from '../../styles/editor-bridge.mjs';
+import { stableElementClass } from '../../styles/compiler.mjs';
 import { findBlock } from '../../tree.mjs';
-import { COMPONENT_FAILURE_MESSAGE, isSavedComponentBlock } from '../../reusable-components.mjs';
-import { roleBindingForProperty, rolePreviewStyles, semanticDetentFromPointerDelta } from '../../semantic-roles.mjs';
+import {
+	COMPONENT_FAILURE_MESSAGE,
+	isSavedComponentBlock,
+} from '../../reusable-components.mjs';
+import {
+	roleBindingForProperty,
+	rolePreviewStyles,
+	semanticDetentFromPointerDelta,
+} from '../../semantic-roles.mjs';
 import { useEditorStore } from '../../store/editor-store.mjs';
-import { toReactStyles, normalizeResourceUrl } from '../../utils/editor-utils.js';
+import {
+	toReactStyles,
+	normalizeResourceUrl,
+	VOID_TAGS,
+} from '../../utils/editor-utils.js';
+
+class SavedComponentBoundary extends Component {
+	constructor( props ) {
+		super( props );
+		this.state = { failed: false };
+	}
+
+	static getDerivedStateFromError() {
+		return { failed: true };
+	}
+
+	render() {
+		return this.state.failed ? this.props.fallback : this.props.children;
+	}
+}
 
 export function SkeletonLoader( { type, block } ) {
 	if ( block && block.children && block.children.length > 0 ) {
@@ -153,10 +189,15 @@ export function CanvasDragHandles( { blockId } ) {
 				return;
 			}
 
-			const styleSet = ownStyleSet(
-				block,
-				activeBreakpoint || 'desktop'
-			);
+			const breakpoint = activeBreakpoint || 'desktop';
+			const styleSet =
+				state.document.schema_version === 3 && block.element
+					? readTargetStyleSet(
+							block,
+							'root',
+							contextKeyForBreakpoint( breakpoint )
+					  )
+					: ownStyleSet( block, breakpoint );
 			const currentMapped = styleSet.mapped || {};
 			const currentVal = currentMapped[ property ] || '';
 			const initialParts = parseShorthand( currentVal );
@@ -436,15 +477,21 @@ export function BlockContent( {
 		dropIntentClass,
 		selectedBlockId === selectionId ? 'is-selected' : '',
 		savedComponent ? 'is-saved-component' : '',
+		block.element ? stableElementClass( block.id ) : '',
 		hasTokenOverride ? 'has-token-override' : '',
 		block.is_content_slot ? 'is-content-slot' : '',
 		attributes.className,
 	]
 		.filter( Boolean )
 		.join( ' ' );
-	attributes.style = toReactStyles( block.styles.mapped, resourceBase );
+	attributes.style = toReactStyles(
+		block.styles?.mapped || {},
+		resourceBase
+	);
 	attributes[ 'data-block-id' ] = selectionId;
+	attributes[ 'data-ctb-node' ] = selectionId; // Added for iframe bridge tracking
 	attributes[ 'data-block-type' ] = block.type;
+	Object.assign( attributes, elementRootTargetAttributes( block ) );
 	if ( isIntentTarget ) {
 		attributes[ 'data-drop-position' ] = dropIntent.valid
 			? dropIntent.position
@@ -488,6 +535,14 @@ export function BlockContent( {
 			);
 		};
 	}
+	const imageTargetElement = createImageTargetElement(
+		block,
+		attributes,
+		createElement
+	);
+	if ( imageTargetElement ) {
+		return imageTargetElement;
+	}
 	if ( VOID_TAGS.has( block.tag ) ) {
 		delete attributes.children;
 		delete attributes.dangerouslySetInnerHTML;
@@ -517,7 +572,7 @@ export function BlockContent( {
 			.filter( ( child ) => child.kind !== 'text' )
 			.map( ( child, index ) => [ child.id, index ] )
 	);
-	const childrenNodes = block.children.map( ( child, index ) =>
+	let childrenNodes = block.children.map( ( child, index ) =>
 		child.kind === 'text' ? (
 			child.value
 		) : (
@@ -538,73 +593,83 @@ export function BlockContent( {
 	);
 
 	if ( isFormField ) {
-		const fieldType = attributes[ 'data-field-type' ] || 'text';
-		const fieldLabel = attributes[ 'data-field-label' ] || '';
-		const placeholder = attributes[ 'data-field-placeholder' ] || '';
-		let inputNode = null;
-		if ( fieldType === 'textarea' ) {
-			inputNode = (
-				<textarea
-					placeholder={ placeholder }
-					disabled
-					style={ {
-						width: '100%',
-						padding: '8px',
-						border: '1px solid #ccc',
-						borderRadius: '3px',
-						background: '#fafafa',
-					} }
-				/>
-			);
-		} else if ( [ 'select', 'radio', 'checkbox' ].includes( fieldType ) ) {
-			inputNode = (
-				<select
-					disabled
-					style={ {
-						width: '100%',
-						padding: '8px',
-						border: '1px solid #ccc',
-						borderRadius: '3px',
-						background: '#fafafa',
-					} }
-				>
-					<option>{ placeholder || 'Select option' }</option>
-				</select>
-			);
+		const formFieldTargetNodes = createFormFieldTargetNodes(
+			block,
+			createElement
+		);
+		if ( formFieldTargetNodes ) {
+			childrenNodes = formFieldTargetNodes;
 		} else {
-			inputNode = (
-				<input
-					type={ fieldType === 'file' ? 'file' : 'text' }
-					placeholder={ placeholder }
-					disabled
-					style={ {
-						width: '100%',
-						padding: '8px',
-						border: '1px solid #ccc',
-						borderRadius: '3px',
-						background: '#fafafa',
-					} }
-				/>
-			);
-		}
-		childrenNodes.push(
-			<div key="input-mock" style={ { marginTop: '4px' } }>
-				{ fieldLabel ? (
-					<span
+			const fieldType = attributes[ 'data-field-type' ] || 'text';
+			const fieldLabel = attributes[ 'data-field-label' ] || '';
+			const placeholder = attributes[ 'data-field-placeholder' ] || '';
+			let inputNode = null;
+			if ( fieldType === 'textarea' ) {
+				inputNode = (
+					<textarea
+						placeholder={ placeholder }
+						disabled
 						style={ {
-							display: 'block',
-							fontSize: '12px',
-							fontWeight: 600,
-							marginBottom: '6px',
+							width: '100%',
+							padding: '8px',
+							border: '1px solid #ccc',
+							borderRadius: '3px',
+							background: '#fafafa',
+						} }
+					/>
+				);
+			} else if (
+				[ 'select', 'radio', 'checkbox' ].includes( fieldType )
+			) {
+				inputNode = (
+					<select
+						disabled
+						style={ {
+							width: '100%',
+							padding: '8px',
+							border: '1px solid #ccc',
+							borderRadius: '3px',
+							background: '#fafafa',
 						} }
 					>
-						{ fieldLabel }
-						{ attributes[ 'data-field-required' ] ? ' *' : '' }
-					</span>
-				) : null }
-				{ inputNode }
-			</div>
-		);
+						<option>{ placeholder || 'Select option' }</option>
+					</select>
+				);
+			} else {
+				inputNode = (
+					<input
+						type={ fieldType === 'file' ? 'file' : 'text' }
+						placeholder={ placeholder }
+						disabled
+						style={ {
+							width: '100%',
+							padding: '8px',
+							border: '1px solid #ccc',
+							borderRadius: '3px',
+							background: '#fafafa',
+						} }
+					/>
+				);
+			}
+			childrenNodes.push(
+				<div key="input-mock" style={ { marginTop: '4px' } }>
+					{ fieldLabel ? (
+						<span
+							style={ {
+								display: 'block',
+								fontSize: '12px',
+								fontWeight: 600,
+								marginBottom: '6px',
+							} }
+						>
+							{ fieldLabel }
+							{ attributes[ 'data-field-required' ] ? ' *' : '' }
+						</span>
+					) : null }
+					{ inputNode }
+				</div>
+			);
+		}
 	} else if ( isForm ) {
 		childrenNodes.push(
 			<div key="submit-mock" style={ { marginTop: '12px' } }>
@@ -625,6 +690,22 @@ export function BlockContent( {
 			</div>
 		);
 	}
+	const buttonTargetNodes = createButtonTargetNodes(
+		block,
+		childrenNodes,
+		createElement
+	);
+	if ( buttonTargetNodes ) {
+		childrenNodes = buttonTargetNodes;
+	}
+	const textTargetNodes = createTextTargetNodes(
+		block,
+		childrenNodes,
+		createElement
+	);
+	if ( textTargetNodes ) {
+		childrenNodes = textTargetNodes;
+	}
 	if (
 		selectedBlockId === selectionId &&
 		! VOID_TAGS.has( block.tag ) &&
@@ -640,6 +721,28 @@ export function BlockContent( {
 		);
 	}
 
+	if ( isRoot && childrenNodes.length === 0 ) {
+		childrenNodes.push(
+			<div
+				key="empty-root-prompt"
+				className="ctb-canvas-empty-state flex flex-col items-center justify-center p-12 border-2 border-dashed border-gray-300/80 rounded-2xl text-center my-12 mx-auto max-w-md pointer-events-none select-none bg-white/50 backdrop-blur-sm"
+			>
+				<div className="w-12 h-12 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center mb-3">
+					<i
+						className="fa-solid fa-plus text-base"
+						aria-hidden="true"
+					/>
+				</div>
+				<h3 className="text-sm font-semibold text-gray-800 mb-1">
+					Start building your page
+				</h3>
+				<p className="text-xs text-gray-400 max-w-xs leading-relaxed">
+					Drag elements from the left palette, insert a starter
+					template, or paste code using the unified importer.
+				</p>
+			</div>
+		);
+	}
+
 	return createElement( block.tag, attributes, childrenNodes );
 }
-

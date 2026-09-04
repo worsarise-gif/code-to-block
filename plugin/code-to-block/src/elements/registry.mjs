@@ -3,6 +3,8 @@ import {
 	STYLE_GROUPS,
 	propertiesForGroups,
 } from '../controls/catalog.mjs';
+import { composeCapabilities, validateCapabilities } from './capabilities.mjs';
+import { normalizeStyleTargets } from './targets.mjs';
 
 const ALL_ADVANCED = [
 	'placement',
@@ -38,6 +40,7 @@ const tag = ( options ) => f( 'tag', 'HTML tag', 'select', 'tag', { options } );
 
 const profiles = Object.freeze( {
 	box: [
+		'layout',
 		'flex',
 		'grid',
 		'sizing',
@@ -80,6 +83,7 @@ const profiles = Object.freeze( {
 		'childPlacement',
 	],
 	form: [
+		'layout',
 		'flex',
 		'grid',
 		'sizing',
@@ -102,6 +106,7 @@ const profiles = Object.freeze( {
 		'childPlacement',
 	],
 	composite: [
+		'layout',
 		'flex',
 		'grid',
 		'sizing',
@@ -114,12 +119,28 @@ const profiles = Object.freeze( {
 	],
 } );
 
-function target( id, label, selector = `[data-ctb-part="${ id }"]` ) {
-	return Object.freeze( { id, label, selector } );
+function target(
+	id,
+	label,
+	selector = `[data-ctb-part="${ id }"]`,
+	config = {}
+) {
+	return Object.freeze( { id, label, selector, ...config } );
 }
 
 function d( config ) {
 	const styleGroups = config.styleGroups || profiles[ config.profile ] || [];
+	const advancedGroups = config.advancedGroups || ALL_ADVANCED;
+	const styleTargets = normalizeStyleTargets(
+		config.styleTargets || [ ROOT_TARGET ],
+		styleGroups
+	);
+	const capabilities = composeCapabilities( {
+		...config,
+		styleGroups,
+		advancedGroups,
+		styleTargets,
+	} );
 	return Object.freeze( {
 		version: 1,
 		aliases: [],
@@ -129,8 +150,6 @@ function d( config ) {
 		allowedParents: [ '*' ],
 		allowedChildren: [],
 		contentFields: [],
-		styleTargets: [ ROOT_TARGET ],
-		advancedGroups: ALL_ADVANCED,
 		states: [],
 		defaultAttributes: {},
 		defaultProps: {},
@@ -138,6 +157,9 @@ function d( config ) {
 		defaultText: '',
 		...config,
 		styleGroups,
+		styleTargets,
+		advancedGroups,
+		capabilities,
 		styleProperties: propertiesForGroups( styleGroups ),
 	} );
 }
@@ -371,6 +393,11 @@ const definitions = [
 			} ),
 			attr( 'rel', 'Relationship' ),
 			attr( 'download', 'Download filename' ),
+			prop( 'icon', 'Icon' ),
+			prop( 'iconPosition', 'Icon position', 'select', {
+				options: [ 'before', 'after' ],
+				default: 'after',
+			} ),
 		],
 		defaultText: 'Learn more',
 		defaultAttributes: { href: '#' },
@@ -486,6 +513,7 @@ const definitions = [
 		defaultTag: 'img',
 		allowedTags: [ 'img' ],
 		profile: 'media',
+		styleGroups: [ ...profiles.media, 'alignment', 'typography', 'text' ],
 		advancedGroups: MEDIA_ADVANCED,
 		states: [ 'hover', 'focusVisible' ],
 		contentFields: [
@@ -503,9 +531,22 @@ const definitions = [
 		},
 		defaultStyles: { width: '100%', height: 'auto' },
 		styleTargets: [
-			ROOT_TARGET,
-			target( 'media', 'Image' ),
-			target( 'caption', 'Caption' ),
+			target( 'root', 'Element', '&', {
+				styleGroups: [ ...profiles.media, 'alignment' ],
+			} ),
+			target( 'media', 'Image', undefined, {
+				styleGroups: [ ...profiles.media, 'alignment' ],
+			} ),
+			target( 'caption', 'Caption', undefined, {
+				condition: { propTruthy: 'caption' },
+				styleGroups: [
+					'typography',
+					'text',
+					'sizing',
+					'spacing',
+					'alignment',
+				],
+			} ),
 		],
 	} ),
 	d( {
@@ -955,6 +996,7 @@ const definitions = [
 					'text',
 					'email',
 					'tel',
+					'url',
 					'number',
 					'textarea',
 					'select',
@@ -966,16 +1008,57 @@ const definitions = [
 			} ),
 			prop( 'label', 'Label', 'text', { required: true } ),
 			prop( 'name', 'Name', 'text', { required: true } ),
+			prop( 'placeholder', 'Placeholder' ),
 			prop( 'help', 'Help text' ),
+			prop( 'options', 'Options', 'repeater' ),
 			prop( 'required', 'Required', 'toggle' ),
 		],
 		styleTargets: [
 			ROOT_TARGET,
-			target( 'label', 'Label' ),
-			target( 'control', 'Control' ),
-			target( 'placeholder', 'Placeholder' ),
-			target( 'help', 'Help' ),
-			target( 'error', 'Error' ),
+			target( 'row', 'Field row', '[data-ctb-part="row"]', {
+				styleGroups: [
+					'sizing',
+					'spacing',
+					'background',
+					'border',
+					'shadow',
+					'childPlacement',
+				],
+			} ),
+			target(
+				'label',
+				'Label',
+				'[data-ctb-part="row"] > [data-ctb-part="label"]'
+			),
+			target(
+				'control',
+				'Control',
+				'[data-ctb-part="row"] [data-ctb-part="control"]'
+			),
+			target(
+				'placeholder',
+				'Placeholder',
+				'[data-ctb-part="row"] [data-ctb-part="control"]::placeholder'
+			),
+			target(
+				'help',
+				'Help',
+				'[data-ctb-part="row"] > [data-ctb-part="help"]'
+			),
+			target(
+				'error',
+				'Error',
+				'[data-ctb-part="row"] > [data-ctb-part="error"]'
+			),
+			target(
+				'requiredMark',
+				'Required mark',
+				'[data-ctb-part="row"] > [data-ctb-part="label"] > [data-ctb-part="requiredMark"]',
+				{
+					condition: { propTruthy: 'required' },
+					styleGroups: [ 'typography', 'text', 'spacing' ],
+				}
+			),
 		],
 	} ),
 	d( {
@@ -2026,6 +2109,32 @@ export function getElementDefinitionByKey( key ) {
 	return BY_KEY.get( key ) || null;
 }
 
+function getRegisteredElement( reference ) {
+	return BY_ID.get( reference ) || BY_KEY.get( reference ) || null;
+}
+
+export function getElement( reference ) {
+	return getRegisteredElement( reference );
+}
+
+export function getManifest( reference ) {
+	return getRegisteredElement( reference );
+}
+
+export function hasCapability( reference, capability ) {
+	return Boolean(
+		getRegisteredElement( reference )?.capabilities.includes( capability )
+	);
+}
+
+export function getElementTargets( reference ) {
+	return getRegisteredElement( reference )?.styleTargets || [];
+}
+
+export function getAllElements() {
+	return ELEMENT_DEFINITIONS;
+}
+
 export function inferElementDefinition( block ) {
 	if ( block?.element && BY_ID.has( block.element ) ) {
 		return {
@@ -2220,33 +2329,78 @@ export function paletteGroups() {
 		.filter( ( group ) => group.items.length );
 }
 
+export function validateElement( definitionOrReference ) {
+	const errors = [];
+	const definition =
+		typeof definitionOrReference === 'string'
+			? getRegisteredElement( definitionOrReference )
+			: definitionOrReference;
+	if ( ! definition ) {
+		return [ `Unknown element ${ definitionOrReference }.` ];
+	}
+	if ( ! /^[a-z][a-z0-9-]*\/[a-z][a-z0-9-]*$/.test( definition.id ) ) {
+		errors.push( `Invalid element ID ${ definition.id }.` );
+	}
+	if ( ! definition.styleTargets.some( ( item ) => item.id === 'root' ) ) {
+		errors.push( `${ definition.id } has no root style target.` );
+	}
+	const targetIds = new Set();
+	for ( const targetDefinition of definition.styleTargets ) {
+		if ( targetIds.has( targetDefinition.id ) ) {
+			errors.push(
+				`${ definition.id } has duplicate target ${ targetDefinition.id }.`
+			);
+		}
+		targetIds.add( targetDefinition.id );
+		for ( const groupId of targetDefinition.styleGroups || [] ) {
+			if ( ! STYLE_GROUPS[ groupId ] ) {
+				errors.push(
+					`${ definition.id } target ${ targetDefinition.id } grants unknown style group ${ groupId }.`
+				);
+			}
+			if ( ! definition.styleGroups.includes( groupId ) ) {
+				errors.push(
+					`${ definition.id } target ${ targetDefinition.id } grants undeclared style group ${ groupId }.`
+				);
+			}
+		}
+	}
+	for ( const groupId of definition.styleGroups ) {
+		if ( ! STYLE_GROUPS[ groupId ] ) {
+			errors.push(
+				`${ definition.id } grants unknown style group ${ groupId }.`
+			);
+		}
+	}
+	for ( const groupId of definition.advancedGroups ) {
+		if ( ! ADVANCED_GROUPS[ groupId ] ) {
+			errors.push(
+				`${ definition.id } grants unknown advanced group ${ groupId }.`
+			);
+		}
+	}
+	for ( const capabilityError of validateCapabilities(
+		definition.capabilities
+	) ) {
+		errors.push( `${ definition.id }: ${ capabilityError }` );
+	}
+	return errors;
+}
+
 export function validateElementRegistry() {
 	const errors = [];
 	const ids = new Set();
 	const keys = new Set();
 	for ( const definition of ELEMENT_DEFINITIONS ) {
-		if ( ids.has( definition.id ) )
+		if ( ids.has( definition.id ) ) {
 			errors.push( `Duplicate element ID ${ definition.id }.` );
-		if ( keys.has( definition.key ) )
+		}
+		if ( keys.has( definition.key ) ) {
 			errors.push( `Duplicate element key ${ definition.key }.` );
+		}
 		ids.add( definition.id );
 		keys.add( definition.key );
-		if ( ! /^[a-z][a-z0-9-]*\/[a-z][a-z0-9-]*$/.test( definition.id ) )
-			errors.push( `Invalid element ID ${ definition.id }.` );
-		if ( ! definition.styleTargets.some( ( item ) => item.id === 'root' ) )
-			errors.push( `${ definition.id } has no root style target.` );
-		for ( const groupId of definition.styleGroups ) {
-			if ( ! STYLE_GROUPS[ groupId ] )
-				errors.push(
-					`${ definition.id } grants unknown style group ${ groupId }.`
-				);
-		}
-		for ( const groupId of definition.advancedGroups ) {
-			if ( ! ADVANCED_GROUPS[ groupId ] )
-				errors.push(
-					`${ definition.id } grants unknown advanced group ${ groupId }.`
-				);
-		}
+		errors.push( ...validateElement( definition ) );
 	}
 	return errors;
 }
@@ -2261,18 +2415,37 @@ export function registryManifest() {
 					version: definition.version,
 					rendererFamily: definition.rendererFamily,
 					allowedTags: definition.allowedTags,
-				props: definition.contentFields
+					capabilities: definition.capabilities,
+					props: definition.contentFields
 						.filter( ( field ) =>
 							field.storage.startsWith( 'props.' )
 						)
 						.map( ( field ) => field.id ),
-				targets: definition.styleTargets.map( ( item ) => item.id ),
-				targetSelectors: Object.fromEntries(
-					definition.styleTargets.map( ( item ) => [
-						item.id,
-						item.selector,
-					] )
-				),
+					targets: definition.styleTargets.map( ( item ) => item.id ),
+					targetSelectors: Object.fromEntries(
+						definition.styleTargets.map( ( item ) => [
+							item.id,
+							item.selector,
+						] )
+					),
+					targetEditorSelectors: Object.fromEntries(
+						definition.styleTargets.map( ( item ) => [
+							item.id,
+							item.editorSelector,
+						] )
+					),
+					targetFrontendSelectors: Object.fromEntries(
+						definition.styleTargets.map( ( item ) => [
+							item.id,
+							item.frontendSelector,
+						] )
+					),
+					targetStyleGroups: Object.fromEntries(
+						definition.styleTargets.map( ( item ) => [
+							item.id,
+							item.styleGroups,
+						] )
+					),
 					styleGroups: definition.styleGroups,
 					advancedGroups: definition.advancedGroups,
 					states: definition.states,

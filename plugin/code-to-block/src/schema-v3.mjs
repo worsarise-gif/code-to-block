@@ -130,7 +130,8 @@ export function validateBlockV3( block, path = '$.root', seen = new Set() ) {
 				`${ path }.style.targets.${ targetId } is not registered.`
 			);
 		for ( const contextKey of Object.keys( targetValue?.contexts || {} ) ) {
-			if ( ! parseContextKey( contextKey ) )
+			const parsedContext = parseContextKey( contextKey );
+			if ( ! parsedContext || parsedContext.key !== contextKey )
 				errors.push(
 					`${ path }.style.targets.${ targetId }.contexts.${ contextKey } is invalid.`
 				);

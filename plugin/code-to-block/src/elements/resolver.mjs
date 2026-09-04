@@ -1,5 +1,11 @@
-import { ADVANCED_GROUPS, STYLE_GROUPS } from '../controls/catalog.mjs';
+import {
+	ADVANCED_GROUPS,
+	STYLE_GROUPS,
+	propertiesForGroups,
+} from '../controls/catalog.mjs';
 import { inferElementDefinition } from './registry.mjs';
+import { implementedStyleTargets } from './targets.mjs';
+import { parseContextKey } from '../schema-v3.mjs';
 
 function valueAtPath( block, path ) {
 	if ( path === 'content' ) {
@@ -22,17 +28,41 @@ function valueAtPath( block, path ) {
 	return value;
 }
 
-function conditionPasses( condition, block, editorContext ) {
+function conditionValue( block, path, definition ) {
+	const value = valueAtPath( block, path );
+	if ( value !== undefined ) {
+		return value;
+	}
+	return definition.contentFields.find( ( field ) => field.storage === path )
+		?.default;
+}
+
+function conditionPasses( condition, block, editorContext, definition ) {
 	if ( ! condition ) {
 		return true;
 	}
 	if ( condition.propEquals ) {
 		const [ property, expected ] = condition.propEquals;
-		return valueAtPath( block, `props.${ property }` ) === expected;
+		return (
+			conditionValue( block, `props.${ property }`, definition ) ===
+			expected
+		);
 	}
 	if ( condition.attributeEquals ) {
 		const [ attribute, expected ] = condition.attributeEquals;
-		return valueAtPath( block, `attributes.${ attribute }` ) === expected;
+		return (
+			conditionValue( block, `attributes.${ attribute }`, definition ) ===
+			expected
+		);
+	}
+	if ( condition.propTruthy ) {
+		return Boolean(
+			conditionValue(
+				block,
+				`props.${ condition.propTruthy }`,
+				definition
+			)
+		);
 	}
 	if ( condition.parentDisplay ) {
 		return condition.parentDisplay.includes(
@@ -56,16 +86,35 @@ export function resolveInspector( block, editorContext = {} ) {
 	const definition = inference.definition;
 	const contentControls = definition.contentFields
 		.filter( ( field ) =>
-			conditionPasses( field.condition, block, editorContext )
+			conditionPasses( field.condition, block, editorContext, definition )
 		)
 		.map( ( field ) => ( { ...field, ...fieldSource( block, field ) } ) );
-	const activeTarget = definition.styleTargets.some(
+	const editableTargets = implementedStyleTargets(
+		block?.element,
+		definition.styleTargets
+	).filter( ( target ) =>
+		conditionPasses( target.condition, block, editorContext, definition )
+	);
+	const activeTarget = editableTargets.some(
 		( item ) => item.id === editorContext.targetId
 	)
 		? editorContext.targetId
 		: 'root';
-	const activeContext = editorContext.contextKey || 'base';
-	const styleGroups = definition.styleGroups.map( ( groupId, index ) => ( {
+	const activeTargetDefinition = editableTargets.find(
+		( item ) => item.id === activeTarget
+	);
+	const activeStyleGroups =
+		activeTargetDefinition?.styleGroups || definition.styleGroups;
+	const requestedContext = parseContextKey(
+		editorContext.contextKey || 'base'
+	);
+	const activeContext =
+		requestedContext &&
+		( requestedContext.state === 'default' ||
+			definition.states.includes( requestedContext.state ) )
+			? requestedContext.key
+			: 'base';
+	const styleGroups = activeStyleGroups.map( ( groupId, index ) => ( {
 		...STYLE_GROUPS[ groupId ],
 		priority: index,
 		availability:
@@ -104,11 +153,11 @@ export function resolveInspector( block, editorContext = {} ) {
 			style: {
 				id: 'style',
 				label: 'Style',
-				targets: definition.styleTargets,
+				targets: editableTargets,
 				activeTarget,
 				activeContext,
 				groups: styleGroups,
-				properties: definition.styleProperties,
+				properties: propertiesForGroups( activeStyleGroups ),
 				states: definition.states,
 			},
 			advanced: {
@@ -128,27 +177,43 @@ export function panelSearch( panel, query ) {
 		return panel;
 	}
 	const groups = ( panel.groups || [] )
-		.map( ( group ) => ( {
-			...group,
-			controls: group.controls?.filter( ( control ) =>
-				[
-					control.label,
-					control.id,
-					control.storage,
-					control.description,
-				]
+		.map( ( group ) => {
+			const groupMatches = [ group.id, group.label ]
+				.filter( Boolean )
+				.some( ( value ) =>
+					String( value ).toLowerCase().includes( normalized )
+				);
+			return {
+				...group,
+				controls: groupMatches
+					? group.controls
+					: group.controls?.filter( ( control ) =>
+							[
+								control.label,
+								control.id,
+								control.storage,
+								control.description,
+							]
+								.filter( Boolean )
+								.some( ( value ) =>
+									String( value )
+										.toLowerCase()
+										.includes( normalized )
+								)
+					  ),
+			};
+		} )
+		.filter(
+			( group ) =>
+				[ group.id, group.label ]
 					.filter( Boolean )
 					.some( ( value ) =>
 						String( value ).toLowerCase().includes( normalized )
-					)
-			),
-		} ) )
-		.filter(
-			( group ) =>
-				String( group.label || '' )
-					.toLowerCase()
-					.includes( normalized ) ||
+					) ||
 				group.controls?.length ||
+				( group.fields || [] ).some( ( field ) =>
+					String( field ).toLowerCase().includes( normalized )
+				) ||
 				( group.properties || [] ).some( ( property ) =>
 					property.includes( normalized )
 				)

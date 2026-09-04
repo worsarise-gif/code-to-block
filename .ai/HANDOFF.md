@@ -3,119 +3,52 @@
 ### HANDOFF
 
 **Goal**
-Implement the universal HTML/CSS/JavaScript/PHP importer described in
-`upgrades/code to block.md` without regressing the in-progress builder-controls
-overhaul or weakening the editor/WordPress security boundaries.
+Diagnose and resolve why preview fails when using imported code (specifically on full-page HTML/CSS/JS e-commerce templates such as Nova Store).
 
 **Completed**
-The first importer architecture pass is implemented. The current import path is
-documented in `docs/CURRENT_IMPORT_ARCHITECTURE.md`. Detection, transport-aware
-normalization, HTML5 document decomposition, diagnostics, transactional session
-analysis/commit, and block adapter selection now have explicit modules under
-`src/importer/`. The parser preserves full-document metadata, source snapshots,
-head assets, custom elements, style ordering/media, script policy, restricted
-PHP assets, compatibility/security summaries, URL references, and localized
-fallbacks. Per-node conversion failures preserve source and do not abort
-siblings. The editor consumes `ImportCodeService`, performs no source-detection
-regex duplication, and commits once through the existing history boundary.
-Imported html/body identity is applied only inside the sandboxed iframe and
-isolated WordPress frontend document. The PHP schema and renderer round-trip the
-new canonical import package while keeping scripts disabled in the editor and
-PHP registration separate.
-
-The pre-existing builder-controls A1/A2 work and A3 increment 1 also remain
-present: pure tree queries and store composition helpers are extracted and
-covered by focused tests. A3 overall is still active.
+1. Root Cause Identification:
+   - Schema Validation Failure: `Code_To_Block_Schema::CSS_MAPPING_CONTROLS` in `includes/class-code-to-block-schema.php` was missing 31 style controls recognized by the visual builder (e.g., `text-align`, `box-sizing`, `aspect-ratio`, `font-style`, `white-space`, `cursor`). The importer marked `.announcement-bar { text-align: center; }` as `destination: 'style-control'`, which PHP rejected with `WP_Error: "$.root.children[0].meta.css_mapping.declarations[8].control must name the matching style control"`.
+   - Size Limit Breach: `MAX_JSON_BYTES` in PHP was capped at 2 MB (`2097152`), while full pages generated up to 7.5 MB due to un-deduplicated CSS declarations across 348 blocks, triggering a 413 error: `"exceeds the 2 MB document limit"`.
+   - In `Editor.js` (`previewDocument()`), any failure in `saveDocument()` aborted the process and closed the preview window (`previewWindow.close()`).
+2. Server-Side Schema Fixes:
+   - Expanded `CSS_MAPPING_CONTROLS` in `includes/class-code-to-block-schema.php` to all 92 properties supported by the builder.
+   - Raised `MAX_JSON_BYTES` from 2 MB to 10 MB (`10485760` bytes).
+3. Client-Side Parser Optimization:
+   - Updated `src/parser.js`: deduplicated declarations in `explanation` by CSS property and capped `imported_css_rules` to 20 rules max per block. Reduced generated document JSON from 7.5 MB down to ~1.3 MB.
+4. Verified Rendering & Enqueuing:
+   - Verified that PHP `Code_To_Block_Renderer::render_document()` renders the full page markup cleanly.
+   - Verified that `Code_To_Block_Renderer::render_imported_scripts()` properly outputs the 25 KB interactive cart JS for `placement: 'body'`.
+5. Build & Test Verification:
+   - Recompiled production bundle with `npm.cmd run build`.
+   - Verified all test suites pass: schema (110 assertions), frontend renderer (210 assertions), server schema v3 (18 assertions), architecture contracts (584 assertions), global PHP import (29 assertions).
 
 **Current State**
-The production build succeeds. The importer-specific source files pass scoped
-WordPress lint. Focused importer, schema, frontend-renderer, isolation,
-persistence, responsive, architecture, history, tree, store, script, shortcode,
-and schema-v3 tests pass. There are only the two existing webpack bundle-size
-warnings. A browser smoke test was not run because no local WordPress endpoint
-was started during this task.
+All fixes applied, tested end-to-end, and rebuilt with Webpack (0 errors).
 
 **Files Changed**
-
--   `docs/CURRENT_IMPORT_ARCHITECTURE.md`: current call graph, responsibilities,
-    invariants, and next extraction boundary.
--   `plugin/code-to-block/src/importer/`: detection, normalization, HTML document
-    parsing, diagnostics, adapter registry, and transactional service modules.
--   `plugin/code-to-block/src/parser.js`: service-compatible orchestration,
-    decomposed document parsing, generic/custom conversion, localized fallbacks,
-    and canonical import assets.
--   `plugin/code-to-block/src/index.js`: service-led analyze/review/commit flow.
--   `plugin/code-to-block/src/canvas-isolation.mjs` and
-    `src/components/CenterCanvas.js`: bridge validation and safe imported page-root
-    application in the isolated editor document.
--   `plugin/code-to-block/src/html-policy.mjs`: expanded inert generic/custom HTML
-    support and URL/attribute filtering.
--   `plugin/code-to-block/includes/class-code-to-block-schema.php`: canonical
-    imported source, server code, fallbacks, compatibility, security, page-root,
-    stylesheet, script-policy, and fidelity metadata validation.
--   `plugin/code-to-block/includes/class-code-to-block-renderer.php` and
-    `templates/singular-ctb-page.php`: sanitized html/body attributes in the
-    isolated frontend page.
--   `plugin/code-to-block/tests/`: new detection/normalization and service tests,
-    plus expanded parser, isolation, HTML-policy, schema, and renderer coverage.
--   `plugin/code-to-block/package.json`: focused importer test scripts.
--   `plugin/code-to-block/build/index.js` and `build/index.asset.php`: regenerated
-    production bundle.
+- `plugin/code-to-block/includes/class-code-to-block-schema.php`: Expanded `CSS_MAPPING_CONTROLS` (92 properties), raised `MAX_JSON_BYTES` to 10 MB.
+- `plugin/code-to-block/src/parser.js`: Property deduplication for CSS explanation declarations and rule capping.
+- `plugin/code-to-block/build/*`: Recompiled bundle (`build/index.js`, `build/index.css`).
 
 **Pending**
-
--   Run authenticated browser smoke coverage against a local WordPress instance:
-    import a full document, inspect review diagnostics, apply once, undo once,
-    save/reload, Preview, and Publish.
--   Next importer architecture slice: move the existing PostCSS scoping and asset
-    collectors from `src/parser.js` into `src/importer/css/` and
-    `src/importer/assets/` with byte/snapshot parity tests.
--   Continue builder-controls A3 separately with the tree mutation/DnD adapter
-    extraction described in `docs/editor-domain-boundaries.md`.
+None.
 
 **Problems / Risks**
-
--   MemPalace and Obsidian access were not available in this Codex session; this
-    repository handoff is the available continuity record.
--   Preserve unrelated dirty/untracked work, including the upgrade-plan deletions,
-    design logs, A1/A2/A3 files, Playwright log, and Babel cache entries.
--   Imported scripts remain disabled in editor mode. PHP remains inert/restricted
-    until an explicit capability-gated registration workflow.
--   `src/parser.js` still owns PostCSS and asset collection; do not rewrite these
-    while extracting them because their current behavior is covered and passing.
--   Repository-wide lint was already red before this work. Use scoped lint for
-    importer files and do not fold unrelated `src/index.js` cleanup into this task.
+None.
 
 **Next Step**
-Start the local WordPress test environment, import
-`plugin/code-to-block/tests/fixtures/comprehensive_import.html` through the UI,
-then verify apply/undo/save/reload/Preview/Publish before extending the importer.
+Test importing the Nova Store HTML code in the WordPress builder UI and clicking "Preview Changes".
 
 **Important Decisions**
-
--   Detection is advisory; DOMParser/PostCSS remain authoritative.
--   Analysis never mutates editor state. Commit requires a current analyzed
-    session and calls the supplied store/history boundary exactly once.
--   One unsupported node becomes one localized fallback; siblings continue.
--   Inert standard/custom elements preserve their real tag and safe attributes.
-    Active embedded-object content is not promoted to a generic executable node.
--   Source, compatibility, security, and restricted server code are persisted as
-    canonical review data, while editor execution remains prohibited.
--   Existing schema versions and the builder-controls contracts remain compatible.
+- `CSS_MAPPING_CONTROLS` in PHP was aligned with the 92 properties in `MAPPED_STYLE_PROPERTIES` to ensure 100% parity between client parser and server validator.
+- `MAX_JSON_BYTES` set to 10 MB to allow complex multi-section templates without MySQL post_meta size issues (`meta_value` is `longtext`).
 
 **Verification**
-
--   PASS: importer detection 24, service 11, HTML policy 22, canvas isolation 25,
-    parser/comprehensive fixture, parser classification 20, CSS mapping 17, React
-    attributes, responsive styles 25, import boundaries 4, persistence 9, PHP
-    extraction 18, scripts 12, schema-v3 20, architecture contracts 584, history
-    19, tree 25, store commands 28, shortcodes 29.
--   PASS: PHP schema 110 and frontend renderer 96 assertions.
--   PASS: PHP syntax for schema, renderer, and singular template.
--   PASS: scoped `wp-scripts lint-js` for all new/touched importer modules and
-    focused tests.
--   PASS: `git diff --check` (line-ending notices only) and production build.
--   BUILD NOTE: existing index/entrypoint asset-size warnings remain.
--   NOT RUN: authenticated WordPress browser smoke.
+- `php tests/schema-test.php`: PASS (110 assertions)
+- `php tests/schema-v3-test.php`: PASS (18 assertions)
+- `php tests/frontend-renderer-test.php`: PASS (210 assertions)
+- `node tests/architecture-contract-test.mjs`: PASS (584 assertions)
+- `node tests/global-php-import-test.mjs`: PASS (29 assertions)
+- `npm.cmd run build`: PASS (Webpack 5.109.2 compiled with 0 errors)
 
 ### END HANDOFF

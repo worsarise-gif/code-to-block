@@ -716,3 +716,69 @@ can change without silently losing values.
 **Decision**: Canvas reordering and palette insertion resolve the pointer against one shared, pure drop-intent model. Every drop produces a target, `before` / `inside` / `after` position, destination parent/index, and validity before mutating the document. Nested targets are ordered deterministically by depth, validity, geometry, and document order. The existing clone-before-commit history path and root/self/lock/descendant guards remain authoritative.
 
 **Why**: Collision proximity alone cannot express placement intent and previously made containers always append while leaves always inserted after. A single tested resolver keeps pointer feedback, block moves, and palette insertion synchronized and prevents visual indicators from promising a destination different from the committed tree.
+
+## Builder controls — Manifest-composed live inspector bridge
+
+**Phase**: Per-element controls, compatibility bridge after A1/A2 registry foundations
+
+**Decision**: The live Content/Style/Advanced inspector now consumes the existing element resolver as its composition authority. Element definitions expose validated semantic capabilities and logical targets with target-specific shared style-pack grants. `MappedStyleControls` remains the single shared implementation and receives resolved groups/properties; it no longer owns a second hardcoded taxonomy. Advanced sections and inspector search are filtered through the resolved manifest. Existing `styles.mapped`, responsive overrides, token bindings, raw CSS, compiler, and save paths remain unchanged during this bridge.
+
+**Why**: This delivers per-element relevance without cloning Button/Image/Form controls or forcing a saved-value migration. It also leaves the legacy storage/compiler path intact while target-aware v3 editing is completed incrementally.
+
+## Builder controls — One Layout pack and one flex/grid visibility rule
+
+**Phase**: Shared control-pack normalization
+
+**Decision**: Controls shared by flex and grid (`display`, alignment, and gaps) belong to the canonical `layout` pack. Flex and Grid packs contain only their specific controls. The existing centralized conditional-visibility engine now treats properties valid in both modes as visible when either mode is active, including grid-item alignment/order cases.
+
+**Why**: Assigning shared properties to the first rendered pack produced misleading grouping and caused `gap`/alignment to be disabled for Grid. Normalizing the catalog and fixing the central predicate avoids duplicate controls and avoids introducing a second condition engine.
+
+## Builder controls — Canonical target writes with root compatibility
+
+**Phase**: Schema-v3 target/context editor bridge
+
+**Decision**: Schema-v3 element edits read and write
+`style.targets[targetId].contexts[contextKey]` as the authoritative model. Context
+aliases are normalized before access and only canonical keys are serialized.
+Root contexts are mirrored to their representable legacy `styles`, responsive,
+and state locations; non-root targets never write legacy root styles. Mapped
+styles, raw CSS, and token bindings all use the same history-aware command, and
+supported `origin_notes` metadata survives declaration edits. Token usage,
+override detection, and reusable-component extraction traverse target contexts
+without double-counting mirrored root bindings.
+
+**Why**: The live editor still has legacy consumers while frontend compilation
+needs target/state precision. One compatibility boundary preserves old previews
+and documents without mislabeling child-target edits as root declarations or
+allowing client-valid context keys that server sanitation rejects.
+
+## Builder controls — Element renderers remain framework-free
+
+**Phase**: Renderer target contracts
+
+**Decision**: Modules under `src/elements/` resolve render models and target
+structure without importing React, WordPress React, Zustand, or the editor
+entrypoint. Canvas and contract-test callers inject their `createElement`
+factory when materializing Button, Image, and Text target nodes.
+
+**Why**: Element definitions and target contracts must stay usable by migration,
+validation, compiler, and server-parity tooling. Injecting node creation keeps
+the emitted markup unchanged while enforcing the documented domain boundary.
+
+## Builder controls — Form Field targets follow native form semantics
+
+**Phase**: Renderer target contracts
+
+**Decision**: `forms/field-group` owns one direct-child `row`; renderer-owned
+`label`, native `control`, `help`, `error`, and conditional `requiredMark`
+markers live beneath it in identical editor and frontend markup. Placeholder is
+the native control's `::placeholder` pseudo-element, never a synthetic DOM node.
+State suffixes are inserted before terminal pseudo-elements. Schema-v3 props are
+authoritative while legacy `data-field-*` attributes remain a read fallback;
+legacy and imported-native `form_field` rendering is otherwise unchanged.
+
+**Why**: Fake placeholder children cannot match browser form behavior, and root
+styles cannot distinguish labels, controls, validation, or help text. A bounded
+row selector supports repeated radio/checkbox controls without leaking into
+nested field groups, while the compatibility gate avoids changing existing v1
+and v2 renderer snapshots.

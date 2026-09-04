@@ -64,11 +64,30 @@ export function normalizeImportedSource( rawSource ) {
 	return normalizeTransportEscapes( normalizeCodeFence( text ), encoding );
 }
 
+export function extractWordPressTemplateMetadata( source ) {
+	const raw = String( source || '' );
+	const templateMatch = raw.match(
+		/(?:\/\*[\s\S]*?Template Name:\s*([^\r\n*]+)[\s\S]*?\*\/)/i
+	);
+	const templateName = templateMatch ? templateMatch[ 1 ].trim() : null;
+	const hasHeader = /\bget_header\s*\(/i.test( raw );
+	const hasFooter = /\bget_footer\s*\(/i.test( raw );
+	const hasSidebar = /\bget_sidebar\s*\(/i.test( raw );
+	return {
+		templateName,
+		hasHeader,
+		hasFooter,
+		hasSidebar,
+		isTemplate: Boolean( templateName || hasHeader || hasFooter ),
+	};
+}
+
 export function createNormalizedSource( rawSource ) {
 	const raw = String( rawSource || '' );
 	return {
 		raw,
 		normalized: normalizeImportedSource( raw ),
 		transportEncoding: detectTransportEncoding( raw ),
+		wpTemplate: extractWordPressTemplateMetadata( raw ),
 	};
 }

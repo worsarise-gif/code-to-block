@@ -107,6 +107,25 @@ Renderer-owned targets use registered direct-child selectors and matching
 `data-ctb-part` markers in both editor and frontend output. Arbitrary user
 selectors cannot become style targets.
 
+The `forms/field-group` renderer owns one direct-child row and the following
+stable descendants in both environments:
+
+```text
+row          [data-ctb-part="row"]
+label        [data-ctb-part="row"] > [data-ctb-part="label"]
+control      [data-ctb-part="row"] [data-ctb-part="control"]
+placeholder  [data-ctb-part="row"] [data-ctb-part="control"]::placeholder
+help         [data-ctb-part="row"] > [data-ctb-part="help"]
+error        [data-ctb-part="row"] > [data-ctb-part="error"]
+requiredMark [data-ctb-part="row"] > [data-ctb-part="label"] > [data-ctb-part="requiredMark"]
+```
+
+`placeholder` is a pseudo-element of a real control, never a synthetic child.
+State selectors are inserted before that pseudo-element, for example
+`[data-ctb-part="control"]:focus-visible::placeholder`. The descendant control
+selector intentionally supports option controls while the row boundary prevents
+matching controls owned by nested field groups.
+
 ## Inspector Ownership
 
 - **Content** owns element data, semantics, structure, functional behavior, and

@@ -1,0 +1,42 @@
+[
+  {
+    "name": "plain heading",
+    "element": "core/heading",
+    "type": "text",
+    "tag": "h2",
+    "attributes": {},
+    "text": "A clear heading",
+    "expectedTag": "span",
+    "expectedHref": ""
+  },
+  {
+    "name": "linked heading",
+    "element": "core/heading",
+    "type": "text",
+    "tag": "h3",
+    "attributes": { "data-link-url": "/documentation" },
+    "text": "Read the guide",
+    "expectedTag": "a",
+    "expectedHref": "/documentation"
+  },
+  {
+    "name": "unsafe heading link",
+    "element": "core/heading",
+    "type": "text",
+    "tag": "h4",
+    "attributes": { "data-link-url": "javascript:alert(1)" },
+    "text": "Safe fallback",
+    "expectedTag": "span",
+    "expectedHref": ""
+  },
+  {
+    "name": "plain text",
+    "element": "core/text",
+    "type": "text",
+    "tag": "p",
+    "attributes": {},
+    "text": "A paragraph of text.",
+    "expectedTag": "span",
+    "expectedHref": ""
+  }
+]

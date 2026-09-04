@@ -1,9 +1,19 @@
 import { useEffect, useState } from '@wordpress/element';
 import '../../editor.css';
-import { controlVisibilityReason, isMappedControlVisible, normalizeCustomCssFallback, STYLE_CONTROL_FIELDS } from '../../custom-css.mjs';
+import {
+	controlVisibilityReason,
+	isMappedControlVisible,
+	normalizeCustomCssFallback,
+	STYLE_CONTROL_FIELDS,
+} from '../../custom-css.mjs';
+import { composeStyleControlGroups } from '../../controls/composer.mjs';
 import { tokenCssValue } from '../../design-tokens.mjs';
 import { createImportCodeService } from '../../importer/ImportCodeService.mjs';
-import { BREAKPOINTS, isBlockHidden, isHiddenOverridden } from '../../responsive-styles.mjs';
+import {
+	BREAKPOINTS,
+	isBlockHidden,
+	isHiddenOverridden,
+} from '../../responsive-styles.mjs';
 import { roleBindingForProperty } from '../../semantic-roles.mjs';
 import { TokenBindingControl } from '../controls/TokenControls.js';
 import { ScrubbableInput } from '../controls/ScrubbableInput.js';
@@ -80,7 +90,12 @@ export function BreakpointSwitcher( { value, onChange, compact = false } ) {
 	);
 }
 
-export function ResponsiveColorOverride( { breakpoint, color, ownColor, onClear } ) {
+export function ResponsiveColorOverride( {
+	breakpoint,
+	color,
+	ownColor,
+	onClear,
+} ) {
 	if ( breakpoint === 'desktop' ) {
 		return null;
 	}
@@ -109,8 +124,8 @@ export function MappedStyleControls( {
 	onRemoveToken,
 	onOverrideToken,
 	allowedProperties,
+	styleGroups,
 } ) {
-	const allowedPropertySet = new Set( allowedProperties || [] );
 	const currentValues = Object.fromEntries(
 		STYLE_CONTROL_FIELDS.map( ( field ) => [
 			field.property,
@@ -141,108 +156,11 @@ export function MappedStyleControls( {
 		setError( '' );
 	}
 
-	const TAXONOMY_GROUPS = [
-		{
-			title: 'Layout & Sizing',
-			fields: [
-				'display',
-				'width',
-				'height',
-				'max-width',
-				'min-height',
-				'padding',
-				'margin',
-				'flex-direction',
-				'flex-wrap',
-				'justify-content',
-				'align-items',
-				'align-content',
-				'gap',
-				'row-gap',
-				'column-gap',
-				'grid-template-columns',
-				'grid-template-rows',
-				'flex-grow',
-				'flex-shrink',
-				'flex-basis',
-				'align-self',
-				'order',
-				'grid-column',
-				'grid-row',
-				'position',
-				'top',
-				'right',
-				'bottom',
-				'left',
-				'z-index',
-				'overflow',
-			],
-		},
-		{
-			title: 'Typography',
-			fields: [
-				'font-family',
-				'font-size',
-				'font-weight',
-				'line-height',
-				'letter-spacing',
-				'text-transform',
-				'text-decoration',
-				'text-shadow',
-				'-webkit-text-stroke',
-			],
-		},
-		{
-			title: 'Borders',
-			fields: [
-				'border',
-				'border-top',
-				'border-right',
-				'border-bottom',
-				'border-left',
-				'border-radius',
-			],
-		},
-		{
-			title: 'Backgrounds & Images',
-			fields: [
-				'background',
-				'background-color',
-				'background-image',
-				'background-size',
-				'background-position',
-				'object-fit',
-				'object-position',
-			],
-		},
-		{
-			title: 'Effects',
-			fields: [
-				'box-shadow',
-				'opacity',
-				'filter',
-				'backdrop-filter',
-				'transform',
-			],
-		},
-	];
-
-	// Ensure all fields are covered
-	const mappedGroups = TAXONOMY_GROUPS.map( ( group ) => {
-		return {
-			...group,
-			fieldObjs: group.fields
-				.map( ( fp ) =>
-					STYLE_CONTROL_FIELDS.find( ( f ) => f.property === fp )
-				)
-				.filter(
-					( field ) =>
-						Boolean( field ) &&
-						( ! allowedProperties ||
-							allowedPropertySet.has( field.property ) )
-				),
-		};
-	} );
+	const mappedGroups = composeStyleControlGroups(
+		styleGroups,
+		STYLE_CONTROL_FIELDS,
+		allowedProperties
+	);
 
 	return (
 		<div className="ctb-mapped-style-controls">
@@ -252,6 +170,16 @@ export function MappedStyleControls( {
 					: `${ breakpoint } overrides` }
 			</p>
 			{ mappedGroups.map( ( group, groupIdx ) => {
+				const normalizedSearch = String( searchQuery || '' )
+					.trim()
+					.toLowerCase();
+				const groupMatchesSearch =
+					normalizedSearch &&
+					[ group.id, group.label ].some( ( value ) =>
+						String( value )
+							.toLowerCase()
+							.includes( normalizedSearch )
+					);
 				const renderedFields = group.fieldObjs
 					.map( ( field ) => {
 						const reference =
@@ -267,14 +195,16 @@ export function MappedStyleControls( {
 						);
 						const displayVal =
 							values.display || effectiveMapped.display || '';
-						const visible = isMappedControlVisible(
-							field.property,
-							displayVal,
-							parentDisplayValue,
-							panelMode,
-							searchQuery,
-							field
-						);
+						const visible =
+							groupMatchesSearch ||
+							isMappedControlVisible(
+								field.property,
+								displayVal,
+								parentDisplayValue,
+								panelMode,
+								searchQuery,
+								field
+							);
 						const reason = controlVisibilityReason(
 							field.property,
 							displayVal,
@@ -431,7 +361,7 @@ export function MappedStyleControls( {
 
 				return (
 					<details
-						key={ group.title }
+						key={ group.id }
 						className="ctb-taxonomy-group"
 						style={ {
 							marginBottom: '8px',
@@ -451,7 +381,7 @@ export function MappedStyleControls( {
 								borderBottom: '1px solid #e8e5db',
 							} }
 						>
-							{ group.title }
+							{ group.label }
 						</summary>
 						<div style={ { padding: '8px 12px' } }>
 							{ renderedFields }
@@ -475,14 +405,19 @@ export function MappedStyleControls( {
 	);
 }
 
-export function RawCssControl( { styleSet, breakpoint, onApply } ) {
+export function RawCssControl( {
+	styleSet,
+	breakpoint,
+	contextLabel = breakpoint,
+	onApply,
+} ) {
 	const currentValue = styleSet.custom_css_fallback || '';
 	const [ value, setValue ] = useState( currentValue );
 	const [ error, setError ] = useState( '' );
 	const fieldId = `ctb-raw-css-${ breakpoint }`;
 	let fallbackStatus = 'Inherits earlier breakpoints';
 	if ( currentValue ) {
-		fallbackStatus = `${ breakpoint } CSS override`;
+		fallbackStatus = `${ contextLabel } CSS override`;
 	} else if ( breakpoint === 'desktop' ) {
 		fallbackStatus = 'No fallback CSS';
 	}
@@ -523,8 +458,8 @@ export function RawCssControl( { styleSet, breakpoint, onApply } ) {
 				</button>
 			</div>
 			<p id={ `${ fieldId }-help` }>
-				Enter declarations for { breakpoint } only. Mapped controls win
-				unless a raw value uses{ ' !important' }.
+				Enter declarations for { contextLabel } only. Mapped controls win unless
+				a raw value uses{ ' !important' }.
 			</p>
 			{ error ? (
 				<p className="ctb-raw-css-error" role="alert">
@@ -534,4 +469,3 @@ export function RawCssControl( { styleSet, breakpoint, onApply } ) {
 		</div>
 	);
 }
-

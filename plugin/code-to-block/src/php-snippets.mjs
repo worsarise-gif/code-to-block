@@ -6,6 +6,13 @@ function findClosingTag( source, start ) {
 		const character = source[ index ];
 		const next = source[ index + 1 ];
 
+		// In standard PHP specification, a closing tag `?>` terminates line comments (// and #) immediately!
+		if ( character === '?' && next === '>' ) {
+			if ( state !== 'single' && state !== 'double' && state !== 'block-comment' ) {
+				return index + 2;
+			}
+		}
+
 		if ( state === 'single' || state === 'double' ) {
 			if ( character === '\\' ) {
 				index += 1;
@@ -46,8 +53,6 @@ function findClosingTag( source, start ) {
 		} else if ( character === '/' && next === '*' ) {
 			state = 'block-comment';
 			index += 1;
-		} else if ( character === '?' && next === '>' ) {
-			return index + 2;
 		}
 	}
 	return -1;
@@ -101,12 +106,14 @@ function randomSuffix() {
  * @param {string}   html            HTML and PHP source.
  * @param {string}   shortcodePrefix Prefix for page-owned shortcode tags.
  * @param {Function} createSuffix    Unique suffix factory.
+ * @param {Object}   options         Extraction options.
  * @return {{html: string, phpDetections: Array}} Extracted source.
  */
 export function extractPhpSnippets(
 	html,
 	shortcodePrefix = 'ctb_php',
-	createSuffix = randomSuffix
+	createSuffix = randomSuffix,
+	options = {}
 ) {
 	const source = String( html );
 	const detections = [];
@@ -114,16 +121,22 @@ export function extractPhpSnippets(
 	let output = '';
 	let match;
 	PHP_OPEN.lastIndex = 0;
+	const isTolerant = Boolean( options.tolerant );
 
 	while ( ( match = PHP_OPEN.exec( source ) ) ) {
-		if ( isInsideHtmlTag( source, match.index ) ) {
+		const inTag = isInsideHtmlTag( source, match.index );
+		if ( inTag && ! isTolerant ) {
 			throw new Error(
 				'PHP inside an HTML tag or attribute cannot be converted safely.'
 			);
 		}
-		const end = findClosingTag( source, PHP_OPEN.lastIndex );
+		let end = findClosingTag( source, PHP_OPEN.lastIndex );
 		if ( end < 0 ) {
-			throw new Error( 'Every <?php block must have a closing ?> tag.' );
+			if ( isTolerant ) {
+				end = source.length;
+			} else {
+				throw new Error( 'Every <?php block must have a closing ?> tag.' );
+			}
 		}
 
 		const index = detections.length + 1;
@@ -131,7 +144,7 @@ export function extractPhpSnippets(
 		let code = source.slice( match.index, end );
 		if ( match[ 1 ] === '=' ) {
 			const expression = source
-				.slice( PHP_OPEN.lastIndex, end - 2 )
+				.slice( PHP_OPEN.lastIndex, end - ( code.endsWith( '?>' ) ? 2 : 0 ) )
 				.trim()
 				.replace( /;?\s*$/, ';' );
 			code = `<?php echo ${ expression } ?>`;
@@ -142,10 +155,15 @@ export function extractPhpSnippets(
 			code,
 			tag,
 			shortcode: `[${ tag }]`,
+			context: inTag ? 'attribute' : 'content',
 			status: 'pending',
-			description: 'Awaiting a server-side static review.',
+			description: inTag
+				? 'Attribute-level PHP expression preserved for server review.'
+				: 'Awaiting a server-side static review.',
 			blockedReasons: [],
-			warnings: [],
+			warnings: inTag
+				? [ 'PHP inside an HTML tag or attribute was normalized for visual editing.' ]
+				: [],
 		} );
 		cursor = end;
 		PHP_OPEN.lastIndex = end;

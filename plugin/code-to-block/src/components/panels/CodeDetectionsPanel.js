@@ -112,6 +112,7 @@ export function PhpDetection( { detection, onRegister } ) {
 		warning: 'Strong warning / cannot register',
 		blocked: 'Blocked / cannot register',
 		registered: 'Registered after confirmation',
+		projected: 'Projected safely into builder content',
 		unavailable: 'Registration unavailable',
 		error: 'Review failed',
 	};
@@ -123,9 +124,16 @@ export function PhpDetection( { detection, onRegister } ) {
 					{ labels[ detection.status ] || detection.status }
 				</span>
 				<p>{ detection.description }</p>
-				<p>
-					Canvas placeholder: <code>{ detection.shortcode }</code>
-				</p>
+				{ detection.requiresReview !== false ? (
+					<p>
+						Canvas placeholder: <code>{ detection.shortcode }</code>
+					</p>
+				) : (
+					<p>
+						No PHP was executed and no shortcode placeholder was
+						added to the canvas.
+					</p>
+				) }
 				{ detection.blockedReasons?.length ? (
 					<ul className="ctb-php-reasons">
 						{ detection.blockedReasons.map( ( reason ) => (
@@ -214,4 +222,3 @@ export function PhpDetections( { detections, onRegister } ) {
 		</section>
 	);
 }
-

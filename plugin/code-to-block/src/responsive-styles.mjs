@@ -18,20 +18,20 @@ export function breakpointCascade( breakpoint ) {
 
 export function ownStyleSet( block, breakpoint ) {
 	if ( breakpoint === 'desktop' ) {
-		return block.styles;
+		return block?.styles || EMPTY_STYLE_SET;
 	}
-	return block.responsive_overrides?.[ breakpoint ] || EMPTY_STYLE_SET;
+	return block?.responsive_overrides?.[ breakpoint ] || EMPTY_STYLE_SET;
 }
 
 export function inheritedMappedStyles( block, breakpoint ) {
 	if ( breakpoint === 'desktop' ) {
 		return {};
 	}
-	const inherited = { ...block.styles.mapped };
+	const inherited = { ...( block?.styles?.mapped || {} ) };
 	if ( breakpoint === 'mobile' ) {
 		Object.assign(
 			inherited,
-			block.responsive_overrides?.tablet?.mapped || {}
+			block?.responsive_overrides?.tablet?.mapped || {}
 		);
 	}
 	return inherited;
@@ -119,9 +119,9 @@ function styleSetDisplay( styleSet ) {
 export function isBlockHidden( block, breakpoint ) {
 	let hidden = false;
 	for ( const styleSet of [
-		block.styles,
+		block?.styles,
 		...breakpointCascade( breakpoint ).map(
-			( viewport ) => block.responsive_overrides?.[ viewport ]
+			( viewport ) => block?.responsive_overrides?.[ viewport ]
 		),
 	] ) {
 		const display = styleSetDisplay( styleSet );

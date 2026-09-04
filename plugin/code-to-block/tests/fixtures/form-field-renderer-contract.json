@@ -1,0 +1,124 @@
+[
+	{
+		"name": "required email with semantic props",
+		"props": {
+			"fieldType": "email",
+			"label": "Email address",
+			"name": "email",
+			"placeholder": "you@example.com",
+			"help": "We will only use this for replies.",
+			"required": true
+		},
+		"attributes": {},
+		"expected": {
+			"fieldType": "email",
+			"label": "Email address",
+			"name": "email",
+			"placeholder": "you@example.com",
+			"help": "We will only use this for replies.",
+			"required": true,
+			"controlTag": "input",
+			"controlCount": 1,
+			"requiredMarkCount": 1,
+			"options": []
+		}
+	},
+	{
+		"name": "legacy textarea fallback with false required string",
+		"props": {},
+		"attributes": {
+			"data-field-type": "textarea",
+			"data-field-label": "Message",
+			"data-field-name": "message",
+			"data-field-placeholder": "How can we help?",
+			"data-field-required": "false"
+		},
+		"expected": {
+			"fieldType": "textarea",
+			"label": "Message",
+			"name": "message",
+			"placeholder": "How can we help?",
+			"help": "",
+			"required": false,
+			"controlTag": "textarea",
+			"controlCount": 1,
+			"requiredMarkCount": 0,
+			"options": []
+		}
+	},
+	{
+		"name": "select with semantic options",
+		"props": {
+			"fieldType": "select",
+			"label": "Region",
+			"name": "region",
+			"placeholder": "Choose a region",
+			"options": [
+				{ "label": "North", "value": "north" },
+				{ "label": "South", "value": "south" }
+			]
+		},
+		"attributes": {},
+		"expected": {
+			"fieldType": "select",
+			"label": "Region",
+			"name": "region",
+			"placeholder": "Choose a region",
+			"help": "",
+			"required": false,
+			"controlTag": "select",
+			"controlCount": 1,
+			"requiredMarkCount": 0,
+			"options": [
+				{ "label": "North", "value": "north" },
+				{ "label": "South", "value": "south" }
+			]
+		}
+	},
+	{
+		"name": "radio group with repeated controls",
+		"props": {
+			"fieldType": "radio",
+			"label": "Plan",
+			"name": "plan",
+			"required": true,
+			"options": [ "Starter", "Pro" ]
+		},
+		"attributes": {},
+		"expected": {
+			"fieldType": "radio",
+			"label": "Plan",
+			"name": "plan",
+			"placeholder": "",
+			"help": "",
+			"required": true,
+			"controlTag": "input",
+			"controlCount": 2,
+			"requiredMarkCount": 1,
+			"options": [
+				{ "label": "Starter", "value": "Starter" },
+				{ "label": "Pro", "value": "Pro" }
+			]
+		}
+	},
+	{
+		"name": "empty label retains renderer-owned target",
+		"props": {
+			"fieldType": "text",
+			"name": "unnamed-label"
+		},
+		"attributes": {},
+		"expected": {
+			"fieldType": "text",
+			"label": "",
+			"name": "unnamed-label",
+			"placeholder": "",
+			"help": "",
+			"required": false,
+			"controlTag": "input",
+			"controlCount": 1,
+			"requiredMarkCount": 0,
+			"options": []
+		}
+	}
+]

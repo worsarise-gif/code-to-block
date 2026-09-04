@@ -1189,6 +1189,9 @@ final class Code_To_Block_REST_Controller {
 		}
 		Code_To_Block_Renderer::retire_stale_stylesheets( $post_id, $stylesheet['path'] );
 		Code_To_Block_Shortcodes::retain_for_document( $post_id, $document );
+		if ( isset( $document['display_conditions'] ) ) {
+			update_post_meta( $post_id, '_ctb_display_conditions', $document['display_conditions'] );
+		}
 		if ( true === $update_snapshot ) {
 			$snapshot_json = wp_json_encode( $editor_snapshot, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE );
 			update_post_meta( $post_id, Code_To_Block_Parity::EDITOR_SNAPSHOT_META_KEY, wp_slash( $snapshot_json ) );

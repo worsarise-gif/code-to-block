@@ -11,7 +11,7 @@ final class Code_To_Block_Schema {
 	const VERSION = 3;
 	const COMPAT_VERSION = 2;
 	const LEGACY_VERSION = 1;
-	const MAX_JSON_BYTES = 2097152;
+	const MAX_JSON_BYTES = 10485760;
 	const MAX_BLOCKS = 1000;
 	const MAX_DEPTH = 50;
 	const MAX_ACTIONS = 100;
@@ -31,17 +31,27 @@ final class Code_To_Block_Schema {
 	const CSS_ANIMATION_ACTIONS = array( 'css-reveal' );
 	const TOKEN_CATEGORIES = array( 'colors', 'typography', 'spacing' );
 	const CSS_MAPPING_CONTROLS = array(
-		'color', 'padding', 'padding-top', 'padding-right', 'padding-bottom', 'padding-left',
-		'margin', 'margin-top', 'margin-right', 'margin-bottom', 'margin-left',
-		'font-family', 'font-size', 'font-weight', 'line-height', 'letter-spacing',
-		'text-transform', 'text-decoration', '-webkit-text-stroke',
-		'border', 'border-top', 'border-right', 'border-bottom', 'border-left', 'border-radius',
-		'display', 'flex-direction', 'flex-wrap', 'justify-content', 'align-items', 'align-content',
-		'gap', 'row-gap', 'column-gap', 'grid-template-columns', 'grid-template-rows', 'flex-grow',
-		'flex-shrink', 'flex-basis', 'align-self', 'order', 'grid-column', 'grid-row', 'width',
-		'height', 'max-width', 'min-height', 'position', 'top', 'right', 'bottom', 'left', 'z-index',
-		'background', 'background-color', 'background-image', 'background-size', 'background-position',
-		'box-shadow', 'opacity', 'filter', 'backdrop-filter', 'transform', 'text-shadow', 'overflow',
+		'-webkit-text-stroke', 'align-content', 'align-items', 'align-self',
+		'aspect-ratio', 'backdrop-filter', 'background', 'background-attachment',
+		'background-blend-mode', 'background-color', 'background-image',
+		'background-position', 'background-repeat', 'background-size',
+		'border', 'border-bottom', 'border-left', 'border-radius', 'border-right',
+		'border-top', 'bottom', 'box-shadow', 'box-sizing', 'color', 'column-gap',
+		'cursor', 'display', 'fill', 'filter', 'flex-basis', 'flex-direction',
+		'flex-grow', 'flex-shrink', 'flex-wrap', 'font-family', 'font-size',
+		'font-style', 'font-weight', 'gap', 'grid-area', 'grid-auto-columns',
+		'grid-auto-flow', 'grid-auto-rows', 'grid-column', 'grid-row',
+		'grid-template-columns', 'grid-template-rows', 'height', 'hyphens',
+		'justify-content', 'justify-items', 'justify-self', 'left', 'letter-spacing',
+		'line-height', 'margin', 'margin-bottom', 'margin-left', 'margin-right',
+		'margin-top', 'max-height', 'max-width', 'min-height', 'min-width',
+		'mix-blend-mode', 'object-fit', 'object-position', 'opacity', 'order',
+		'outline', 'outline-offset', 'overflow', 'overflow-wrap', 'overflow-x',
+		'overflow-y', 'padding', 'padding-bottom', 'padding-left', 'padding-right',
+		'padding-top', 'pointer-events', 'position', 'right', 'row-gap', 'stroke',
+		'stroke-width', 'text-align', 'text-decoration', 'text-indent',
+		'text-shadow', 'text-transform', 'top', 'transform', 'user-select',
+		'white-space', 'width', 'word-break', 'z-index',
 	);
 	const TOKEN_PROPERTIES = array(
 		'colors'     => array( 'color' ),
@@ -85,7 +95,7 @@ final class Code_To_Block_Schema {
 			return self::error( $path, 'must contain encodable finite JSON values' );
 		}
 		if ( strlen( $encoded_value ) > self::MAX_JSON_BYTES ) {
-			return self::error( $path, 'exceeds the 2 MB document limit', 413 );
+			return self::error( $path, 'exceeds the 10 MB document limit', 413 );
 		}
 		$value = self::object_to_array( $value );
 
@@ -207,7 +217,7 @@ final class Code_To_Block_Schema {
 		);
 		if ( self::VERSION === $value['schema_version'] ) {
 			$document['registry_version'] = Code_To_Block_Registry::VERSION;
-			foreach ( array( 'global_styles', 'group_presets', 'element_presets', 'breakpoints', 'migration_log', 'history_metadata' ) as $field ) {
+			foreach ( array( 'global_styles', 'group_presets', 'element_presets', 'breakpoints', 'migration_log', 'history_metadata', 'display_conditions' ) as $field ) {
 				if ( ! array_key_exists( $field, $value ) ) {
 					continue;
 				}

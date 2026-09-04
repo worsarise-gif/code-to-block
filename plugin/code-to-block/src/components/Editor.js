@@ -4,32 +4,109 @@ import RightInspector from '../components/RightInspector.js';
 import CenterCanvas from '../components/CenterCanvas.js';
 import NavigatorTree from '../components/NavigatorTree.js';
 import RevisionHistory from '../components/RevisionHistory.js';
-import { GuidedRolePanel, GuidedRolesManager, RoleEditDecisionDialog } from '../components/GuidedRoleControls.js';
+import DisplayConditionsModal from './modals/DisplayConditionsModal.js';
+import ScheduleModal from './modals/ScheduleModal.js';
+import SaveTemplateModal from './modals/SaveTemplateModal.js';
+import {
+	GuidedRolePanel,
+	GuidedRolesManager,
+	RoleEditDecisionDialog,
+} from '../components/GuidedRoleControls.js';
 import { useEffect, useRef, useState } from '@wordpress/element';
-import { DndContext, DragOverlay, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
+import {
+	DndContext,
+	DragOverlay,
+	KeyboardSensor,
+	PointerSensor,
+	useSensor,
+	useSensors,
+} from '@dnd-kit/core';
 import apiFetch from '@wordpress/api-fetch';
-import { contentHash, freshPreviewUrl, installNavigationGuard, publishSavedDocument, autosaveDocument } from '../editor-persistence.mjs';
+import {
+	contentHash,
+	freshPreviewUrl,
+	installNavigationGuard,
+	publishSavedDocument,
+	autosaveDocument,
+} from '../editor-persistence.mjs';
 import '../editor.css';
 import { STYLE_CONTROL_FIELDS } from '../custom-css.mjs';
-import { effectiveTokenBindings, getDesignToken, tokenCssValue } from '../design-tokens.mjs';
+import {
+	effectiveTokenBindings,
+	getDesignToken,
+	tokenCssValue,
+} from '../design-tokens.mjs';
 import { createImportCodeService } from '../importer/ImportCodeService.mjs';
 import { materializeCommerce } from '../commerce-preview.mjs';
-import { BREAKPOINTS, countStyleOverrides, effectiveMappedStyles, inheritedMappedStyles, ownStyleSet } from '../responsive-styles.mjs';
+import {
+	BREAKPOINTS,
+	countStyleOverrides,
+	effectiveMappedStyles,
+	inheritedMappedStyles,
+	ownStyleSet,
+} from '../responsive-styles.mjs';
 import { canMoveBlock, countBlocks, findBlock } from '../tree.mjs';
-import { createComponentDocument, materializeComponents } from '../reusable-components.mjs';
+import {
+	createComponentDocument,
+	materializeComponents,
+} from '../reusable-components.mjs';
 import { runAccessibilityChecks } from '../accessibility.mjs';
-import { countRoleUsage, guidedRolesEnabled, migrateGuidedRolesDocument, normalizeImportedStyles, roleBindingForProperty, roleCatalog, rolePreviewStyles, sanitizeGuidedRoleTelemetry } from '../semantic-roles.mjs';
+import {
+	countRoleUsage,
+	guidedRolesEnabled,
+	migrateGuidedRolesDocument,
+	normalizeImportedStyles,
+	roleBindingForProperty,
+	roleCatalog,
+	rolePreviewStyles,
+	sanitizeGuidedRoleTelemetry,
+} from '../semantic-roles.mjs';
 import { resolveInspector } from '../elements/resolver.mjs';
+import { formatContextKey } from '../schema-v3.mjs';
 import { useEditorStore } from '../store/editor-store.mjs';
+import {
+	effectiveTargetMappedStyles,
+	effectiveTargetTokenBindings,
+	inheritedTargetMappedStyles,
+	readTargetStyleSet,
+} from '../styles/editor-bridge.mjs';
 import { SkeletonLoader, Block } from './canvas/CanvasComponents.js';
-import { AccessibilityPanel, DiagnosticsPanel, ParityWarningsPanel } from './panels/DiagnosticsPanels.js';
-import { ScriptDetections, PhpDetections } from './panels/CodeDetectionsPanel.js';
+import {
+	AccessibilityPanel,
+	DiagnosticsPanel,
+	ParityWarningsPanel,
+} from './panels/DiagnosticsPanels.js';
+import {
+	ScriptDetections,
+	PhpDetections,
+} from './panels/CodeDetectionsPanel.js';
 import { ExplainPanel } from './panels/ExplainPanel.js';
 import { DesignTokenPanel } from './panels/DesignTokenPanel.js';
-import { BreakpointSwitcher, ResponsiveColorOverride, MappedStyleControls, RawCssControl } from './controls/StyleControls.js';
-import { BlockDynamicControl, BlockSlotControl, BlockAnimationControl, BlockActions } from './controls/BlockControls.js';
+import {
+	BreakpointSwitcher,
+	ResponsiveColorOverride,
+	MappedStyleControls,
+	RawCssControl,
+} from './controls/StyleControls.js';
+import {
+	BlockDynamicControl,
+	BlockSlotControl,
+	BlockAnimationControl,
+	BlockActions,
+} from './controls/BlockControls.js';
 import { ContextMenu } from './ContextMenu.js';
-import { resolveDocumentDropIntent, dragEventPoint, buildPreviewStyles, buildEditorStyleSnapshot, collisionStrategy, cursorOffsetModifier, breakpointStyleSummary, loadEditorGsap, documentHasGsapAnimation } from '../utils/editor-utils.js';
+import {
+	resolveDocumentDropIntent,
+	dragEventPoint,
+	buildPreviewStyles,
+	buildEditorStyleSnapshot,
+	collisionStrategy,
+	cursorOffsetModifier,
+	breakpointStyleSummary,
+	loadEditorGsap,
+	documentHasGsapAnimation,
+	VOID_TAGS,
+} from '../utils/editor-utils.js';
 
 const importCodeService = createImportCodeService();
 
@@ -94,6 +171,12 @@ export function Editor() {
 	const updateBlockMappedStyles = useEditorStore(
 		( state ) => state.updateBlockMappedStyles
 	);
+	const updateBlockTargetMappedStyles = useEditorStore(
+		( state ) => state.updateBlockTargetMappedStyles
+	);
+	const updateBlockTargetCustomCss = useEditorStore(
+		( state ) => state.updateBlockTargetCustomCss
+	);
 	const replaceBlockStyleSet = useEditorStore(
 		( state ) => state.replaceBlockStyleSet
 	);
@@ -108,6 +191,12 @@ export function Editor() {
 	);
 	const removeBlockTokenBinding = useEditorStore(
 		( state ) => state.removeBlockTokenBinding
+	);
+	const setBlockTargetTokenBinding = useEditorStore(
+		( state ) => state.setBlockTargetTokenBinding
+	);
+	const removeBlockTargetTokenBinding = useEditorStore(
+		( state ) => state.removeBlockTargetTokenBinding
 	);
 	const setBlockStyleRole = useEditorStore(
 		( state ) => state.setBlockStyleRole
@@ -166,8 +255,12 @@ export function Editor() {
 	const [ dropIntent, setDropIntent ] = useState( null );
 	const dropIntentRef = useRef( null );
 	const [ activeState, setActiveState ] = useState( 'default' );
+	const [ activeStyleTarget, setActiveStyleTarget ] = useState( 'root' );
 	const [ isImporterOpen, setIsImporterOpen ] = useState( false );
 	const [ isRevisionsOpen, setIsRevisionsOpen ] = useState( false );
+	const [ isConditionsOpen, setIsConditionsOpen ] = useState( false );
+	const [ isScheduleOpen, setIsScheduleOpen ] = useState( false );
+	const [ isSaveTemplateOpen, setIsSaveTemplateOpen ] = useState( false );
 	const [ paletteDragging, setPaletteDragging ] = useState( null );
 	useEffect( () => {
 		if ( ! paletteDragging && ! activeId && dropIntentRef.current ) {
@@ -353,27 +446,72 @@ export function Editor() {
 		return findParent( document.root, selectedBlock.id );
 	} )();
 	const selectedParentDisplay = selectedParentBlock
-		? effectiveMappedStyles( selectedParentBlock, previewBreakpoint )
-				.display || 'block'
+		? ( document.schema_version === 3 && selectedParentBlock.element
+				? effectiveTargetMappedStyles(
+						selectedParentBlock,
+						'root',
+						formatContextKey( previewBreakpoint, 'default' )
+				  )
+				: effectiveMappedStyles(
+						selectedParentBlock,
+						previewBreakpoint
+				  )
+		  ).display || 'block'
 		: 'block';
+	const activeStyleContext = formatContextKey(
+		previewBreakpoint,
+		activeState
+	);
 	const selectedInspector = resolveInspector( selectedBlock, {
 		breakpoint: previewBreakpoint,
 		state: activeState,
+		targetId: activeStyleTarget,
+		contextKey: activeStyleContext,
 		parentDisplay: selectedParentDisplay,
 	} );
-	const selectedStyleSet = ownStyleSet( selectedBlock, previewBreakpoint );
-	const selectedInheritedMapped = inheritedMappedStyles(
+	const targetStyleEditing = Boolean(
+		document.schema_version === 3 &&
+			selectedBlock.element &&
+			! selectedInspector.identity.legacy
+	);
+	const selectedStyleTarget = selectedInspector.tabs.style.activeTarget;
+	const selectedStyleContext = selectedInspector.tabs.style.activeContext;
+	const selectedStyleTargetLabel =
+		selectedInspector.tabs.style.targets.find(
+			( target ) => target.id === selectedStyleTarget
+		)?.label || selectedStyleTarget;
+	const selectedLegacyStyleSet = ownStyleSet(
 		selectedBlock,
 		previewBreakpoint
 	);
-	const selectedEffectiveMapped = effectiveMappedStyles(
-		selectedBlock,
-		previewBreakpoint
-	);
-	const selectedEffectiveBindings = effectiveTokenBindings(
-		selectedBlock,
-		previewBreakpoint
-	);
+	const selectedStyleSet = targetStyleEditing
+		? readTargetStyleSet(
+				selectedBlock,
+				selectedStyleTarget,
+				selectedStyleContext
+		  )
+		: selectedLegacyStyleSet;
+	const selectedInheritedMapped = targetStyleEditing
+		? inheritedTargetMappedStyles(
+				selectedBlock,
+				selectedStyleTarget,
+				selectedStyleContext
+		  )
+		: inheritedMappedStyles( selectedBlock, previewBreakpoint );
+	const selectedEffectiveMapped = targetStyleEditing
+		? effectiveTargetMappedStyles(
+				selectedBlock,
+				selectedStyleTarget,
+				selectedStyleContext
+		  )
+		: effectiveMappedStyles( selectedBlock, previewBreakpoint );
+	const selectedEffectiveBindings = targetStyleEditing
+		? effectiveTargetTokenBindings(
+				selectedBlock,
+				selectedStyleTarget,
+				selectedStyleContext
+		  )
+		: effectiveTokenBindings( selectedBlock, previewBreakpoint );
 	const selectedColor = selectedEffectiveMapped.color || '#000000';
 	const selectedOwnColor = selectedStyleSet.mapped.color || '';
 	const selectedColorReference = selectedEffectiveBindings.color || '';
@@ -386,12 +524,24 @@ export function Editor() {
 			selectedColor === tokenCssValue( selectedColorReference )
 	);
 	const selectedMappedStyleKey =
+		`${ selectedStyleTarget }:${ selectedStyleContext }:` +
 		STYLE_CONTROL_FIELDS.map(
 			( field ) => selectedStyleSet.mapped[ field.property ] || ''
-		).join( '|' ) + JSON.stringify( selectedStyleSet.role_bindings || {} );
+		).join( '|' ) +
+		JSON.stringify( selectedStyleSet.role_bindings || {} );
+	useEffect( () => {
+		setActiveStyleTarget( 'root' );
+		setActiveState( 'default' );
+	}, [ selectedBlockId ] );
 	useEffect( () => {
 		cancelGuidedRolePreview();
-	}, [ selectedBlockId, activeTab, previewBreakpoint ] );
+	}, [
+		selectedBlockId,
+		activeTab,
+		previewBreakpoint,
+		selectedStyleTarget,
+		selectedStyleContext,
+	] );
 	const selectedOverrideCount = countStyleOverrides( selectedStyleSet );
 	const activeBreakpoint = BREAKPOINTS.find(
 		( breakpoint ) => breakpoint.id === previewBreakpoint
@@ -757,11 +907,23 @@ export function Editor() {
 		void apiFetch( {
 			path: `/code-to-block/v1/pages/${ postId }/block-tree`,
 		} )
-			.then( ( savedDocument ) => {
+			.then( ( savedResponse ) => {
 				if ( active ) {
+					const savedDocument =
+						savedResponse.document || savedResponse;
 					const migratedDocument =
 						migrateGuidedRolesDocument( savedDocument );
 					resetDocument( migratedDocument );
+					if ( savedResponse.server_version ) {
+						setServerVersion( savedResponse.server_version );
+					}
+					if ( savedResponse.post_status ) {
+						setPostStatus( savedResponse.post_status );
+					}
+					setLastSavedContentHash( contentHash( migratedDocument ) );
+					setHasNewerAutosave(
+						Boolean( savedResponse.has_newer_autosave )
+					);
 					setScriptDetections( [] );
 					setPhpDetections( [] );
 					setParityWarnings( [] );
@@ -772,7 +934,15 @@ export function Editor() {
 			} )
 			.catch( ( error ) => {
 				if ( active ) {
-					setPersistenceStatus( error.message || 'Load failed.' );
+					if (
+						error.code === 'code_to_block_tree_not_found' ||
+						error.status === 404 ||
+						error.message?.includes( 'No block tree' )
+					) {
+						setPersistenceStatus( 'Ready.' );
+					} else {
+						setPersistenceStatus( error.message || 'Load failed.' );
+					}
 					setDocumentLoading( false );
 				}
 			} );
@@ -883,7 +1053,20 @@ export function Editor() {
 
 	function applyCustomCss( customCss ) {
 		const documentBeforeEdit = useEditorStore.getState().document;
-		updateBlockCustomCss( selectedBlock.id, customCss, previewBreakpoint );
+		if ( targetStyleEditing ) {
+			updateBlockTargetCustomCss(
+				selectedBlock.id,
+				customCss,
+				selectedStyleTarget,
+				selectedStyleContext
+			);
+		} else {
+			updateBlockCustomCss(
+				selectedBlock.id,
+				customCss,
+				previewBreakpoint
+			);
+		}
 		if ( useEditorStore.getState().document !== documentBeforeEdit ) {
 			setPersistenceStatus(
 				`${ activeBreakpoint.label } CSS changed. Unsaved changes.`
@@ -892,11 +1075,16 @@ export function Editor() {
 	}
 
 	function applyMappedStyles( styles ) {
-		const changedRoleProperty = Object.entries( styles ).find(
-			( [ property, value ] ) =>
-				value !== ( selectedStyleSet.mapped?.[ property ] || '' ) &&
-				roleBindingForProperty( selectedStyleSet, property )
-		);
+		const guidedRoleEditing =
+			selectedStyleTarget === 'root' && activeState === 'default';
+		const changedRoleProperty = guidedRoleEditing
+			? Object.entries( styles ).find(
+					( [ property, value ] ) =>
+						value !==
+							( selectedStyleSet.mapped?.[ property ] || '' ) &&
+						roleBindingForProperty( selectedStyleSet, property )
+			  )
+			: null;
 		if ( changedRoleProperty ) {
 			const [ property, value ] = changedRoleProperty;
 			const source = roleBindingForProperty( selectedStyleSet, property );
@@ -915,7 +1103,20 @@ export function Editor() {
 			return;
 		}
 		const documentBeforeEdit = useEditorStore.getState().document;
-		updateBlockMappedStyles( selectedBlock.id, styles, previewBreakpoint );
+		if ( targetStyleEditing ) {
+			updateBlockTargetMappedStyles(
+				selectedBlock.id,
+				styles,
+				selectedStyleTarget,
+				selectedStyleContext
+			);
+		} else {
+			updateBlockMappedStyles(
+				selectedBlock.id,
+				styles,
+				previewBreakpoint
+			);
+		}
 		if ( useEditorStore.getState().document !== documentBeforeEdit ) {
 			setPersistenceStatus(
 				`${ activeBreakpoint.label } styles changed. Unsaved changes.`
@@ -1124,10 +1325,22 @@ export function Editor() {
 	}
 
 	function clearColorOverride() {
-		updateBlockColor( selectedBlock.id, '', previewBreakpoint );
-		setPersistenceStatus(
-			`${ activeBreakpoint.label } color override cleared. Unsaved changes.`
-		);
+		const documentBeforeEdit = useEditorStore.getState().document;
+		if ( targetStyleEditing ) {
+			updateBlockTargetMappedStyles(
+				selectedBlock.id,
+				{ color: '' },
+				selectedStyleTarget,
+				selectedStyleContext
+			);
+		} else {
+			updateBlockColor( selectedBlock.id, '', previewBreakpoint );
+		}
+		if ( useEditorStore.getState().document !== documentBeforeEdit ) {
+			setPersistenceStatus(
+				`${ activeBreakpoint.label } color override cleared. Unsaved changes.`
+			);
+		}
 	}
 
 	function saveDesignToken( category, id, token ) {
@@ -1150,12 +1363,22 @@ export function Editor() {
 
 	function linkSelectedToken( property, reference ) {
 		const documentBeforeEdit = useEditorStore.getState().document;
-		setBlockTokenBinding(
-			selectedBlock.id,
-			property,
-			reference,
-			previewBreakpoint
-		);
+		if ( targetStyleEditing ) {
+			setBlockTargetTokenBinding(
+				selectedBlock.id,
+				property,
+				reference,
+				selectedStyleTarget,
+				selectedStyleContext
+			);
+		} else {
+			setBlockTokenBinding(
+				selectedBlock.id,
+				property,
+				reference,
+				previewBreakpoint
+			);
+		}
 		if ( useEditorStore.getState().document !== documentBeforeEdit ) {
 			setPersistenceStatus(
 				`${ activeBreakpoint.label } token linked. Unsaved changes.`
@@ -1165,13 +1388,24 @@ export function Editor() {
 
 	function overrideSelectedToken( property, reference ) {
 		const documentBeforeEdit = useEditorStore.getState().document;
-		setBlockTokenBinding(
-			selectedBlock.id,
-			property,
-			reference,
-			previewBreakpoint,
-			true
-		);
+		if ( targetStyleEditing ) {
+			setBlockTargetTokenBinding(
+				selectedBlock.id,
+				property,
+				reference,
+				selectedStyleTarget,
+				selectedStyleContext,
+				true
+			);
+		} else {
+			setBlockTokenBinding(
+				selectedBlock.id,
+				property,
+				reference,
+				previewBreakpoint,
+				true
+			);
+		}
 		if ( useEditorStore.getState().document !== documentBeforeEdit ) {
 			setPersistenceStatus(
 				`${ activeBreakpoint.label } token overridden for this block. Unsaved changes.`
@@ -1181,12 +1415,22 @@ export function Editor() {
 
 	function unlinkSelectedToken( property, reference ) {
 		const documentBeforeEdit = useEditorStore.getState().document;
-		removeBlockTokenBinding(
-			selectedBlock.id,
-			property,
-			reference,
-			previewBreakpoint
-		);
+		if ( targetStyleEditing ) {
+			removeBlockTargetTokenBinding(
+				selectedBlock.id,
+				property,
+				reference,
+				selectedStyleTarget,
+				selectedStyleContext
+			);
+		} else {
+			removeBlockTokenBinding(
+				selectedBlock.id,
+				property,
+				reference,
+				previewBreakpoint
+			);
+		}
 		if ( useEditorStore.getState().document !== documentBeforeEdit ) {
 			setPersistenceStatus(
 				`${ activeBreakpoint.label } token unlinked. Unsaved changes.`
@@ -1549,14 +1793,18 @@ export function Editor() {
 			);
 			setParseWarnings( result.warnings );
 			setScriptDetections( result.scriptDetections );
+			const reviewablePhp = result.phpDetections.filter(
+				( detection ) => detection.requiresReview !== false
+			);
 			setPhpDetections(
-				result.phpDetections.map( ( detection ) => ( {
-					...detection,
-					status: 'reviewing',
-				} ) )
+				result.phpDetections.map( ( detection ) =>
+					detection.requiresReview === false
+						? detection
+						: { ...detection, status: 'reviewing' }
+				)
 			);
 			setParseError( '' );
-			void reviewPhpDetections( result.phpDetections );
+			void reviewPhpDetections( reviewablePhp );
 			return result;
 		} catch ( error ) {
 			if ( requestId !== importAnalysisRequestRef.current ) {
@@ -1723,7 +1971,16 @@ export function Editor() {
 	}
 
 	async function previewDocument() {
-		if ( editorAction || ! editorSettings.previewUrl ) {
+		const rawPreviewUrl =
+			editorSettings.previewUrl ||
+			( postId
+				? `${
+						editorSettings.siteUrl || window.location.origin
+				  }/?p=${ postId }&preview=true`
+				: '' );
+
+		if ( editorAction || ! rawPreviewUrl ) {
+			setPersistenceStatus( 'Preview URL is unavailable for this page.' );
 			return;
 		}
 		const previewWindow = window.open( 'about:blank', '_blank' );
@@ -1745,10 +2002,7 @@ export function Editor() {
 				return;
 			}
 			previewWindow.location.replace(
-				freshPreviewUrl(
-					editorSettings.previewUrl,
-					window.location.href
-				)
+				freshPreviewUrl( rawPreviewUrl, window.location.href )
 			);
 		} catch ( error ) {
 			previewWindow.close();
@@ -1758,7 +2012,7 @@ export function Editor() {
 		}
 	}
 
-	async function publishDocument( targetStatus = 'publish' ) {
+	async function publishDocument( targetStatus = 'publish', extraData = {} ) {
 		if ( editorAction ) {
 			return;
 		}
@@ -1773,6 +2027,7 @@ export function Editor() {
 				postRestPath: editorSettings.postRestPath,
 				postStatus,
 				targetStatus,
+				extraData,
 				saveDocument,
 			} );
 			if ( ! result ) {
@@ -1784,6 +2039,8 @@ export function Editor() {
 			if ( nextStatus === 'publish' ) {
 				completedAction =
 					postStatus === 'publish' ? 'Updated' : 'Published';
+			} else if ( nextStatus === 'future' ) {
+				completedAction = 'Scheduled';
 			} else if ( nextStatus === 'pending' ) {
 				completedAction = 'Submitted for review';
 			} else if ( nextStatus === 'private' ) {
@@ -1802,6 +2059,61 @@ export function Editor() {
 			setPersistenceStatus( error.message || 'Status change failed.' );
 		} finally {
 			setEditorAction( '' );
+		}
+	}
+
+	async function savePageAsTemplate( templateName ) {
+		if ( ! postId ) {
+			throw new Error(
+				'Save the WordPress post once before saving a template.'
+			);
+		}
+		const name =
+			String( templateName || '' ).trim() ||
+			`${ document.name || 'Page' } Template`;
+		const componentDocument = createComponentDocument(
+			useEditorStore.getState().document,
+			useEditorStore.getState().document.root,
+			name
+		);
+		const component = await apiFetch( {
+			path: `/code-to-block/v1/pages/${ postId }/components`,
+			method: 'POST',
+			data: componentDocument,
+		} );
+		await refreshComponents();
+		setPersistenceStatus(
+			`Template "${ component.name }" exported to library.`
+		);
+		return component;
+	}
+
+	function saveDisplayConditions( conditions, shouldPublish = false ) {
+		const currentDoc = useEditorStore.getState().document;
+		const nextDoc = {
+			...currentDoc,
+			display_conditions: conditions,
+		};
+		setDocument( nextDoc );
+		setPersistenceStatus( 'Display conditions updated. Unsaved changes.' );
+		if ( shouldPublish ) {
+			publishDocument( 'publish' );
+		}
+	}
+
+	async function handleSaveDraft() {
+		if ( postStatus === 'publish' ) {
+			if (
+				! window.confirm(
+					'Are you sure you want to unpublish this page and revert it to a draft?'
+				)
+			) {
+				return;
+			}
+			await publishDocument( 'draft' );
+		} else {
+			await saveDocument( 'Saving draft...' );
+			setPersistenceStatus( 'Draft saved privately.' );
 		}
 	}
 
@@ -1928,7 +2240,7 @@ export function Editor() {
 				undoChange={ undoChange }
 				redoChange={ redoChange }
 				persistenceStatus={ persistenceStatus }
-				canPreview={ Boolean( editorSettings.previewUrl ) }
+				canPreview={ Boolean( editorSettings.previewUrl || postId ) }
 				canPublish={ Boolean( editorSettings.canPublish ) }
 				postStatus={ postStatus }
 				editorAction={ editorAction }
@@ -1937,13 +2249,11 @@ export function Editor() {
 				setIsImporterOpen={ setIsImporterOpen }
 				setIsRevisionsOpen={ setIsRevisionsOpen }
 				isDirty={ isDirty }
-			>
-				<BreakpointSwitcher
-					value={ previewBreakpoint }
-					onChange={ setPreviewBreakpoint }
-					compact
-				/>
-			</TopHeader>
+				onOpenDisplayConditions={ () => setIsConditionsOpen( true ) }
+				onOpenSchedule={ () => setIsScheduleOpen( true ) }
+				onOpenSaveTemplate={ () => setIsSaveTemplateOpen( true ) }
+				onSaveDraft={ handleSaveDraft }
+			/>
 
 			{ hasNewerAutosave && (
 				<div className="ctb-autosave-notice p-4 bg-yellow-50 border-b border-yellow-200 flex justify-between items-center text-sm text-yellow-800">
@@ -2002,6 +2312,30 @@ export function Editor() {
 				</div>
 			) }
 
+			<DisplayConditionsModal
+				isOpen={ isConditionsOpen }
+				onClose={ () => setIsConditionsOpen( false ) }
+				initialConditions={ document.display_conditions }
+				onSave={ saveDisplayConditions }
+				isBusy={ Boolean( editorAction ) }
+				isPublished={ postStatus === 'publish' }
+			/>
+
+			<ScheduleModal
+				isOpen={ isScheduleOpen }
+				onClose={ () => setIsScheduleOpen( false ) }
+				onSchedule={ ( date ) => publishDocument( 'future', { date } ) }
+				isBusy={ Boolean( editorAction ) }
+			/>
+
+			<SaveTemplateModal
+				isOpen={ isSaveTemplateOpen }
+				onClose={ () => setIsSaveTemplateOpen( false ) }
+				onSaveTemplate={ savePageAsTemplate }
+				defaultName={ `${ document.name || 'Page' } Template` }
+				isBusy={ Boolean( editorAction ) }
+			/>
+
 			{ isImporterOpen &&
 				( () => {
 					const analyzed =
@@ -2023,6 +2357,12 @@ export function Editor() {
 					);
 					const detectedPhp = ( analyzed?.phpDetections || [] ).map(
 						( detectionItem ) => detectionItem.code
+					);
+					const reviewablePhp = (
+						analyzed?.phpDetections || []
+					).filter(
+						( detectionItem ) =>
+							detectionItem.requiresReview !== false
 					);
 					const hasDetected =
 						detectedHtml.length > 0 ||
@@ -2383,7 +2723,7 @@ export function Editor() {
 												)
 											) }
 										</ul>
-										{ detectedPhp.length > 0 && (
+										{ reviewablePhp.length > 0 && (
 											<p
 												style={ {
 													marginTop: '8px',
@@ -2528,20 +2868,84 @@ export function Editor() {
 					setBlockSlotProperties={ setBlockSlotProperties }
 					localUpdateHistoryStatus={ localUpdateHistoryStatus }
 					VOID_TAGS={ VOID_TAGS }
-					styleTabContent={
+					styleTabContent={ ( styleSearchQuery ) => (
 						<div
 							className="ctb-tab-pane"
 							style={ { padding: '16px' } }
 						>
 							<h4>Style context</h4>
+							{ targetStyleEditing &&
+							selectedInspector.tabs.style.targets.length > 1 ? (
+								<label
+									className="mb-3 block"
+									htmlFor="ctb-style-target"
+								>
+									<span className="mb-1 block text-xs font-semibold text-gray-700">
+										Target
+									</span>
+									<select
+										id="ctb-style-target"
+										className="w-full rounded-md border border-gray-300 bg-white px-2 py-1.5 text-sm"
+										value={ selectedStyleTarget }
+										onChange={ ( event ) =>
+											setActiveStyleTarget(
+												event.target.value
+											)
+										}
+									>
+										{ selectedInspector.tabs.style.targets.map(
+											( target ) => (
+												<option
+													key={ target.id }
+													value={ target.id }
+												>
+													{ target.label }
+												</option>
+											)
+										) }
+									</select>
+								</label>
+							) : null }
+							{ targetStyleEditing &&
+							selectedInspector.tabs.style.states.length ? (
+								<label
+									className="mb-3 block"
+									htmlFor="ctb-style-state"
+								>
+									<span className="mb-1 block text-xs font-semibold text-gray-700">
+										State
+									</span>
+									<select
+										id="ctb-style-state"
+										className="w-full rounded-md border border-gray-300 bg-white px-2 py-1.5 text-sm"
+										value={ activeState }
+										onChange={ ( event ) =>
+											setActiveState( event.target.value )
+										}
+									>
+										<option value="default">Default</option>
+										{ selectedInspector.tabs.style.states.map(
+											( state ) => (
+												<option
+													key={ state }
+													value={ state }
+												>
+													{ state.replace(
+														/([A-Z])/g,
+														' $1'
+													) }
+												</option>
+											)
+										) }
+									</select>
+								</label>
+							) : null }
 							<p className="ctb-muted">
-								Target:{ ' ' }
-								<strong>
-									{
-										selectedInspector.tabs.style
-											.activeTarget
-									}
-								</strong>
+								Editing{ ' ' }
+								<strong>{ selectedStyleTargetLabel }</strong>
+								{ activeState === 'default'
+									? ''
+									: ` · ${ activeState }` }
 							</p>
 							<ExplainPanel block={ selectedBlock } />
 							<BreakpointSwitcher
@@ -2560,7 +2964,9 @@ export function Editor() {
 									onClear={ clearColorOverride }
 								/>
 							) : null }
-							{ guidedRolesEnabled( document ) ? (
+							{ guidedRolesEnabled( document ) &&
+							selectedStyleTarget === 'root' &&
+							activeState === 'default' ? (
 								<GuidedRolePanel
 									document={ document }
 									block={ selectedBlock }
@@ -2578,7 +2984,7 @@ export function Editor() {
 							) : null }
 							<h4>Element styles</h4>
 							<MappedStyleControls
-								key={ `${ selectedBlock.id }:${ previewBreakpoint }:${ selectedMappedStyleKey }` }
+								key={ `${ selectedBlock.id }:${ previewBreakpoint }:${ selectedStyleTarget }:${ selectedStyleContext }:${ selectedMappedStyleKey }` }
 								styleSet={ selectedStyleSet }
 								inheritedMapped={ selectedInheritedMapped }
 								effectiveMapped={ selectedEffectiveMapped }
@@ -2586,9 +2992,12 @@ export function Editor() {
 								designTokens={ document.design_tokens }
 								breakpoint={ previewBreakpoint }
 								panelMode="advanced"
-								searchQuery=""
+								searchQuery={ styleSearchQuery }
 								allowedProperties={
 									selectedInspector.tabs.style.properties
+								}
+								styleGroups={
+									selectedInspector.tabs.style.groups
 								}
 								parentDisplayValue={ selectedParentDisplay }
 								onApply={ applyMappedStyles }
@@ -2617,110 +3026,142 @@ export function Editor() {
 								</div>
 							</details>
 						</div>
-					}
-					advancedTabContent={
+					) }
+					advancedTabContent={ ( { groupIds } ) => (
 						<div
 							className="ctb-tab-pane"
 							style={ { padding: '16px' } }
 						>
-							<h4>Responsive</h4>
-							<BreakpointSwitcher
-								value={ previewBreakpoint }
-								onChange={ setPreviewBreakpoint }
-								compact
-							/>
-							<p className="ctb-muted">
-								{ selectedBreakpointSummary }
-							</p>
-							<h4>Attributes & accessibility</h4>
-							<fieldset
-								disabled={ selectedBlock.permissions?.locked }
-								className="ctb-inspector-fields ctb-attribute-fields"
-							>
-								{ [
-									[ 'id', 'ID' ],
-									[ 'class', 'CSS classes' ],
-									[ 'title', 'Title' ],
-									[ 'role', 'ARIA role' ],
-									[ 'aria-label', 'ARIA label' ],
-									[ 'tabindex', 'Tab index' ],
-								].map( ( [ attribute, label ] ) => (
-									<label key={ attribute }>
-										<span>{ label }</span>
-										<input
-											key={ `${ selectedBlock.id }:${ attribute }` }
-											defaultValue={
-												selectedBlock.attributes?.[
-													attribute
-												] || ''
-											}
-											onBlur={ ( event ) =>
-												updateBlockAttribute(
-													selectedBlock.id,
-													attribute,
-													event.target.value
-												)
-											}
-										/>
-									</label>
-								) ) }
-								<div className="ctb-custom-attribute-row">
-									<input
-										aria-label="Custom attribute name"
-										placeholder="data-name"
-										value={ customAttributeName }
-										onChange={ ( event ) =>
-											setCustomAttributeName(
-												event.target.value
-											)
-										}
+							{ groupIds.includes( 'visibility' ) ? (
+								<>
+									<h4>Responsive</h4>
+									<BreakpointSwitcher
+										value={ previewBreakpoint }
+										onChange={ setPreviewBreakpoint }
+										compact
 									/>
-									<input
-										aria-label="Custom attribute value"
-										placeholder="Value"
-										value={ customAttributeValue }
-										onChange={ ( event ) =>
-											setCustomAttributeValue(
-												event.target.value
-											)
+									<p className="ctb-muted">
+										{ selectedBreakpointSummary }
+									</p>
+								</>
+							) : null }
+							{ groupIds.includes( 'attributes' ) ? (
+								<>
+									<h4>Attributes & accessibility</h4>
+									<fieldset
+										disabled={
+											selectedBlock.permissions?.locked
 										}
-									/>
-									<button
-										type="button"
-										onClick={ () => {
-											updateBlockAttribute(
-												selectedBlock.id,
-												customAttributeName,
-												customAttributeValue
-											);
-											setCustomAttributeName( '' );
-											setCustomAttributeValue( '' );
-										} }
+										className="ctb-inspector-fields ctb-attribute-fields"
 									>
-										Add
-									</button>
-								</div>
-							</fieldset>
-							<h4>Custom CSS & behavior</h4>
-							<RawCssControl
-								key={ `${ selectedBlock.id }:${ previewBreakpoint }:raw` }
-								styleSet={ selectedStyleSet }
-								breakpoint={ previewBreakpoint }
-								onApply={ applyCustomCss }
-							/>
-							<BlockAnimationControl block={ selectedBlock } />
-							<BlockActions block={ selectedBlock } />
-							<DiagnosticsPanel postId={ postId } />
-							<ParityWarningsPanel
-								warnings={ parityWarnings }
-								onSelect={ selectBlock }
-							/>
-							<AccessibilityPanel
-								issues={ a11yIssues }
-								onSelect={ selectBlock }
-							/>
+										{ [
+											[ 'id', 'ID' ],
+											[ 'class', 'CSS classes' ],
+											[ 'title', 'Title' ],
+											[ 'role', 'ARIA role' ],
+											[ 'aria-label', 'ARIA label' ],
+											[ 'tabindex', 'Tab index' ],
+										].map( ( [ attribute, label ] ) => (
+											<label key={ attribute }>
+												<span>{ label }</span>
+												<input
+													key={ `${ selectedBlock.id }:${ attribute }` }
+													defaultValue={
+														selectedBlock
+															.attributes?.[
+															attribute
+														] || ''
+													}
+													onBlur={ ( event ) =>
+														updateBlockAttribute(
+															selectedBlock.id,
+															attribute,
+															event.target.value
+														)
+													}
+												/>
+											</label>
+										) ) }
+										<div className="ctb-custom-attribute-row">
+											<input
+												aria-label="Custom attribute name"
+												placeholder="data-name"
+												value={ customAttributeName }
+												onChange={ ( event ) =>
+													setCustomAttributeName(
+														event.target.value
+													)
+												}
+											/>
+											<input
+												aria-label="Custom attribute value"
+												placeholder="Value"
+												value={ customAttributeValue }
+												onChange={ ( event ) =>
+													setCustomAttributeValue(
+														event.target.value
+													)
+												}
+											/>
+											<button
+												type="button"
+												onClick={ () => {
+													updateBlockAttribute(
+														selectedBlock.id,
+														customAttributeName,
+														customAttributeValue
+													);
+													setCustomAttributeName(
+														''
+													);
+													setCustomAttributeValue(
+														''
+													);
+												} }
+											>
+												Add
+											</button>
+										</div>
+									</fieldset>
+								</>
+							) : null }
+							{ groupIds.includes( 'developer' ) ? (
+								<>
+									<h4>Custom CSS</h4>
+									<RawCssControl
+										key={ `${ selectedBlock.id }:${ selectedStyleTarget }:${ selectedStyleContext }:raw` }
+										styleSet={ selectedStyleSet }
+										breakpoint={ previewBreakpoint }
+										contextLabel={ `${ selectedStyleTargetLabel }, ${
+											activeState === 'default'
+												? previewBreakpoint
+												: `${ previewBreakpoint } ${ activeState }`
+										}` }
+										onApply={ applyCustomCss }
+									/>
+									<DiagnosticsPanel postId={ postId } />
+									<ParityWarningsPanel
+										warnings={ parityWarnings }
+										onSelect={ selectBlock }
+									/>
+								</>
+							) : null }
+							{ groupIds.includes( 'motion' ) ? (
+								<BlockAnimationControl
+									block={ selectedBlock }
+								/>
+							) : null }
+							{ groupIds.includes( 'conditions' ) ? (
+								<BlockActions block={ selectedBlock } />
+							) : null }
+							{ groupIds.includes( 'attributes' ) ? (
+								<AccessibilityPanel
+									issues={ a11yIssues }
+									onSelect={ selectBlock }
+								/>
+							) : null }
 						</div>
-					}
+					) }
 				/>
 				<RoleEditDecisionDialog
 					pending={ pendingRoleEdit }
@@ -2750,4 +3191,3 @@ export function Editor() {
 		</section>
 	);
 }
-

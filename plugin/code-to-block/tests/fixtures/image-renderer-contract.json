@@ -1,0 +1,42 @@
+[
+  {
+    "name": "plain image",
+    "attributes": { "src": "/media/plain.jpg", "alt": "Plain image" },
+    "props": {},
+    "expectedCaption": "",
+    "expectedLink": "",
+    "expectedAlt": "Plain image"
+  },
+  {
+    "name": "captioned image",
+    "attributes": { "src": "/media/captioned.jpg", "alt": "Captioned image" },
+    "props": { "caption": "A useful caption" },
+    "expectedCaption": "A useful caption",
+    "expectedLink": "",
+    "expectedAlt": "Captioned image"
+  },
+  {
+    "name": "linked image",
+    "attributes": { "src": "/media/linked.jpg", "alt": "Linked image" },
+    "props": { "link": "/destination" },
+    "expectedCaption": "",
+    "expectedLink": "/destination",
+    "expectedAlt": "Linked image"
+  },
+  {
+    "name": "decorative image",
+    "attributes": { "src": "/media/decorative.jpg", "alt": "Ignored text" },
+    "props": { "decorative": true },
+    "expectedCaption": "",
+    "expectedLink": "",
+    "expectedAlt": ""
+  },
+  {
+    "name": "unsafe image link",
+    "attributes": { "src": "/media/safe.jpg", "alt": "Safe image" },
+    "props": { "link": "javascript:alert(1)" },
+    "expectedCaption": "",
+    "expectedLink": "",
+    "expectedAlt": "Safe image"
+  }
+]

@@ -2,6 +2,8 @@ import assert from 'node:assert/strict';
 
 import {
 	assertSafeCssDeclaration,
+	controlVisibilityReason,
+	isMappedControlVisible,
 	mergeMappedStyleUpdates,
 	normalizeCustomCssFallback,
 	previewCustomCssFallback,
@@ -17,11 +19,12 @@ const resolved = new Map( [
 ] );
 const split = splitResolvedStyles( resolved );
 
-assert.deepEqual( split.mapped, { color: '#123456', padding: '24px', display: 'grid' } );
-assert.equal(
-	split.custom_css_fallback,
-	'--card-gap: 12px;'
-);
+assert.deepEqual( split.mapped, {
+	color: '#123456',
+	padding: '24px',
+	display: 'grid',
+} );
+assert.equal( split.custom_css_fallback, '--card-gap: 12px;' );
 assert.deepEqual( split.explanation, [
 	{
 		property: '--card-gap',
@@ -59,7 +62,9 @@ assert.equal( styleControlLabel( 'color' ), 'Color' );
 assert.equal( styleControlLabel( 'border-radius' ), 'Border radius' );
 assert.deepEqual( splitResolvedStyles( new Map() ).explanation, [] );
 assert.equal(
-	normalizeCustomCssFallback( ' padding: 12px;\nfont-size: 18px !important ' ),
+	normalizeCustomCssFallback(
+		' padding: 12px;\nfont-size: 18px !important '
+	),
 	'padding: 12px;\nfont-size: 18px !important;'
 );
 assert.equal( normalizeCustomCssFallback( '  ' ), '' );
@@ -101,5 +106,46 @@ assert.throws(
 assert.doesNotThrow( () =>
 	assertSafeCssDeclaration( 'background', 'url("/images/hero.jpg") center' )
 );
+const advancedField = { label: 'Gap', property: 'gap', tier: 'advanced' };
+assert.equal(
+	isMappedControlVisible(
+		'gap',
+		'grid',
+		'block',
+		'advanced',
+		'',
+		advancedField
+	),
+	true
+);
+assert.equal(
+	isMappedControlVisible(
+		'gap',
+		'block',
+		'block',
+		'advanced',
+		'',
+		advancedField
+	),
+	false
+);
+assert.equal(
+	controlVisibilityReason(
+		'gap',
+		'block',
+		'block',
+		'advanced',
+		advancedField
+	),
+	'Control applies when Display is flex or grid'
+);
+assert.equal(
+	isMappedControlVisible( 'align-self', 'block', 'grid', 'advanced', '', {
+		label: 'Align Self',
+		property: 'align-self',
+		tier: 'advanced',
+	} ),
+	true
+);
 
-console.log( 'PASS: 17 CSS mapping assertions.' );
+console.log( 'PASS: 21 CSS mapping assertions.' );

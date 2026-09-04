@@ -588,12 +588,23 @@ function code_to_block_enqueue_editor_assets( $hook_suffix ) {
 		$asset['version'],
 		true
 	);
+	$preview_url = $post instanceof WP_Post ? get_preview_post_link( $post ) : '';
+	if ( ( ! is_string( $preview_url ) || '' === $preview_url ) && $post instanceof WP_Post ) {
+		$preview_url = get_permalink( $post->ID );
+	}
+	$post_type_object = $post instanceof WP_Post ? get_post_type_object( $post->post_type ) : null;
+	$can_publish = $post_type_object && current_user_can( $post_type_object->cap->publish_posts );
+
 	wp_localize_script(
 		'code-to-block-editor',
 		'codeToBlockEditorSettings',
 		array(
-			'postId'         => $post instanceof WP_Post ? $post->ID : 0,
-			'siteUrl'        => trailingslashit( home_url() ),
+			'postId'          => $post instanceof WP_Post ? $post->ID : 0,
+			'siteUrl'         => trailingslashit( home_url() ),
+			'previewUrl'      => $preview_url,
+			'postRestPath'    => $post instanceof WP_Post ? rest_get_route_for_post( $post ) : '',
+			'postStatus'      => $post instanceof WP_Post ? $post->post_status : 'draft',
+			'canPublish'      => $can_publish,
 			'canRegisterPhp'  => $post instanceof WP_Post && Code_To_Block_Shortcodes::current_user_can_register( $post->ID ),
 			'registryVersion' => Code_To_Block_Registry::VERSION,
 			'registryManifest' => Code_To_Block_Registry::manifest(),

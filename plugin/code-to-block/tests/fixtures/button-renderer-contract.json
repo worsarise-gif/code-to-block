@@ -1,0 +1,84 @@
+[
+	{
+		"name": "plain button",
+		"element": "core/button",
+		"tag": "a",
+		"attributes": { "href": "#plain" },
+		"props": { "mode": "link" },
+		"text": "Continue",
+		"expectedParts": [ "label" ],
+		"expectedLabel": "Continue"
+	},
+	{
+		"name": "leading icon",
+		"element": "core/button",
+		"tag": "a",
+		"attributes": { "href": "#before" },
+		"props": {
+			"mode": "link",
+			"icon": "fa-solid fa-arrow-left",
+			"iconPosition": "before"
+		},
+		"text": "Back",
+		"expectedParts": [ "icon", "label" ],
+		"expectedLabel": "Back"
+	},
+	{
+		"name": "trailing icon",
+		"element": "core/button",
+		"tag": "a",
+		"attributes": { "href": "#after" },
+		"props": {
+			"mode": "link",
+			"icon": "fa-solid fa-arrow-right",
+			"iconPosition": "after"
+		},
+		"text": "Next",
+		"expectedParts": [ "label", "icon" ],
+		"expectedLabel": "Next"
+	},
+	{
+		"name": "standalone link with icon",
+		"element": "core/link",
+		"tag": "a",
+		"attributes": { "href": "/learn" },
+		"props": {
+			"icon": "fa-solid fa-arrow-up-right-from-square",
+			"iconPosition": "after"
+		},
+		"text": "Learn more",
+		"expectedParts": [ "label", "icon" ],
+		"expectedLabel": "Learn more"
+	},
+	{
+		"name": "busy button",
+		"element": "core/button",
+		"tag": "button",
+		"attributes": { "aria-busy": "true" },
+		"props": {
+			"mode": "action",
+			"icon": "fa-solid fa-arrow-right",
+			"iconPosition": "after",
+			"loadingLabel": "Working…"
+		},
+		"text": "Run",
+		"expectedParts": [ "spinner", "label" ],
+		"expectedLabel": "Working…"
+	},
+	{
+		"name": "loading submit button",
+		"element": "forms/submit-button",
+		"tag": "button",
+		"attributes": {
+			"type": "submit",
+			"data-ctb-loading": "true"
+		},
+		"props": {
+			"icon": "fa-solid fa-paper-plane",
+			"loadingLabel": "Sending…"
+		},
+		"text": "Send",
+		"expectedParts": [ "spinner", "label" ],
+		"expectedLabel": "Sending…"
+	}
+]

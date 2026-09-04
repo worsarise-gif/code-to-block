@@ -27,13 +27,15 @@ export async function publishSavedDocument( {
 	postRestPath,
 	postStatus,
 	targetStatus = 'publish',
+	extraData = {},
 	saveDocument,
 } ) {
 	const saveResult = await saveDocument( 'Saving before status change...' );
 	if ( ! saveResult ) {
 		return null;
 	}
-	if ( postStatus === targetStatus ) {
+	const hasExtraData = Boolean( extraData && Object.keys( extraData ).length > 0 );
+	if ( postStatus === targetStatus && ! hasExtraData ) {
 		return { post: { status: targetStatus }, saveResult };
 	}
 	if ( ! postRestPath ) {
@@ -43,7 +45,7 @@ export async function publishSavedDocument( {
 	const post = await apiFetch( {
 		path: postRestPath,
 		method: 'POST',
-		data: { status: targetStatus },
+		data: { status: targetStatus, ...( extraData || {} ) },
 	} );
 	return { post, saveResult };
 }

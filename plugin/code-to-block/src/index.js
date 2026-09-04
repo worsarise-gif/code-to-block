@@ -142,17 +142,7 @@ import {
 import { canInsertElement } from './elements/registry.mjs';
 import { allowedTagForBlock, resolveInspector } from './elements/resolver.mjs';
 
-const VOID_TAGS = new Set( [
-	'br',
-	'col',
-	'hr',
-	'img',
-	'input',
-	'source',
-	'track',
-	'wbr',
-] );
-const IMPORT_SCOPE_CLASS = 'ctb-import-scope';
+
 
 import { useEditorStore, EXAMPLE_DOCUMENT } from './store/editor-store.mjs';
 
@@ -185,20 +175,6 @@ import { Editor } from './components/Editor.js';
 
 
 
-class SavedComponentBoundary extends Component {
-	constructor( props ) {
-		super( props );
-		this.state = { failed: false };
-	}
-
-	static getDerivedStateFromError() {
-		return { failed: true };
-	}
-
-	render() {
-		return this.state.failed ? this.props.fallback : this.props.children;
-	}
-}
 
 
 
@@ -228,12 +204,8 @@ class SavedComponentBoundary extends Component {
 
 
 
-const GSAP_ANIMATION_BEHAVIORS = new Set( [
-	'scroll-scrub',
-	'stagger-sequence',
-] );
-const CSS_ANIMATION_BEHAVIORS = new Set( [ 'css-reveal' ] );
-let editorGsapPromise;
+
+
 
 
 

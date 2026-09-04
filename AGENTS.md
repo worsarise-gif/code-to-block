@@ -1,110 +1,106 @@
-# Cross-AI Handoff Protocol
+# Cross-AI Project Protocol
 
-You are one of several AI coding agents working on the same project. The user may switch between Codex, OpenCode, Antigravity, or another coding AI at any time.
+You are one of several coding agents working on this project. Continue work accurately across Codex, OpenCode, Antigravity, or other agents without repeating completed work or trusting stale assumptions.
 
-Your goal is to make switching agents seamless.
+## Before Coding
 
-## 1. Start of Every Session
+1. Read `AI_EXECUTION_RULES.md`.
+2. Read only the relevant section of `IMPLEMENTATION_PLAN.md`.
+3. Read the latest **MemPalace** handoff and, if available, Obsidian `CURRENT.md`.
+4. Inspect the actual repository, recent changes, and relevant tests.
+5. Determine what is complete, what remains, and the exact next task.
 
-Before making changes:
+### Source of Truth
 
-1. Check the latest project handoff in **MemPalace**.
-2. If available, also read the project's **Obsidian `CURRENT.md`**.
-3. Inspect the current repository/files when necessary.
-4. Determine:
-   - What was already completed
-   - What is currently in progress
-   - What remains unfinished
-   - The exact next step
+When sources conflict:
 
-Do not restart completed work unless verification shows it is necessary.
+```text
+Repository + verified runtime/tests
+→ AI_EXECUTION_RULES.md
+→ IMPLEMENTATION_PLAN.md
+→ MemPalace / CURRENT.md
+→ old audits/notes
+```
 
-MemPalace is the primary handoff/source of truth.
+The implementation plan is a roadmap, **not proof of current state**.
 
-Obsidian `CURRENT.md` is the human-readable current-state summary and may be used as a secondary reference.
+Before implementing any task, verify it still exists and is not already fixed. If code differs from the plan but correctly solves the problem, preserve it.
 
-## 2. While Working
+Never invent files, APIs, behavior, test results, or completed work. If something cannot be verified, mark it unverified rather than guessing.
 
-Keep track of:
+## Working Rules
 
-- Files changed
-- Important decisions
-- Bugs discovered
-- Fixes completed
-- Tests performed
-- Remaining problems
-- Exact next actions
+Follow the highest-priority unfinished **verified** task whose dependencies are complete.
 
-Do not create unnecessary long documentation during normal work.
+For each task:
 
-## 3. Before Credit, Context, or Session Runs Out
+```text
+Inspect → Verify problem → Find root cause → Implement smallest correct fix → Test → Continue
+```
 
-IMPORTANT:
+Do not:
 
-If you are approaching your credit limit, context limit, token limit, session limit, or otherwise may be unable to continue, STOP starting new major work.
+- Redo completed work.
+- Rebuild working systems without evidence.
+- Apply speculative fixes.
+- Use one-off hacks for architectural problems.
+- Add advanced features while higher-priority core work remains.
+- Treat code existence as proof that a feature works.
+- Silently discard user data or unsupported safe content.
 
-Create a handoff before the session ends.
+Current code and verified behavior override stale roadmap assumptions.
 
-The handoff must be simple but detailed enough for another AI agent to continue immediately.
+## Handoff Rule
 
-Use this format:
+Create a handoff **ONLY** when:
 
+1. The user's entire active task is complete, or
+2. A token/context/rate/runtime/session limit is approaching.
+
+Otherwise, **KEEP WORKING**.
+
+Completing a file, subtask, phase, or milestone does not require a handoff while the larger task remains active.
+
+If a limit approaches, stabilize current work and leave the repository in a coherent state before handing off.
+
+## Handoff Format
+
+```text
 ### HANDOFF
 
-**Goal**
-What we are currently trying to accomplish.
-
-**Completed**
-What has already been successfully implemented or verified.
-
-**Current State**
-Where the work currently stands.
-
-**Files Changed**
-List important files modified and briefly explain why.
-
-**Pending**
-What is still unfinished.
-
-**Problems / Risks**
-Known bugs, uncertainties, failed attempts, or things that must not be repeated.
-
-**Next Step**
-Give the exact first action the next AI agent should perform.
-
-**Important Decisions**
-Any architectural or implementation decisions the next AI must preserve.
-
-**Verification**
-Tests/checks already performed and what still needs testing.
+Goal:
+Completed:
+Current State:
+Files Changed:
+Pending:
+Problems/Risks:
+Next Step:
+Important Decisions:
+Verification:
 
 ### END HANDOFF
+```
 
-Save this handoff to **MemPalace**.
+Keep it concise: **what changed → current state → remaining work → exact next action**.
 
-Then update/overwrite **Obsidian `CURRENT.md`** with the same current-state information if Obsidian access is available.
+Save required handoffs to **MemPalace**. If available, overwrite Obsidian `CURRENT.md` with the same current state; do not append history.
 
-Do not append endless historical logs to `CURRENT.md`. It should represent only the latest project state.
+## Taking Over
 
-## 4. When Taking Over From Another AI
+Read the handoff, then verify it against the repository before continuing.
 
-When a handoff exists:
+If the handoff, roadmap, or old audit conflicts with the repository or reproducible test/runtime evidence, **verified current state wins**.
 
-- Read it before coding.
-- Trust completed work unless repository inspection contradicts it.
-- Continue from the stated **Next Step**.
-- Do not repeat research, debugging, or implementation already completed.
-- Verify assumptions when necessary.
-- Preserve important architectural decisions unless there is a strong technical reason to change them.
+Continue from the stated next step only if it is still valid. Otherwise choose the highest-priority verified unfinished task.
 
-If the handoff and repository disagree, the actual repository state wins. Record the discrepancy in the next handoff.
+## Core Rule
 
-## 5. Keep Handoffs Efficient
-
-Handoffs should contain useful state, not conversation history.
-
-Prioritize:
-
-**what changed → where we stopped → what remains → exact next action**
-
-The next AI should be able to read the handoff and continue working without asking the user to explain the project again.
+```text
+Read rules/plan/handoff
+→ Inspect repository
+→ Verify reality
+→ Execute highest-priority valid task
+→ Test
+→ Continue while work remains
+→ Handoff only when finished or near a limit
+```

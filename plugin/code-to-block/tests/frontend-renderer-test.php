@@ -587,7 +587,7 @@ $v3_fixture = (object) array(
 		'type'               => 'button',
 		'tag'                => 'a',
 		'props'              => (object) array( 'mode' => 'link' ),
-		'attributes'         => (object) array( 'href' => '#next' ),
+		'attributes'         => (object) array( 'href' => '#next', 'aria-busy' => 'true' ),
 		'children'           => array( (object) array( 'kind' => 'text', 'value' => 'Next' ) ),
 		'style'              => (object) array(
 			'targets' => (object) array(
@@ -596,6 +596,17 @@ $v3_fixture = (object) array(
 						'base'                    => (object) array( 'declarations' => (object) array( 'color' => '#112233' ) ),
 						'bp:tablet'               => (object) array( 'declarations' => (object) array( 'padding' => '12px' ) ),
 						'bp:mobile|state:hover' => (object) array( 'declarations' => (object) array( 'transform' => 'translateY(-2px)' ) ),
+					),
+				),
+				'label' => (object) array(
+					'contexts' => (object) array(
+						'base'                    => (object) array( 'declarations' => (object) array( 'font-weight' => '700' ) ),
+						'bp:tablet|state:hover' => (object) array( 'declarations' => (object) array( 'letter-spacing' => '1px' ) ),
+					),
+				),
+				'spinner' => (object) array(
+					'contexts' => (object) array(
+						'state:loading' => (object) array( 'declarations' => (object) array( 'opacity' => '0.8' ) ),
 					),
 				),
 			),
@@ -613,10 +624,271 @@ assert_renderer( false !== strpos( $v3_html, $v3_class ), 'V3 markup must includ
 assert_renderer( false !== strpos( $v3_html, 'data-ctb-element="core/button"' ), 'V3 markup must expose definition identity.' );
 assert_renderer( false !== strpos( $v3_html, 'data-ctb-part="root"' ), 'V3 markup must expose its root target marker.' );
 assert_renderer( false !== strpos( $v3_css, ':where(#ctb-page-39) .' . $v3_class . '{color:#112233;}' ), 'V3 CSS must use a stable scoped selector.' );
+assert_renderer( false !== strpos( $v3_css, ':where(#ctb-page-39) .' . $v3_class . ' > [data-ctb-part="label"]{font-weight:700;}' ), 'V3 CSS must address the emitted Button label target.' );
+assert_renderer( false !== strpos( $v3_css, ':where(#ctb-page-39) .' . $v3_class . ' > [data-ctb-part="label"]:hover{letter-spacing:1px;}' ), 'V3 CSS must compile target breakpoint-state intersections.' );
+assert_renderer( false !== strpos( $v3_css, ':where(#ctb-page-39) .' . $v3_class . '[aria-busy="true"] > [data-ctb-part="spinner"]' ), 'V3 child targets must respond to loading state carried by the element root.' );
+assert_renderer( false !== strpos( $v3_css, ':where(#ctb-page-39) .' . $v3_class . '[data-ctb-loading="true"] > [data-ctb-part="spinner"]' ), 'V3 loading selectors must match both supported renderer attributes.' );
 assert_renderer( false !== strpos( $v3_css, '@media (max-width:768px)' ), 'V3 CSS must use the registered tablet breakpoint.' );
 assert_renderer( false !== strpos( $v3_css, '@media (max-width:390px)' ), 'V3 CSS must use the registered mobile breakpoint.' );
 assert_renderer( false !== strpos( $v3_css, ':hover{transform:translateY(-2px);}' ), 'V3 CSS must compile breakpoint-state intersections.' );
 assert_renderer( false === strpos( $v3_css, 'color:#112233!important' ), 'V3 mapped declarations must not receive important.' );
 assert_renderer( false !== strpos( $v3_css, 'display:none!important' ), 'V3 visibility remains an explicit final utility.' );
+
+$button_contract_path = __DIR__ . '/fixtures/button-renderer-contract.json';
+$button_contract_cases = json_decode( (string) file_get_contents( $button_contract_path ), true );
+assert_renderer( is_array( $button_contract_cases ), 'Button renderer contract fixtures must load.' );
+foreach ( $button_contract_cases as $button_case_index => $button_case ) {
+	$button_fixture = (object) array(
+		'schema_version'   => 3,
+		'registry_version' => 1,
+		'name'             => 'Button renderer contract: ' . $button_case['name'],
+		'root'             => (object) array(
+			'id'                 => 'button-contract-' . $button_case_index,
+			'element'            => $button_case['element'],
+			'definition_version' => 1,
+			'type'               => 'button',
+			'tag'                => $button_case['tag'],
+			'props'              => (object) $button_case['props'],
+			'attributes'         => (object) $button_case['attributes'],
+			'children'           => array( (object) array( 'kind' => 'text', 'value' => $button_case['text'] ) ),
+			'style'              => (object) array(
+				'targets' => (object) array(
+					'root' => (object) array(
+						'contexts' => (object) array(
+							'base' => (object) array( 'declarations' => (object) array() ),
+						),
+					),
+				),
+			),
+			'advanced'           => (object) array(),
+			'meta'               => (object) array( 'source' => 'button-renderer-contract-test' ),
+		),
+	);
+	$button_document = Code_To_Block_Schema::sanitize_document( $button_fixture );
+	assert_renderer( ! is_wp_error( $button_document ), $button_case['name'] . ' must satisfy schema v3.' );
+	$button_html = Code_To_Block_Renderer::render_document( $button_document, 50 + $button_case_index );
+	assert_renderer( 1 === substr_count( $button_html, 'data-ctb-part="root"' ), $button_case['name'] . ' must emit one root target.' );
+
+	foreach ( array( 'label', 'icon', 'spinner' ) as $target_part ) {
+		$expected_count = in_array( $target_part, $button_case['expectedParts'], true ) ? 1 : 0;
+		assert_renderer(
+			$expected_count === substr_count( $button_html, 'data-ctb-part="' . $target_part . '"' ),
+			$button_case['name'] . ' must emit only its expected ' . $target_part . ' target.'
+		);
+	}
+
+	$previous_position = -1;
+	foreach ( $button_case['expectedParts'] as $expected_part ) {
+		$part_position = strpos( $button_html, 'data-ctb-part="' . $expected_part . '"' );
+		assert_renderer(
+			false !== $part_position && $part_position > $previous_position,
+			$button_case['name'] . ' must preserve target DOM order.'
+		);
+		$previous_position = $part_position;
+	}
+	assert_renderer(
+		false !== strpos( $button_html, '<span data-ctb-part="label">' . esc_html( $button_case['expectedLabel'] ) . '</span>' ),
+		$button_case['name'] . ' must render the expected label target content.'
+	);
+}
+
+$text_contract_path  = __DIR__ . '/fixtures/text-renderer-contract.json';
+$text_contract_cases = json_decode( (string) file_get_contents( $text_contract_path ), true );
+assert_renderer( is_array( $text_contract_cases ), 'Text renderer contract fixtures must load.' );
+foreach ( $text_contract_cases as $text_case_index => $text_case ) {
+	$text_fixture = (object) array(
+		'schema_version'   => 3,
+		'registry_version' => 1,
+		'name'             => 'Text renderer contract: ' . $text_case['name'],
+		'root'             => (object) array(
+			'id'                 => 'text-contract-' . $text_case_index,
+			'element'            => $text_case['element'],
+			'definition_version' => 1,
+			'type'               => $text_case['type'],
+			'tag'                => $text_case['tag'],
+			'props'              => (object) array(),
+			'attributes'         => (object) $text_case['attributes'],
+			'children'           => array( (object) array( 'kind' => 'text', 'value' => $text_case['text'] ) ),
+			'style'              => (object) array(
+				'targets' => (object) array(
+					'root' => (object) array(
+						'contexts' => (object) array(
+							'base' => (object) array( 'declarations' => (object) array() ),
+						),
+					),
+				),
+			),
+			'advanced'           => (object) array(),
+			'meta'               => (object) array( 'source' => 'text-renderer-contract-test' ),
+		),
+	);
+	$text_document = Code_To_Block_Schema::sanitize_document( $text_fixture );
+	assert_renderer( ! is_wp_error( $text_document ), $text_case['name'] . ' must satisfy schema v3.' );
+	$text_html = Code_To_Block_Renderer::render_document( $text_document, 70 + $text_case_index );
+	assert_renderer( 1 === substr_count( $text_html, 'data-ctb-part="root"' ), $text_case['name'] . ' must emit one root target.' );
+	assert_renderer( 1 === substr_count( $text_html, 'data-ctb-part="text"' ), $text_case['name'] . ' must emit one text target.' );
+	if ( '' !== $text_case['expectedHref'] ) {
+		$expected_target = '<a data-ctb-part="text" href="' . esc_url( $text_case['expectedHref'] ) . '">' . esc_html( $text_case['text'] ) . '</a>';
+	} else {
+		$expected_target = '<span data-ctb-part="text">' . esc_html( $text_case['text'] ) . '</span>';
+	}
+	assert_renderer(
+		false !== strpos( $text_html, $expected_target ),
+		$text_case['name'] . ' must render the expected text target content.'
+	);
+}
+
+$image_contract_path  = __DIR__ . '/fixtures/image-renderer-contract.json';
+$image_contract_cases = json_decode( (string) file_get_contents( $image_contract_path ), true );
+assert_renderer( is_array( $image_contract_cases ), 'Image renderer contract fixtures must load.' );
+foreach ( $image_contract_cases as $image_case_index => $image_case ) {
+	$image_targets = array(
+		'root'  => (object) array(
+			'contexts' => (object) array(
+				'base' => (object) array( 'declarations' => (object) array() ),
+			),
+		),
+		'media' => (object) array(
+			'contexts' => (object) array(
+				'base' => (object) array( 'declarations' => (object) array( 'object-fit' => 'cover' ) ),
+			),
+		),
+	);
+	if ( '' !== $image_case['expectedCaption'] ) {
+		$image_targets['caption'] = (object) array(
+			'contexts' => (object) array(
+				'base' => (object) array( 'declarations' => (object) array( 'font-size' => '14px' ) ),
+			),
+		);
+	}
+	$image_fixture = (object) array(
+		'schema_version'   => 3,
+		'registry_version' => 1,
+		'name'             => 'Image renderer contract: ' . $image_case['name'],
+		'root'             => (object) array(
+			'id'                 => 'image-contract-' . $image_case_index,
+			'element'            => 'core/image',
+			'definition_version' => 1,
+			'type'               => 'image',
+			'tag'                => 'img',
+			'props'              => (object) $image_case['props'],
+			'attributes'         => (object) $image_case['attributes'],
+			'children'           => array(),
+			'style'              => (object) array( 'targets' => (object) $image_targets ),
+			'advanced'           => (object) array(),
+			'meta'               => (object) array( 'source' => 'image-renderer-contract-test' ),
+		),
+	);
+	$image_document = Code_To_Block_Schema::sanitize_document( $image_fixture );
+	assert_renderer( ! is_wp_error( $image_document ), $image_case['name'] . ' must satisfy schema v3.' );
+	$image_html = Code_To_Block_Renderer::render_document( $image_document, 80 + $image_case_index );
+	$image_css  = Code_To_Block_Renderer::generate_css( $image_document, 80 + $image_case_index );
+	assert_renderer( 1 === substr_count( $image_html, 'data-ctb-part="root"' ), $image_case['name'] . ' must emit one root target.' );
+	assert_renderer( 1 === substr_count( $image_html, 'data-ctb-part="media"' ), $image_case['name'] . ' must emit one media target.' );
+	assert_renderer(
+		( '' !== $image_case['expectedCaption'] ? 1 : 0 ) === substr_count( $image_html, 'data-ctb-part="caption"' ),
+		$image_case['name'] . ' must emit only its expected caption target.'
+	);
+	assert_renderer( false !== strpos( $image_html, 'alt="' . esc_attr( $image_case['expectedAlt'] ) . '"' ), $image_case['name'] . ' must render the expected accessible alternative.' );
+	assert_renderer(
+		( '' !== $image_case['expectedLink'] ? 1 : 0 ) === substr_count( $image_html, 'class="ctb-image-link"' ),
+		$image_case['name'] . ' must emit only its expected safe link wrapper.'
+	);
+	assert_renderer( false !== strpos( $image_html, '<figure' ) && false !== strpos( $image_html, '<img' ), $image_case['name'] . ' must use semantic figure and image markup.' );
+	assert_renderer( false !== strpos( $image_css, ' > [data-ctb-part="media"]{object-fit:cover;}' ), $image_case['name'] . ' CSS must address the emitted media target.' );
+	if ( '' !== $image_case['expectedCaption'] ) {
+		assert_renderer( false !== strpos( $image_html, '<figcaption data-ctb-part="caption">' . esc_html( $image_case['expectedCaption'] ) . '</figcaption>' ), $image_case['name'] . ' must render its caption content.' );
+		assert_renderer( false !== strpos( $image_css, ' > [data-ctb-part="caption"]{font-size:14px;}' ), $image_case['name'] . ' CSS must address the emitted caption target.' );
+	}
+}
+
+$form_field_contract_path  = __DIR__ . '/fixtures/form-field-renderer-contract.json';
+$form_field_contract_cases = json_decode( (string) file_get_contents( $form_field_contract_path ), true );
+assert_renderer( is_array( $form_field_contract_cases ), 'Form Field renderer contract fixtures must load.' );
+foreach ( $form_field_contract_cases as $field_case_index => $field_case ) {
+	$field_targets = array(
+		'root'         => (object) array( 'contexts' => (object) array( 'base' => (object) array( 'declarations' => (object) array() ) ) ),
+		'row'          => (object) array( 'contexts' => (object) array( 'base' => (object) array( 'declarations' => (object) array( 'margin' => '8px' ) ) ) ),
+		'label'        => (object) array( 'contexts' => (object) array( 'base' => (object) array( 'declarations' => (object) array( 'font-weight' => '600' ) ) ) ),
+		'control'      => (object) array( 'contexts' => (object) array( 'base' => (object) array( 'declarations' => (object) array( 'border-color' => '#334455' ) ) ) ),
+		'placeholder'  => (object) array( 'contexts' => (object) array( 'state:focusVisible' => (object) array( 'declarations' => (object) array( 'color' => '#667788' ) ) ) ),
+		'help'         => (object) array( 'contexts' => (object) array( 'base' => (object) array( 'declarations' => (object) array( 'font-size' => '12px' ) ) ) ),
+		'error'        => (object) array( 'contexts' => (object) array( 'base' => (object) array( 'declarations' => (object) array( 'color' => '#aa0000' ) ) ) ),
+		'requiredMark' => (object) array( 'contexts' => (object) array( 'base' => (object) array( 'declarations' => (object) array( 'color' => '#bb0000' ) ) ) ),
+	);
+	$field_fixture = (object) array(
+		'schema_version'   => 3,
+		'registry_version' => 1,
+		'name'             => 'Form Field renderer contract: ' . $field_case['name'],
+		'root'             => (object) array(
+			'id'                 => 'field-contract-' . $field_case_index,
+			'element'            => 'forms/field-group',
+			'definition_version' => 1,
+			'type'               => 'form_field',
+			'tag'                => 'div',
+			'props'              => (object) $field_case['props'],
+			'attributes'         => (object) $field_case['attributes'],
+			'children'           => array(),
+			'style'              => (object) array( 'targets' => (object) $field_targets ),
+			'advanced'           => (object) array(),
+			'meta'               => (object) array( 'source' => 'form-field-renderer-contract-test' ),
+		),
+	);
+	$field_document = Code_To_Block_Schema::sanitize_document( $field_fixture );
+	assert_renderer( ! is_wp_error( $field_document ), $field_case['name'] . ' must satisfy schema v3.' );
+	$field_html = Code_To_Block_Renderer::render_document( $field_document, 100 + $field_case_index );
+	$field_css  = Code_To_Block_Renderer::generate_css( $field_document, 100 + $field_case_index );
+	$field_class = 'ctb-e-' . hash( 'fnv1a32', 'field-contract-' . $field_case_index );
+	foreach ( array( 'root', 'row', 'label', 'help', 'error' ) as $target_part ) {
+		assert_renderer( 1 === substr_count( $field_html, 'data-ctb-part="' . $target_part . '"' ), $field_case['name'] . ' must emit one ' . $target_part . ' target.' );
+	}
+	assert_renderer( $field_case['expected']['controlCount'] === substr_count( $field_html, 'data-ctb-part="control"' ), $field_case['name'] . ' must emit the expected control count.' );
+	assert_renderer( $field_case['expected']['requiredMarkCount'] === substr_count( $field_html, 'data-ctb-part="requiredMark"' ), $field_case['name'] . ' must emit the expected required mark count.' );
+	assert_renderer( false === strpos( $field_html, 'data-ctb-part="placeholder"' ), $field_case['name'] . ' must not emit a synthetic placeholder node.' );
+	assert_renderer( false !== strpos( $field_html, '<' . $field_case['expected']['controlTag'] ), $field_case['name'] . ' must emit the expected native control.' );
+	assert_renderer( false !== strpos( $field_html, 'name="' . esc_attr( $field_case['expected']['name'] ) ), $field_case['name'] . ' must render the semantic field name.' );
+	assert_renderer( false !== strpos( $field_html, 'aria-errormessage="field-contract-' . $field_case_index . '-error"' ), $field_case['name'] . ' must associate controls with the error target.' );
+	if ( $field_case['expected']['required'] ) {
+		assert_renderer( $field_case['expected']['controlCount'] === substr_count( $field_html, ' aria-required="true"' ), $field_case['name'] . ' must mark each control as required.' );
+	} else {
+		assert_renderer( false === strpos( $field_html, ' aria-required="true"' ) && false === strpos( $field_html, ' required' ), $field_case['name'] . ' must not treat false-like values as required.' );
+	}
+	foreach ( $field_case['expected']['options'] as $expected_option ) {
+		assert_renderer( false !== strpos( $field_html, esc_html( $expected_option['label'] ) ), $field_case['name'] . ' must render each configured option.' );
+	}
+	assert_renderer( false !== strpos( $field_css, '.' . $field_class . ' > [data-ctb-part="row"]{margin:8px;}' ), $field_case['name'] . ' CSS must address the row target.' );
+	assert_renderer( false !== strpos( $field_css, ' > [data-ctb-part="row"] > [data-ctb-part="label"]{font-weight:600;}' ), $field_case['name'] . ' CSS must address the label target.' );
+	assert_renderer( false !== strpos( $field_css, ' > [data-ctb-part="row"] [data-ctb-part="control"]{border-color:#334455;}' ), $field_case['name'] . ' CSS must address all control targets.' );
+	assert_renderer( false !== strpos( $field_css, '[data-ctb-part="control"]:focus-visible::placeholder{color:#667788;}' ), $field_case['name'] . ' CSS must insert state before the placeholder pseudo-element.' );
+	assert_renderer( false === strpos( $field_css, '::placeholder:focus-visible' ), $field_case['name'] . ' CSS must never append state after a pseudo-element.' );
+	assert_renderer( false !== strpos( $field_css, ' > [data-ctb-part="row"] > [data-ctb-part="help"]{font-size:12px;}' ), $field_case['name'] . ' CSS must address the help target.' );
+	assert_renderer( false !== strpos( $field_css, ' > [data-ctb-part="row"] > [data-ctb-part="error"]{color:#aa0000;}' ), $field_case['name'] . ' CSS must address the error target.' );
+	assert_renderer( false !== strpos( $field_css, ' > [data-ctb-part="row"] > [data-ctb-part="label"] > [data-ctb-part="requiredMark"]{color:#bb0000;}' ), $field_case['name'] . ' CSS must address the required mark target.' );
+}
+
+$legacy_image_fixture = (object) array(
+	'schema_version'   => 3,
+	'registry_version' => 1,
+	'name'             => 'Image legacy style compatibility',
+	'root'             => (object) array(
+		'id'                 => 'image-legacy-style',
+		'element'            => 'core/image',
+		'definition_version' => 1,
+		'type'               => 'image',
+		'tag'                => 'img',
+		'props'              => (object) array(),
+		'attributes'         => (object) array( 'src' => '/media/legacy.jpg', 'alt' => 'Legacy image' ),
+		'children'           => array(),
+		'styles'             => (object) array( 'mapped' => (object) array( 'border-radius' => '8px' ), 'custom_css_fallback' => '' ),
+		'meta'               => (object) array( 'source' => 'image-legacy-style-test' ),
+	),
+);
+$legacy_image_document = Code_To_Block_Schema::sanitize_document( $legacy_image_fixture );
+assert_renderer( ! is_wp_error( $legacy_image_document ), 'Legacy-shaped Image styles must remain valid in a v3 document.' );
+$legacy_image_css = Code_To_Block_Renderer::generate_css( $legacy_image_document, 90 );
+assert_renderer(
+	false !== strpos( $legacy_image_css, '#ctb-page-90 .ctb-block-0 > [data-ctb-part="media"]{border-radius:8px!important;}' ),
+	'Legacy-shaped Image styles must continue to target the rendered media node.'
+);
 
 fwrite( STDOUT, "PASS: {$assertions} frontend renderer assertions.\n" );

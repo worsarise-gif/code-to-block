@@ -1,5 +1,6 @@
 import { useState } from '@wordpress/element';
 
+import { panelSearch } from '../elements/resolver.mjs';
 import { isBlockHidden } from '../responsive-styles.mjs';
 
 const INPUT_CLASS =
@@ -413,6 +414,26 @@ export default function RightInspector( {
 		selectedBlock.id === documentRootId ||
 		selectedBlock.permissions?.locked;
 	const tabLabels = inspectorModel.tabs;
+	const contentPanel = panelSearch(
+		inspectorModel.tabs.content,
+		searchQuery
+	);
+	const advancedPanel = panelSearch(
+		inspectorModel.tabs.advanced,
+		searchQuery
+	);
+	const advancedGroupIds = advancedPanel.groups.map( ( group ) => group.id );
+	const resolvedStyleTabContent =
+		typeof styleTabContent === 'function'
+			? styleTabContent( searchQuery )
+			: styleTabContent;
+	const resolvedAdvancedTabContent =
+		typeof advancedTabContent === 'function'
+			? advancedTabContent( {
+					searchQuery,
+					groupIds: advancedGroupIds,
+			  } )
+			: advancedTabContent;
 
 	return (
 		<aside
@@ -523,32 +544,7 @@ export default function RightInspector( {
 							...inspectorModel,
 							tabs: {
 								...inspectorModel.tabs,
-								content: {
-									...inspectorModel.tabs.content,
-									groups: inspectorModel.tabs.content.groups.map(
-										( group ) => ( {
-											...group,
-											controls: (
-												group.controls || []
-											).filter(
-												( control ) =>
-													! searchQuery.trim() ||
-													[
-														control.label,
-														control.id,
-													].some( ( value ) =>
-														String( value )
-															.toLowerCase()
-															.includes(
-																searchQuery
-																	.trim()
-																	.toLowerCase()
-															)
-													)
-											),
-										} )
-									),
-								},
+								content: contentPanel,
 							},
 						} }
 						selectedBlock={ selectedBlock }
@@ -563,12 +559,10 @@ export default function RightInspector( {
 						setBlockSlotProperties={ setBlockSlotProperties }
 					/>
 				) : null }
-				{ activeTab === 'style' ? styleTabContent : null }
+				{ activeTab === 'style' ? resolvedStyleTabContent : null }
 				{ activeTab === 'advanced' ? (
 					<>
-						{ inspectorModel.tabs.advanced.groups.some(
-							( group ) => group.id === 'visibility'
-						) ? (
+						{ advancedGroupIds.includes( 'visibility' ) ? (
 							<VisibilityPanel
 								selectedBlock={ selectedBlock }
 								setBlockHidden={ setBlockHidden }
@@ -577,7 +571,7 @@ export default function RightInspector( {
 								}
 							/>
 						) : null }
-						{ advancedTabContent }
+						{ resolvedAdvancedTabContent }
 						{ navigatorDock ? (
 							<div className="border-t border-gray-200">
 								{ navigatorDock }

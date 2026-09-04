@@ -92,6 +92,40 @@ equal( styleSetHasTokenOverride( linked, 'color' ), false, 'A var() value remain
 equal( styleSetHasTokenOverride( overridden, 'color' ), true, 'A raw value with binding metadata is an explicit override.' );
 equal( blockHasTokenOverride( document.root ), true, 'Responsive token divergence must mark its block.' );
 equal( countTokenConsumers( document, 'colors.brand' ), 4, 'Consumers must be counted across base and responsive style sets.' );
+const targetOnlyBlock = {
+	styles: { mapped: {}, custom_css_fallback: '' },
+	style: {
+		targets: {
+			label: {
+				contexts: {
+					base: {
+						declarations: {
+							color: tokenCssValue( 'colors.brand' ),
+						},
+						token_bindings: { color: 'colors.brand' },
+					},
+				},
+			},
+		},
+	},
+	children: [],
+};
+equal(
+	countTokenConsumers( { root: targetOnlyBlock }, 'colors.brand' ),
+	1,
+	'Tokens used only by v3 child targets cannot be deleted.'
+);
+equal(
+	blockHasTokenOverride( targetOnlyBlock ),
+	false,
+	'Linked v3 target declarations are not reported as local overrides.'
+);
+targetOnlyBlock.style.targets.label.contexts.base.declarations.color = '#222222';
+equal(
+	blockHasTokenOverride( targetOnlyBlock ),
+	true,
+	'Raw v3 target declarations with binding metadata are reported as overrides.'
+);
 equal(
 	designTokenDeclarations( designTokens ),
 	'--ctb-token-colors-brand:#6558d3;--ctb-token-typography-heading-size:44px;--ctb-token-spacing-section:48px;',

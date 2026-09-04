@@ -111,19 +111,37 @@ export function effectiveTokenBindings( block, breakpoint ) {
 
 export function styleSetHasTokenOverride( styleSet, property ) {
 	const reference = styleSet.token_bindings?.[ property ];
+	const values = styleSet.mapped || styleSet.declarations || {};
 	return Boolean(
-		reference &&
-			styleSet.mapped?.[ property ] !== tokenCssValue( reference )
+		reference && values[ property ] !== tokenCssValue( reference )
 	);
 }
 
+export function blockStyleSets( block ) {
+	const rootContexts = block?.style?.targets?.root?.contexts || {};
+	const styleSets = [];
+	const addLegacy = ( contextKeys, styleSet ) => {
+		if (
+			styleSet &&
+			! contextKeys.some( ( key ) => Object.hasOwn( rootContexts, key ) )
+		) {
+			styleSets.push( styleSet );
+		}
+	};
+	addLegacy( [ 'base' ], block.styles );
+	addLegacy( [ 'bp:tablet' ], block.responsive_overrides?.tablet );
+	addLegacy( [ 'bp:mobile' ], block.responsive_overrides?.mobile );
+	addLegacy( [ 'state:hover' ], block.states?.hover );
+	addLegacy( [ 'state:focus', 'state:focusVisible' ], block.states?.focus );
+	addLegacy( [ 'state:active' ], block.states?.active );
+	for ( const target of Object.values( block?.style?.targets || {} ) ) {
+		styleSets.push( ...Object.values( target?.contexts || {} ) );
+	}
+	return styleSets;
+}
+
 export function blockHasTokenOverride( block ) {
-	const styleSets = [
-		block.styles,
-		...Object.values( block.responsive_overrides || {} ),
-		...Object.values( block.states || {} ),
-	];
-	return styleSets.some( ( styleSet ) =>
+	return blockStyleSets( block ).some( ( styleSet ) =>
 		Object.keys( styleSet.token_bindings || {} ).some( ( property ) =>
 			styleSetHasTokenOverride( styleSet, property )
 		)
@@ -133,12 +151,7 @@ export function blockHasTokenOverride( block ) {
 export function countTokenConsumers( document, reference ) {
 	let count = 0;
 	function visit( block ) {
-		const styleSets = [
-			block.styles,
-			...Object.values( block.responsive_overrides || {} ),
-			...Object.values( block.states || {} ),
-		];
-		for ( const styleSet of styleSets ) {
+		for ( const styleSet of blockStyleSets( block ) ) {
 			count += Object.values( styleSet.token_bindings || {} ).filter(
 				( binding ) => binding === reference
 			).length;

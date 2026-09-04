@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 
 import { extractPhpSnippets } from '../src/php-snippets.mjs';
+import { projectPhpTemplate } from '../src/php-template-projection.mjs';
 
 const orderedSuffix = ( index ) => String( index );
 
@@ -146,5 +147,76 @@ assert.notEqual(
 	'A reimported snippet must not inherit a stale confirmed tag.'
 );
 assertions += 1;
+
+const templateSource = `<?php
+$owner = [
+	'first_name' => 'Alex',
+	'company' => 'A & B',
+];
+$projects = [
+	[ 'id' => 1, 'title' => 'Lumina Studio' ],
+	[ 'id' => 2, 'title' => 'Aether' ],
+];
+$message = '';
+?>
+<header><a><?= htmlspecialchars($owner['first_name']) ?></a></header>
+<?php foreach ($projects as $project): ?>
+<article data-project="<?= $project['id'] ?>">
+	<h2><?= htmlspecialchars($project['title']) ?></h2>
+</article>
+<?php endforeach; ?>
+<?php if ($message): ?><p><?= $message ?></p><?php endif; ?>
+<script>const projects = <?= json_encode(
+	$projects,
+	JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
+); ?>;</script>`;
+const templateExtracted = extractPhpSnippets(
+	templateSource,
+	'ctb_php_30',
+	orderedSuffix,
+	{ tolerant: true }
+);
+const templateProjected = projectPhpTemplate(
+	templateExtracted.html,
+	templateExtracted.phpDetections
+);
+check(
+	templateProjected.html.includes( '[ctb_php_' ),
+	false,
+	'Literal PHP template values must not leak internal shortcode tokens into the canvas.'
+);
+check(
+	templateProjected.html.includes( '<header><a>Alex</a></header>' ),
+	true,
+	'Literal array values wrapped in htmlspecialchars() must project as builder content.'
+);
+check(
+	( templateProjected.html.match( /<article data-project=/g ) || [] ).length,
+	2,
+	'Foreach over a literal array must project one builder subtree per item.'
+);
+check(
+	templateProjected.html.includes( '<h2>Lumina Studio</h2>' ) &&
+		templateProjected.html.includes( '<h2>Aether</h2>' ),
+	true,
+	'Loop-local array lookups must resolve inside projected markup.'
+);
+check(
+	templateProjected.html.includes( '<p>' ),
+	false,
+	'A false literal PHP condition must omit its inactive markup.'
+);
+check(
+	templateProjected.html.includes( 'const projects = [{"id":1' ),
+	true,
+	'json_encode() of literal template data must project into the retained script.'
+);
+check(
+	templateProjected.phpDetections.every(
+		( detection ) => detection.requiresReview === false
+	),
+	true,
+	'Fully projected PHP must not request execution or shortcode registration.'
+);
 
 console.log( `PASS: ${ assertions } PHP extraction assertions.` );

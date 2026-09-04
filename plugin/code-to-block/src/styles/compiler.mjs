@@ -50,30 +50,50 @@ function declarationText( declarations ) {
 		.join( '' );
 }
 
-function targetSelector( block, targetId, pageId ) {
+function targetSelector( block, targetId, pageId, options = {} ) {
 	const definition = resolveElementDefinition( block );
 	const target = definition.styleTargets.find(
 		( item ) => item.id === targetId
 	);
-	const root = `:where(#ctb-page-${
-		Number( pageId ) || 0
-	}) .${ stableElementClass( block.id ) }`;
+	const root = options.rootSelector
+		? `${ options.rootSelector } .${ stableElementClass( block.id ) }`
+		: `:where(#ctb-page-${ Number( pageId ) || 0 }) .${ stableElementClass(
+				block.id
+		  ) }`;
 	if ( ! target || target.id === 'root' || target.selector === '&' )
 		return root;
 	return `${ root } > ${ target.selector }`;
 }
 
-function selectorForState( selector, state ) {
+function appendStateSelector( selector, suffix ) {
+	const pseudoElement = selector.match( /(::[a-z-]+(?:\([^)]*\))?)$/i );
+	if ( ! pseudoElement ) {
+		return `${ selector }${ suffix }`;
+	}
+	return `${ selector.slice( 0, -pseudoElement[ 0 ].length ) }${ suffix }${
+		pseudoElement[ 0 ]
+	}`;
+}
+
+function selectorForState( selector, state, rootSelector = selector ) {
 	if ( state === 'default' ) return selector;
 	const suffix = STATE_SELECTORS[ state ];
 	if ( ! suffix ) return selector;
-	if ( suffix.includes( ',' ) ) {
-		return suffix
-			.split( ',' )
-			.map( ( item ) => `${ selector }${ item }` )
-			.join( ',' );
+	const selectors = [];
+	for ( const item of suffix.split( ',' ) ) {
+		if (
+			selector !== rootSelector &&
+			selector.startsWith( rootSelector )
+		) {
+			selectors.push(
+				`${ rootSelector }${ item }${ selector.slice(
+					rootSelector.length
+				) }`
+			);
+		}
+		selectors.push( appendStateSelector( selector, item ) );
 	}
-	return `${ selector }${ suffix }`;
+	return [ ...new Set( selectors ) ].join( ',' );
 }
 
 function contextWeight( key ) {
@@ -98,10 +118,11 @@ export function compileBlockStyles( block, pageId, options = {} ) {
 	if ( block?.style?.targets ) {
 		const rules = [];
 		const debug = [];
+		const rootSelector = targetSelector( block, 'root', pageId, options );
 		for ( const [ targetId, targetValue ] of Object.entries(
 			block.style.targets
 		).sort( ( [ a ], [ b ] ) => a.localeCompare( b ) ) ) {
-			const selector = targetSelector( block, targetId, pageId );
+			const selector = targetSelector( block, targetId, pageId, options );
 			for ( const [ contextKey, styleSet ] of Object.entries(
 				targetValue?.contexts || {}
 			).sort(
@@ -118,7 +139,8 @@ export function compileBlockStyles( block, pageId, options = {} ) {
 				if ( ! declarations && ! custom ) continue;
 				const stateSelector = selectorForState(
 					selector,
-					parsed.state
+					parsed.state,
+					rootSelector
 				);
 				const rule = `${ stateSelector }{${ declarations }${ custom }}`;
 				rules.push( wrapMedia( rule, parsed.breakpoint ) );
@@ -135,7 +157,8 @@ export function compileBlockStyles( block, pageId, options = {} ) {
 				const hidden = `${ targetSelector(
 					block,
 					'root',
-					pageId
+					pageId,
+					options
 				) }{display:none!important;}`;
 				rules.push( wrapMedia( hidden, breakpoint ) );
 			}
